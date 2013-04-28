@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 
 public class UpdateCheckerInGame implements Runnable {
 	
-	String url = "https://raw.github.com/minnymin3/Simple-Build/master/version";
+	String url = "https://raw.github.com/minnymin3/Zephyrus/master/version";
 	
 	public boolean isUpdate;
 	

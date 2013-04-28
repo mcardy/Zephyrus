@@ -12,7 +12,7 @@ public class UpdateChecker implements Runnable {
 
 	// Insert plugin declaration.
 
-	String url = "https://raw.github.com/minnymin3/Simple-Build/master/version";
+	String url = "https://raw.github.com/minnymin3/Zephyrus/master/version";
 
 	public boolean isUpdate;
 	Zephyrus plugin;
