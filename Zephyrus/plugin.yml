@@ -1,0 +1,5 @@
+name: SimpleBuild
+main: minny.zephyrus.Zephyrus
+version: 0.1
+commands:
+permissions:
