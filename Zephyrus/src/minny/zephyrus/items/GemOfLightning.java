@@ -16,6 +16,7 @@ public class GemOfLightning extends Item {
 	public void craftItem(ItemStack i) {
 		setItemName(i, "Gem of Lightning", "b");
 		setItemLevel(i, 1);
+		setGlow(i);
 	}
 
 	public Recipe recipe() {

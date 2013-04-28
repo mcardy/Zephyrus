@@ -16,6 +16,7 @@ public class RodOfFire extends Item{
 	public void craftItem(ItemStack i){
 		setItemName(i, "Rod of Fire", "c");
 		setItemLevel(i, 1);
+		setGlow(i);
 	}
 	
 	 public Recipe recipe() {

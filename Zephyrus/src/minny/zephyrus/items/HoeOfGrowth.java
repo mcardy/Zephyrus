@@ -16,9 +16,10 @@ public class HoeOfGrowth extends Item{
 	public void craftItem(ItemStack i){
 		setItemName(i, "Hoe of Growth", "a");
 		setItemLevel(i, 1);
+		i.addEnchantment(plugin.glow, 1);
 	}
 	
-	 public Recipe recipe() {
+	public Recipe recipe() {
          ItemStack grow_hoe = new ItemStack(Material.GOLD_HOE); 
          craftItem(grow_hoe);
          ShapedRecipe recipe = new ShapedRecipe(grow_hoe);
@@ -28,5 +29,4 @@ public class HoeOfGrowth extends Item{
          recipe.setIngredient('A', Material.GOLD_HOE);
          return recipe;
      }
-	
 }
