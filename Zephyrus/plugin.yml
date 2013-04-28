@@ -3,3 +3,4 @@ main: minny.zephyrus.Zephyrus
 version: 0.1
 commands:
 permissions:
+load: STARTUP

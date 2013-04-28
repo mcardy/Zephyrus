@@ -1,11 +1,13 @@
 package minny.zephyrus;
 
+import minny.zephyrus.enchantments.GlowEffect;
 import minny.zephyrus.items.GemOfLightning;
+import minny.zephyrus.items.HoeOfGrowth;
 import minny.zephyrus.items.RodOfFire;
-import minny.zephyrus.items.Skull;
 import minny.zephyrus.listeners.PlayerListener;
 import minny.zephyrus.utils.UpdateChecker;
 
+import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,6 +21,7 @@ public class Zephyrus extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(playerListener, this);
 		
+		//addEnchants();
 		addRecipes();
 	}
 
@@ -33,8 +36,13 @@ public class Zephyrus extends JavaPlugin {
 		 GemOfLightning lightningGem = new GemOfLightning(this);
 		 getServer().addRecipe(lightningGem.recipe());
 		 
-		 Skull skull = new Skull(this);
-		 getServer().addRecipe(skull.recipe());
-     }
+		 HoeOfGrowth hoe = new HoeOfGrowth(this);
+		 getServer().addRecipe(hoe.recipe());
+	 }
+	 
+	 public void addEnchants() {
+		 GlowEffect glow = new GlowEffect(120);
+		 EnchantmentWrapper.registerEnchantment(glow);
+	 }
 
 }

@@ -2,12 +2,15 @@ package minny.zephyrus.listeners;
 
 import java.io.File;
 
+import minny.zephyrus.Hooks;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.TreeType;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
@@ -16,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -25,6 +27,8 @@ public class PlayerListener implements Listener {
 
 	PlayerConfigHandler config;
 	Zephyrus plugin;
+
+	Hooks wgplugin;
 
 	public PlayerListener(Zephyrus plugin) {
 		this.plugin = plugin;
@@ -39,6 +43,7 @@ public class PlayerListener implements Listener {
 			config = new PlayerConfigHandler(plugin, e.getPlayer().getName()
 					+ ".yml");
 			config.saveDefaultConfig();
+			config.getConfig().set("level", 0);
 			config.saveConfig();
 
 		}
@@ -73,6 +78,32 @@ public class PlayerListener implements Listener {
 	}
 
 	@EventHandler
+	public void growWheat(PlayerInteractEvent e) {
+		if (e.getPlayer().getItemInHand().getType() == Material.GOLD_HOE
+				&& e.getClickedBlock().getTypeId() == 59
+				&& e.getPlayer().getItemInHand().getItemMeta().getDisplayName()
+						.equalsIgnoreCase("¤aHoe of Growth")
+				&& e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			e.getPlayer().sendMessage("test");
+			Block w = e.getClickedBlock();
+			w.setData((byte) 7);
+		}
+	}
+
+	@EventHandler
+	public void growSapling(PlayerInteractEvent e) {
+		if (e.getClickedBlock().getType() == Material.SAPLING && e.getPlayer().getItemInHand().getItemMeta().getDisplayName()
+						.equalsIgnoreCase("¤aHoe of Growth")
+				&& e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			Block b = e.getClickedBlock();
+			TreeType tt = getTree(b.getData());
+			World world = e.getPlayer().getWorld();
+			b.setTypeId(0);
+			world.generateTree(b.getLocation(), tt);
+		}
+	}
+
+	// @EventHandler
 	public void skeleton(PlayerInteractEntityEvent e) {
 		if (e.getRightClicked() instanceof LivingEntity) {
 			if (e.getPlayer().getItemInHand().getType() == Material.SKULL_ITEM
@@ -84,5 +115,24 @@ public class PlayerListener implements Listener {
 				skeleton.setCustomName(e.getPlayer().getName() + "skeleton");
 			}
 		}
+	}
+
+	public static TreeType getTree(int data) {
+		switch (data) {
+		case 0:
+			return TreeType.TREE;
+		case 1:
+
+			return TreeType.REDWOOD;
+
+		case 2:
+
+			return TreeType.BIRCH;
+		case 3:
+
+			return TreeType.SMALL_JUNGLE;
+
+		}
+		return TreeType.TREE;
 	}
 }

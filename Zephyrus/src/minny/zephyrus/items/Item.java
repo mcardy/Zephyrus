@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.enchantments.GlowEffect;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -11,9 +12,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Item {
 
 	Zephyrus plugin;
+	GlowEffect glow;
 	
-	Item(Zephyrus plugin){
-		
+	public Item(Zephyrus plugin){
+		this.plugin = plugin;
 	}
 	
 	public void setItemName(ItemStack i, String name, String color){
@@ -22,7 +24,7 @@ public class Item {
 		i.setItemMeta(m);
 	}
 	
-	public void setItemLevel(ItemStack i, int level){
+	public static ItemStack setItemLevel(ItemStack i, int level){
 		ItemMeta m = i.getItemMeta();
 		List<String> l = m.getLore();
 		try {
@@ -34,6 +36,7 @@ public class Item {
 
 		m.setLore(l);
 		i.setItemMeta(m);
+		return i;
 	}
 	
 	public int getItemLevel(ItemStack i){
