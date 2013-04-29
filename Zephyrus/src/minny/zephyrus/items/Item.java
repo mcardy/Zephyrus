@@ -46,7 +46,7 @@ public class Item {
 		i.setItemMeta(m);
 		return i;
 	}
-
+	
 	public boolean checkName(ItemStack i, String name){
 		try {
 		if (i.getItemMeta().getDisplayName().equalsIgnoreCase(name)){

@@ -5,7 +5,10 @@ import java.io.File;
 import minny.zephyrus.Hooks;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.items.Item;
+import minny.zephyrus.items.RodOfFire;
 import minny.zephyrus.utils.DelayUtil;
+import minny.zephyrus.utils.Merchant;
+import minny.zephyrus.utils.MerchantOffer;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.ChatColor;
@@ -23,15 +26,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener extends Item implements Listener {
 
 	public PlayerListener(Zephyrus plugin) {
 		super(plugin);
 	}
+	
+	Merchant upgrade = new Merchant();
 
 	PlayerConfigHandler config;
 	Hooks wgplugin;
@@ -62,8 +70,10 @@ public class PlayerListener extends Item implements Listener {
 				fireball.setVelocity(fireball.getVelocity().multiply(10));
 				plugin.fireRod.add(e.getPlayer().getName());
 				new DelayUtil(plugin.fireRod, e.getPlayer().getName())
-						.runTaskLater(plugin, 200);
-			} else if (plugin.fireRod.contains(e.getPlayer().getName())) {
+						.runTaskLater(plugin, delayFromLevel(getItemLevel(e
+								.getPlayer().getItemInHand())));
+			} else if (plugin.fireRod.contains(e.getPlayer().getName())
+					&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")) {
 				e.getPlayer().sendMessage(
 						ChatColor.GRAY + "Your wand is recharging...");
 			}
@@ -86,7 +96,9 @@ public class PlayerListener extends Item implements Listener {
 			new DelayUtil(plugin.lightningGem, e.getPlayer().getName())
 					.runTaskLater(plugin, delayFromLevel(getItemLevel(e
 							.getPlayer().getItemInHand())));
-		} else if (plugin.lightningGem.contains(e.getPlayer().getName())) {
+		} else if (plugin.lightningGem.contains(e.getPlayer().getName())
+				&& checkName(e.getPlayer().getItemInHand(),
+						"¤bGem of Lightning")) {
 			e.getPlayer().sendMessage(
 					ChatColor.GRAY + "Your gem is recharging...");
 		}
@@ -102,8 +114,7 @@ public class PlayerListener extends Item implements Listener {
 				&& checkName(e.getPlayer().getItemInHand(), "¤aHoe of Growth")
 				&& e.getClickedBlock().getData() != 7) {
 			e.getClickedBlock().setData((byte) 7);
-			e.getPlayer().playEffect(e.getClickedBlock().getLocation(),
-					Effect.getById(2005), 0);
+			e.getPlayer().playEffect(e.getClickedBlock().getLocation(), Effect.getById(2001), 133);
 		}
 	}
 
@@ -118,9 +129,35 @@ public class PlayerListener extends Item implements Listener {
 			World world = e.getPlayer().getWorld();
 			b.setTypeId(0);
 			world.generateTree(b.getLocation(), tt);
+			e.getPlayer().playEffect(e.getClickedBlock().getLocation(), Effect.getById(2001), 133);
 		}
 	}
 
+	@EventHandler
+	public void onUpgrade(PlayerInteractEvent e){
+		if(e.getClickedBlock().getType() == Material.EMERALD_BLOCK){
+			RodOfFire fire = new RodOfFire(plugin);
+			
+			ItemStack fireItem = new ItemStack(Material.BLAZE_ROD);
+			fire.craftItem(fireItem);
+			ItemStack newFireItem = new ItemStack(Material.BLAZE_ROD);
+			fire.craftItem(newFireItem);
+			fire.setItemLevel(newFireItem, fire.getItemLevel(fireItem) +1);
+			
+			MerchantOffer o1 = new MerchantOffer(fireItem, newFireItem);
+			upgrade.addOffer(o1);
+			upgrade.openTrading(e.getPlayer());
+		}
+	}
+	
+	@EventHandler
+	public void cancellClick(InventoryClickEvent e){
+		e.getWhoClicked().getServer().broadcastMessage("test1");
+		if (e.getInventory().getType() == InventoryType.MERCHANT){
+			
+		}
+	}
+	
 	// @EventHandler
 	public void skeleton(PlayerInteractEntityEvent e) {
 		if (e.getRightClicked() instanceof LivingEntity) {
