@@ -4,15 +4,15 @@ import java.io.File;
 
 import minny.zephyrus.Hooks;
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.items.Item;
+import minny.zephyrus.items.SetItem;
 import minny.zephyrus.items.RodOfFire;
 import minny.zephyrus.utils.DelayUtil;
-import minny.zephyrus.utils.Merchant;
-import minny.zephyrus.utils.MerchantOffer;
+import minny.zephyrus.utils.ParticleEffects;
 import minny.zephyrus.utils.PlayerConfigHandler;
+import minny.zephyrus.utils.merchantapi.Merchant;
+import minny.zephyrus.utils.merchantapi.MerchantOffer;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
@@ -33,12 +33,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class PlayerListener extends Item implements Listener {
+public class PlayerListener extends SetItem implements Listener {
 
 	public PlayerListener(Zephyrus plugin) {
 		super(plugin);
 	}
-	
+
 	Merchant upgrade = new Merchant();
 
 	PlayerConfigHandler config;
@@ -106,7 +106,7 @@ public class PlayerListener extends Item implements Listener {
 	}
 
 	@EventHandler
-	public void growWheat(PlayerInteractEvent e) {
+	public void growWheat(PlayerInteractEvent e) throws Exception {
 		if (e.getClickedBlock() != null
 				&& e.getAction() == Action.RIGHT_CLICK_BLOCK
 				&& e.getPlayer().getItemInHand().getType() == Material.GOLD_HOE
@@ -114,12 +114,12 @@ public class PlayerListener extends Item implements Listener {
 				&& checkName(e.getPlayer().getItemInHand(), "¤aHoe of Growth")
 				&& e.getClickedBlock().getData() != 7) {
 			e.getClickedBlock().setData((byte) 7);
-			e.getPlayer().playEffect(e.getClickedBlock().getLocation(), Effect.getById(2001), 133);
+			ParticleEffects.HAPPY_VILLAGER.sendToPlayer(e.getPlayer(), e.getClickedBlock().getLocation(), 0, 0, 0, 1, 1);
 		}
 	}
 
 	@EventHandler
-	public void growSapling(PlayerInteractEvent e) {
+	public void growSapling(PlayerInteractEvent e) throws Exception {
 		if (e.getClickedBlock() != null
 				&& e.getClickedBlock().getType() == Material.SAPLING
 				&& checkName(e.getPlayer().getItemInHand(), "¤aHoe of Growth")
@@ -129,35 +129,34 @@ public class PlayerListener extends Item implements Listener {
 			World world = e.getPlayer().getWorld();
 			b.setTypeId(0);
 			world.generateTree(b.getLocation(), tt);
-			e.getPlayer().playEffect(e.getClickedBlock().getLocation(), Effect.getById(2001), 133);
+			ParticleEffects.HAPPY_VILLAGER.sendToPlayer(e.getPlayer(), e.getClickedBlock().getLocation(), 0, 0, 0, 1, 1);
 		}
 	}
 
-	@EventHandler
-	public void onUpgrade(PlayerInteractEvent e){
-		if(e.getClickedBlock().getType() == Material.EMERALD_BLOCK){
+	//@EventHandler
+	public void onUpgrade(PlayerInteractEvent e) {
+		if (e.getAction() == Action.RIGHT_CLICK_BLOCK
+				&& e.getClickedBlock().getType() == Material.EMERALD_BLOCK) {
 			RodOfFire fire = new RodOfFire(plugin);
-			
-			ItemStack fireItem = new ItemStack(Material.BLAZE_ROD);
-			fire.craftItem(fireItem);
-			ItemStack newFireItem = new ItemStack(Material.BLAZE_ROD);
-			fire.craftItem(newFireItem);
-			fire.setItemLevel(newFireItem, fire.getItemLevel(fireItem) +1);
-			
+
+			ItemStack fireItem = fire.item();
+			ItemStack newFireItem = fire.item();
+			fire.setItemLevel(newFireItem, fire.getItemLevel(fireItem) + 1);
+
 			MerchantOffer o1 = new MerchantOffer(fireItem, newFireItem);
 			upgrade.addOffer(o1);
 			upgrade.openTrading(e.getPlayer());
 		}
 	}
-	
+
 	@EventHandler
-	public void cancellClick(InventoryClickEvent e){
+	public void cancellClick(InventoryClickEvent e) {
 		e.getWhoClicked().getServer().broadcastMessage("test1");
-		if (e.getInventory().getType() == InventoryType.MERCHANT){
-			
+		if (e.getInventory().getType() == InventoryType.MERCHANT) {
+
 		}
 	}
-	
+
 	// @EventHandler
 	public void skeleton(PlayerInteractEntityEvent e) {
 		if (e.getRightClicked() instanceof LivingEntity) {

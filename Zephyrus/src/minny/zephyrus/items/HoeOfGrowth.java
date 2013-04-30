@@ -13,15 +13,17 @@ public class HoeOfGrowth extends Item{
 		super(plugin);
 	}
 
-	public void craftItem(ItemStack i){
+	@Override
+	public void createItem(ItemStack i){
 		setItemName(i, "Hoe of Growth", "a");
 		setItemLevel(i, 1);
 		i.addEnchantment(plugin.glow, 1);
 	}
 	
+	@Override
 	public Recipe recipe() {
          ItemStack grow_hoe = new ItemStack(Material.GOLD_HOE); 
-         craftItem(grow_hoe);
+         createItem(grow_hoe);
          ShapedRecipe recipe = new ShapedRecipe(grow_hoe);
          recipe.shape("CBC", "BAB", "CBC");
          recipe.setIngredient('C', Material.SAPLING);
@@ -29,4 +31,11 @@ public class HoeOfGrowth extends Item{
          recipe.setIngredient('A', Material.GOLD_HOE);
          return recipe;
      }
+
+	@Override
+	public ItemStack item() {
+		ItemStack i = new ItemStack(Material.GOLD_HOE);
+		createItem(i);
+		return i;
+	}
 }

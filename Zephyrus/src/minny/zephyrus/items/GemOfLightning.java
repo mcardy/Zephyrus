@@ -13,21 +13,30 @@ public class GemOfLightning extends Item {
 		super(plugin);
 	}
 
-	public void craftItem(ItemStack i) {
+	@Override
+	public void createItem(ItemStack i) {
 		setItemName(i, "Gem of Lightning", "b");
 		setItemLevel(i, 1);
 		setGlow(i);
 	}
 
+	@Override
 	public Recipe recipe() {
 		ItemStack lightning_gem = new ItemStack(Material.EMERALD);
-		craftItem(lightning_gem);
+		createItem(lightning_gem);
 
 		ShapedRecipe recipe = new ShapedRecipe(lightning_gem);
 		recipe.shape(" B ", "BAB", " B ");
 		recipe.setIngredient('B', Material.FLINT_AND_STEEL);
 		recipe.setIngredient('A', Material.EMERALD);
 		return recipe;
+	}
+
+	@Override
+	public ItemStack item() {
+		ItemStack i = new ItemStack(Material.EMERALD);
+		createItem(i);
+		return i;
 	}
 
 }

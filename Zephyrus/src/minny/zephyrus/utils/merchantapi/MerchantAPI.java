@@ -22,36 +22,32 @@
  * along with MerchantAPI. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package minny.zephyrus.utils;
+package minny.zephyrus.utils.merchantapi;
 
-import java.util.ArrayList;
-
-import net.minecraft.server.v1_5_R2.MerchantRecipe;
+import net.minecraft.server.v1_5_R2.EntityVillager;
 import net.minecraft.server.v1_5_R2.MerchantRecipeList;
+import net.minecraft.server.v1_5_R2.NBTTagCompound;
 
-public final class MerchantOfferList extends ArrayList<MerchantOffer> {
-	private static final long serialVersionUID = 7856998541433225645L;
+import org.bukkit.craftbukkit.v1_5_R2.entity.CraftVillager;
+import org.bukkit.entity.Villager;
+import org.bukkit.plugin.java.JavaPlugin;
 
-	/**
-	 * Creates a offer list from the origional nms recipe list. (Only used by the api.)
-	 */
-	protected MerchantOfferList(MerchantRecipeList handle) {
-		for (Object r : handle) {
-			this.add(new MerchantOffer((MerchantRecipe) r));
-		}
-	}
+public class MerchantAPI extends JavaPlugin {
 
 	/**
-	 * Returns the original recipe list. (Only used by the api.)
+	 * Sets all the offers of a merchant to a villager with removing the old ones.
+	 * @param villager The villager.
+	 * @param merchant The merchant.
 	 */
-	@SuppressWarnings("unchecked")
-	protected MerchantRecipeList getHandle() {
-		MerchantRecipeList list = new MerchantRecipeList();
+	public static void setToVillager(Villager villager, Merchant merchant) {
+		EntityVillager v = ((CraftVillager) villager).getHandle();
 
-		for (MerchantOffer o : this) {
-			list.add(o.getHandle());
-		}
+		NBTTagCompound t = new NBTTagCompound();
+		v.b(t);
 
-		return list;
+		MerchantRecipeList l = merchant.getOffers().getHandle();
+		t.setCompound("Offers", l.a());
+
+		v.a(t);
 	}
 }

@@ -13,15 +13,17 @@ public class RodOfFire extends Item{
 		super(plugin);
 	}
 
-	public void craftItem(ItemStack i){
+	@Override
+	public void createItem(ItemStack i){
 		setItemName(i, "Rod of Fire", "c");
 		setItemLevel(i, 1);
 		setGlow(i);
 	}
 	
-	 public Recipe recipe() {
+	@Override
+	public Recipe recipe() {
          ItemStack fire_rod = new ItemStack(Material.BLAZE_ROD); 
-         craftItem(fire_rod);
+         createItem(fire_rod);
         
          ShapedRecipe recipe = new ShapedRecipe(fire_rod);
          recipe.shape("BCB", "BAB", "BBB");
@@ -30,4 +32,11 @@ public class RodOfFire extends Item{
          recipe.setIngredient('A', Material.BLAZE_ROD);
          return recipe;
      }
+
+	@Override
+	public ItemStack item() {
+		ItemStack i = new ItemStack(Material.BLAZE_ROD);
+		createItem(i);
+		return i;
+	}
 }

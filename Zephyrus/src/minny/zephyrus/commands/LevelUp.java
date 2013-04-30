@@ -1,7 +1,7 @@
 package minny.zephyrus.commands;
 
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.items.Item;
+import minny.zephyrus.items.SetItem;
 import minny.zephyrus.utils.CommandExceptions;
 
 import org.bukkit.command.Command;
@@ -11,9 +11,9 @@ import org.bukkit.entity.Player;
 
 public class LevelUp extends CommandExceptions implements CommandExecutor {
 
-	Item item;
+	SetItem item;
 
-	public LevelUp(Zephyrus plugin, Item i) {
+	public LevelUp(Zephyrus plugin, SetItem i) {
 		item = i;
 	}
 

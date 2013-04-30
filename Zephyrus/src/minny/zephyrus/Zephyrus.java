@@ -7,7 +7,7 @@ import minny.zephyrus.commands.LevelUp;
 import minny.zephyrus.enchantments.GlowEffect;
 import minny.zephyrus.items.GemOfLightning;
 import minny.zephyrus.items.HoeOfGrowth;
-import minny.zephyrus.items.Item;
+import minny.zephyrus.items.SetItem;
 import minny.zephyrus.items.RodOfFire;
 import minny.zephyrus.listeners.PlayerListener;
 import minny.zephyrus.utils.UpdateChecker;
@@ -26,7 +26,7 @@ public class Zephyrus extends JavaPlugin {
 	public HashSet<String> fireRod;
 	public HashSet<String> lightningGem;
 	
-	Item item = new Item(this);
+	SetItem item = new SetItem(this);
 	
 	public void onEnable() {
 		new UpdateChecker(this);

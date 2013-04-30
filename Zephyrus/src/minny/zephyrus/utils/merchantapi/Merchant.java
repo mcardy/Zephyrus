@@ -22,7 +22,7 @@
  * along with MerchantAPI. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package minny.zephyrus.utils;
+package minny.zephyrus.utils.merchantapi;
 
 import java.io.Serializable;
 
