@@ -8,7 +8,7 @@ There will also be an API for creating custom spells and custom items. The items
 
 ### Planned spells/items:
 
-  Items:
+**Items:**
 *    Fire wand
 *    Ice wand
 *    Hoe of Growth (sorry Azanor, im stealing your idea :P)
@@ -18,7 +18,7 @@ There will also be an API for creating custom spells and custom items. The items
 *    AutoSmelting pickaxe
 *    InstaBreak pickaxe
     
-  Spells:
+**Spells:**
 *    Fireball spell
 *    Magic Bag spell
 *    Blink spell
