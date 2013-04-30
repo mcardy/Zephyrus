@@ -6,8 +6,7 @@ Zephyrus a magical plugin for Bukkit. The name comes from the Greek god of the w
 This plugin will contain a few different 'spells' and custom items. The plugin will also come complete with a leveling system (possibly similar to the leveling system in the mod 'Ars Magica')
 There will also be an API for creating custom spells and custom items. The items can be leveled up as well.
 
-Planned spells/items:
----------------------
+### Planned spells/items:
 
   Items:
 *    Fire wand
@@ -27,8 +26,7 @@ Planned spells/items:
     
   
   
-Planned features:
------------------
+### Planned features:
 *  Leveling system on items and players
 *  Wand delay system
 *  Leveling GUIs
