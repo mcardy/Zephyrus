@@ -1,11 +1,18 @@
 package minny.zephyrus.items;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.TreeType;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.utils.ParticleEffects;
 
 public class HoeOfGrowth extends Item{
 
@@ -13,6 +20,11 @@ public class HoeOfGrowth extends Item{
 		super(plugin);
 	}
 
+	@Override
+	public String name(){
+		return "¤aHoe of Growth";
+	}
+	
 	@Override
 	public void createItem(ItemStack i){
 		setItemName(i, "Hoe of Growth", "a");
@@ -37,5 +49,55 @@ public class HoeOfGrowth extends Item{
 		ItemStack i = new ItemStack(Material.GOLD_HOE);
 		createItem(i);
 		return i;
+	}
+	
+	public void grow(PlayerInteractEvent e) throws Exception{
+		if (e.getClickedBlock() != null
+				&& e.getAction() == Action.RIGHT_CLICK_BLOCK
+				&& e.getPlayer().getItemInHand().getType() == Material.GOLD_HOE
+				&& e.getClickedBlock().getTypeId() == 59
+				&& checkName(e.getPlayer().getItemInHand(), name())
+				&& e.getClickedBlock().getData() != 7) {
+			e.getClickedBlock().setData((byte) 7);
+			Location loc = e.getClickedBlock().getLocation();
+			loc.setX(loc.getX() + 0.6);
+			loc.setZ(loc.getZ() + 0.6);
+			loc.setY(loc.getY() + 0.3);
+			ParticleEffects.HAPPY_VILLAGER.sendToPlayer(e.getPlayer(), loc, 1, 0, 1, 100, 20);
+		}
+		if (e.getClickedBlock() != null
+				&& e.getClickedBlock().getType() == Material.SAPLING
+				&& checkName(e.getPlayer().getItemInHand(), name())
+				&& e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			Block b = e.getClickedBlock();
+			TreeType tt = getTree(b.getData());
+			World world = e.getPlayer().getWorld();
+			b.setTypeId(0);
+			world.generateTree(b.getLocation(), tt);
+			Location loc = e.getClickedBlock().getLocation();
+			loc.setX(loc.getX() + 0.6);
+			loc.setZ(loc.getZ() + 0.6);
+			loc.setY(loc.getY() + 0.3);
+			ParticleEffects.HAPPY_VILLAGER.sendToPlayer(e.getPlayer(), loc, 1, 1, 1, 100, 20);
+		}
+	}
+	
+	public static TreeType getTree(int data) {
+		switch (data) {
+		case 0:
+			return TreeType.TREE;
+		case 1:
+
+			return TreeType.REDWOOD;
+
+		case 2:
+
+			return TreeType.BIRCH;
+		case 3:
+
+			return TreeType.SMALL_JUNGLE;
+
+		}
+		return TreeType.TREE;
 	}
 }

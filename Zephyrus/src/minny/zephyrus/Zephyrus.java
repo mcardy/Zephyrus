@@ -7,9 +7,9 @@ import minny.zephyrus.commands.LevelUp;
 import minny.zephyrus.enchantments.GlowEffect;
 import minny.zephyrus.items.GemOfLightning;
 import minny.zephyrus.items.HoeOfGrowth;
-import minny.zephyrus.items.SetItem;
 import minny.zephyrus.items.RodOfFire;
 import minny.zephyrus.listeners.PlayerListener;
+import minny.zephyrus.utils.ItemUtil;
 import minny.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.enchantments.Enchantment;
@@ -20,13 +20,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Zephyrus extends JavaPlugin {
 
 	PlayerListener playerListener = new PlayerListener(this);
+	RodOfFire fire = new RodOfFire(this);
 	
 	public GlowEffect glow = new GlowEffect(120);
 	
 	public HashSet<String> fireRod;
 	public HashSet<String> lightningGem;
 	
-	SetItem item = new SetItem(this);
+	ItemUtil itemUtil = new ItemUtil(this);
 	
 	public void onEnable() {
 		new UpdateChecker(this);
@@ -34,20 +35,14 @@ public class Zephyrus extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(playerListener, this);
 
-		getCommand("levelup").setExecutor(new LevelUp(this, item));
+		getCommand("levelup").setExecutor(new LevelUp(this, itemUtil));
 		
-		registerSet();
 		addEnchants();
 		addRecipes();
 	}
 
 	public void onDisable() {
 
-	}
-
-	public void registerSet(){
-		fireRod = new HashSet<String>();
-		lightningGem = new HashSet<String>();
 	}
 	
 	public void addRecipes() {
@@ -60,14 +55,13 @@ public class Zephyrus extends JavaPlugin {
 		HoeOfGrowth hoe = new HoeOfGrowth(this);
 		getServer().addRecipe(hoe.recipe());
 	}
-
+	
 	public void addEnchants() {
 		try {
 			Field f = Enchantment.class.getDeclaredField("acceptingNew");
 			f.setAccessible(true);
 			f.set(null, true);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		try {
 			EnchantmentWrapper.registerEnchantment(glow);

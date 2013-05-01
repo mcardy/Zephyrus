@@ -40,7 +40,7 @@ public enum ParticleEffects {
     SLIME("slime"),
     HEART("heart"),
     ANGRY_VILLAGER("angryVillager"),
-    HAPPY_VILLAGER("happerVillager"),
+    HAPPY_VILLAGER("happyVillager"),
     ICONCRACK("iconcrack_"),
     TILECRACK("tilecrack_");
    
