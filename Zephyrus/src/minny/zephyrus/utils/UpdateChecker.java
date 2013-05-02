@@ -6,11 +6,11 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.logging.Logger;
 
+import org.bukkit.scheduler.BukkitRunnable;
+
 import minny.zephyrus.Zephyrus;
 
-public class UpdateChecker implements Runnable {
-
-	// Insert plugin declaration.
+public class UpdateChecker extends BukkitRunnable {
 
 	String url = "https://raw.github.com/minnymin3/Zephyrus/master/version";
 
@@ -21,12 +21,10 @@ public class UpdateChecker implements Runnable {
 	
 	public UpdateChecker(Zephyrus plugin) {
 		this.plugin = plugin;
-		t = new Thread(this, "UpdateThread");
-	    t.start();
 	}
 	
 	public void run() {
-		if (plugin.getConfig().getBoolean("UpdateChecker")) {
+		if (plugin.getConfig().getBoolean("UpdateChecker") || true) {
 			String current = plugin.getDescription().getVersion();
 			String readurl = url;
 			Logger log = plugin.getLogger();

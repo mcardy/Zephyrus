@@ -16,9 +16,11 @@ import org.bukkit.Material;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
@@ -37,6 +39,28 @@ public class PlayerListener extends ItemUtil implements Listener {
 
 	PlayerConfigHandler config;
 	Hooks wgplugin;
+
+	@EventHandler
+	public void onSuckHealthEnchant(EntityDamageByEntityEvent e) {
+		if (e.getDamager() instanceof Player) {
+			Player player = (Player) e.getDamager();
+			if (player.getItemInHand().getType() != Material.AIR
+					&& player.getItemInHand().containsEnchantment(plugin.glow)
+					&& player.getHealth() != 20) {
+				if (player.getItemInHand().getEnchantmentLevel(plugin.glow) == 1 && player.getHealth() < 20) {
+					player.setHealth(player.getHealth() + 1);
+				} else if (player.getItemInHand().getEnchantmentLevel(plugin.glow) == 2 && player.getHealth() < 18){
+					player.setHealth(player.getHealth() + 2);
+				} else if (player.getItemInHand().getEnchantmentLevel(plugin.glow) == 2){
+					player.setHealth(20);
+				} else if (player.getItemInHand().getEnchantmentLevel(plugin.glow) == 3 && player.getHealth() < 16){
+					player.setHealth(player.getHealth() + 4);
+				} else if (player.getItemInHand().getEnchantmentLevel(plugin.glow) == 3){
+					player.setHealth(20);
+				}
+			}
+		}
+	}
 
 	@EventHandler
 	public void playerFile(PlayerJoinEvent e) {

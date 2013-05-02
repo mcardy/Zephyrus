@@ -5,24 +5,25 @@ import java.util.HashSet;
 
 import minny.zephyrus.commands.LevelUp;
 import minny.zephyrus.enchantments.GlowEffect;
+import minny.zephyrus.enchantments.LifeSuck;
 import minny.zephyrus.items.GemOfLightning;
 import minny.zephyrus.items.HoeOfGrowth;
+import minny.zephyrus.items.LifeSuckSword;
 import minny.zephyrus.items.RodOfFire;
 import minny.zephyrus.listeners.PlayerListener;
 import minny.zephyrus.utils.ItemUtil;
 import minny.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Zephyrus extends JavaPlugin {
 
 	PlayerListener playerListener = new PlayerListener(this);
-	RodOfFire fire = new RodOfFire(this);
 	
 	public GlowEffect glow = new GlowEffect(120);
+	public LifeSuck suck = new LifeSuck(121);
 	
 	public HashSet<String> fireRod;
 	public HashSet<String> lightningGem;
@@ -30,20 +31,18 @@ public class Zephyrus extends JavaPlugin {
 	ItemUtil itemUtil = new ItemUtil(this);
 	
 	public void onEnable() {
-		new UpdateChecker(this);
-
-		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvents(playerListener, this);
-
-		getCommand("levelup").setExecutor(new LevelUp(this, itemUtil));
+		new UpdateChecker(this).run();
+		
+		addCommands();
+		addListeners();
 		
 		addEnchants();
 		addRecipes();
 	}
 
-	public void onDisable() {
-
-	}
+	/*public void onDisable() {
+	
+	}*/
 	
 	public void addRecipes() {
 		RodOfFire fireRod = new RodOfFire(this);
@@ -54,6 +53,9 @@ public class Zephyrus extends JavaPlugin {
 
 		HoeOfGrowth hoe = new HoeOfGrowth(this);
 		getServer().addRecipe(hoe.recipe());
+		
+		LifeSuckSword lifesuck = new LifeSuckSword(this);
+		getServer().addRecipe(lifesuck.recipe());
 	}
 	
 	public void addEnchants() {
@@ -64,10 +66,19 @@ public class Zephyrus extends JavaPlugin {
 		} catch (Exception e) {
 		}
 		try {
-			EnchantmentWrapper.registerEnchantment(glow);
+			Enchantment.registerEnchantment(glow);
+			Enchantment.registerEnchantment(suck);
 		} catch (IllegalArgumentException e){
 			
 		}
 	}
-
+	
+	public void addListeners(){
+		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(playerListener, this);
+	}
+	
+	public void addCommands(){
+		getCommand("levelup").setExecutor(new LevelUp(this, itemUtil));
+	}
 }

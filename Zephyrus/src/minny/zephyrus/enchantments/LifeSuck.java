@@ -4,9 +4,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
-public class GlowEffect extends Enchantment{
+public class LifeSuck extends Enchantment{
 
-	public GlowEffect(int id) {
+	public LifeSuck(int id) {
 		super(id);
 	}
 
@@ -27,12 +27,12 @@ public class GlowEffect extends Enchantment{
 
 	@Override
 	public int getMaxLevel() {
-		return 10;
+		return 3;
 	}
 
 	@Override
 	public String getName() {
-		return "";
+		return "LifeSuck";
 	}
 
 	@Override
