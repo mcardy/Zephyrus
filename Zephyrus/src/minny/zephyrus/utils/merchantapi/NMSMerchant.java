@@ -26,7 +26,7 @@ package minny.zephyrus.utils.merchantapi;
 
 import java.io.Serializable;
 
-import net.minecraft.server.v1_5_R2.*;
+import net.minecraft.server.v1_5_R3.*;
 
 public final class NMSMerchant implements IMerchant, Serializable {
 	private static final long serialVersionUID = -1580276616590310266L;

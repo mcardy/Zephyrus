@@ -98,47 +98,4 @@ public class PlayerListener extends ItemUtil implements Listener {
 		hoe.grow(e);
 	}
 
-	@EventHandler
-	public void onUpgrade(PlayerInteractEvent e) {
-		if (e.getAction() == Action.RIGHT_CLICK_BLOCK
-				&& e.getClickedBlock().getType() == Material.EMERALD_BLOCK) {
-			RodOfFire fire = new RodOfFire(plugin);
-
-			ItemStack fireItem = fire.item();
-			ItemStack newFireItem = fire.item();
-			fire.setItemLevel(newFireItem, fire.getItemLevel(fireItem) + 1);
-
-			MerchantOffer o1 = new MerchantOffer(fireItem, newFireItem);
-			upgrade.addOffer(o1);
-			upgrade.openTrading(e.getPlayer());
-		}
-	}
-
-	@EventHandler
-	public void cancellClick(InventoryClickEvent e) {
-		if (e.getInventory().getType() == InventoryType.MERCHANT
-				&& e.getCursor().getType() != Material.AIR
-				&& !checkName(e.getCursor(), "¤cRod of Fire")) {
-			e.getWhoClicked().getServer().broadcastMessage("test1");
-			if (e.getSlotType() == SlotType.CONTAINER) {
-				e.setCancelled(true);
-				e.getWhoClicked().getServer().broadcastMessage("test2");
-			}
-		}
-	}
-
-	// @EventHandler
-	public void skeleton(PlayerInteractEntityEvent e) {
-		if (e.getRightClicked() instanceof LivingEntity) {
-			if (e.getPlayer().getItemInHand().getType() == Material.SKULL_ITEM
-					&& e.getPlayer().getItemInHand().getItemMeta()
-							.getDisplayName().equalsIgnoreCase("¤8Skull")) {
-				LivingEntity entity = (LivingEntity) e.getRightClicked();
-				Creature skeleton = (Creature) entity.getWorld().spawnEntity(
-						entity.getLocation(), EntityType.ZOMBIE);
-				skeleton.setCustomName(e.getPlayer().getName() + "skeleton");
-			}
-		}
-	}
-
 }

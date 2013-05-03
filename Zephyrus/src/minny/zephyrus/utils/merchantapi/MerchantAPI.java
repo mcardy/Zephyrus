@@ -24,11 +24,11 @@
  */
 package minny.zephyrus.utils.merchantapi;
 
-import net.minecraft.server.v1_5_R2.EntityVillager;
-import net.minecraft.server.v1_5_R2.MerchantRecipeList;
-import net.minecraft.server.v1_5_R2.NBTTagCompound;
+import net.minecraft.server.v1_5_R3.EntityVillager;
+import net.minecraft.server.v1_5_R3.MerchantRecipeList;
+import net.minecraft.server.v1_5_R3.NBTTagCompound;
 
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftVillager;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftVillager;
 import org.bukkit.entity.Villager;
 import org.bukkit.plugin.java.JavaPlugin;
 

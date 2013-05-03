@@ -26,13 +26,13 @@ package minny.zephyrus.utils.merchantapi;
 
 import java.io.Serializable;
 
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class Merchant implements Serializable {
 	private static final long serialVersionUID = -7657859047817139872L;
 	private NMSMerchant h;
-
+	
 	/**
 	 * Basicly just creating the nms merchant.
 	 */
