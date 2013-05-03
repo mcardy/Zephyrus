@@ -45,17 +45,20 @@ public class PlayerListener extends ItemUtil implements Listener {
 		if (e.getDamager() instanceof Player) {
 			Player player = (Player) e.getDamager();
 			if (player.getItemInHand().getType() != Material.AIR
-					&& player.getItemInHand().containsEnchantment(plugin.glow)
+					&& checkName(player.getItemInHand(),
+							"¤aDiamond Sword of Life")
 					&& player.getHealth() != 20) {
-				if (player.getItemInHand().getEnchantmentLevel(plugin.glow) == 1 && player.getHealth() < 20) {
+				String level = player.getItemInHand().getItemMeta().getLore()
+						.get(0);
+				if (level.contains("I") && player.getHealth() < 20) {
 					player.setHealth(player.getHealth() + 1);
-				} else if (player.getItemInHand().getEnchantmentLevel(plugin.glow) == 2 && player.getHealth() < 18){
+				} else if (level.contains("II")
+						&& player.getHealth() < 19) {
 					player.setHealth(player.getHealth() + 2);
-				} else if (player.getItemInHand().getEnchantmentLevel(plugin.glow) == 2){
-					player.setHealth(20);
-				} else if (player.getItemInHand().getEnchantmentLevel(plugin.glow) == 3 && player.getHealth() < 16){
+				} else if (level.contains("III")
+						&& player.getHealth() < 17) {
 					player.setHealth(player.getHealth() + 4);
-				} else if (player.getItemInHand().getEnchantmentLevel(plugin.glow) == 3){
+				} else {
 					player.setHealth(20);
 				}
 			}

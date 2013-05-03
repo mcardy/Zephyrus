@@ -1,28 +1,21 @@
 package minny.zephyrus.utils;
 
-import minny.zephyrus.Zephyrus;
+import java.util.Map;
 
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class DelayUtil extends BukkitRunnable{
+public class DelayUtil extends BukkitRunnable {
 
-	Zephyrus plugin;
-	ItemUtil util;
-	ItemStack item;
-	boolean b;
-	
-	public DelayUtil(Zephyrus plugin, ItemStack i, boolean b){
-		this.plugin = plugin;
-		this.util = new ItemUtil(plugin);
-		this.item = i;
-		this.b = b;
+	Map<String, Object> set;
+	String string;
+
+	public DelayUtil(Map<String, Object> set, String string) {
+		this.set = set;
+		this.string = string;
 	}
-	
+
 	@Override
 	public void run() {
-		plugin.getServer().broadcastMessage("fired");
-		util.setRecharging(item, b);
+		set.remove(string);
 	}
-
 }

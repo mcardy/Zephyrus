@@ -1,7 +1,6 @@
 package minny.zephyrus.items;
 
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.utils.DelayUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -53,36 +52,32 @@ public class RodOfFire extends Item {
 	}
 
 	public void fireball(PlayerInteractEvent e) {
-		//try {
-			if (e.getAction() == Action.RIGHT_CLICK_AIR
-					&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
-					&& !isRecharging(e.getPlayer().getItemInHand())
-					&& getItemLevel(e.getPlayer().getItemInHand()) < 6) {
-				Player player = e.getPlayer();
-				Fireball fireball = player
-						.launchProjectile(SmallFireball.class);
-				fireball.setVelocity(fireball.getVelocity().multiply(10));
-				setRecharging(e.getPlayer().getItemInHand(), true);
-				new DelayUtil(plugin, e.getPlayer().getItemInHand(), false)
-						.runTaskLater(plugin, delayFromLevel(getItemLevel(e
-								.getPlayer().getItemInHand())));
-			} else if (e.getAction() == Action.RIGHT_CLICK_AIR
-					&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
-					&& !isRecharging(e.getPlayer().getItemInHand())) {
-				Player player = e.getPlayer();
-				Fireball fireball = player.launchProjectile(Fireball.class);
-				fireball.setVelocity(fireball.getVelocity().multiply(10));
-				setRecharging(e.getPlayer().getItemInHand(), true);
-				new DelayUtil(plugin, e.getPlayer().getItemInHand(), false)
-						.runTaskLater(plugin, delayFromLevel(getItemLevel(e
-								.getPlayer().getItemInHand())));
-			} else if (isRecharging(e.getPlayer().getItemInHand())
-					&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")) {
-				e.getPlayer().sendMessage(
-						ChatColor.GRAY + "Your wand is recharging...");
-			}
-		//} catch (NullPointerException exception) {
-
-		//}
+		if (e.getAction() == Action.RIGHT_CLICK_AIR
+				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
+				&& !plugin.fireRod.containsKey(e.getPlayer().getName())
+				&& getItemLevel(e.getPlayer().getItemInHand()) < 6) {
+			Player player = e.getPlayer();
+			Fireball fireball = player.launchProjectile(SmallFireball.class);
+			fireball.setVelocity(fireball.getVelocity().multiply(10));
+			delay(plugin.fireRod, plugin,
+					delayFromLevel(getItemLevel(player.getItemInHand())), e
+							.getPlayer().getName());
+		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
+				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
+				&& !plugin.fireRod.containsKey(e.getPlayer().getName())) {
+			Player player = e.getPlayer();
+			Fireball fireball = player.launchProjectile(Fireball.class);
+			fireball.setVelocity(fireball.getVelocity().multiply(10));
+			delay(plugin.fireRod, plugin,
+					delayFromLevel(getItemLevel(player.getItemInHand())), e
+							.getPlayer().getName());
+		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
+				&& plugin.fireRod.containsKey(e.getPlayer().getName())
+				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")) {
+			int time = (Integer) plugin.fireRod.get(e.getPlayer().getName());
+			e.getPlayer().sendMessage(
+					ChatColor.GRAY + "The rod of fire still needs " + time
+							+ " seconds to recharge!");
+		}
 	}
 }

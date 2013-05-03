@@ -10,7 +10,6 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.utils.DelayUtil;
 
 public class GemOfLightning extends Item {
 
@@ -55,7 +54,7 @@ public class GemOfLightning extends Item {
 	}
 
 	public void lightning(PlayerInteractEvent e) {
-		if (!isRecharging(e.getPlayer().getItemInHand())
+		if (!plugin.lightningGem.containsKey(e.getPlayer().getName())
 				&& e.getPlayer().getItemInHand().getType() == Material.EMERALD
 				&& e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(),
@@ -63,16 +62,17 @@ public class GemOfLightning extends Item {
 			Location loc = e.getPlayer().getTargetBlock(null, 100)
 					.getLocation();
 			e.getPlayer().getWorld().strikeLightning(loc);
-			setRecharging(e.getPlayer().getItemInHand(), true);
-			new DelayUtil(plugin, e.getPlayer().getItemInHand(), false)
-					.runTaskLater(plugin, delayFromLevel(getItemLevel(e
-							.getPlayer().getItemInHand())));
-		} else if (e.getPlayer().getItemInHand().getType() == Material.EMERALD
+			delay(plugin.lightningGem, plugin, delayFromLevel(getItemLevel(e
+					.getPlayer().getItemInHand())), e.getPlayer().getName());
+		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(),
 						"¤bGem of Lightning")
-				&& isRecharging(e.getPlayer().getItemInHand())) {
+				&& plugin.lightningGem.containsKey(e.getPlayer().getName())) {
+			int time = (Integer) plugin.lightningGem.get(e.getPlayer()
+					.getName());
 			e.getPlayer().sendMessage(
-					ChatColor.GRAY + "Your gem is recharging...");
+					ChatColor.GRAY + "The gem still needs " + time
+							+ " seconds to recharge!");
 		}
 
 	}

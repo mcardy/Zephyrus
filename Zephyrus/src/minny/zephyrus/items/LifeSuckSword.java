@@ -28,7 +28,18 @@ public class LifeSuckSword extends Item{
 	@Override
 	public void createItem(ItemStack i) {
 		setItemName(i, "Diamond Sword of Life", "a");
-		i.addEnchantment(plugin.suck, 1);
+		setCustomEnchantment(i, plugin.suck, 1);
+	}
+	
+	public void createUpgradeItem(ItemStack i) {
+		setItemName(i, "Diamond Sword of Life", "a");
+		setCustomEnchantment(i, plugin.suck, 2);
+	}
+	
+	public ItemStack upgradeItem() {
+		ItemStack i = new ItemStack(Material.DIAMOND_SWORD);
+		createUpgradeItem(i);
+		return i;
 	}
 
 	@Override
@@ -43,6 +54,16 @@ public class LifeSuckSword extends Item{
 		return recipe;
 	}
 
+	public Recipe recipeUpgrade() {
+		ItemStack i = upgradeItem();
+
+		ShapedRecipe recipe = new ShapedRecipe(i);
+		recipe.shape("BBB", "BAB", "BCB");
+		recipe.setIngredient('C', Material.DIAMOND);
+		recipe.setIngredient('B', Material.GHAST_TEAR);
+		recipe.setIngredient('A', Material.DIAMOND_SWORD);
+		return recipe;
+	}
 	
 	
 }

@@ -2,10 +2,12 @@ package minny.zephyrus.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.enchantments.GlowEffect;
 
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -24,12 +26,49 @@ public class ItemUtil {
 		i.setItemMeta(m);
 	}
 
-	public void setUnsafeGlow(ItemStack i) {
-		i.addUnsafeEnchantment(plugin.glow, 1);
-	}
-
 	public void setGlow(ItemStack i) {
 		i.addEnchantment(plugin.glow, 1);
+	}
+
+	public void setCustomEnchantment(ItemStack item, Enchantment enchant,
+			int level) {
+		item.addEnchantment(enchant, level);
+		ItemMeta meta = item.getItemMeta();
+		List<String> lore = meta.getLore();
+		try {
+			lore.add("¤7" + enchant.getName() + " " + enchantLevel(level));
+		} catch (Exception e) {
+			lore = new ArrayList<String>();
+			lore.add("¤7" + enchant.getName() + " " + enchantLevel(level));
+		}
+		meta.setLore(lore);
+		item.setItemMeta(meta);
+	}
+
+	public String enchantLevel(int level) {
+		switch (level) {
+		case 1:
+			return "I";
+		case 2:
+			return "II";
+		case 3:
+			return "III";
+		case 4:
+			return "IV";
+		case 5:
+			return "V";
+		case 6:
+			return "VI";
+		case 7:
+			return "VII";
+		case 8:
+			return "VIII";
+		case 9:
+			return "IX";
+		case 10:
+			return "X";
+		}
+		return "";
 	}
 
 	public ItemStack setItemLevel(ItemStack i, int level) {
@@ -63,32 +102,12 @@ public class ItemUtil {
 		return Integer.parseInt(data);
 	}
 
-	public boolean isRecharging(ItemStack i) {
-		ItemMeta m = i.getItemMeta();
-		if (m.hasLore()) {
-			List<String> lore = m.getLore();
-			if (lore.contains("¤6Recharging")) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	public void setRecharging(ItemStack i, boolean b) {
-		if (b) {
-			ItemMeta m = i.getItemMeta();
-			List<String> lore = m.getLore();
-			lore.add("¤6Recharging");
-			m.setLore(lore);
-			i.setItemMeta(m);
-		} else {
-			ItemMeta m = i.getItemMeta();
-			List<String> lore = m.getLore();
-			lore.remove("¤6Recharging");
-			m.setLore(lore);
-			i.setItemMeta(m);
-		}
+	public void delay(Map<String, Object> map, Zephyrus plugin, int delay,
+			String name) {
+		int time = delay / 20;
+		map.put(name, time);
+		new CountdownUtil(map, name, plugin).runTaskLater(plugin, 20);
+		new DelayUtil(map, name).runTaskLater(plugin, delay);
 	}
 
 	public static int delayFromLevel(int level) {
