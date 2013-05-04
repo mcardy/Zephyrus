@@ -21,4 +21,8 @@ public class CommandExceptions {
 	public void notEnough(CommandSender sender) {
 		sender.sendMessage(ChatColor.RED + "Not enough arguments");
 	}
+	
+	public void notOnline(CommandSender sender) {
+		sender.sendMessage(ChatColor.RED + "That player is not online!");
+	}
 }

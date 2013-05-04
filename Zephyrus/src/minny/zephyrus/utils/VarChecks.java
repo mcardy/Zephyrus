@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class VarChecks {
+public class VarChecks extends CommandExceptions{
 	
 	public int getInt(String string) {
 		if (isInt(string)) {

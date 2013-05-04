@@ -1,20 +1,23 @@
 package minny.zephyrus.items;
 
+import minny.zephyrus.Zephyrus;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-import minny.zephyrus.Zephyrus;
-
 public class GemOfLightning extends Item {
 
 	public GemOfLightning(Zephyrus plugin) {
 		super(plugin);
+		plugin.getServer().addRecipe(recipe());
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@Override
@@ -53,8 +56,9 @@ public class GemOfLightning extends Item {
 		return 5;
 	}
 
+	@EventHandler
 	public void lightning(PlayerInteractEvent e) {
-		if (!plugin.lightningGem.containsKey(e.getPlayer().getName())
+		if (!plugin.lightningGemDelay.containsKey(e.getPlayer().getName())
 				&& e.getPlayer().getItemInHand().getType() == Material.EMERALD
 				&& e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(),
@@ -62,13 +66,13 @@ public class GemOfLightning extends Item {
 			Location loc = e.getPlayer().getTargetBlock(null, 100)
 					.getLocation();
 			e.getPlayer().getWorld().strikeLightning(loc);
-			delay(plugin.lightningGem, plugin, delayFromLevel(getItemLevel(e
+			delay(plugin.lightningGemDelay, plugin, delayFromLevel(getItemLevel(e
 					.getPlayer().getItemInHand())), e.getPlayer().getName());
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(),
 						"¤bGem of Lightning")
-				&& plugin.lightningGem.containsKey(e.getPlayer().getName())) {
-			int time = (Integer) plugin.lightningGem.get(e.getPlayer()
+				&& plugin.lightningGemDelay.containsKey(e.getPlayer().getName())) {
+			int time = (Integer) plugin.lightningGemDelay.get(e.getPlayer()
 					.getName());
 			e.getPlayer().sendMessage(
 					ChatColor.GRAY + "The gem still needs " + time

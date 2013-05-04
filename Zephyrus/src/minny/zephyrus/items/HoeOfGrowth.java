@@ -1,23 +1,26 @@
 package minny.zephyrus.items;
 
+import minny.zephyrus.Zephyrus;
+import minny.zephyrus.utils.ParticleEffects;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-import minny.zephyrus.Zephyrus;
-import minny.zephyrus.utils.ParticleEffects;
-
 public class HoeOfGrowth extends Item {
 
 	public HoeOfGrowth(Zephyrus plugin) {
 		super(plugin);
+		plugin.getServer().addRecipe(recipe());
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@Override
@@ -51,6 +54,7 @@ public class HoeOfGrowth extends Item {
 		return i;
 	}
 
+	@EventHandler
 	public void grow(PlayerInteractEvent e) throws Exception {
 		if (e.getClickedBlock() != null
 				&& e.getAction() == Action.RIGHT_CLICK_BLOCK

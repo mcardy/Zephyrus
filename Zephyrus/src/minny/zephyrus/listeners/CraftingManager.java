@@ -30,5 +30,4 @@ public class CraftingManager extends RecipeUtil implements Listener {
 			}
 		}
 	}
-	
 }

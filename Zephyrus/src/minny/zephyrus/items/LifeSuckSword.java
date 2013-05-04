@@ -11,6 +11,8 @@ public class LifeSuckSword extends Item{
 
 	public LifeSuckSword(Zephyrus plugin) {
 		super(plugin);
+		plugin.getServer().addRecipe(recipe());
+		plugin.getServer().addRecipe(recipeUpgrade());
 	}
 
 	@Override

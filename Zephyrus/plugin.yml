@@ -3,5 +3,8 @@ main: minny.zephyrus.Zephyrus
 version: 0.1
 commands:
    levelup:
+   levelupitem:
+   cast:
+   mana:
 permissions:
 load: STARTUP
