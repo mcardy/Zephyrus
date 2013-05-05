@@ -10,6 +10,7 @@ import minny.zephyrus.commands.LevelUpItem;
 import minny.zephyrus.commands.Mana;
 import minny.zephyrus.enchantments.GlowEffect;
 import minny.zephyrus.enchantments.LifeSuck;
+import minny.zephyrus.items.BlinkPearl;
 import minny.zephyrus.items.GemOfLightning;
 import minny.zephyrus.items.HoeOfGrowth;
 import minny.zephyrus.items.LifeSuckSword;
@@ -35,6 +36,8 @@ public class Zephyrus extends JavaPlugin {
 
 	public Map<String, Object> fireRodDelay;
 	public Map<String, Object> lightningGemDelay;
+	public Map<String, Object> blinkPearlDelay;
+	
 	public Map<String, Object> mana;
 	
 	public Map<String, Spell> spellMap;
@@ -47,6 +50,7 @@ public class Zephyrus extends JavaPlugin {
 		
 		fireRodDelay = new HashMap<String, Object>();
 		lightningGemDelay = new HashMap<String, Object>();
+		blinkPearlDelay = new HashMap<String, Object>();
 		mana = new HashMap<String, Object>();
 		spellMap = new HashMap<String, Spell>();
 
@@ -70,6 +74,7 @@ public class Zephyrus extends JavaPlugin {
 		new HoeOfGrowth(this);
 		new LifeSuckSword(this);
 		new RodOfFire(this);
+		new BlinkPearl(this);
 	}
 	
 	public void addSpells(){
