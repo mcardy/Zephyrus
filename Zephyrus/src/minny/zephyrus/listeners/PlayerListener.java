@@ -8,7 +8,6 @@ import minny.zephyrus.Zephyrus;
 import minny.zephyrus.utils.ItemUtil;
 import minny.zephyrus.utils.ManaRecharge;
 import minny.zephyrus.utils.PlayerConfigHandler;
-import minny.zephyrus.utils.merchantapi.Merchant;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,8 +26,6 @@ public class PlayerListener extends ItemUtil implements Listener {
 		super(plugin);
 		lvl = new LevelManager(plugin);
 	}
-
-	Merchant upgrade = new Merchant();
 
 	PlayerConfigHandler config;
 	Hooks wgplugin;

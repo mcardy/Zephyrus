@@ -56,6 +56,8 @@ public class Zephyrus extends JavaPlugin {
 		spellMap = new HashMap<String, Spell>();
 		itemMap = new HashMap<String, Item>();
 
+		saveDefaultConfig();
+		
 		addCommands();
 		addListeners();
 

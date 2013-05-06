@@ -12,26 +12,23 @@ import minny.zephyrus.Zephyrus;
 
 public class UpdateChecker extends BukkitRunnable {
 
-	String url = "https://raw.github.com/minnymin3/Zephyrus/master/version";
-
+	String check = "https://raw.github.com/minnymin3/Zephyrus/master/version";
+	String changelog = "";
 	public boolean isUpdate;
 	Zephyrus plugin;
-	
-	Thread t;
-	
+
 	public UpdateChecker(Zephyrus plugin) {
 		this.plugin = plugin;
 	}
-	
+
 	public void run() {
-		if (plugin.getConfig().getBoolean("UpdateChecker") || true) {
+		if (plugin.getConfig().getBoolean("UpdateChecker")) {
 			String current = plugin.getDescription().getVersion();
-			String readurl = url;
 			Logger log = plugin.getLogger();
 
 			try {
 				log.info("Checking for a new version...");
-				URL url = new URL(readurl);
+				URL url = new URL(check);
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						url.openStream()));
 				String str;
@@ -39,16 +36,28 @@ public class UpdateChecker extends BukkitRunnable {
 					String line = str;
 
 					if (isUpdate(current, line) == -1) {
-						log.info("Update Message");
-						log.info("URL");
+						log.info("A new version of Zephyrus is avalable!");
+						log.info("Get it at: dev.bukkit.org/server-mods/Zephyrus");
 						this.isUpdate = true;
+						try {
+							URL change = new URL(changelog);
+							BufferedReader cl = new BufferedReader(
+									new InputStreamReader(change.openStream()));
+							String stri;
+							while ((stri = cl.readLine()) != null) {
+								String scl = stri;
+								log.info("Changelog: " + scl);
+							}
+						} catch (IOException e) {
+							log.info("Unable to get Changelog");
+						}
 						break;
 					} else if (isUpdate(current, line) == 1) {
 						this.isUpdate = false;
-						log.info("Dev Build");
+						log.info("You are running a developement build of Zephyrus");
 						break;
 					} else if (isUpdate(current, line) == 0) {
-						log.info("Up to date");
+						log.info("Zephyrus is up to date!");
 						this.isUpdate = false;
 						break;
 					}
@@ -59,7 +68,7 @@ public class UpdateChecker extends BukkitRunnable {
 			}
 		}
 	}
-	
+
 	public int isUpdate(String str1, String str2) {
 		String[] vals1 = str1.split("\\.");
 		String[] vals2 = str2.split("\\.");
@@ -79,5 +88,4 @@ public class UpdateChecker extends BukkitRunnable {
 				: vals1.length == vals2.length ? 0 : 1;
 	}
 
-	
 }
