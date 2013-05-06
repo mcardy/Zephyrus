@@ -13,7 +13,7 @@ import minny.zephyrus.Zephyrus;
 public class UpdateChecker extends BukkitRunnable {
 
 	String check = "https://raw.github.com/minnymin3/Zephyrus/master/version";
-	String changelog = "";
+	String changelog = "https://raw.github.com/minnymin3/Zephyrus/master/changelog";
 	public boolean isUpdate;
 	Zephyrus plugin;
 
