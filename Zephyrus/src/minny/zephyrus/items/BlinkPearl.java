@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -20,6 +21,7 @@ public class BlinkPearl extends Item {
 		super(plugin);
 		plugin.getServer().addRecipe(recipe());
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		plugin.itemMap.put(this.name(), this);
 	}
 
 	@Override
@@ -29,21 +31,21 @@ public class BlinkPearl extends Item {
 
 	@Override
 	public ItemStack item() {
-		ItemStack i = new ItemStack(Material.EYE_OF_ENDER);
+		ItemStack i = new ItemStack(Material.ENDER_PEARL);
 		createItem(i);
 		return i;
 	}
 
 	@Override
 	public void createItem(ItemStack i) {
-		setItemName(i, "Blink Pearl", "1");
+		setItemName(i, this.name());
 		setItemLevel(i, 1);
 		i.addEnchantment(plugin.glow, 1);
 	}
 
 	@Override
 	public Recipe recipe() {
-		ItemStack blinkPearl = new ItemStack(Material.EYE_OF_ENDER);
+		ItemStack blinkPearl = new ItemStack(Material.ENDER_PEARL);
 		createItem(blinkPearl);
 		ShapedRecipe recipe = new ShapedRecipe(blinkPearl);
 		recipe.shape("CCC", "BAB", "CCC");
@@ -53,48 +55,63 @@ public class BlinkPearl extends Item {
 		return recipe;
 	}
 
+	@Override
+	public int maxLevel() {
+		return 5;
+	}
+
 	@EventHandler
 	public void blink(PlayerInteractEvent e) throws Exception {
 		if (checkName(e.getPlayer().getItemInHand(), this.name())) {
-			e.setCancelled(true);
-			if (!plugin.blinkPearlDelay.containsKey(e.getPlayer().getName())) {
-				if (e.getPlayer().getTargetBlock(null, 100) != null
-						&& e.getPlayer().getTargetBlock(null, 100).getType() != Material.AIR) {
-					Location loc = e.getPlayer().getTargetBlock(null, 100)
-							.getLocation();
-					loc.setY(loc.getY() + 1);
-					Location loc2 = loc;
-					loc2.setY(loc2.getY() + 1);
-					Block block = loc.getBlock();
-					Block block2 = loc2.getBlock();
-					if (block.getType() == Material.AIR
-							&& block2.getType() == Material.AIR) {
-						ParticleEffects.sendToLocation(
-								ParticleEffects.TOWN_AURA, loc, 1, 1, 1, 1, 10);
-						ParticleEffects.sendToLocation(ParticleEffects.PORTAL,
-								e.getPlayer().getLocation(), 1, 1, 1, 1, 16);
-						e.getPlayer()
-								.getWorld()
-								.playSound(e.getPlayer().getLocation(),
-										Sound.ENDERMAN_TELEPORT, 10, 1);
-						e.getPlayer().teleport(loc);
-						delay(plugin.blinkPearlDelay, plugin,
-								delayFromLevel(getItemLevel(e.getPlayer()
-										.getItemInHand())), e.getPlayer()
-										.getName());
+			if (e.getAction() == Action.RIGHT_CLICK_AIR
+					|| e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				e.setCancelled(true);
+				if (!plugin.blinkPearlDelay
+						.containsKey(e.getPlayer().getName())) {
+					if (e.getPlayer().getTargetBlock(null, 100) != null
+							&& e.getPlayer().getTargetBlock(null, 100)
+									.getType() != Material.AIR) {
+						Location loc = e.getPlayer().getTargetBlock(null, 100)
+								.getLocation();
+						loc.setY(loc.getY() + 1);
+						loc.setPitch(e.getPlayer().getLocation().getPitch());
+						loc.setYaw(e.getPlayer().getLocation().getYaw());
+						Location loc2 = loc;
+						loc2.setY(loc2.getY() + 1);
+						Block block = loc.getBlock();
+						Block block2 = loc2.getBlock();
+						if (block.getType() == Material.AIR
+								&& block2.getType() == Material.AIR) {
+							ParticleEffects.sendToLocation(
+									ParticleEffects.TOWN_AURA, loc, 1, 1, 1, 1,
+									10);
+							ParticleEffects.sendToLocation(
+									ParticleEffects.PORTAL, e.getPlayer()
+											.getLocation(), 1, 1, 1, 1, 16);
+							e.getPlayer()
+									.getWorld()
+									.playSound(e.getPlayer().getLocation(),
+											Sound.ENDERMAN_TELEPORT, 10, 1);
+							e.getPlayer().teleport(loc);
+							delay(plugin.blinkPearlDelay, plugin,
+									delayFromLevel(getItemLevel(e.getPlayer()
+											.getItemInHand())), e.getPlayer()
+											.getName());
+						} else {
+							e.getPlayer().sendMessage(
+									ChatColor.GRAY + "Cannot blink there!");
+						}
 					} else {
 						e.getPlayer().sendMessage(
-								ChatColor.GRAY + "Cannot blink there!");
+								ChatColor.GRAY + "Location out of range!");
 					}
 				} else {
+					int time = (Integer) plugin.blinkPearlDelay.get(e
+							.getPlayer().getName());
 					e.getPlayer().sendMessage(
-							ChatColor.GRAY + "Location out of range!");
+							ChatColor.GRAY + "The BlinkPearl still needs "
+									+ time + " seconds to recharge!");
 				}
-			} else {
-				int time = (Integer) plugin.blinkPearlDelay.get(e.getPlayer().getName());
-				e.getPlayer().sendMessage(
-						ChatColor.GRAY + "The BlinkPearl still needs " + time
-								+ " seconds to recharge!");
 			}
 		}
 	}

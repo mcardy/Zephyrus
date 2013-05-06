@@ -1,20 +1,19 @@
 package minny.zephyrus.spells;
 
+import org.bukkit.entity.Player;
+
 import minny.zephyrus.Zephyrus;
 
-import org.bukkit.entity.Player;
-import org.bukkit.entity.SmallFireball;
+public class Feed extends Spell{
 
-public class Fireball extends Spell {
-
-	public Fireball(Zephyrus plugin) {
+	public Feed(Zephyrus plugin) {
 		super(plugin);
 		plugin.spellMap.put(this.name(), this);
 	}
 
 	@Override
 	public String name() {
-		return "fireball";
+		return "feed";
 	}
 
 	@Override
@@ -24,12 +23,12 @@ public class Fireball extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 50;
+		return 20;
 	}
 
 	@Override
 	public void run(Player player) {
-		player.launchProjectile(SmallFireball.class);
+		player.setFoodLevel(player.getFoodLevel() + 1);
 	}
 
 }

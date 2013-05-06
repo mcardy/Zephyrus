@@ -13,13 +13,13 @@ import minny.zephyrus.enchantments.LifeSuck;
 import minny.zephyrus.items.BlinkPearl;
 import minny.zephyrus.items.GemOfLightning;
 import minny.zephyrus.items.HoeOfGrowth;
+import minny.zephyrus.items.Item;
 import minny.zephyrus.items.LifeSuckSword;
+import minny.zephyrus.items.ManaPotion;
 import minny.zephyrus.items.RodOfFire;
 import minny.zephyrus.listeners.CraftingManager;
 import minny.zephyrus.listeners.PlayerListener;
-import minny.zephyrus.spells.Fireball;
-import minny.zephyrus.spells.Spell;
-import minny.zephyrus.utils.ItemUtil;
+import minny.zephyrus.spells.*;
 import minny.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.enchantments.Enchantment;
@@ -37,30 +37,33 @@ public class Zephyrus extends JavaPlugin {
 	public Map<String, Object> fireRodDelay;
 	public Map<String, Object> lightningGemDelay;
 	public Map<String, Object> blinkPearlDelay;
-	
-	public Map<String, Object> mana;
-	
-	public Map<String, Spell> spellMap;
 
-	ItemUtil itemUtil = new ItemUtil(this);
+	public Map<String, Object> mana;
+
+	public Map<String, Spell> spellMap;
+	public Map<String, Item> itemMap;
 
 	@Override
 	public void onEnable() {
 		new UpdateChecker(this).run();
-		
+
 		fireRodDelay = new HashMap<String, Object>();
 		lightningGemDelay = new HashMap<String, Object>();
 		blinkPearlDelay = new HashMap<String, Object>();
+
 		mana = new HashMap<String, Object>();
+
 		spellMap = new HashMap<String, Spell>();
+		itemMap = new HashMap<String, Item>();
 
 		addCommands();
 		addListeners();
 
 		addEnchants();
 		addItems();
-		
+
 		addSpells();
+
 	}
 
 	/*
@@ -68,17 +71,25 @@ public class Zephyrus extends JavaPlugin {
 	 * 
 	 * }
 	 */
-	
-	public void addItems(){
+
+	public void addItems() {
 		new GemOfLightning(this);
 		new HoeOfGrowth(this);
 		new LifeSuckSword(this);
 		new RodOfFire(this);
 		new BlinkPearl(this);
+		new ManaPotion(this);
+		// new SummonSkeleton(this);
 	}
-	
-	public void addSpells(){
+
+	public void addSpells() {
 		new Fireball(this);
+		new Feed(this);
+		new Enderchest(this);
+		new Repair(this);
+		new Blink(this);
+		new Bolt(this);
+		new Grow(this);
 	}
 
 	public void addEnchants() {
@@ -104,7 +115,7 @@ public class Zephyrus extends JavaPlugin {
 
 	public void addCommands() {
 		getCommand("levelup").setExecutor(new LevelUp(this));
-		getCommand("levelupitem").setExecutor(new LevelUpItem(this, itemUtil));
+		getCommand("levelupitem").setExecutor(new LevelUpItem(this));
 		getCommand("cast").setExecutor(new Cast(this));
 		getCommand("mana").setExecutor(new Mana(this));
 	}

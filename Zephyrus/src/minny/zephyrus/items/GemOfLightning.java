@@ -18,6 +18,7 @@ public class GemOfLightning extends Item {
 		super(plugin);
 		plugin.getServer().addRecipe(recipe());
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		plugin.itemMap.put(this.name(), this);
 	}
 
 	@Override
@@ -27,7 +28,7 @@ public class GemOfLightning extends Item {
 
 	@Override
 	public void createItem(ItemStack i) {
-		setItemName(i, "Gem of Lightning", "b");
+		setItemName(i, this.name());
 		setItemLevel(i, 1);
 		setGlow(i);
 	}

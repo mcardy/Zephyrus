@@ -2,19 +2,19 @@ package minny.zephyrus.spells;
 
 import minny.zephyrus.Zephyrus;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.SmallFireball;
 
-public class Fireball extends Spell {
+public class Bolt extends Spell {
 
-	public Fireball(Zephyrus plugin) {
+	public Bolt(Zephyrus plugin) {
 		super(plugin);
 		plugin.spellMap.put(this.name(), this);
 	}
 
 	@Override
 	public String name() {
-		return "fireball";
+		return "bolt";
 	}
 
 	@Override
@@ -24,12 +24,13 @@ public class Fireball extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 50;
+		return 100;
 	}
 
 	@Override
 	public void run(Player player) {
-		player.launchProjectile(SmallFireball.class);
+		Location loc = player.getTargetBlock(null, 1000).getLocation();
+		player.getWorld().strikeLightning(loc);
 	}
 
 }

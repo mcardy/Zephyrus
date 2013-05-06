@@ -17,7 +17,7 @@ public class LifeSuckSword extends Item{
 
 	@Override
 	public String name() {
-		return "Diamond Sword of Life";
+		return "¤aDiamond Sword of Life";
 	}
 
 	@Override
@@ -29,12 +29,12 @@ public class LifeSuckSword extends Item{
 
 	@Override
 	public void createItem(ItemStack i) {
-		setItemName(i, "Diamond Sword of Life", "a");
+		setItemName(i, this.name());
 		setCustomEnchantment(i, plugin.suck, 1);
 	}
 	
 	public void createUpgradeItem(ItemStack i) {
-		setItemName(i, "Diamond Sword of Life", "a");
+		setItemName(i, this.name());
 		setCustomEnchantment(i, plugin.suck, 2);
 	}
 	

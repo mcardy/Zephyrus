@@ -10,18 +10,21 @@ import org.bukkit.entity.Player;
 public abstract class Spell extends LevelManager{
 
 	PlayerConfigHandler config;
-	LevelManager lvl;
 	
 	public Spell(Zephyrus plugin){
 		super(plugin);
-		lvl = new LevelManager(plugin);
 	}
 	
 	public abstract String name();
-	public abstract String permission();
 	public abstract int reqLevel();
 	public abstract int manaCost();
 	public abstract void run(Player player);
+	public boolean canRun(Player player){
+		return true;
+	}
+	public String failMessage(){
+		return "";
+	}
 	
 	public boolean isLearned(Player p, String name){
 		config = new PlayerConfigHandler(plugin, p.getName());
@@ -33,6 +36,13 @@ public abstract class Spell extends LevelManager{
 	
 	public void notEnoughMana(Player p){
 		p.sendMessage(ChatColor.DARK_GRAY + "Not enough mana!");
+	}
+	
+	public boolean hasPermission(Player p, Spell spell){
+		if (p.hasPermission("zephyrus.cast." + spell.name())){
+			return true;
+		}
+		return false;
 	}
 
 }

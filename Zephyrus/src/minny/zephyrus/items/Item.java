@@ -18,7 +18,7 @@ public abstract class Item extends ItemUtil implements Listener{
 	public abstract void createItem(ItemStack i);
 	public abstract Recipe recipe();
 	public int maxLevel(){
-		return -1;
+		return 10;
 	}
 	public int reqLevel(){
 		return 0;

@@ -29,6 +29,7 @@ public class RodOfFire extends Item {
 		lvl = new LevelManager(plugin);
 		plugin.getServer().addRecipe(recipe());
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		plugin.itemMap.put(this.name(), this);
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class RodOfFire extends Item {
 
 	@Override
 	public void createItem(ItemStack i) {
-		setItemName(i, "Rod of Fire", "c");
+		setItemName(i, this.name());
 		setItemLevel(i, 1);
 		setGlow(i);
 	}

@@ -12,8 +12,6 @@ import org.bukkit.inventory.ShapelessRecipe;
 
 public class RecipeUtil {
 
-	public static final short DATA_WILDCARD = Short.MAX_VALUE;
-
 	public static boolean areEqual(Recipe recipe1, Recipe recipe2) {
 		if (recipe1 == recipe2) {
 			return true;

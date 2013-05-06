@@ -20,9 +20,9 @@ public class ItemUtil {
 		this.plugin = plugin;
 	}
 
-	public void setItemName(ItemStack i, String name, String color) {
+	public void setItemName(ItemStack i, String name) {
 		ItemMeta m = i.getItemMeta();
-		m.setDisplayName("¤" + color + name);
+		m.setDisplayName(name);
 		i.setItemMeta(m);
 	}
 
@@ -119,9 +119,9 @@ public class ItemUtil {
 		case 3:
 			return 100;
 		case 4:
-			return 20;
+			return 60;
 		case 5:
-			return 0;
+			return 20;
 		case 6:
 			return 400;
 		case 7:

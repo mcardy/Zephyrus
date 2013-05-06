@@ -1,6 +1,7 @@
 package minny.zephyrus.commands;
 
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.items.Item;
 import minny.zephyrus.utils.CommandExceptions;
 import minny.zephyrus.utils.ItemUtil;
 
@@ -12,9 +13,11 @@ import org.bukkit.entity.Player;
 public class LevelUpItem extends CommandExceptions implements CommandExecutor {
 
 	ItemUtil item;
+	Zephyrus plugin;
 
-	public LevelUpItem(Zephyrus plugin, ItemUtil i) {
-		item = i;
+	public LevelUpItem(Zephyrus plugin) {
+		item = new ItemUtil(plugin);
+		this.plugin = plugin;
 	}
 
 	@Override
@@ -22,21 +25,25 @@ public class LevelUpItem extends CommandExceptions implements CommandExecutor {
 			String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			try {
-				if (player.getItemInHand().getItemMeta().getDisplayName()
-						.equalsIgnoreCase("¤bGem of Lightning") || player.getItemInHand().getItemMeta().getDisplayName()
-						.equalsIgnoreCase("¤aHoe of Growth") || player.getItemInHand().getItemMeta().getDisplayName()
-						.equalsIgnoreCase("¤cRod of Fire")){
-					int current = item.getItemLevel(player.getItemInHand());
-					item.setItemLevel(player.getItemInHand(), current +1);
+			if (player.hasPermission("zephyrus.levelup.item") || player.isOp()) {
+				if (plugin.itemMap.containsKey(player.getItemInHand()
+						.getItemMeta().getDisplayName())) {
+					Item i = plugin.itemMap.get(player.getItemInHand()
+							.getItemMeta().getDisplayName());
+					if (item.getItemLevel(player.getItemInHand()) < i
+							.maxLevel()) {
+						int current = item.getItemLevel(player.getItemInHand());
+						item.setItemLevel(player.getItemInHand(), current + 1);
+					} else {
+						player.sendMessage("That item cannot be leveled anymore!");
+					}
+				} else {
+					player.sendMessage("The item you are holding cannot be leveled!");
 				}
-			} catch (Exception e) {
-
 			}
 		} else {
 			inGameOnly(sender);
 		}
 		return false;
 	}
-
 }

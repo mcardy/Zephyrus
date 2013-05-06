@@ -29,8 +29,13 @@ public class HoeOfGrowth extends Item {
 	}
 
 	@Override
+	public int maxLevel() {
+		return 2;
+	}
+
+	@Override
 	public void createItem(ItemStack i) {
-		setItemName(i, "Hoe of Growth", "a");
+		setItemName(i, this.name());
 		setItemLevel(i, 1);
 		i.addEnchantment(plugin.glow, 1);
 	}
@@ -58,7 +63,6 @@ public class HoeOfGrowth extends Item {
 	public void grow(PlayerInteractEvent e) throws Exception {
 		if (e.getClickedBlock() != null
 				&& e.getAction() == Action.RIGHT_CLICK_BLOCK
-				&& e.getPlayer().getItemInHand().getType() == Material.GOLD_HOE
 				&& e.getClickedBlock().getTypeId() == 59
 				&& checkName(e.getPlayer().getItemInHand(), name())
 				&& e.getClickedBlock().getData() != 7) {
@@ -74,17 +78,31 @@ public class HoeOfGrowth extends Item {
 				&& e.getClickedBlock().getType() == Material.SAPLING
 				&& checkName(e.getPlayer().getItemInHand(), name())
 				&& e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			Block b = e.getClickedBlock();
-			TreeType tt = getTree(b.getData());
-			World world = e.getPlayer().getWorld();
-			b.setTypeId(0);
-			world.generateTree(b.getLocation(), tt);
-			Location loc = e.getClickedBlock().getLocation();
-			loc.setX(loc.getX() + 0.6);
-			loc.setZ(loc.getZ() + 0.6);
-			loc.setY(loc.getY() + 0.3);
-			ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER, loc,
-					1, 1, 1, 100, 20);
+			if (getItemLevel(e.getPlayer().getItemInHand()) == 1) {
+				Block b = e.getClickedBlock();
+				TreeType tt = getTree(b.getData());
+				World world = e.getPlayer().getWorld();
+				b.setTypeId(0);
+				world.generateTree(b.getLocation(), tt);
+				Location loc = e.getClickedBlock().getLocation();
+				loc.setX(loc.getX() + 0.6);
+				loc.setZ(loc.getZ() + 0.6);
+				loc.setY(loc.getY() + 0.3);
+				ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER,
+						loc, 1, 1, 1, 100, 20);
+			} else {
+				Block b = e.getClickedBlock();
+				TreeType tt = getGiantTree(b.getData());
+				World world = e.getPlayer().getWorld();
+				b.setTypeId(0);
+				world.generateTree(b.getLocation(), tt);
+				Location loc = e.getClickedBlock().getLocation();
+				loc.setX(loc.getX() + 0.6);
+				loc.setZ(loc.getZ() + 0.6);
+				loc.setY(loc.getY() + 0.3);
+				ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER,
+						loc, 1, 1, 1, 100, 20);
+			}
 		}
 	}
 
@@ -101,7 +119,7 @@ public class HoeOfGrowth extends Item {
 		}
 		return TreeType.TREE;
 	}
-	
+
 	public static TreeType getGiantTree(int data) {
 		switch (data) {
 		case 0:
@@ -115,7 +133,7 @@ public class HoeOfGrowth extends Item {
 		}
 		return TreeType.BIG_TREE;
 	}
-	
+
 	public static TreeType getTaintedTree(int data) {
 		switch (data) {
 		case 0:
