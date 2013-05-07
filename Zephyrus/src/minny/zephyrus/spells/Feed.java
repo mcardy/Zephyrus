@@ -1,9 +1,11 @@
 package minny.zephyrus.spells;
 
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
+
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class Feed extends Spell{
 
@@ -17,6 +19,11 @@ public class Feed extends Spell{
 		return "feed";
 	}
 
+	@Override
+	public String bookText() {
+		return "";
+	}
+	
 	@Override
 	public int reqLevel() {
 		return 0;
@@ -33,7 +40,7 @@ public class Feed extends Spell{
 	}
 
 	@Override
-	public ItemStack spellItem() {
+	public Set<ItemStack> spellItems() {
 		return null;
 	}
 

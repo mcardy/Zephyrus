@@ -7,12 +7,10 @@ import minny.zephyrus.utils.RecipeUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Fireball;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.SmallFireball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -97,19 +95,6 @@ public class RodOfFire extends CustomItem {
 			e.getPlayer().sendMessage(
 					ChatColor.GRAY + "The rod of fire still needs " + time
 							+ " seconds to recharge!");
-		}
-	}
-	
-	@EventHandler
-	public void onCraft(PrepareItemCraftEvent e){
-		RodOfFire fire = new RodOfFire(plugin);
-		Recipe r = fire.recipe();
-		if (RecipeUtil.areEqual(e.getRecipe(), r)){
-			HumanEntity p = e.getViewers().get(0);
-			if (lvl.getLevel(p) < reqLevel()){
-				p.getServer().broadcastMessage(String.valueOf(lvl.getLevel(p)));
-				e.getInventory().setResult(null);
-			}
 		}
 	}
 }

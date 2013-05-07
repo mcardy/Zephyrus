@@ -1,5 +1,7 @@
 package minny.zephyrus.spells;
 
+import java.util.Set;
+
 import minny.zephyrus.Zephyrus;
 
 import org.bukkit.Location;
@@ -16,6 +18,11 @@ public class Bolt extends Spell {
 	@Override
 	public String name() {
 		return "bolt";
+	}
+	
+	@Override
+	public String bookText() {
+		return "";
 	}
 
 	@Override
@@ -35,7 +42,7 @@ public class Bolt extends Spell {
 	}
 
 	@Override
-	public ItemStack spellItem() {
+	public Set<ItemStack> spellItems() {
 		return null;
 	}
 

@@ -1,10 +1,12 @@
 package minny.zephyrus.spells;
 
+import java.util.Set;
+
+import minny.zephyrus.Zephyrus;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import minny.zephyrus.Zephyrus;
 
 public class Enderchest extends Spell {
 
@@ -18,6 +20,11 @@ public class Enderchest extends Spell {
 		return "enderchest";
 	}
 
+	@Override
+	public String bookText() {
+		return "";
+	}
+	
 	@Override
 	public int reqLevel() {
 		return 0;
@@ -35,7 +42,7 @@ public class Enderchest extends Spell {
 	}
 
 	@Override
-	public ItemStack spellItem() {
+	public Set<ItemStack> spellItems() {
 		return null;
 	}
 }

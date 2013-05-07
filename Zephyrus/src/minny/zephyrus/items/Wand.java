@@ -1,6 +1,7 @@
 package minny.zephyrus.items;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.spells.Spell;
@@ -60,13 +61,15 @@ public class Wand extends CustomItem {
 			Location loc = e.getClickedBlock().getLocation();
 			loc.setY(loc.getY() + 1);
 			Entity[] entitys = getNearbyEntities(loc, 1);
-			if (getItem(entitys) != null) {
-				ItemStack i = getItem(entitys);
+			if (!getItems(entitys).isEmpty()) {
+				Set<ItemStack> i = getItems(entitys);
 				if (plugin.spellCraftMap.containsKey(i)) {
 					Spell s = plugin.spellCraftMap.get(i);
 					if (!(s.getLevel(e.getPlayer()) < s.reqLevel())) {
-						getItemEntity(entitys).remove();
-						s.dropSpell(e.getClickedBlock(), s.name());
+						for (Item item : getItemEntity(entitys)){
+							item.remove();
+						}
+						s.dropSpell(e.getClickedBlock(), s.name(), s.bookText());
 					} else {
 						e.getPlayer().sendMessage(
 								"This spell requires level " + s.reqLevel());
@@ -98,24 +101,27 @@ public class Wand extends CustomItem {
 		return radiusEntities.toArray(new Entity[radiusEntities.size()]);
 	}
 
-	public static ItemStack getItem(Entity[] entitys) {
+	public static Set<ItemStack> getItems(Entity[] entitys) {
+		Set<ItemStack> items = new HashSet<ItemStack>();
 		for (Entity e : entitys) {
 			if (e.getType() == EntityType.DROPPED_ITEM) {
-				Item i = (Item) e;
-				return i.getItemStack();
+				Item ei = (Item) e;
+				ItemStack i = ei.getItemStack();
+				items.add(i);
 			}
 		}
-		return null;
+		return items;
 	}
 	
-	public static Item getItemEntity(Entity[] entitys) {
+	public static Set<Item> getItemEntity(Entity[] entitys) {
+		Set<Item> l = new HashSet<Item>();
 		for (Entity e : entitys) {
 			if (e.getType() == EntityType.DROPPED_ITEM) {
 				Item i = (Item) e;
-				return i;
+				l.add(i);
 			}
 		}
-		return null;
+		return l;
 	}
 
 }

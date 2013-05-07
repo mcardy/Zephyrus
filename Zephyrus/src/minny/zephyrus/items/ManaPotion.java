@@ -46,6 +46,7 @@ public class ManaPotion extends CustomItem {
 		lore.add("¤7Restors Mana");
 		m.setLore(lore);
 		i.setItemMeta(m);
+		setGlow(i);
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class ManaPotion extends CustomItem {
 		createItem(manaPotion);
 		ShapedRecipe recipe = new ShapedRecipe(manaPotion);
 		recipe.shape("AAA", "ABA", "AAA");
-		recipe.setIngredient('B', Material.POTION);
+		recipe.setIngredient('B', Material.POTION, 8192);
 		recipe.setIngredient('A', Material.GLOWSTONE_DUST);
 		return recipe;
 	}

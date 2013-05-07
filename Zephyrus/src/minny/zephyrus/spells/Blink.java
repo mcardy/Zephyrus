@@ -1,5 +1,11 @@
 package minny.zephyrus.spells;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import minny.zephyrus.Zephyrus;
+import minny.zephyrus.utils.ParticleEffects;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,15 +14,12 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import minny.zephyrus.Zephyrus;
-import minny.zephyrus.utils.ParticleEffects;
-
 public class Blink extends Spell {
 
 	public Blink(Zephyrus plugin) {
 		super(plugin);
 		plugin.spellMap.put(this.name(), this);
-		plugin.spellCraftMap.put(this.spellItem(), this);
+		plugin.spellCraftMap.put(this.spellItems(), this);
 	}
 
 	@Override
@@ -24,6 +27,11 @@ public class Blink extends Spell {
 		return "blink";
 	}
 
+	@Override
+	public String bookText() {
+		return "Blinks you from one place to another!";
+	}
+	
 	@Override
 	public int reqLevel() {
 		return 2;
@@ -35,8 +43,10 @@ public class Blink extends Spell {
 	}
 
 	@Override
-	public ItemStack spellItem(){
-		return new ItemStack(Material.EYE_OF_ENDER);
+	public Set<ItemStack> spellItems(){
+		Set<ItemStack> i = new HashSet<ItemStack>();
+		i.add(new ItemStack(Material.ENDER_PEARL));
+		return i;
 	}
 	
 	@Override

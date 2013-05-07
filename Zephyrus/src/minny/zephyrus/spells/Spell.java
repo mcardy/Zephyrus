@@ -1,5 +1,7 @@
 package minny.zephyrus.spells;
 
+import java.util.Set;
+
 import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.items.SpellTome;
@@ -22,13 +24,11 @@ public abstract class Spell extends LevelManager{
 	}
 	
 	public abstract String name();
+	public abstract String bookText();
 	public abstract int reqLevel();
 	public abstract int manaCost();
 	public abstract void run(Player player);
-	
-	public ItemStack spellItem() {
-		return null;
-	}
+	public abstract Set<ItemStack> spellItems();
 	
 	public boolean canRun(Player player) {
 		return true;
@@ -57,9 +57,9 @@ public abstract class Spell extends LevelManager{
 		return false;
 	}
 
-	public void dropSpell(Block bookshelf, String name){
+	public void dropSpell(Block bookshelf, String name, String desc){
 		bookshelf.breakNaturally();
-		SpellTome tome = new SpellTome(plugin, name);
+		SpellTome tome = new SpellTome(plugin, name, desc);
 		Location loc = bookshelf.getLocation();
 		loc.getWorld().dropItemNaturally(loc, tome.item());
 		try {

@@ -1,10 +1,12 @@
 package minny.zephyrus.spells;
 
+import java.util.Set;
+
+import minny.zephyrus.Zephyrus;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import minny.zephyrus.Zephyrus;
 
 public class Repair extends Spell{
 
@@ -18,6 +20,11 @@ public class Repair extends Spell{
 		return "repair";
 	}
 
+	@Override
+	public String bookText() {
+		return "";
+	}
+	
 	@Override
 	public int reqLevel() {
 		return 0;
@@ -49,7 +56,7 @@ public class Repair extends Spell{
 	}
 
 	@Override
-	public ItemStack spellItem() {
+	public Set<ItemStack> spellItems() {
 		return null;
 	}
 

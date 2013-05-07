@@ -1,5 +1,7 @@
 package minny.zephyrus.spells;
 
+import java.util.Set;
+
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.utils.ParticleEffects;
 
@@ -24,6 +26,11 @@ public class Grow extends Spell {
 		return "grow";
 	}
 
+	@Override
+	public String bookText() {
+		return "";
+	}
+	
 	@Override
 	public int reqLevel() {
 		return 0;
@@ -98,7 +105,7 @@ public class Grow extends Spell {
 	}
 
 	@Override
-	public ItemStack spellItem() {
+	public Set<ItemStack> spellItems() {
 		return null;
 	}
 }

@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -53,20 +52,11 @@ public class PlayerListener extends ItemUtil implements Listener {
 			}
 		}
 	}
-
-	@EventHandler
-	public void onManaPotion(PlayerInteractEvent e){
-		if (checkName(e.getPlayer().getItemInHand(), "¤bMana Potion")){
-			e.getPlayer().getItemInHand().setType(Material.GLASS_BOTTLE);
-			e.getPlayer().getItemInHand().setItemMeta(null);
-			plugin.mana.put(e.getPlayer().getName(), lvl.getLevel(e.getPlayer()) * 100);
-		}
-	}
 	
 	@EventHandler
 	public void playerFile(PlayerJoinEvent e) {
 		File playerFiles = new File(plugin.getDataFolder(), "Players");
-		File checkPlayer = new File(playerFiles, e.getPlayer().getName());
+		File checkPlayer = new File(playerFiles, e.getPlayer().getName() + ".yml");
 		if (!checkPlayer.exists()) {
 			config = new PlayerConfigHandler(plugin, e.getPlayer().getName());
 			config.saveDefaultConfig();

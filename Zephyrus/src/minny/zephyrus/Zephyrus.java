@@ -3,6 +3,7 @@ package minny.zephyrus;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import minny.zephyrus.commands.Cast;
 import minny.zephyrus.commands.LevelUp;
@@ -19,7 +20,7 @@ import minny.zephyrus.items.ManaPotion;
 import minny.zephyrus.items.RodOfFire;
 import minny.zephyrus.items.SpellTome;
 import minny.zephyrus.items.Wand;
-import minny.zephyrus.listeners.CraftingManager;
+import minny.zephyrus.listeners.ManaPotionListener;
 import minny.zephyrus.listeners.PlayerListener;
 import minny.zephyrus.spells.Blink;
 import minny.zephyrus.spells.Bolt;
@@ -39,8 +40,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Zephyrus extends JavaPlugin {
 
 	PlayerListener playerListener = new PlayerListener(this);
-	CraftingManager craftManager = new CraftingManager(this);
-	SpellTome spellTome = new SpellTome(this, null);
+	SpellTome spellTome = new SpellTome(this, null, null);
+	ManaPotionListener manaPotionListener = new ManaPotionListener(this);
 	
 	public GlowEffect glow = new GlowEffect(120);
 	public LifeSuck suck = new LifeSuck(121);
@@ -52,7 +53,7 @@ public class Zephyrus extends JavaPlugin {
 	public Map<String, Object> mana;
 
 	public Map<String, Spell> spellMap;
-	public Map<ItemStack, Spell> spellCraftMap;
+	public Map<Set<ItemStack>, Spell> spellCraftMap;
 	public Map<String, CustomItem> itemMap;
 
 	@Override
@@ -66,7 +67,7 @@ public class Zephyrus extends JavaPlugin {
 		mana = new HashMap<String, Object>();
 
 		spellMap = new HashMap<String, Spell>();
-		spellCraftMap = new HashMap<ItemStack, Spell>();
+		spellCraftMap = new HashMap<Set<ItemStack>, Spell>();
 		itemMap = new HashMap<String, CustomItem>();
 
 		saveDefaultConfig();
@@ -94,7 +95,6 @@ public class Zephyrus extends JavaPlugin {
 		new RodOfFire(this);
 		new BlinkPearl(this);
 		new ManaPotion(this);
-		// new SummonSkeleton(this);
 		new Wand(this);
 	}
 
@@ -126,8 +126,8 @@ public class Zephyrus extends JavaPlugin {
 	public void addListeners() {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(playerListener, this);
-		pm.registerEvents(craftManager, this);
 		pm.registerEvents(spellTome, this);
+		pm.registerEvents(manaPotionListener, this);
 	}
 
 	public void addCommands() {
