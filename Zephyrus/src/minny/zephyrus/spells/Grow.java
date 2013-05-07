@@ -10,6 +10,7 @@ import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class Grow extends Spell {
 
@@ -94,5 +95,10 @@ public class Grow extends Spell {
 			return TreeType.SMALL_JUNGLE;
 		}
 		return TreeType.TREE;
+	}
+
+	@Override
+	public ItemStack spellItem() {
+		return null;
 	}
 }

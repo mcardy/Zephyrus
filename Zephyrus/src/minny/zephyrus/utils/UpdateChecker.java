@@ -13,7 +13,7 @@ import minny.zephyrus.Zephyrus;
 public class UpdateChecker extends BukkitRunnable {
 
 	String check = "https://raw.github.com/minnymin3/Zephyrus/master/version";
-	String changelog = "https://raw.github.com/minnymin3/Zephyrus/master/changelog";
+	String changelog = "https://raw.github.com/minnymin3/Zephyrus/master/Changelog";
 	public boolean isUpdate;
 	Zephyrus plugin;
 
@@ -36,8 +36,8 @@ public class UpdateChecker extends BukkitRunnable {
 					String line = str;
 
 					if (isUpdate(current, line) == -1) {
-						log.info("A new version of Zephyrus is avalable!");
-						log.info("Get it at: dev.bukkit.org/server-mods/Zephyrus");
+						log.info("Zephyrus is out of date!");
+						log.info("dev.bukkit.org/server-mods/Zephyrus");
 						this.isUpdate = true;
 						try {
 							URL change = new URL(changelog);
@@ -46,10 +46,10 @@ public class UpdateChecker extends BukkitRunnable {
 							String stri;
 							while ((stri = cl.readLine()) != null) {
 								String scl = stri;
-								log.info("Changelog: " + scl);
+								log.info("[Changelog] " + scl);
 							}
 						} catch (IOException e) {
-							log.info("Unable to get Changelog");
+							log.severe("Unable to get Changelog");
 						}
 						break;
 					} else if (isUpdate(current, line) == 1) {

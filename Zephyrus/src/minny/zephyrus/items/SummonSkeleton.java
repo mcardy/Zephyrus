@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-public class SummonSkeleton extends Item {
+public class SummonSkeleton extends CustomItem {
 
 	public SummonSkeleton(Zephyrus plugin) {
 		super(plugin);

@@ -2,6 +2,7 @@ package minny.zephyrus.spells;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import minny.zephyrus.Zephyrus;
 
@@ -45,6 +46,11 @@ public class Repair extends Spell{
 	@Override
 	public String failMessage(){
 		return ChatColor.GRAY + "Cannot repair that item!";
+	}
+
+	@Override
+	public ItemStack spellItem() {
+		return null;
 	}
 
 }

@@ -1,6 +1,7 @@
 package minny.zephyrus.spells;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import minny.zephyrus.Zephyrus;
 
@@ -29,6 +30,11 @@ public class Feed extends Spell{
 	@Override
 	public void run(Player player) {
 		player.setFoodLevel(player.getFoodLevel() + 1);
+	}
+
+	@Override
+	public ItemStack spellItem() {
+		return null;
 	}
 
 }

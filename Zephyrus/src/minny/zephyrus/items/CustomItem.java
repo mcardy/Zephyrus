@@ -7,9 +7,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
-public abstract class Item extends ItemUtil implements Listener{
+public abstract class CustomItem extends ItemUtil implements Listener{
 
-	public Item(Zephyrus plugin) {
+	public CustomItem(Zephyrus plugin) {
 		super(plugin);
 	}
 

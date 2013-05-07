@@ -1,7 +1,7 @@
 package minny.zephyrus.commands;
 
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.items.Item;
+import minny.zephyrus.items.CustomItem;
 import minny.zephyrus.utils.CommandExceptions;
 import minny.zephyrus.utils.ItemUtil;
 
@@ -28,7 +28,7 @@ public class LevelUpItem extends CommandExceptions implements CommandExecutor {
 			if (player.hasPermission("zephyrus.levelup.item") || player.isOp()) {
 				if (plugin.itemMap.containsKey(player.getItemInHand()
 						.getItemMeta().getDisplayName())) {
-					Item i = plugin.itemMap.get(player.getItemInHand()
+					CustomItem i = plugin.itemMap.get(player.getItemInHand()
 							.getItemMeta().getDisplayName());
 					if (item.getItemLevel(player.getItemInHand()) < i
 							.maxLevel()) {

@@ -31,26 +31,22 @@ public class Cast extends CommandExceptions implements CommandExecutor {
 				if (plugin.spellMap.containsKey(args[0])) {
 					Player player = (Player) sender;
 					Spell spell = plugin.spellMap.get(args[0].toLowerCase());
-					if (!(lvl.getLevel(player) < spell.reqLevel())) {
-						if (spell.isLearned(player, spell.name())
-								|| spell.hasPermission(player, spell)
-								|| player.isOp()
-								|| player.hasPermission("zephyrus.cast.*")) {
-							if (!(lvl.getMana(player) < spell.manaCost())) {
-								if (spell.canRun(player)) {
-									spell.run(player);
-									spell.drainMana(player, spell.manaCost());
-								} else {
-									player.sendMessage(spell.failMessage());
-								}
+					if (spell.isLearned(player, spell.name())) {
+						// || spell.hasPermission(player, spell)
+						// || player.isOp()
+						// || player.hasPermission("zephyrus.cast.*")) {
+						if (!(lvl.getMana(player) < spell.manaCost())) {
+							if (spell.canRun(player)) {
+								spell.run(player);
+								spell.drainMana(player, spell.manaCost());
 							} else {
-								player.sendMessage("Not enough mana!");
+								player.sendMessage(spell.failMessage());
 							}
 						} else {
-							player.sendMessage("You have not learned that spell yet!");
+							player.sendMessage("Not enough mana!");
 						}
 					} else {
-						player.sendMessage("asdf");
+						player.sendMessage("You have not learned that spell yet!");
 					}
 
 				} else {

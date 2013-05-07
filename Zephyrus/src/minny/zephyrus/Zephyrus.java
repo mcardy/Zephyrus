@@ -11,18 +11,28 @@ import minny.zephyrus.commands.Mana;
 import minny.zephyrus.enchantments.GlowEffect;
 import minny.zephyrus.enchantments.LifeSuck;
 import minny.zephyrus.items.BlinkPearl;
+import minny.zephyrus.items.CustomItem;
 import minny.zephyrus.items.GemOfLightning;
 import minny.zephyrus.items.HoeOfGrowth;
-import minny.zephyrus.items.Item;
 import minny.zephyrus.items.LifeSuckSword;
 import minny.zephyrus.items.ManaPotion;
 import minny.zephyrus.items.RodOfFire;
+import minny.zephyrus.items.SpellTome;
+import minny.zephyrus.items.Wand;
 import minny.zephyrus.listeners.CraftingManager;
 import minny.zephyrus.listeners.PlayerListener;
-import minny.zephyrus.spells.*;
+import minny.zephyrus.spells.Blink;
+import minny.zephyrus.spells.Bolt;
+import minny.zephyrus.spells.Enderchest;
+import minny.zephyrus.spells.Feed;
+import minny.zephyrus.spells.Fireball;
+import minny.zephyrus.spells.Grow;
+import minny.zephyrus.spells.Repair;
+import minny.zephyrus.spells.Spell;
 import minny.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -30,7 +40,8 @@ public class Zephyrus extends JavaPlugin {
 
 	PlayerListener playerListener = new PlayerListener(this);
 	CraftingManager craftManager = new CraftingManager(this);
-
+	SpellTome spellTome = new SpellTome(this, null);
+	
 	public GlowEffect glow = new GlowEffect(120);
 	public LifeSuck suck = new LifeSuck(121);
 
@@ -41,7 +52,8 @@ public class Zephyrus extends JavaPlugin {
 	public Map<String, Object> mana;
 
 	public Map<String, Spell> spellMap;
-	public Map<String, Item> itemMap;
+	public Map<ItemStack, Spell> spellCraftMap;
+	public Map<String, CustomItem> itemMap;
 
 	@Override
 	public void onEnable() {
@@ -54,7 +66,8 @@ public class Zephyrus extends JavaPlugin {
 		mana = new HashMap<String, Object>();
 
 		spellMap = new HashMap<String, Spell>();
-		itemMap = new HashMap<String, Item>();
+		spellCraftMap = new HashMap<ItemStack, Spell>();
+		itemMap = new HashMap<String, CustomItem>();
 
 		saveDefaultConfig();
 		
@@ -82,6 +95,7 @@ public class Zephyrus extends JavaPlugin {
 		new BlinkPearl(this);
 		new ManaPotion(this);
 		// new SummonSkeleton(this);
+		new Wand(this);
 	}
 
 	public void addSpells() {
@@ -113,6 +127,7 @@ public class Zephyrus extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(playerListener, this);
 		pm.registerEvents(craftManager, this);
+		pm.registerEvents(spellTome, this);
 	}
 
 	public void addCommands() {

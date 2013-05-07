@@ -4,6 +4,7 @@ import minny.zephyrus.Zephyrus;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class Bolt extends Spell {
 
@@ -31,6 +32,11 @@ public class Bolt extends Spell {
 	public void run(Player player) {
 		Location loc = player.getTargetBlock(null, 1000).getLocation();
 		player.getWorld().strikeLightning(loc);
+	}
+
+	@Override
+	public ItemStack spellItem() {
+		return null;
 	}
 
 }

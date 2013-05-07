@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-public class HoeOfGrowth extends Item {
+public class HoeOfGrowth extends CustomItem {
 
 	public HoeOfGrowth(Zephyrus plugin) {
 		super(plugin);

@@ -7,7 +7,7 @@ import org.bukkit.inventory.ShapedRecipe;
 
 import minny.zephyrus.Zephyrus;
 
-public class LifeSuckSword extends Item{
+public class LifeSuckSword extends CustomItem{
 
 	public LifeSuckSword(Zephyrus plugin) {
 		super(plugin);

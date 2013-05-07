@@ -1,6 +1,7 @@
 package minny.zephyrus.listeners;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import minny.zephyrus.Hooks;
 import minny.zephyrus.LevelManager;
@@ -65,14 +66,13 @@ public class PlayerListener extends ItemUtil implements Listener {
 	@EventHandler
 	public void playerFile(PlayerJoinEvent e) {
 		File playerFiles = new File(plugin.getDataFolder(), "Players");
-		File checkPlayer = new File(playerFiles, e.getPlayer().getName()
-				+ ".yml");
+		File checkPlayer = new File(playerFiles, e.getPlayer().getName());
 		if (!checkPlayer.exists()) {
-			config = new PlayerConfigHandler(plugin, e.getPlayer().getName()
-					+ ".yml");
+			config = new PlayerConfigHandler(plugin, e.getPlayer().getName());
 			config.saveDefaultConfig();
 			config.getConfig().set("Level", 1);
 			config.getConfig().set("mana", 100);
+			config.getConfig().set("learned", new ArrayList<String>());
 			config.saveConfig();
 
 		}

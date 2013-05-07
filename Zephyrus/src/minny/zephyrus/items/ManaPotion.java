@@ -13,7 +13,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class ManaPotion extends Item {
+public class ManaPotion extends CustomItem {
 
 	LevelManager lvl;
 	RecipeUtil util;

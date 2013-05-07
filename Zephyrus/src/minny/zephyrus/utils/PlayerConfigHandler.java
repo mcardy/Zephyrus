@@ -22,7 +22,7 @@ public class PlayerConfigHandler {
 
 	public PlayerConfigHandler(Zephyrus plugin, String fileName) {
 		this.plugin = plugin;
-		this.fileName = fileName;
+		this.fileName = fileName + ".yml";
 		this.dataFolder = new File(plugin.getDataFolder(), "Players");
 		dataFolder.mkdirs();
 	}

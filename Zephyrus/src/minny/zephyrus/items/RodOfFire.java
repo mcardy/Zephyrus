@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-public class RodOfFire extends Item {
+public class RodOfFire extends CustomItem {
 
 	RecipeUtil recipe;
 	LevelManager lvl;

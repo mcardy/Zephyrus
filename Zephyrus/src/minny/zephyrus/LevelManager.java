@@ -16,7 +16,7 @@ public class LevelManager {
 	}
 
 	public void levelUp(Player player) {
-		config = new PlayerConfigHandler(plugin, player.getName() + ".yml");
+		config = new PlayerConfigHandler(plugin, player.getName());
 		config.reloadConfig();
 		int current = config.getConfig().getInt("Level");
 		current = current + 1;
@@ -27,13 +27,13 @@ public class LevelManager {
 	}
 
 	public int getLevel(Player player) {
-		config = new PlayerConfigHandler(plugin, player.getName() + ".yml");
+		config = new PlayerConfigHandler(plugin, player.getName());
 		config.reloadConfig();
 		return config.getConfig().getInt("Level");
 	}
 
 	public int getLevel(HumanEntity player) {
-		config = new PlayerConfigHandler(plugin, player.getName() + ".yml");
+		config = new PlayerConfigHandler(plugin, player.getName());
 		config.reloadConfig();
 		return config.getConfig().getInt("Level");
 	}
@@ -52,14 +52,14 @@ public class LevelManager {
 	}
 	
 	public void saveMana(Player player) {
-		config = new PlayerConfigHandler(plugin, player.getName() + ".yml");
+		config = new PlayerConfigHandler(plugin, player.getName());
 		config.getConfig().set("mana", plugin.mana.get(player.getName()));
 		config.saveConfig();
 		config.reloadConfig();
 	}
 	
 	public int loadMana(Player player) {
-		config = new PlayerConfigHandler(plugin, player.getName() + ".yml");
+		config = new PlayerConfigHandler(plugin, player.getName());
 		config.reloadConfig();
 		int i = config.getConfig().getInt("mana");
 		return i;

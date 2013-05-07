@@ -2,10 +2,16 @@ package minny.zephyrus.spells;
 
 import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.items.SpellTome;
+import minny.zephyrus.utils.ParticleEffects;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class Spell extends LevelManager{
 
@@ -19,7 +25,12 @@ public abstract class Spell extends LevelManager{
 	public abstract int reqLevel();
 	public abstract int manaCost();
 	public abstract void run(Player player);
-	public boolean canRun(Player player){
+	
+	public ItemStack spellItem() {
+		return null;
+	}
+	
+	public boolean canRun(Player player) {
 		return true;
 	}
 	public String failMessage(){
@@ -28,7 +39,8 @@ public abstract class Spell extends LevelManager{
 	
 	public boolean isLearned(Player p, String name){
 		config = new PlayerConfigHandler(plugin, p.getName());
-		if (config.getConfig().getStringList("learned-spells").contains(name)){
+		config.reloadConfig();
+		if (config.getConfig().getStringList("learned").contains(name)){
 			return true;
 		}
 		return false;
@@ -45,4 +57,18 @@ public abstract class Spell extends LevelManager{
 		return false;
 	}
 
+	public void dropSpell(Block bookshelf, String name){
+		bookshelf.breakNaturally();
+		SpellTome tome = new SpellTome(plugin, name);
+		Location loc = bookshelf.getLocation();
+		loc.getWorld().dropItemNaturally(loc, tome.item());
+		try {
+			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE, loc, 0, 0, 0, -4, 12);
+			ParticleEffects.sendToLocation(ParticleEffects.WITCH_MAGIC, loc, 0, 0, 0, 4, 3);
+			loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 3, 12);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

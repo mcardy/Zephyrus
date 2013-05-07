@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.utils.ParticleEffects;
@@ -15,6 +16,7 @@ public class Blink extends Spell {
 	public Blink(Zephyrus plugin) {
 		super(plugin);
 		plugin.spellMap.put(this.name(), this);
+		plugin.spellCraftMap.put(this.spellItem(), this);
 	}
 
 	@Override
@@ -24,7 +26,7 @@ public class Blink extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 0;
+		return 2;
 	}
 
 	@Override
@@ -32,6 +34,11 @@ public class Blink extends Spell {
 		return 40;
 	}
 
+	@Override
+	public ItemStack spellItem(){
+		return new ItemStack(Material.EYE_OF_ENDER);
+	}
+	
 	@Override
 	public void run(Player player) {
 		Location loc = player.getTargetBlock(null, 100).getLocation();

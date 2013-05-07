@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-public class GemOfLightning extends Item {
+public class GemOfLightning extends CustomItem {
 
 	public GemOfLightning(Zephyrus plugin) {
 		super(plugin);

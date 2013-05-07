@@ -2,6 +2,7 @@ package minny.zephyrus.spells;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import minny.zephyrus.Zephyrus;
 
@@ -31,5 +32,10 @@ public class Enderchest extends Spell {
 	public void run(Player player) {
 		Inventory i = player.getEnderChest();
 		player.openInventory(i);
+	}
+
+	@Override
+	public ItemStack spellItem() {
+		return null;
 	}
 }

@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-public class BlinkPearl extends Item {
+public class BlinkPearl extends CustomItem {
 
 	public BlinkPearl(Zephyrus plugin) {
 		super(plugin);
