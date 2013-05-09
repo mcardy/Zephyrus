@@ -22,7 +22,7 @@ public class Feed extends Spell{
 
 	@Override
 	public String bookText() {
-		return "";
+		return "You hungry? Not anymore!";
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class Feed extends Spell{
 
 	@Override
 	public int manaCost() {
-		return 20;
+		return 10;
 	}
 
 	@Override
@@ -41,9 +41,21 @@ public class Feed extends Spell{
 	}
 
 	@Override
+	public boolean canRun(Player player){
+		if (player.getFoodLevel() == 20){
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public String failMessage(){
+		return "You are already at max hunger!";
+	}
+	
+	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> items = new HashSet<ItemStack>();
-		items.add(new ItemStack(Material.PORK));
 		items.add(new ItemStack(Material.COOKED_BEEF));
 		items.add(new ItemStack(Material.COOKED_CHICKEN));
 		items.add(new ItemStack(Material.COOKED_FISH));

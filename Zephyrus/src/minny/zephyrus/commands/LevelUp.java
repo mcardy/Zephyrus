@@ -23,8 +23,12 @@ public class LevelUp extends CommandExceptions implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2,
 			String[] args) {
 		if (sender instanceof Player) {
-			Player player = (Player) sender;
-			lvl.levelUp(player);
+			if (sender.hasPermission("zephyrus.levelup") || sender.isOp()){
+				Player player = (Player) sender;
+				lvl.levelUp(player);
+			} else {
+				needOp(sender);
+			}
 		} else {
 			inGameOnly(sender);
 		}

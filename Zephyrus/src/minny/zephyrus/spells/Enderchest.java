@@ -24,7 +24,7 @@ public class Enderchest extends Spell {
 
 	@Override
 	public String bookText() {
-		return "";
+		return "Your very own portable enderchest!";
 	}
 	
 	@Override

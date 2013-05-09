@@ -1,5 +1,6 @@
 package minny.zephyrus.spells;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
@@ -7,6 +8,7 @@ import minny.zephyrus.hooks.PluginHook;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,7 +28,7 @@ public class Bolt extends Spell {
 	
 	@Override
 	public String bookText() {
-		return "";
+		return "Strikes lightning where you point!";
 	}
 
 	@Override
@@ -47,7 +49,9 @@ public class Bolt extends Spell {
 
 	@Override
 	public Set<ItemStack> spellItems() {
-		return null;
+		Set<ItemStack> items = new HashSet<ItemStack>();
+		items.add(new ItemStack(Material.EMERALD));
+		return items;
 	}
 	
 	@Override

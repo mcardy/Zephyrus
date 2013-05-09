@@ -70,6 +70,8 @@ public abstract class Spell extends LevelManager{
 		SpellTome tome = new SpellTome(plugin, name, desc);
 		Location loc = bookshelf.getLocation();
 		loc.getWorld().dropItemNaturally(loc, tome.item());
+		loc.setX(loc.getX() + 0.6);
+		loc.setZ(loc.getZ() + 0.6);
 		try {
 			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE, loc, 0, 0, 0, 1, 30);
 			loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 3, 12);

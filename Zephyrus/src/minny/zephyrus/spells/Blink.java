@@ -28,7 +28,7 @@ public class Blink extends Spell {
 
 	@Override
 	public String bookText() {
-		return "Blinks you from one place to another!";
+		return "Gets you from point A to point C without bothering with point B";
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class Blink extends Spell {
 	
 	@Override
 	public void run(Player player) {
-		Location loc = player.getTargetBlock(getTransparent(), 100).getLocation();
+		Location loc = player.getTargetBlock(null, 100).getLocation();
 		loc.setY(loc.getY() + 1);
 		loc.setPitch(player.getLocation().getPitch());
 		loc.setYaw(player.getLocation().getYaw());
@@ -68,10 +68,10 @@ public class Blink extends Spell {
 
 	@Override
 	public boolean canRun(Player player) {
-		if (player.getTargetBlock(getTransparent(), 100) != null
-				&& player.getTargetBlock(getTransparent(), 100).getType() != Material.AIR) {
+		if (player.getTargetBlock(null, 100) != null
+				&& player.getTargetBlock(null, 100).getType() != Material.AIR) {
 			PluginHook hook = new PluginHook();
-			Location loc = player.getTargetBlock(getTransparent(), 100).getLocation();
+			Location loc = player.getTargetBlock(null, 100).getLocation();
 			loc.setY(loc.getY() + 1);
 			Location loc2 = loc;
 			loc2.setY(loc2.getY() + 1);
@@ -97,22 +97,4 @@ public class Blink extends Spell {
 		return ChatColor.GRAY + "Cannot blink there!";
 	}
 	
-	private HashSet<Byte> getTransparent(){
-		HashSet<Byte> hs = new HashSet<Byte>();
-		hs.add((byte) 6);
-		hs.add((byte) 31);
-		hs.add((byte) 32);
-		hs.add((byte) 106);
-		hs.add((byte) 78);
-		hs.add((byte) 50);
-		hs.add((byte) 75);
-		hs.add((byte) 76);
-		hs.add((byte) 93);
-		hs.add((byte) 94);
-		hs.add((byte) 149);
-		hs.add((byte) 150);
-		hs.add((byte) 30);
-		return hs;
-	}
-
 }

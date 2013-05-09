@@ -1,8 +1,7 @@
 package minny.zephyrus.items;
 
-import java.util.HashSet;
-
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.hooks.PluginHook;
 import minny.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.ChatColor;
@@ -19,8 +18,11 @@ import org.bukkit.inventory.ShapedRecipe;
 
 public class BlinkPearl extends CustomItem {
 
+	PluginHook hook;
+
 	public BlinkPearl(Zephyrus plugin) {
 		super(plugin);
+		this.hook = new PluginHook();
 	}
 
 	@Override
@@ -62,15 +64,15 @@ public class BlinkPearl extends CustomItem {
 	@EventHandler
 	public void blink(PlayerInteractEvent e) throws Exception {
 		if (checkName(e.getPlayer().getItemInHand(), this.name())) {
+			e.setCancelled(true);
 			if (e.getAction() == Action.RIGHT_CLICK_AIR
 					|| e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-				e.setCancelled(true);
 				if (!plugin.blinkPearlDelay
 						.containsKey(e.getPlayer().getName())) {
 					if (e.getPlayer().getTargetBlock(null, 100) != null
-							&& e.getPlayer().getTargetBlock(getTransparent(), 100)
+							&& e.getPlayer().getTargetBlock(null, 100)
 									.getType() != Material.AIR) {
-						Location loc = e.getPlayer().getTargetBlock(getTransparent(), 100)
+						Location loc = e.getPlayer().getTargetBlock(null, 100)
 								.getLocation();
 						loc.setY(loc.getY() + 1);
 						loc.setPitch(e.getPlayer().getLocation().getPitch());
@@ -81,21 +83,56 @@ public class BlinkPearl extends CustomItem {
 						Block block2 = loc2.getBlock();
 						if (block.getType() == Material.AIR
 								&& block2.getType() == Material.AIR) {
-							ParticleEffects.sendToLocation(
-									ParticleEffects.TOWN_AURA, loc, 1, 1, 1, 1,
-									10);
-							ParticleEffects.sendToLocation(
-									ParticleEffects.PORTAL, e.getPlayer()
-											.getLocation(), 1, 1, 1, 1, 16);
-							e.getPlayer()
-									.getWorld()
-									.playSound(e.getPlayer().getLocation(),
-											Sound.ENDERMAN_TELEPORT, 10, 1);
-							e.getPlayer().teleport(loc);
-							delay(plugin.blinkPearlDelay, plugin,
-									delayFromLevel(getItemLevel(e.getPlayer()
-											.getItemInHand())), e.getPlayer()
-											.getName());
+							if (hook.worldGuard()) {
+								hook.wgHook();
+								if (hook.wg.canBuild(e.getPlayer(), e
+										.getPlayer().getTargetBlock(null, 100))) {
+									ParticleEffects.sendToLocation(
+											ParticleEffects.TOWN_AURA, loc, 1,
+											1, 1, 1, 10);
+									ParticleEffects.sendToLocation(
+											ParticleEffects.PORTAL, e
+													.getPlayer().getLocation(),
+											1, 1, 1, 1, 16);
+									e.getPlayer()
+											.getWorld()
+											.playSound(
+													e.getPlayer().getLocation(),
+													Sound.ENDERMAN_TELEPORT,
+													10, 1);
+									e.getPlayer().teleport(loc);
+									delay(plugin.blinkPearlDelay, plugin,
+											delayFromLevel(getItemLevel(e
+													.getPlayer()
+													.getItemInHand())), e
+													.getPlayer().getName());
+								} else {
+									e.getPlayer()
+											.sendMessage(
+													ChatColor.DARK_RED
+															+ "You don't have permission for this area");
+								}
+							} else {
+								ParticleEffects.sendToLocation(
+										ParticleEffects.TOWN_AURA, loc, 1,
+										1, 1, 1, 10);
+								ParticleEffects.sendToLocation(
+										ParticleEffects.PORTAL, e
+												.getPlayer().getLocation(),
+										1, 1, 1, 1, 16);
+								e.getPlayer()
+										.getWorld()
+										.playSound(
+												e.getPlayer().getLocation(),
+												Sound.ENDERMAN_TELEPORT,
+												10, 1);
+								e.getPlayer().teleport(loc);
+								delay(plugin.blinkPearlDelay, plugin,
+										delayFromLevel(getItemLevel(e
+												.getPlayer()
+												.getItemInHand())), e
+												.getPlayer().getName());
+							}
 						} else {
 							e.getPlayer().sendMessage(
 									ChatColor.GRAY + "Cannot blink there!");
@@ -113,23 +150,5 @@ public class BlinkPearl extends CustomItem {
 				}
 			}
 		}
-	}
-	
-	private HashSet<Byte> getTransparent(){
-		HashSet<Byte> hs = new HashSet<Byte>();
-		hs.add((byte) 6);
-		hs.add((byte) 31);
-		hs.add((byte) 32);
-		hs.add((byte) 106);
-		hs.add((byte) 78);
-		hs.add((byte) 50);
-		hs.add((byte) 75);
-		hs.add((byte) 76);
-		hs.add((byte) 93);
-		hs.add((byte) 94);
-		hs.add((byte) 149);
-		hs.add((byte) 150);
-		hs.add((byte) 30);
-		return hs;
 	}
 }

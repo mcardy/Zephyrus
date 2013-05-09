@@ -1,6 +1,7 @@
 package minny.zephyrus.items;
 
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.hooks.PluginHook;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -14,8 +15,11 @@ import org.bukkit.inventory.ShapedRecipe;
 
 public class GemOfLightning extends CustomItem {
 
+	PluginHook hook;
+
 	public GemOfLightning(Zephyrus plugin) {
 		super(plugin);
+		this.hook = new PluginHook();
 	}
 
 	@Override
@@ -61,15 +65,23 @@ public class GemOfLightning extends CustomItem {
 				&& e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(),
 						"¤bGem of Lightning")) {
-			Location loc = e.getPlayer().getTargetBlock(null, 100)
-					.getLocation();
-			e.getPlayer().getWorld().strikeLightning(loc);
-			delay(plugin.lightningGemDelay, plugin, delayFromLevel(getItemLevel(e
-					.getPlayer().getItemInHand())), e.getPlayer().getName());
+			hook.wgHook();
+			if (hook.wg.canBuild(e.getPlayer(),
+					e.getPlayer().getTargetBlock(null, 1000))) {
+				Location loc = e.getPlayer().getTargetBlock(null, 100)
+						.getLocation();
+				e.getPlayer().getWorld().strikeLightning(loc);
+				delay(plugin.lightningGemDelay, plugin,
+						delayFromLevel(getItemLevel(e.getPlayer()
+								.getItemInHand())), e.getPlayer().getName());
+			} else {
+				e.getPlayer().sendMessage(ChatColor.DARK_RED + "You don't have permission for this area");
+			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(),
 						"¤bGem of Lightning")
-				&& plugin.lightningGemDelay.containsKey(e.getPlayer().getName())) {
+				&& plugin.lightningGemDelay
+						.containsKey(e.getPlayer().getName())) {
 			int time = (Integer) plugin.lightningGemDelay.get(e.getPlayer()
 					.getName());
 			e.getPlayer().sendMessage(

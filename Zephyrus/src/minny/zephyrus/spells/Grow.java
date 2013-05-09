@@ -1,5 +1,6 @@
 package minny.zephyrus.spells;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
@@ -27,7 +28,7 @@ public class Grow extends Spell {
 
 	@Override
 	public String bookText() {
-		return "";
+		return "Grows wheat and Saplings";
 	}
 	
 	@Override
@@ -105,6 +106,10 @@ public class Grow extends Spell {
 
 	@Override
 	public Set<ItemStack> spellItems() {
-		return null;
+		Set<ItemStack> items = new HashSet<ItemStack>();
+		items.add(new ItemStack(Material.SAPLING));
+		items.add(new ItemStack(Material.BONE));
+		items.add(new ItemStack(Material.SEEDS));
+		return items;
 	}
 }

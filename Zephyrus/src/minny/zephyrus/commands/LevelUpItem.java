@@ -40,6 +40,8 @@ public class LevelUpItem extends CommandExceptions implements CommandExecutor {
 				} else {
 					player.sendMessage("The item you are holding cannot be leveled!");
 				}
+			} else {
+				needOp(sender);
 			}
 		} else {
 			inGameOnly(sender);

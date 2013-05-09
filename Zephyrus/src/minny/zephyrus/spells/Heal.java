@@ -3,29 +3,28 @@ package minny.zephyrus.spells;
 import java.util.HashSet;
 import java.util.Set;
 
-import minny.zephyrus.Zephyrus;
-
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Repair extends Spell{
+import minny.zephyrus.Zephyrus;
 
-	public Repair(Zephyrus plugin) {
+public class Heal extends Spell {
+
+	public Heal(Zephyrus plugin) {
 		super(plugin);
 	}
 
 	@Override
 	public String name() {
-		return "repair";
+		return "heal";
 	}
 
 	@Override
 	public String bookText() {
-		return "Repairs your items! Extends your tools life by 30!";
+		return "Can't you guess what this does by the title?";
 	}
-	
+
 	@Override
 	public int reqLevel() {
 		return 0;
@@ -33,33 +32,31 @@ public class Repair extends Spell{
 
 	@Override
 	public int manaCost() {
-		return 60;
+		return 20;
 	}
 
 	@Override
 	public void run(Player player) {
-		player.getItemInHand().setDurability(player.getItemInHand().getDurability());
-	}
-	
-	@Override
-	public boolean canRun(Player player) {
-		if (player.getItemInHand() != null){
-			if (player.getItemInHand().getDurability() < player.getItemInHand().getType().getMaxDurability() - 30){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	@Override
-	public String failMessage(){
-		return ChatColor.GRAY + "That item can't be repaired!";
+		player.setHealth(player.getHealth() + 1);
 	}
 
 	@Override
+	public boolean canRun(Player player) {
+		if (player.getHealth() == 20) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String failMessage(){
+		return "You are already at max health!";
+	}
+	
+	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> items = new HashSet<ItemStack>();
-		items.add(new ItemStack(Material.ANVIL));
+		items.add(new ItemStack(Material.POTION, 8197));
 		return items;
 	}
 

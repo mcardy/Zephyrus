@@ -65,5 +65,8 @@ public class LifeSuckSword extends CustomItem{
 		return recipe;
 	}
 	
-	
+	@Override
+	public boolean hasLevel(){
+		return false;
+	}
 }

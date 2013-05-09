@@ -47,6 +47,7 @@ public class Wand extends CustomItem {
 		List<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.GRAY + "Used to learn spells");
 		m.setLore(lore);
+		i.setItemMeta(m);
 		setGlow(i);
 	}
 

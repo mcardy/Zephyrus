@@ -27,6 +27,7 @@ import minny.zephyrus.spells.Enderchest;
 import minny.zephyrus.spells.Feed;
 import minny.zephyrus.spells.Fireball;
 import minny.zephyrus.spells.Grow;
+import minny.zephyrus.spells.Heal;
 import minny.zephyrus.spells.Repair;
 import minny.zephyrus.spells.Spell;
 import minny.zephyrus.utils.ManaRecharge;
@@ -124,6 +125,7 @@ public class Zephyrus extends JavaPlugin {
 		new Blink(this);
 		new Bolt(this);
 		new Grow(this);
+		new Heal(this);
 	}
 
 	public void addEnchants() {
