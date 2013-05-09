@@ -12,7 +12,6 @@ public class Repair extends Spell{
 
 	public Repair(Zephyrus plugin) {
 		super(plugin);
-		plugin.spellMap.put(this.name(), this);
 	}
 
 	@Override

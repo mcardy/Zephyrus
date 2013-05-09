@@ -1,5 +1,7 @@
 package minny.zephyrus.items;
 
+import java.util.HashSet;
+
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.utils.ParticleEffects;
 
@@ -19,9 +21,6 @@ public class BlinkPearl extends CustomItem {
 
 	public BlinkPearl(Zephyrus plugin) {
 		super(plugin);
-		plugin.getServer().addRecipe(recipe());
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		plugin.itemMap.put(this.name(), this);
 	}
 
 	@Override
@@ -69,9 +68,9 @@ public class BlinkPearl extends CustomItem {
 				if (!plugin.blinkPearlDelay
 						.containsKey(e.getPlayer().getName())) {
 					if (e.getPlayer().getTargetBlock(null, 100) != null
-							&& e.getPlayer().getTargetBlock(null, 100)
+							&& e.getPlayer().getTargetBlock(getTransparent(), 100)
 									.getType() != Material.AIR) {
-						Location loc = e.getPlayer().getTargetBlock(null, 100)
+						Location loc = e.getPlayer().getTargetBlock(getTransparent(), 100)
 								.getLocation();
 						loc.setY(loc.getY() + 1);
 						loc.setPitch(e.getPlayer().getLocation().getPitch());
@@ -114,5 +113,23 @@ public class BlinkPearl extends CustomItem {
 				}
 			}
 		}
+	}
+	
+	private HashSet<Byte> getTransparent(){
+		HashSet<Byte> hs = new HashSet<Byte>();
+		hs.add((byte) 6);
+		hs.add((byte) 31);
+		hs.add((byte) 32);
+		hs.add((byte) 106);
+		hs.add((byte) 78);
+		hs.add((byte) 50);
+		hs.add((byte) 75);
+		hs.add((byte) 76);
+		hs.add((byte) 93);
+		hs.add((byte) 94);
+		hs.add((byte) 149);
+		hs.add((byte) 150);
+		hs.add((byte) 30);
+		return hs;
 	}
 }

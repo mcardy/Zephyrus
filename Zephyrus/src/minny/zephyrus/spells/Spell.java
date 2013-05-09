@@ -21,6 +21,10 @@ public abstract class Spell extends LevelManager{
 	
 	public Spell(Zephyrus plugin){
 		super(plugin);
+		plugin.spellMap.put(this.name(), this);
+		if (this.spellItems() != null){
+			plugin.spellCraftMap.put(this.spellItems(), this);
+		}
 	}
 	
 	public abstract String name();
@@ -29,6 +33,10 @@ public abstract class Spell extends LevelManager{
 	public abstract int manaCost();
 	public abstract void run(Player player);
 	public abstract Set<ItemStack> spellItems();
+	
+	public Spell reqSpell(){
+		return null;
+	}
 	
 	public boolean canRun(Player player) {
 		return true;
@@ -63,8 +71,7 @@ public abstract class Spell extends LevelManager{
 		Location loc = bookshelf.getLocation();
 		loc.getWorld().dropItemNaturally(loc, tome.item());
 		try {
-			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE, loc, 0, 0, 0, -4, 12);
-			ParticleEffects.sendToLocation(ParticleEffects.WITCH_MAGIC, loc, 0, 0, 0, 4, 3);
+			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE, loc, 0, 0, 0, 1, 30);
 			loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 3, 12);
 		} catch (Exception e) {
 			e.printStackTrace();

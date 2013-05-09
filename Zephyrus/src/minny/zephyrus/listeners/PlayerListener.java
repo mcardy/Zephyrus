@@ -3,7 +3,6 @@ package minny.zephyrus.listeners;
 import java.io.File;
 import java.util.ArrayList;
 
-import minny.zephyrus.Hooks;
 import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.utils.ItemUtil;
@@ -28,7 +27,6 @@ public class PlayerListener extends ItemUtil implements Listener {
 	}
 
 	PlayerConfigHandler config;
-	Hooks wgplugin;
 
 	@EventHandler
 	public void onSuckHealthEnchant(EntityDamageByEntityEvent e) {

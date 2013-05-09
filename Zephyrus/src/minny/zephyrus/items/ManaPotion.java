@@ -8,6 +8,9 @@ import minny.zephyrus.Zephyrus;
 import minny.zephyrus.utils.RecipeUtil;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
@@ -20,8 +23,6 @@ public class ManaPotion extends CustomItem {
 	
 	public ManaPotion(Zephyrus plugin) {
 		super(plugin);
-		plugin.getServer().addRecipe(recipe());
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		lvl = new LevelManager(plugin);
 		util = new RecipeUtil();
 	}
@@ -58,5 +59,19 @@ public class ManaPotion extends CustomItem {
 		recipe.setIngredient('B', Material.POTION, 8192);
 		recipe.setIngredient('A', Material.GLOWSTONE_DUST);
 		return recipe;
+	}
+	
+	@EventHandler
+	public void onManaPotion(PlayerItemConsumeEvent e) {
+		if (checkName(e.getItem(), "¤bMana Potion")) {
+			Player player = e.getPlayer();
+			plugin.mana.put(player.getName(),
+					lvl.getLevel(player) * 100);
+		}
+	}
+	
+	@Override
+	public boolean hasLevel(){
+		return false;
 	}
 }

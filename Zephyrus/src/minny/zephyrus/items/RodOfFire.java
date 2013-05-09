@@ -25,9 +25,6 @@ public class RodOfFire extends CustomItem {
 		super(plugin);
 		recipe = new RecipeUtil();
 		lvl = new LevelManager(plugin);
-		plugin.getServer().addRecipe(recipe());
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		plugin.itemMap.put(this.name(), this);
 	}
 
 	@Override

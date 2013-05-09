@@ -20,8 +20,6 @@ public class SummonSkeleton extends CustomItem {
 
 	public SummonSkeleton(Zephyrus plugin) {
 		super(plugin);
-		plugin.getServer().addRecipe(recipe());
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@Override

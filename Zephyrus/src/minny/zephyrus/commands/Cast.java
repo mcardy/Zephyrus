@@ -1,17 +1,21 @@
 package minny.zephyrus.commands;
 
+import java.util.List;
+
 import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.spells.Spell;
 import minny.zephyrus.utils.CommandExceptions;
+import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class Cast extends CommandExceptions implements CommandExecutor {
+public class Cast extends CommandExceptions implements CommandExecutor, TabCompleter{
 
 	Zephyrus plugin;
 	LevelManager lvl;
@@ -58,5 +62,15 @@ public class Cast extends CommandExceptions implements CommandExecutor {
 		}
 		return false;
 	}
-
+	
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args){
+		return learned(sender);
+	}
+	
+	public List<String> learned(CommandSender p){
+		PlayerConfigHandler config;
+		config = new PlayerConfigHandler(plugin, p.getName());
+		return config.getConfig().getStringList("learned");
+	}
 }

@@ -18,7 +18,6 @@ public class Grow extends Spell {
 
 	public Grow(Zephyrus plugin) {
 		super(plugin);
-		plugin.spellMap.put(this.name(), this);
 	}
 
 	@Override

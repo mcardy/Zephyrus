@@ -48,7 +48,7 @@ public class SpellTome extends CustomItem {
 		l.add("¤7" + spell);
 		m.setLore(l);
 		m.setTitle(spell);
-		m.addPage(desc + "\n\n¤0Cast the spell with:\n¤9/cast " + spell + "\n\n¤4Learn this spell by left clicking this book!");
+		m.addPage(desc + "\n\n¤0Cast the spell with:\n¤9/cast " + spell + "\n\n¤0Learn this spell by left clicking this book!");
 		i.setItemMeta(m);
 		setGlow(i);
 	}
@@ -94,4 +94,8 @@ public class SpellTome extends CustomItem {
 		}
 	}
 
+	@Override
+	public boolean hasLevel(){
+		return false;
+	}
 }

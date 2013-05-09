@@ -14,8 +14,6 @@ public class Fireball extends Spell {
 
 	public Fireball(Zephyrus plugin) {
 		super(plugin);
-		plugin.spellMap.put(this.name(), this);
-		plugin.spellCraftMap.put(this.spellItems(), this);
 	}
 
 	@Override

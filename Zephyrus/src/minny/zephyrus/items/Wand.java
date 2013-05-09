@@ -1,11 +1,14 @@
 package minny.zephyrus.items;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.spells.Spell;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -17,13 +20,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class Wand extends CustomItem {
 
 	public Wand(Zephyrus plugin) {
 		super(plugin);
-		plugin.getServer().addRecipe(recipe());
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@Override
@@ -41,6 +43,10 @@ public class Wand extends CustomItem {
 	@Override
 	public void createItem(ItemStack i) {
 		setItemName(i, this.name());
+		ItemMeta m = i.getItemMeta();
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GRAY + "Used to learn spells");
+		m.setLore(lore);
 		setGlow(i);
 	}
 
@@ -57,7 +63,8 @@ public class Wand extends CustomItem {
 	@EventHandler
 	public void onClick(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK
-				&& e.getClickedBlock().getType() == Material.BOOKSHELF) {
+				&& e.getClickedBlock().getType() == Material.BOOKSHELF
+				& checkName(e.getPlayer().getItemInHand(), this.name())) {
 			Location loc = e.getClickedBlock().getLocation();
 			loc.setY(loc.getY() + 1);
 			Entity[] entitys = getNearbyEntities(loc, 1);
@@ -65,15 +72,38 @@ public class Wand extends CustomItem {
 				Set<ItemStack> i = getItems(entitys);
 				if (plugin.spellCraftMap.containsKey(i)) {
 					Spell s = plugin.spellCraftMap.get(i);
-					if (!(s.getLevel(e.getPlayer()) < s.reqLevel())) {
-						for (Item item : getItemEntity(entitys)){
-							item.remove();
+					if (s.reqSpell() != null) {
+						if (s.isLearned(e.getPlayer(), s.name())){
+							if (!(s.getLevel(e.getPlayer()) < s.reqLevel())) {
+								for (Item item : getItemEntity(entitys)) {
+									item.remove();
+								}
+								s.dropSpell(e.getClickedBlock(), s.name(),
+										s.bookText());
+							} else {
+								e.getPlayer()
+										.sendMessage(
+												"This spell requires level "
+														+ s.reqLevel());
+								;
+							}
+						} else {
+							e.getPlayer().sendMessage("This spell requires the knowledge of " + s.reqSpell().name());
 						}
-						s.dropSpell(e.getClickedBlock(), s.name(), s.bookText());
 					} else {
-						e.getPlayer().sendMessage(
-								"This spell requires level " + s.reqLevel());
-						;
+						if (!(s.getLevel(e.getPlayer()) < s.reqLevel())) {
+							for (Item item : getItemEntity(entitys)) {
+								item.remove();
+							}
+							s.dropSpell(e.getClickedBlock(), s.name(),
+									s.bookText());
+						} else {
+							e.getPlayer()
+									.sendMessage(
+											"This spell requires level "
+													+ s.reqLevel());
+							;
+						}
 					}
 				} else {
 					e.getPlayer().sendMessage("Spell recipe not found");
@@ -112,7 +142,7 @@ public class Wand extends CustomItem {
 		}
 		return items;
 	}
-	
+
 	public static Set<Item> getItemEntity(Entity[] entitys) {
 		Set<Item> l = new HashSet<Item>();
 		for (Entity e : entitys) {
@@ -122,6 +152,11 @@ public class Wand extends CustomItem {
 			}
 		}
 		return l;
+	}
+
+	@Override
+	public boolean hasLevel() {
+		return false;
 	}
 
 }

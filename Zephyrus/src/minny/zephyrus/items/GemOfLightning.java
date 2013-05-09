@@ -16,9 +16,6 @@ public class GemOfLightning extends CustomItem {
 
 	public GemOfLightning(Zephyrus plugin) {
 		super(plugin);
-		plugin.getServer().addRecipe(recipe());
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		plugin.itemMap.put(this.name(), this);
 	}
 
 	@Override

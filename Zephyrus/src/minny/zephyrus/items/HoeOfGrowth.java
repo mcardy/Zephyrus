@@ -19,8 +19,6 @@ public class HoeOfGrowth extends CustomItem {
 
 	public HoeOfGrowth(Zephyrus plugin) {
 		super(plugin);
-		plugin.getServer().addRecipe(recipe());
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@Override

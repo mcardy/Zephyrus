@@ -1,9 +1,11 @@
 package minny.zephyrus.spells;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -11,7 +13,6 @@ public class Feed extends Spell{
 
 	public Feed(Zephyrus plugin) {
 		super(plugin);
-		plugin.spellMap.put(this.name(), this);
 	}
 
 	@Override
@@ -41,7 +42,12 @@ public class Feed extends Spell{
 
 	@Override
 	public Set<ItemStack> spellItems() {
-		return null;
+		Set<ItemStack> items = new HashSet<ItemStack>();
+		items.add(new ItemStack(Material.PORK));
+		items.add(new ItemStack(Material.COOKED_BEEF));
+		items.add(new ItemStack(Material.COOKED_CHICKEN));
+		items.add(new ItemStack(Material.COOKED_FISH));
+		return items;
 	}
 
 }
