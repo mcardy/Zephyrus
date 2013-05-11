@@ -1,8 +1,8 @@
 package minny.zephyrus.commands;
 
-import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.items.SpellTome;
+import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.spells.Spell;
 
 import org.bukkit.Bukkit;

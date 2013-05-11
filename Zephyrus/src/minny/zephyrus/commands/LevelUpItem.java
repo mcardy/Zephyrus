@@ -2,7 +2,6 @@ package minny.zephyrus.commands;
 
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.items.CustomItem;
-import minny.zephyrus.utils.CommandExceptions;
 import minny.zephyrus.utils.ItemUtil;
 
 import org.bukkit.command.Command;
@@ -34,6 +33,7 @@ public class LevelUpItem extends CommandExceptions implements CommandExecutor {
 							.maxLevel()) {
 						int current = item.getItemLevel(player.getItemInHand());
 						item.setItemLevel(player.getItemInHand(), current + 1);
+						sender.sendMessage("You have leveled up the " + i.name());
 					} else {
 						player.sendMessage("That item cannot be leveled anymore!");
 					}

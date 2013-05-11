@@ -1,4 +1,4 @@
-package minny.zephyrus.utils;
+package minny.zephyrus;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
-import minny.zephyrus.Zephyrus;
 
 public class UpdateChecker extends BukkitRunnable {
 

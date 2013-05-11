@@ -1,6 +1,5 @@
-package minny.zephyrus.utils;
+package minny.zephyrus.player;
 
-import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
 
 import org.bukkit.entity.Player;

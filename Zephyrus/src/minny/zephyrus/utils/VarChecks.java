@@ -1,5 +1,7 @@
 package minny.zephyrus.utils;
 
+import minny.zephyrus.commands.CommandExceptions;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

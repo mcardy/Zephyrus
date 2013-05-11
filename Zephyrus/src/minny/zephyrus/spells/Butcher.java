@@ -10,7 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -40,6 +39,11 @@ public class Butcher extends Spell {
 		return 40;
 	}
 
+	@Override
+	public boolean canBind() {
+		return true;
+	}
+	
 	@Override
 	public void run(Player player) {
 		LivingEntity[] e = getNearbyEntities(player.getLocation(), 4);
@@ -72,7 +76,7 @@ public class Butcher extends Spell {
 					if (e.getLocation().distance(l) <= radius
 							&& e.getLocation().getBlock() != l.getBlock())
 						if (e instanceof LivingEntity) {
-							radiusEntities.add((Monster) e);
+							radiusEntities.add((LivingEntity) e);
 						}
 				}
 			}

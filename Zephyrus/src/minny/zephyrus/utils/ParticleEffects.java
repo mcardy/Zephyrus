@@ -79,7 +79,7 @@ public enum ParticleEffects {
 
 	public static void sendToLocation(ParticleEffects effect,
 			Location location, float offsetX, float offsetY, float offsetZ,
-			float speed, int count) throws Exception{
+			float speed, int count) throws Exception {
 		Object packet = createPacket(effect, location, offsetX, offsetY,
 				offsetZ, speed, count);
 		for (Player player : Bukkit.getOnlinePlayers()) {

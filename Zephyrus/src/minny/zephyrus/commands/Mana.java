@@ -1,7 +1,7 @@
 package minny.zephyrus.commands;
 
-import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.player.LevelManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

@@ -3,17 +3,16 @@ package minny.zephyrus.spells;
 import java.util.HashSet;
 import java.util.Set;
 
+import minny.zephyrus.Zephyrus;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import minny.zephyrus.Zephyrus;
 
 public class Frenzy extends Spell{
 
@@ -41,6 +40,11 @@ public class Frenzy extends Spell{
 		return 50;
 	}
 
+	@Override
+	public boolean canBind() {
+		return true;
+	}
+	
 	@Override
 	public void run(Player player) {
 		Monster[] e = getNearbyEntities(player.getLocation(), 24);
@@ -91,7 +95,7 @@ public class Frenzy extends Spell{
 	
 	public static Monster[] getNearbyEntities(Location l, int radius) {
 		int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
-		HashSet<Entity> radiusEntities = new HashSet<Entity>();
+		HashSet<Monster> radiusEntities = new HashSet<Monster>();
 		for (int chX = 0 - chunkRadius; chX <= chunkRadius; chX++) {
 			for (int chZ = 0 - chunkRadius; chZ <= chunkRadius; chZ++) {
 				int x = (int) l.getX(), y = (int) l.getY(), z = (int) l.getZ();
@@ -99,8 +103,8 @@ public class Frenzy extends Spell{
 						+ (chZ * 16)).getChunk().getEntities()) {
 					if (e.getLocation().distance(l) <= radius
 							&& e.getLocation().getBlock() != l.getBlock())
-						if (e instanceof LivingEntity){
-							radiusEntities.add(e);
+						if (e instanceof Monster){
+							radiusEntities.add((Monster) e);
 						}
 				}
 			}

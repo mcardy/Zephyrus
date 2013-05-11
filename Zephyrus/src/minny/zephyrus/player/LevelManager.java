@@ -1,5 +1,6 @@
-package minny.zephyrus;
+package minny.zephyrus.player;
 
+import minny.zephyrus.Zephyrus;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.ChatColor;

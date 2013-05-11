@@ -23,6 +23,8 @@ import minny.zephyrus.items.ManaPotion;
 import minny.zephyrus.items.RodOfFire;
 import minny.zephyrus.items.Wand;
 import minny.zephyrus.listeners.PlayerListener;
+import minny.zephyrus.player.LevelManager;
+import minny.zephyrus.player.ManaRecharge;
 import minny.zephyrus.spells.Blink;
 import minny.zephyrus.spells.Bolt;
 import minny.zephyrus.spells.Butcher;
@@ -39,8 +41,6 @@ import minny.zephyrus.spells.Repair;
 import minny.zephyrus.spells.Spell;
 import minny.zephyrus.spells.Vanish;
 import minny.zephyrus.utils.ConfigHandler;
-import minny.zephyrus.utils.ManaRecharge;
-import minny.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;

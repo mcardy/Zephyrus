@@ -1,8 +1,8 @@
 package minny.zephyrus.items;
 
-import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.hooks.PluginHook;
+import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.utils.RecipeUtil;
 
 import org.bukkit.ChatColor;

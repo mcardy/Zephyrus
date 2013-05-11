@@ -2,9 +2,9 @@ package minny.zephyrus.spells;
 
 import java.util.Set;
 
-import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.items.SpellTome;
+import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.utils.ConfigHandler;
 import minny.zephyrus.utils.ParticleEffects;
 import minny.zephyrus.utils.PlayerConfigHandler;
@@ -40,6 +40,10 @@ public abstract class Spell extends LevelManager{
 	public abstract int manaCost();
 	public abstract void run(Player player);
 	public abstract Set<ItemStack> spellItems();
+	
+	public boolean canBind() {
+		return true;
+	}
 	
 	public int getManaCost() {
 		int i = spellConfig.getConfig().getInt(this.name());

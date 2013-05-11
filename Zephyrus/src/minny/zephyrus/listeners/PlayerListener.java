@@ -3,10 +3,10 @@ package minny.zephyrus.listeners;
 import java.io.File;
 import java.util.ArrayList;
 
-import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.player.LevelManager;
+import minny.zephyrus.player.ManaRecharge;
 import minny.zephyrus.utils.ItemUtil;
-import minny.zephyrus.utils.ManaRecharge;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.ChatColor;

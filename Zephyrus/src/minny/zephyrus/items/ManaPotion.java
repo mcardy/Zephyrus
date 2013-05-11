@@ -3,8 +3,8 @@ package minny.zephyrus.items;
 import java.util.ArrayList;
 import java.util.List;
 
-import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.utils.RecipeUtil;
 
 import org.bukkit.Material;

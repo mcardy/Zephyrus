@@ -1,7 +1,7 @@
 package minny.zephyrus.commands;
 
-import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.player.LevelManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -27,10 +27,12 @@ public class LevelUp extends ZephyrusCommand implements CommandExecutor{
 				if (args.length == 0) {
 					Player player = (Player) sender;
 					lvl.levelUp(player);
+					sender.sendMessage("You have leveled up");
 				} else {
 					if (isOnline(args[0])){
 						Player player = Bukkit.getPlayer(args[0]);
 						lvl.levelUp(player);
+						sender.sendMessage("You have leveled up " + player.getName());
 					} else {
 						notOnline(sender);
 					}

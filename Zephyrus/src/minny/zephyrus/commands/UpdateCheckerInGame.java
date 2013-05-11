@@ -1,4 +1,4 @@
-package minny.zephyrus.utils;
+package minny.zephyrus.commands;
 
 import java.io.BufferedReader;
 import java.io.IOException;

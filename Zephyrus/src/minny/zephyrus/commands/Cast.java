@@ -2,10 +2,9 @@ package minny.zephyrus.commands;
 
 import java.util.List;
 
-import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.spells.Spell;
-import minny.zephyrus.utils.CommandExceptions;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.command.Command;

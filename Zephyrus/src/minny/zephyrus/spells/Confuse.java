@@ -67,6 +67,11 @@ public class Confuse extends Spell {
 	}
 
 	@Override
+	public boolean canBind() {
+		return true;
+	}
+	
+	@Override
 	public String failMessage() {
 		return ChatColor.RED + "Zephyrus is not fully compatible with this version of Bukkit.This spell has been disabled :(";
 	}
