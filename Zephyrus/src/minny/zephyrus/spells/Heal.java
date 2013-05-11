@@ -56,7 +56,7 @@ public class Heal extends Spell {
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> items = new HashSet<ItemStack>();
-		items.add(new ItemStack(Material.POTION, 8197));
+		items.add(new ItemStack(Material.GOLDEN_APPLE));
 		return items;
 	}
 

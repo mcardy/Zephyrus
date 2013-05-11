@@ -38,19 +38,25 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 						Spell spell = plugin.spellMap.get(args[0]);
 						Player player = (Player) sender;
 						if (spell.isLearned(player, spell.name())
-								 || spell.hasPermission(player, spell)) {
+								|| spell.hasPermission(player, spell)) {
 							if (player.getItemInHand().getItemMeta()
 									.getDisplayName().contains("¤6Wand")) {
-								ItemStack i = player.getItemInHand();
-								List<String> list = new ArrayList<String>();
-								list.add(ChatColor.GRAY + "Bound spell: "
-										+ ChatColor.DARK_GRAY + spell.name());
-								ItemMeta m = i.getItemMeta();
-								m.setLore(list);
-								i.setItemMeta(m);
-								player.sendMessage("Bound " + ChatColor.GOLD
-										+ spell.name() + ChatColor.WHITE
-										+ " to that wand.");
+								if (spell.canBind()) {
+									ItemStack i = player.getItemInHand();
+									List<String> list = new ArrayList<String>();
+									list.add(ChatColor.GRAY + "Bound spell: "
+											+ ChatColor.DARK_GRAY
+											+ spell.name());
+									ItemMeta m = i.getItemMeta();
+									m.setLore(list);
+									i.setItemMeta(m);
+									player.sendMessage("Bound "
+											+ ChatColor.GOLD + spell.name()
+											+ ChatColor.WHITE
+											+ " to that wand.");
+								} else {
+									sender.sendMessage("That spell cannot be bound");
+								}
 							} else {
 								sender.sendMessage("You need to be holding a wand!");
 							}
