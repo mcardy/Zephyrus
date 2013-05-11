@@ -34,7 +34,7 @@ public class Vanish extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 100;
+		return 20;
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public class Bolt extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 100;
+		return 20;
 	}
 
 	@Override
@@ -51,6 +51,7 @@ public class Bolt extends Spell {
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> items = new HashSet<ItemStack>();
 		items.add(new ItemStack(Material.EMERALD));
+		items.add(new ItemStack(Material.FLINT_AND_STEEL));
 		return items;
 	}
 	

@@ -10,6 +10,7 @@ import minny.zephyrus.commands.Cast;
 import minny.zephyrus.commands.LevelUp;
 import minny.zephyrus.commands.LevelUpItem;
 import minny.zephyrus.commands.Mana;
+import minny.zephyrus.commands.SpellTomeCmd;
 import minny.zephyrus.enchantments.GlowEffect;
 import minny.zephyrus.enchantments.LifeSuck;
 import minny.zephyrus.hooks.PluginHook;
@@ -37,10 +38,12 @@ import minny.zephyrus.spells.Punch;
 import minny.zephyrus.spells.Repair;
 import minny.zephyrus.spells.Spell;
 import minny.zephyrus.spells.Vanish;
+import minny.zephyrus.utils.ConfigHandler;
 import minny.zephyrus.utils.ManaRecharge;
 import minny.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -50,12 +53,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Zephyrus extends JavaPlugin {
 
 	PlayerListener playerListener = new PlayerListener(this);
-
+	ConfigHandler config = new ConfigHandler(this, "spellconfig.yml");
 	LevelManager lvl = new LevelManager(this);
 
 	public GlowEffect glow = new GlowEffect(120);
 	public LifeSuck suck = new LifeSuck(121);
 
+	public boolean isUpdate;
+	public String changelog;
+	
 	public Map<String, Object> fireRodDelay;
 	public Map<String, Object> lightningGemDelay;
 	public Map<String, Object> blinkPearlDelay;
@@ -94,6 +100,13 @@ public class Zephyrus extends JavaPlugin {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			this.mana.put(p.getName(), lvl.loadMana(p));
 			new ManaRecharge(this, p).runTaskLater(this, 30);
+		}
+
+		try {
+			new CraftLivingEntity(null, null);
+		} catch (NoClassDefFoundError err) {
+			getLogger().warning("This version of Zephyrus is not fully compatible with your version of CraftBukkit." +
+					" Some features have been disabled!");
 		}
 
 		saveDefaultConfig();
@@ -139,6 +152,17 @@ public class Zephyrus extends JavaPlugin {
 		new Punch(this);
 		new Repair(this);
 		new Vanish(this);
+		
+		/*config.saveDefaultConfig();
+		Set<String> keys = this.spellMap.keySet();
+		Object[] string = keys.toArray();
+		for (Object s : string){
+			Spell spell = this.spellMap.get(s);
+			if (!config.getConfig().contains(spell.name())){
+				config.getConfig().set(spell.name(), spell.manaCost());
+			}
+		}
+		config.saveConfig();*/
 	}
 
 	public void addEnchants() {
@@ -169,5 +193,6 @@ public class Zephyrus extends JavaPlugin {
 		getCommand("mana").setExecutor(new Mana(this));
 		getCommand("bind").setExecutor(new Bind(this));
 		getCommand("bind").setTabCompleter(new Bind(this));
+		getCommand("spelltome").setExecutor(new SpellTomeCmd(this));
 	}
 }

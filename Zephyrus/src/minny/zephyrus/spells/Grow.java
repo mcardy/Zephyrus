@@ -38,7 +38,7 @@ public class Grow extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 25;
+		return 5;
 	}
 
 	@Override

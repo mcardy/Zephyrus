@@ -12,9 +12,8 @@ import minny.zephyrus.Zephyrus;
 
 public class UpdateChecker extends BukkitRunnable {
 
-	String check = "https://raw.github.com/minnymin3/Zephyrus/master/version";
-	String changelog = "https://raw.github.com/minnymin3/Zephyrus/master/Changelog";
-	public boolean isUpdate;
+	String checkURL = "https://raw.github.com/minnymin3/Zephyrus/master/version";
+	String changelogURL = "https://raw.github.com/minnymin3/Zephyrus/master/Changelog";
 	Zephyrus plugin;
 
 	public UpdateChecker(Zephyrus plugin) {
@@ -28,7 +27,7 @@ public class UpdateChecker extends BukkitRunnable {
 
 			try {
 				log.info("Checking for a new version...");
-				URL url = new URL(check);
+				URL url = new URL(checkURL);
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						url.openStream()));
 				String str;
@@ -36,29 +35,30 @@ public class UpdateChecker extends BukkitRunnable {
 					String line = str;
 
 					if (isUpdate(current, line) == -1) {
-						log.info("Zephyrus is out of date!");
-						log.info("dev.bukkit.org/server-mods/Zephyrus");
-						this.isUpdate = true;
+						log.warning("Zephyrus is out of date! Get the new version at:");
+						log.warning("dev.bukkit.org/server-mods/Zephyrus");
+						plugin.isUpdate = true;
 						try {
-							URL change = new URL(changelog);
+							URL change = new URL(changelogURL);
 							BufferedReader cl = new BufferedReader(
 									new InputStreamReader(change.openStream()));
 							String stri;
 							while ((stri = cl.readLine()) != null) {
 								String scl = stri;
 								log.info("[Changelog] " + scl);
+								plugin.changelog = scl;
 							}
 						} catch (IOException e) {
 							log.severe("Unable to get Changelog");
 						}
 						break;
 					} else if (isUpdate(current, line) == 1) {
-						this.isUpdate = false;
+						plugin.isUpdate = false;
 						log.info("You are running a developement build of Zephyrus");
 						break;
 					} else if (isUpdate(current, line) == 0) {
 						log.info("Zephyrus is up to date!");
-						this.isUpdate = false;
+						plugin.isUpdate = false;
 						break;
 					}
 				}

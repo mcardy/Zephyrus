@@ -32,7 +32,7 @@ public class Feed extends Spell{
 
 	@Override
 	public int manaCost() {
-		return 10;
+		return 2;
 	}
 
 	@Override

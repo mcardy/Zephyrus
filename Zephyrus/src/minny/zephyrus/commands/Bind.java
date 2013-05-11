@@ -37,7 +37,8 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 					if (plugin.spellMap.containsKey(args[0])) {
 						Spell spell = plugin.spellMap.get(args[0]);
 						Player player = (Player) sender;
-						if (spell.isLearned(player, spell.name())) {
+						if (spell.isLearned(player, spell.name())
+								 || spell.hasPermission(player, spell)) {
 							if (player.getItemInHand().getItemMeta()
 									.getDisplayName().contains("¤6Wand")) {
 								ItemStack i = player.getItemInHand();

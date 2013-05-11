@@ -5,6 +5,7 @@ import java.util.Set;
 import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.items.SpellTome;
+import minny.zephyrus.utils.ConfigHandler;
 import minny.zephyrus.utils.ParticleEffects;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
@@ -20,6 +21,7 @@ import org.bukkit.util.Vector;
 public abstract class Spell extends LevelManager{
 
 	PlayerConfigHandler config;
+	ConfigHandler spellConfig;
 	
 	public Spell(Zephyrus plugin){
 		super(plugin);
@@ -29,6 +31,7 @@ public abstract class Spell extends LevelManager{
 		if (this.spellItems() != null && !plugin.spellCraftMap.containsKey(this.spellItems())){
 			plugin.spellCraftMap.put(this.spellItems(), this);
 		}
+		spellConfig = new ConfigHandler(plugin, "spellconfig.yml");
 	}
 	
 	public abstract String name();
@@ -37,6 +40,11 @@ public abstract class Spell extends LevelManager{
 	public abstract int manaCost();
 	public abstract void run(Player player);
 	public abstract Set<ItemStack> spellItems();
+	
+	public int getManaCost() {
+		int i = spellConfig.getConfig().getInt(this.name());
+		return i;
+	}
 	
 	public Spell reqSpell(){
 		return null;
@@ -63,8 +71,13 @@ public abstract class Spell extends LevelManager{
 	}
 	
 	public boolean hasPermission(Player p, Spell spell){
-		if (p.hasPermission("zephyrus.cast." + spell.name())){
-			return true;
+		if (plugin.getConfig().getBoolean("OpKnowledge")){
+			if (p.hasPermission("zephyrus.cast." + spell.name())){
+				return true;
+			}
+			if (p.isOp()){
+				return true;
+			}
 		}
 		return false;
 	}

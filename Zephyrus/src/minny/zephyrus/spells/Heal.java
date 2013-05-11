@@ -32,7 +32,7 @@ public class Heal extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 20;
+		return 2;
 	}
 
 	@Override

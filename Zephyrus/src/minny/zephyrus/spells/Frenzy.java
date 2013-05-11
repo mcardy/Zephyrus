@@ -38,7 +38,7 @@ public class Frenzy extends Spell{
 
 	@Override
 	public int manaCost() {
-		return 250;
+		return 50;
 	}
 
 	@Override
@@ -59,8 +59,7 @@ public class Frenzy extends Spell{
 	@Override
 	public boolean canRun(Player player) {
 		try {
-			@SuppressWarnings("unused")
-			CraftLivingEntity test = new CraftLivingEntity(null, null);
+			new CraftLivingEntity(null, null);
 			return true;
 		} catch (NoClassDefFoundError err) {
 			return false;
@@ -69,7 +68,7 @@ public class Frenzy extends Spell{
 
 	@Override
 	public String failMessage() {
-		return ChatColor.RED + "Zephyrus is not fully compatible with this version of Bukkit. This spell has been disabled :(";
+		return ChatColor.RED + "Zephyrus is not fully compatible with this version of Bukkit.This spell has been disabled :(";
 	}
 	
 	@Override

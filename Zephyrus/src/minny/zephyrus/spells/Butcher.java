@@ -37,7 +37,7 @@ public class Butcher extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 200;
+		return 40;
 	}
 
 	@Override

@@ -33,12 +33,12 @@ public class Repair extends Spell{
 
 	@Override
 	public int manaCost() {
-		return 60;
+		return 12;
 	}
 
 	@Override
 	public void run(Player player) {
-		player.getItemInHand().setDurability(player.getItemInHand().getDurability());
+		player.getItemInHand().setDurability((short) (player.getItemInHand().getDurability() + 30));
 	}
 	
 	@Override

@@ -34,14 +34,12 @@ public class Cast extends CommandExceptions implements CommandExecutor, TabCompl
 				if (plugin.spellMap.containsKey(args[0])) {
 					Player player = (Player) sender;
 					Spell spell = plugin.spellMap.get(args[0].toLowerCase());
-					if (spell.isLearned(player, spell.name())) {
-						// || spell.hasPermission(player, spell)
-						// || player.isOp()
-						// || player.hasPermission("zephyrus.cast.*")) {
-						if (!(lvl.getMana(player) < spell.manaCost())) {
+					if (spell.isLearned(player, spell.name())
+						 || spell.hasPermission(player, spell)) {
+						if (!(lvl.getMana(player) < spell.manaCost() * plugin.getConfig().getInt("ManaMultiplier"))) {
 							if (spell.canRun(player)) {
 								spell.run(player);
-								spell.drainMana(player, spell.manaCost());
+								spell.drainMana(player, spell.manaCost() * plugin.getConfig().getInt("ManaMultiplier"));
 							} else {
 								if (spell.failMessage() != ""){
 									player.sendMessage(spell.failMessage());

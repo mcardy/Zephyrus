@@ -2,14 +2,14 @@ package minny.zephyrus.commands;
 
 import minny.zephyrus.LevelManager;
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.utils.CommandExceptions;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class LevelUp extends CommandExceptions implements CommandExecutor{
+public class LevelUp extends ZephyrusCommand implements CommandExecutor{
 
 	Zephyrus plugin;
 	LevelManager lvl;
@@ -24,8 +24,17 @@ public class LevelUp extends CommandExceptions implements CommandExecutor{
 			String[] args) {
 		if (sender instanceof Player) {
 			if (sender.hasPermission("zephyrus.levelup") || sender.isOp()){
-				Player player = (Player) sender;
-				lvl.levelUp(player);
+				if (args.length == 0) {
+					Player player = (Player) sender;
+					lvl.levelUp(player);
+				} else {
+					if (isOnline(args[0])){
+						Player player = Bukkit.getPlayer(args[0]);
+						lvl.levelUp(player);
+					} else {
+						notOnline(sender);
+					}
+				}
 			} else {
 				needOp(sender);
 			}

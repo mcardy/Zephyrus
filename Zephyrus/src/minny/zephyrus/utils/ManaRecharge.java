@@ -27,7 +27,7 @@ public class ManaRecharge extends BukkitRunnable {
 					plugin.mana.put(player.getName(), lvl.getMana(player) + 1);
 				}
 			}
-			new ManaRecharge(plugin, player).runTaskLater(plugin, 30);
+			new ManaRecharge(plugin, player).runTaskLater(plugin, plugin.getConfig().getInt("ManaRegen"));
 		}
 	}
 

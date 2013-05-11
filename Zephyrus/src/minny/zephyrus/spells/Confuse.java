@@ -32,12 +32,12 @@ public class Confuse extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public int manaCost() {
-		return 100;
+		return 20;
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class Confuse extends Spell {
 
 	@Override
 	public String failMessage() {
-		return ChatColor.RED + "Zephyrus is not fully compatible with this version of Bukkit. This spell has been disabled :(";
+		return ChatColor.RED + "Zephyrus is not fully compatible with this version of Bukkit.This spell has been disabled :(";
 	}
 
 	@Override

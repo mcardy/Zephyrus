@@ -38,7 +38,7 @@ public class Fireball extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 50;
+		return 10;
 	}
 
 	@Override
@@ -59,7 +59,6 @@ public class Fireball extends Spell {
 		if (hook.worldGuard()) {
 			hook.wgHook();
 			if (hook.wg.canBuild(player, player.getTargetBlock(null, 1000))){
-				player.sendMessage("Can Build");
 				return true;
 			} else {
 				return false;

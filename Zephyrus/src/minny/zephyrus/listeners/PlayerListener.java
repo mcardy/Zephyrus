@@ -9,6 +9,7 @@ import minny.zephyrus.utils.ItemUtil;
 import minny.zephyrus.utils.ManaRecharge;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +21,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class PlayerListener extends ItemUtil implements Listener {
 
 	LevelManager lvl;
-
+	
 	public PlayerListener(Zephyrus plugin) {
 		super(plugin);
 		lvl = new LevelManager(plugin);
@@ -28,6 +29,18 @@ public class PlayerListener extends ItemUtil implements Listener {
 
 	PlayerConfigHandler config;
 
+	@EventHandler
+	public void onUpdateMessage(PlayerJoinEvent e) {
+		if (e.getPlayer().hasPermission("zephyrus.notify")){
+			Player player = e.getPlayer();
+			if (plugin.isUpdate){
+				player.sendMessage(ChatColor.RED + "There is a new version of Zephyrus out!");
+				player.sendMessage(ChatColor.DARK_AQUA + "Get it at: " + ChatColor.GRAY + "dev.bukkit.org/server-mods/Zephyrus");
+				player.sendMessage(ChatColor.DARK_AQUA + "[ChangeLog] " + plugin.changelog);
+			}
+		}
+	}
+	
 	@EventHandler
 	public void onSuckHealthEnchant(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Player) {

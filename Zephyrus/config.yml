@@ -1,1 +1,21 @@
+# _______  _______  _______                    _______           _______ 
+#/ ___   )(  ____ \(  ____ )|\     /||\     /|(  ____ )|\     /|(  ____ \
+#\/   )  || (    \/| (    )|| )   ( |( \   / )| (    )|| )   ( || (    \/
+#    /   )| (__    | (____)|| (___) | \ (_) / | (____)|| |   | || (_____ 
+#   /   / |  __)   |  _____)|  ___  |  \   /  |     __)| |   | |(_____  )
+#  /   /  | (      | (      | (   ) |   ) (   | (\ (   | |   | |      ) |
+# /   (_/\| (____/\| )      | )   ( |   | |   | ) \ \__| (___) |/\____) |
+#(_______/(_______/|/       |/     \|   \_/   |/   \__/(_______)\_______)
+#
+#Enables or disables the update checker.
 UpdateChecker: true
+
+#Enables giving players spells via permissions.
+OpKnowledge: true
+
+#Casting mana multiplier where 5 is default. Change only if you think the mana costs are over/under powered.
+#Only use positive numbers. 0 will drain no mana.
+ManaMultiplier: 5
+
+#The rate of one mana regeneration in ticks. 30 by default.
+ManaRegen: 30

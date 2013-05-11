@@ -37,7 +37,7 @@ public class Dig extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 5;
+		return 1;
 	}
 
 	@Override

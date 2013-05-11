@@ -93,11 +93,11 @@ public class Wand extends CustomItem {
 								e.getPlayer().sendMessage(
 										"This spell requires level "
 												+ s.reqLevel());
-								;
 							}
 						} else {
 							e.getPlayer().sendMessage(
 									"This spell requires the knowledge of "
+											+ ChatColor.GOLD
 											+ s.reqSpell().name());
 						}
 					} else {
@@ -186,7 +186,7 @@ public class Wand extends CustomItem {
 				if (!(lvl.getMana(player) < spell.manaCost())) {
 					if (spell.canRun(player)) {
 						spell.run(player);
-						spell.drainMana(player, spell.manaCost());
+						spell.drainMana(player, spell.manaCost() * plugin.getConfig().getInt("ManaMultiplier"));
 					} else {
 						if (spell.failMessage() != "") {
 							player.sendMessage(spell.failMessage());

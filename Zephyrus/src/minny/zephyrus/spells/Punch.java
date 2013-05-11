@@ -36,7 +36,7 @@ public class Punch extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 10;
+		return 2;
 	}
 
 	@Override
@@ -52,6 +52,11 @@ public class Punch extends Spell {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public String failMessage(){
+		return "Nothing to punch!";
 	}
 	
 	@Override
