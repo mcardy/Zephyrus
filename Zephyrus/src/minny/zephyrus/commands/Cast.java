@@ -8,7 +8,6 @@ import minny.zephyrus.spells.Spell;
 import minny.zephyrus.utils.CommandExceptions;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,7 +29,7 @@ public class Cast extends CommandExceptions implements CommandExecutor, TabCompl
 			String label, String[] args) {
 		if (sender instanceof Player) {
 			if (args.length < 1) {
-				sender.sendMessage(ChatColor.GREEN + "Hello!");
+				sender.sendMessage("Specify a spell to cast!");
 			} else {
 				if (plugin.spellMap.containsKey(args[0])) {
 					Player player = (Player) sender;
@@ -44,7 +43,9 @@ public class Cast extends CommandExceptions implements CommandExecutor, TabCompl
 								spell.run(player);
 								spell.drainMana(player, spell.manaCost());
 							} else {
-								player.sendMessage(spell.failMessage());
+								if (spell.failMessage() != ""){
+									player.sendMessage(spell.failMessage());
+								}
 							}
 						} else {
 							player.sendMessage("Not enough mana!");

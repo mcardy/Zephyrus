@@ -6,5 +6,6 @@ commands:
    levelupitem:
    cast:
    mana:
+   bind:
 permissions:
 load: STARTUP

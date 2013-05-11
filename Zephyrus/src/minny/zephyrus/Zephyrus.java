@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import minny.zephyrus.commands.Bind;
 import minny.zephyrus.commands.Cast;
 import minny.zephyrus.commands.LevelUp;
 import minny.zephyrus.commands.LevelUpItem;
@@ -23,13 +24,19 @@ import minny.zephyrus.items.Wand;
 import minny.zephyrus.listeners.PlayerListener;
 import minny.zephyrus.spells.Blink;
 import minny.zephyrus.spells.Bolt;
+import minny.zephyrus.spells.Butcher;
+import minny.zephyrus.spells.Confuse;
+import minny.zephyrus.spells.Dig;
 import minny.zephyrus.spells.Enderchest;
 import minny.zephyrus.spells.Feed;
 import minny.zephyrus.spells.Fireball;
+import minny.zephyrus.spells.Frenzy;
 import minny.zephyrus.spells.Grow;
 import minny.zephyrus.spells.Heal;
+import minny.zephyrus.spells.Punch;
 import minny.zephyrus.spells.Repair;
 import minny.zephyrus.spells.Spell;
+import minny.zephyrus.spells.Vanish;
 import minny.zephyrus.utils.ManaRecharge;
 import minny.zephyrus.utils.UpdateChecker;
 
@@ -118,14 +125,20 @@ public class Zephyrus extends JavaPlugin {
 	}
 
 	public void addSpells() {
-		new Fireball(this);
-		new Feed(this);
-		new Enderchest(this);
-		new Repair(this);
 		new Blink(this);
 		new Bolt(this);
+		new Butcher(this);
+		new Confuse(this);
+		new Dig(this);
+		new Enderchest(this);
+		new Fireball(this);
+		new Frenzy(this);
+		new Feed(this);
 		new Grow(this);
 		new Heal(this);
+		new Punch(this);
+		new Repair(this);
+		new Vanish(this);
 	}
 
 	public void addEnchants() {
@@ -154,5 +167,7 @@ public class Zephyrus extends JavaPlugin {
 		getCommand("cast").setExecutor(new Cast(this));
 		getCommand("cast").setTabCompleter(new Cast(this));
 		getCommand("mana").setExecutor(new Mana(this));
+		getCommand("bind").setExecutor(new Bind(this));
+		getCommand("bind").setTabCompleter(new Bind(this));
 	}
 }

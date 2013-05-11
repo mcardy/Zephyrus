@@ -10,10 +10,12 @@ import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 public abstract class Spell extends LevelManager{
 
@@ -21,8 +23,10 @@ public abstract class Spell extends LevelManager{
 	
 	public Spell(Zephyrus plugin){
 		super(plugin);
-		plugin.spellMap.put(this.name(), this);
-		if (this.spellItems() != null){
+		if (!plugin.spellMap.containsKey(this.name())){
+			plugin.spellMap.put(this.name(), this);
+		}
+		if (this.spellItems() != null && !plugin.spellCraftMap.containsKey(this.spellItems())){
 			plugin.spellCraftMap.put(this.spellItems(), this);
 		}
 	}
@@ -66,14 +70,15 @@ public abstract class Spell extends LevelManager{
 	}
 
 	public void dropSpell(Block bookshelf, String name, String desc){
-		bookshelf.breakNaturally();
+		bookshelf.setType(Material.AIR);
 		SpellTome tome = new SpellTome(plugin, name, desc);
 		Location loc = bookshelf.getLocation();
-		loc.getWorld().dropItemNaturally(loc, tome.item());
-		loc.setX(loc.getX() + 0.6);
-		loc.setZ(loc.getZ() + 0.6);
+		loc.setX(loc.getX() + 0.5);
+		loc.setZ(loc.getZ() + 0.5);
+		loc.getWorld().dropItem(loc.add(0, +1, 0), tome.item()).setVelocity(new Vector(0, 0, 0));
 		try {
 			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE, loc, 0, 0, 0, 1, 30);
+			ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER, loc, 0, 0, 0,5, 4);
 			loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 3, 12);
 		} catch (Exception e) {
 			e.printStackTrace();
