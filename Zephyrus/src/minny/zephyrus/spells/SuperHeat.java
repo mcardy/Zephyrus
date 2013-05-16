@@ -120,7 +120,7 @@ public class SuperHeat extends Spell {
 		if (hook.worldGuard()) {
 			hook.wgHook();
 			if (!hook.wg.canBuild(player, player.getTargetBlock(null, 7))) {
-				return false;re
+				return false;
 			}
 		}
 		Material block = player.getTargetBlock(null, 7).getType();

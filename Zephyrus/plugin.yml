@@ -16,18 +16,25 @@ permissions:
    zephyrus.cast:
       default: true
       description: Allows access to the /cast command.
+   zephyrus.mana:
+      default: true
+      description: Allows access to the /mana command.
+   zephyrus.level:
+      default: true
+      description: Allows access to the /level command.
    zephyrus.levelup:
       default: op
       description: Allows access to the /levelup command.
    zephyrus.levelup.item:
       default: op
       description: Allows access to the /levelupitem command.
-   zephyrus.mana:
-      default: true
-      description: Allows access to the /mana command.
    zephyrus.mana.other:
       default: op
       description: Allows access to the /mana [player] command.
+   zephyrus.level.other:
+      default: op
+      description: Allows access to the /level [player] command.
+   
    zephyrus.craft.*:
       default: true
       children:
@@ -50,6 +57,7 @@ permissions:
          zephyrus.spell.enderchest: true
          zephyrus.spell.feed: true
          zephyrus.spell.fireball: true
+         zephyrus.spell.fly: true
          zephyrus.spell.frenzy: true
          zephyrus.spell.grow: true
          zephyrus.spell.heal: true

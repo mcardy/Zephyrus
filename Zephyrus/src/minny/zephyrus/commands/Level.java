@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Level extends ZephyrusCommand implements CommandExecutor {
-	
+
 	LevelManager lvl;
 	Zephyrus plugin;
 
@@ -24,8 +24,12 @@ public class Level extends ZephyrusCommand implements CommandExecutor {
 			String label, String[] args) {
 		if (sender instanceof Player) {
 			if (args.length == 0) {
-				Player player = (Player) sender;
-				lvl.displayLevel(player);
+				if (hasPerm(sender, "zephyrus.level")) {
+					Player player = (Player) sender;
+					lvl.displayLevel(player);
+				} else {
+					needOp(sender);
+				}
 			} else {
 				if (hasPerm(sender, "zephyrus.level.other") || isOp(sender)) {
 					if (isOnline(args[0])) {

@@ -24,8 +24,12 @@ public class Mana extends ZephyrusCommand implements CommandExecutor {
 			String label, String[] args) {
 		if (sender instanceof Player) {
 			if (args.length == 0) {
-				Player player = (Player) sender;
-				lvl.displayMana(player);
+				if (hasPerm(sender, "zephyrus.mana") || isOp(sender)) {
+					Player player = (Player) sender;
+					lvl.displayMana(player);
+				} else {
+					needOp(sender);
+				}
 			} else {
 				if (hasPerm(sender, "zephyrus.mana.other") || isOp(sender)) {
 					if (isOnline(args[0])) {

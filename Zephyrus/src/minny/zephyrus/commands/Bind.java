@@ -30,10 +30,10 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 			String label, String[] args) {
 
 		if (sender instanceof Player) {
-			if (args.length == 0) {
-				sender.sendMessage("Specify a spell to bind!");
-			} else {
-				if (sender.hasPermission("zephyrus.bind")) {
+			if (hasPerm(sender, "zephyrus.bind"))
+				if (args.length == 0) {
+					sender.sendMessage("Specify a spell to bind!");
+				} else {
 					if (plugin.spellMap.containsKey(args[0])) {
 						Spell spell = plugin.spellMap.get(args[0]);
 						Player player = (Player) sender;
@@ -63,10 +63,13 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 						} else {
 							sender.sendMessage("You do not know that spell!");
 						}
+
 					} else {
 						sender.sendMessage("You do not know that spell!");
 					}
 				}
+			else {
+				needOp(sender);
 			}
 		} else {
 			inGameOnly(sender);
