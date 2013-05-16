@@ -19,3 +19,7 @@ ManaMultiplier: 5
 
 #The rate of one mana regeneration in ticks. 30 by default.
 ManaRegen: 30
+
+#The balancing number for level progression. 
+#Zephyrus takes the players current level, multiplies it by this number and subtracts 12.
+LevelBalance: 40

@@ -89,11 +89,10 @@ public class Frenzy extends Spell{
 
 	@Override
 	public Spell reqSpell(){
-		Confuse c = new Confuse(plugin);
-		return c;
+		return new Confuse(plugin);
 	}
 	
-	public static Monster[] getNearbyEntities(Location l, int radius) {
+	private static Monster[] getNearbyEntities(Location l, int radius) {
 		int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
 		HashSet<Monster> radiusEntities = new HashSet<Monster>();
 		for (int chX = 0 - chunkRadius; chX <= chunkRadius; chX++) {

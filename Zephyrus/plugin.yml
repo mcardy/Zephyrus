@@ -1,6 +1,6 @@
 name: Zephyrus
 main: minny.zephyrus.Zephyrus
-version: 0.1.0
+version: 0.2.0
 commands:
    levelup:
    levelupitem:
@@ -8,6 +8,7 @@ commands:
    mana:
    bind:
    spelltome:
+   level:
 permissions:
    zephyrus.bind:
       default: true
@@ -27,4 +28,35 @@ permissions:
    zephyrus.mana.other:
       default: op
       description: Allows access to the /mana [player] command.
+   zephyrus.craft.*:
+      default: true
+      children:
+         zephyrus.craft.blinkpearl: true
+         zephyrus.craft.lightninggem: true
+         zephyrus.craft.growhoe: true
+         zephyrus.craft.lifesuck: true
+         zephyrus.craft.mana: true
+         zephyrus.craft.firerod: true
+         zephyrus.craft.wand: true
+   zephyrus.spell.*:
+      default: true
+      children:
+         zephyrus.spell.armour: true
+         zephyrus.spell.blink: true
+         zephyrus.spell.bolt: true
+         zephyrus.spell.butcher: true
+         zephyrus.spell.confuse: true
+         zephyrus.spell.dig: true
+         zephyrus.spell.enderchest: true
+         zephyrus.spell.feed: true
+         zephyrus.spell.fireball: true
+         zephyrus.spell.frenzy: true
+         zephyrus.spell.grow: true
+         zephyrus.spell.heal: true
+         zephyrus.spell.phase: true
+         zephyrus.spell.punch: true
+         zephyrus.spell.repair: true
+         zephyrus.spell.summon: true
+         zephyrus.spell.superheat: true
+         zephyrus.spell.vanish: true
 load: STARTUP

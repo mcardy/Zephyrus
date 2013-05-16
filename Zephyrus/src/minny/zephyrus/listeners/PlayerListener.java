@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -74,6 +75,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 			config.getConfig().set("Level", 1);
 			config.getConfig().set("mana", 100);
 			config.getConfig().set("learned", new ArrayList<String>());
+			config.getConfig().set("progress", 0);
 			config.saveConfig();
 
 		}
@@ -91,4 +93,17 @@ public class PlayerListener extends ItemUtil implements Listener {
 		plugin.mana.remove(e.getPlayer().getName());
 	}
 
+	@EventHandler
+	public void onMagicArmourClick(InventoryClickEvent e) {
+		if (checkName(e.getCurrentItem(), "¤6Magic Boots")) {
+			e.setCancelled(true);
+		} else if (checkName(e.getCurrentItem(), "¤6Magic Leggings")) {
+			e.setCancelled(true);
+		} else if (checkName(e.getCurrentItem(), "¤6Magic ChestPlate")) {
+			e.setCancelled(true);
+		} else if (checkName(e.getCurrentItem(), "¤6Magic Helm")) {
+			e.setCancelled(true);
+		}
+	}
+	
 }

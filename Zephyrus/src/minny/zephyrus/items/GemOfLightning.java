@@ -1,13 +1,17 @@
 package minny.zephyrus.items;
 
+import java.util.List;
+
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.hooks.PluginHook;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -89,6 +93,18 @@ public class GemOfLightning extends CustomItem {
 							+ " seconds to recharge!");
 		}
 
+	}
+	
+	@EventHandler
+	public void onCraftHandle(PrepareItemCraftEvent e) {
+		if (e.getRecipe() == this.recipe()) {
+			List<HumanEntity> player = e.getViewers();
+			for (HumanEntity en : player) {
+				if (!en.hasPermission("zephyrus.craft.lightninggem")) {
+					e.getInventory().setResult(null);
+				}
+			}
+		}
 	}
 
 }

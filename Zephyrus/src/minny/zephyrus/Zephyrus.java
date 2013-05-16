@@ -7,6 +7,7 @@ import java.util.Set;
 
 import minny.zephyrus.commands.Bind;
 import minny.zephyrus.commands.Cast;
+import minny.zephyrus.commands.Level;
 import minny.zephyrus.commands.LevelUp;
 import minny.zephyrus.commands.LevelUpItem;
 import minny.zephyrus.commands.Mana;
@@ -22,6 +23,7 @@ import minny.zephyrus.items.LifeSuckSword;
 import minny.zephyrus.items.ManaPotion;
 import minny.zephyrus.items.RodOfFire;
 import minny.zephyrus.items.Wand;
+import minny.zephyrus.listeners.LevelingListener;
 import minny.zephyrus.listeners.PlayerListener;
 import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.player.ManaRecharge;
@@ -36,9 +38,11 @@ import minny.zephyrus.spells.Fireball;
 import minny.zephyrus.spells.Frenzy;
 import minny.zephyrus.spells.Grow;
 import minny.zephyrus.spells.Heal;
+import minny.zephyrus.spells.Phase;
 import minny.zephyrus.spells.Punch;
 import minny.zephyrus.spells.Repair;
 import minny.zephyrus.spells.Spell;
+import minny.zephyrus.spells.SuperHeat;
 import minny.zephyrus.spells.Vanish;
 import minny.zephyrus.utils.ConfigHandler;
 
@@ -53,6 +57,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Zephyrus extends JavaPlugin {
 
 	PlayerListener playerListener = new PlayerListener(this);
+	LevelingListener levelListener = new LevelingListener(this);
+	
 	ConfigHandler config = new ConfigHandler(this, "spellconfig.yml");
 	LevelManager lvl = new LevelManager(this);
 
@@ -74,6 +80,8 @@ public class Zephyrus extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		saveDefaultConfig();
+		
 		new UpdateChecker(this).run();
 
 		PluginHook hook = new PluginHook();
@@ -108,8 +116,6 @@ public class Zephyrus extends JavaPlugin {
 			getLogger().warning("This version of Zephyrus is not fully compatible with your version of CraftBukkit." +
 					" Some features have been disabled!");
 		}
-
-		saveDefaultConfig();
 
 		addCommands();
 		addListeners();
@@ -149,8 +155,11 @@ public class Zephyrus extends JavaPlugin {
 		new Feed(this);
 		new Grow(this);
 		new Heal(this);
+		new Phase(this);
 		new Punch(this);
 		new Repair(this);
+		//new Summon(this);
+		new SuperHeat(this);
 		new Vanish(this);
 		
 		/*config.saveDefaultConfig();
@@ -183,6 +192,7 @@ public class Zephyrus extends JavaPlugin {
 	public void addListeners() {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(playerListener, this);
+		pm.registerEvents(levelListener, this);
 	}
 
 	public void addCommands() {
@@ -194,5 +204,6 @@ public class Zephyrus extends JavaPlugin {
 		getCommand("bind").setExecutor(new Bind(this));
 		getCommand("bind").setTabCompleter(new Bind(this));
 		getCommand("spelltome").setExecutor(new SpellTomeCmd(this));
+		getCommand("Level").setExecutor(new Level(this));
 	}
 }

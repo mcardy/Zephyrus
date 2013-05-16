@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.hooks.PluginHook;
 import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.spells.Spell;
 
@@ -14,11 +15,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -28,10 +32,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Wand extends CustomItem {
 
 	LevelManager lvl;
+	PluginHook hook;
 
 	public Wand(Zephyrus plugin) {
 		super(plugin);
 		lvl = new LevelManager(plugin);
+		this.hook = new PluginHook();
 	}
 
 	@Override
@@ -53,6 +59,7 @@ public class Wand extends CustomItem {
 		List<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.GRAY + "Default wand used to learn spells");
 		m.setLore(lore);
+
 		i.setItemMeta(m);
 		setGlow(i);
 	}
@@ -75,45 +82,81 @@ public class Wand extends CustomItem {
 				&& e.getItem().getItemMeta().getLore().get(0)
 						.contains("Default wand")) {
 			Location loc = e.getClickedBlock().getLocation();
+			if (hook.worldGuard()) {
+				hook.wgHook();
+				if (!hook.wg.canBuild(e.getPlayer(), loc)) {
+					return;
+				}
+			}
 			loc.setY(loc.getY() + 1);
 			Entity[] entitys = getNearbyEntities(loc, 1);
 			if (!getItems(entitys).isEmpty()) {
 				Set<ItemStack> i = getItems(entitys);
 				if (plugin.spellCraftMap.containsKey(i)) {
 					Spell s = plugin.spellCraftMap.get(i);
-					if (s.reqSpell() != null) {
-						if (s.isLearned(e.getPlayer(), s.reqSpell().name())) {
+					if (e.getPlayer().hasPermission(
+							"zephyrus.spell." + s.name())) {
+						if (s.reqSpell() != null) {
+							if (s.isLearned(e.getPlayer(), s.reqSpell().name())) {
+								if (!(s.getLevel(e.getPlayer()) < s.reqLevel())) {
+									for (Item item : getItemEntity(entitys)) {
+										item.remove();
+									}
+									s.dropSpell(e.getClickedBlock(), s.name(),
+											s.bookText());
+									plugin.getLogger().info(
+											e.getPlayer().getName()
+													+ " crafted the "
+													+ s.name()
+													+ " spelltome at "
+													+ e.getPlayer()
+															.getLocation()
+															.getBlockX()
+													+ e.getPlayer()
+															.getLocation()
+															.getBlockY()
+													+ e.getPlayer()
+															.getLocation()
+															.getBlockZ());
+								} else {
+									e.getPlayer().sendMessage(
+											"This spell requires level "
+													+ s.reqLevel());
+								}
+							} else {
+								e.getPlayer().sendMessage(
+										"This spell requires the knowledge of "
+												+ ChatColor.GOLD
+												+ s.reqSpell().name());
+							}
+						} else {
 							if (!(s.getLevel(e.getPlayer()) < s.reqLevel())) {
 								for (Item item : getItemEntity(entitys)) {
 									item.remove();
 								}
 								s.dropSpell(e.getClickedBlock(), s.name(),
 										s.bookText());
+								plugin.getLogger().info(
+										e.getPlayer().getName()
+												+ " crafted the "
+												+ s.name()
+												+ " spelltome at "
+												+ e.getPlayer().getLocation()
+														.getBlockX()
+												+ e.getPlayer().getLocation()
+														.getBlockY()
+												+ e.getPlayer().getLocation()
+														.getBlockZ());
 							} else {
 								e.getPlayer().sendMessage(
 										"This spell requires level "
 												+ s.reqLevel());
 							}
-						} else {
-							e.getPlayer().sendMessage(
-									"This spell requires the knowledge of "
-											+ ChatColor.GOLD
-											+ s.reqSpell().name());
 						}
 					} else {
-						if (!(s.getLevel(e.getPlayer()) < s.reqLevel())) {
-							for (Item item : getItemEntity(entitys)) {
-								item.remove();
-							}
-							s.dropSpell(e.getClickedBlock(), s.name(),
-									s.bookText());
-						} else {
-							e.getPlayer()
-									.sendMessage(
-											"This spell requires level "
-													+ s.reqLevel());
-							;
-						}
+						e.getPlayer().sendMessage(
+								"You do not have permission to craft "
+										+ s.name());
 					}
 				} else {
 					e.getPlayer().sendMessage("Spell recipe not found");
@@ -121,6 +164,7 @@ public class Wand extends CustomItem {
 			} else {
 				e.getPlayer().sendMessage("Spell recipe not found");
 			}
+
 		}
 	}
 
@@ -183,10 +227,12 @@ public class Wand extends CustomItem {
 			if (plugin.spellMap.containsKey(s)) {
 				Spell spell = plugin.spellMap.get(s);
 				Player player = e.getPlayer();
-				if (!(lvl.getMana(player) < spell.manaCost())) {
+				if (!(lvl.getMana(player) < spell.manaCost()
+						* plugin.getConfig().getInt("ManaMultiplier"))) {
 					if (spell.canRun(player)) {
 						spell.run(player);
-						spell.drainMana(player, spell.manaCost() * plugin.getConfig().getInt("ManaMultiplier"));
+						spell.drainMana(player, spell.manaCost()
+								* plugin.getConfig().getInt("ManaMultiplier"));
 					} else {
 						if (spell.failMessage() != "") {
 							player.sendMessage(spell.failMessage());
@@ -195,6 +241,29 @@ public class Wand extends CustomItem {
 				} else {
 					player.sendMessage("Not enough mana!");
 				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onCraftHandle(PrepareItemCraftEvent e) {
+		if (e.getRecipe() == this.recipe()) {
+			List<HumanEntity> player = e.getViewers();
+			for (HumanEntity en : player) {
+				if (!en.hasPermission("zephyrus.craft.wand")) {
+					e.getInventory().setResult(null);
+				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onCraft(CraftItemEvent e) {
+		if (e.getRecipe() == this.recipe()) {
+			List<HumanEntity> players = e.getViewers();
+			for (HumanEntity en : players) {
+				plugin.getLogger().info(
+						en.getName() + " has crafted a basic wand.");
 			}
 		}
 	}

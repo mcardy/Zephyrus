@@ -1,6 +1,11 @@
 package minny.zephyrus.items;
 
+import java.util.List;
+
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
@@ -68,5 +73,17 @@ public class LifeSuckSword extends CustomItem{
 	@Override
 	public boolean hasLevel(){
 		return false;
+	}
+	
+	@EventHandler
+	public void onCraftHandle(PrepareItemCraftEvent e) {
+		if (e.getRecipe() == this.recipe()) {
+			List<HumanEntity> player = e.getViewers();
+			for (HumanEntity en : player) {
+				if (!en.hasPermission("zephyrus.craft.lifesuck")) {
+					e.getInventory().setResult(null);
+				}
+			}
+		}
 	}
 }

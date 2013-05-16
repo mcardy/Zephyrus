@@ -8,8 +8,10 @@ import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.utils.RecipeUtil;
 
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -73,5 +75,17 @@ public class ManaPotion extends CustomItem {
 	@Override
 	public boolean hasLevel(){
 		return false;
+	}
+	
+	@EventHandler
+	public void onCraftHandle(PrepareItemCraftEvent e) {
+		if (e.getRecipe() == this.recipe()) {
+			List<HumanEntity> player = e.getViewers();
+			for (HumanEntity en : player) {
+				if (!en.hasPermission("zephyrus.craft.mana")) {
+					e.getInventory().setResult(null);
+				}
+			}
+		}
 	}
 }

@@ -3,10 +3,12 @@ package minny.zephyrus.commands;
 import java.util.List;
 
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.listeners.SpellCastEvent;
 import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.spells.Spell;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,8 +39,12 @@ public class Cast extends CommandExceptions implements CommandExecutor, TabCompl
 						 || spell.hasPermission(player, spell)) {
 						if (!(lvl.getMana(player) < spell.manaCost() * plugin.getConfig().getInt("ManaMultiplier"))) {
 							if (spell.canRun(player)) {
-								spell.run(player);
-								spell.drainMana(player, spell.manaCost() * plugin.getConfig().getInt("ManaMultiplier"));
+								SpellCastEvent event = new SpellCastEvent(player, spell);
+								Bukkit.getServer().getPluginManager().callEvent(event);
+								if (!event.isCancelled()) {
+									spell.run(player);
+									spell.drainMana(player, spell.manaCost() * plugin.getConfig().getInt("ManaMultiplier"));
+								}
 							} else {
 								if (spell.failMessage() != ""){
 									player.sendMessage(spell.failMessage());

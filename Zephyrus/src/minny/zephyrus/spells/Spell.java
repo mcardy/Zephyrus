@@ -37,6 +37,10 @@ public abstract class Spell extends LevelManager{
 	public abstract String name();
 	public abstract String bookText();
 	public abstract int reqLevel();
+	/*{
+		double i = this.manaCost() * plugin.getConfig().getInt("ManaMultiplier") / 100;
+		return (int) Math.ceil(i);
+	}*/
 	public abstract int manaCost();
 	public abstract void run(Player player);
 	public abstract Set<ItemStack> spellItems();
@@ -95,7 +99,6 @@ public abstract class Spell extends LevelManager{
 		loc.getWorld().dropItem(loc.add(0, +1, 0), tome.item()).setVelocity(new Vector(0, 0, 0));
 		try {
 			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE, loc, 0, 0, 0, 1, 30);
-			ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER, loc, 0, 0, 0,5, 4);
 			loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 3, 12);
 		} catch (Exception e) {
 			e.printStackTrace();
