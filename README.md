@@ -35,3 +35,6 @@ There will also be an API for creating custom spells and custom items. The items
 *  Custom enchantments
   
 Licenced under GNU General Public Licence version 3
+
+#### JavaDocs
+http://minnymin3.github.io/Zephyrus/
