@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -100,14 +101,20 @@ public class PlayerListener extends ItemUtil implements Listener {
 
 	@EventHandler
 	public void onMagicArmourClick(InventoryClickEvent e) {
-		if (checkName(e.getCurrentItem(), "¤6Magic Boots")) {
+		if (checkName(e.getCurrentItem(), "¤6Magic Armour")) {
 			e.setCancelled(true);
-		} else if (checkName(e.getCurrentItem(), "¤6Magic Leggings")) {
-			e.setCancelled(true);
-		} else if (checkName(e.getCurrentItem(), "¤6Magic ChestPlate")) {
-			e.setCancelled(true);
-		} else if (checkName(e.getCurrentItem(), "¤6Magic Helm")) {
-			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void onMagicArmour(EntityDamageEvent e) {
+		if (e.getEntity() instanceof Player) {
+			Player player = (Player) e.getEntity();
+			if (player.getInventory().getBoots().hasItemMeta()
+					&& player.getInventory().getBoots().getItemMeta()
+							.getDisplayName().equals("¤6Magic Armour")) {
+				e.setCancelled(true);
+			}
 		}
 	}
 

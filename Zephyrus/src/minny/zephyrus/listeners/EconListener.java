@@ -24,6 +24,7 @@ public class EconListener implements Listener {
 		this.hook = new PluginHook();
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onClickSign(PlayerInteractEvent e) {
 		if (hook.economy()) {
@@ -47,6 +48,7 @@ public class EconListener implements Listener {
 												.getName(), cost);
 										e.getPlayer().getInventory()
 												.addItem(tome.item());
+										e.getPlayer().updateInventory();
 										e.getPlayer().sendMessage(
 												"You successfully purchased "
 														+ spell.name());

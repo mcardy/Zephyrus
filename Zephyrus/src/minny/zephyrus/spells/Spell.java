@@ -37,37 +37,62 @@ public abstract class Spell extends LevelManager{
 		this.hook = new PluginHook();
 	}
 	
+	/**
+	 * Defines the name of the spell
+	 */
 	public abstract String name();
+	/**
+	 * The text that appears in the SpellTome
+	 */
 	public abstract String bookText();
+	/**
+	 * The level required to craft the spell
+	 */
 	public abstract int reqLevel();
-	/*{
-		double i = this.manaCost() * plugin.getConfig().getInt("ManaMultiplier") / 100;
-		return (int) Math.ceil(i);
-	}*/
+	/**
+	 * The mana cost multiplied by the configurable mana multiplier
+	 */
 	public abstract int manaCost();
+	/**
+	 * The method called when the spell is cast
+	 */
 	public abstract void run(Player player);
+	/**
+	 * A Set containing all the items required to craft the spell
+	 */
 	public abstract Set<ItemStack> spellItems();
 	
+	/**
+	 * Weather or not the spell can be bound to a wand
+	 */
 	public boolean canBind() {
 		return true;
 	}
 	
-	public int getManaCost() {
-		int i = spellConfig.getConfig().getInt(this.name());
-		return i;
-	}
-	
+	/**
+	 * A spell that is required for crafting this spell
+	 */
 	public Spell reqSpell(){
 		return null;
 	}
 	
+	/**
+	 * The boolean dictating if the spell can be run
+	 */
 	public boolean canRun(Player player) {
 		return true;
 	}
+	
+	/**
+	 * The message that is sent to the player when canRun returns false
+	 */
 	public String failMessage(){
 		return "";
 	}
 	
+	/**
+	 * If the spell is learned
+	 */
 	public boolean isLearned(Player p, String name){
 		config = new PlayerConfigHandler(plugin, p.getName());
 		config.reloadConfig();
@@ -81,18 +106,27 @@ public abstract class Spell extends LevelManager{
 		p.sendMessage(ChatColor.DARK_GRAY + "Not enough mana!");
 	}
 	
-	public boolean hasPermission(Player p, Spell spell){
+	/**
+	 * Checks if the player has permission to cast the spell.
+	 * Returns false if OpKnowledge is false in the config
+	 * @param player The target player
+	 * @param spell The target spell
+	 */
+	public boolean hasPermission(Player player, Spell spell){
 		if (plugin.getConfig().getBoolean("OpKnowledge")){
-			if (p.hasPermission("zephyrus.cast." + spell.name())){
+			if (player.hasPermission("zephyrus.cast." + spell.name())){
 				return true;
 			}
-			if (p.isOp()){
+			if (player.isOp()){
 				return true;
 			}
 		}
 		return false;
 	}
-
+	
+	/**
+	 * The method for destroying a bookshelf and dropping a spelltome
+	 */
 	public void dropSpell(Block bookshelf, String name, String desc){
 		bookshelf.setType(Material.AIR);
 		SpellTome tome = new SpellTome(plugin, name, desc);

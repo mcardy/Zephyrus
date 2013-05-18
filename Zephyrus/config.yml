@@ -23,3 +23,10 @@ ManaRegen: 30
 #The balancing number for level progression. 
 #Zephyrus takes the players current level, multiplies it by this number and subtracts 12.
 LevelBalance: 40
+
+#Configuration for custom recipes. 
+#If set to false, all custom recipes (except the wand) will be disabled
+Disable-Recipes: false
+
+#Debug mode will tell the console when a spell is cast, who cast it, and where they are.
+Debug-Mode: false

@@ -29,6 +29,7 @@ import minny.zephyrus.listeners.LevelingListener;
 import minny.zephyrus.listeners.PlayerListener;
 import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.player.ManaRecharge;
+import minny.zephyrus.spells.Armour;
 import minny.zephyrus.spells.Blink;
 import minny.zephyrus.spells.Bolt;
 import minny.zephyrus.spells.Butcher;
@@ -61,7 +62,7 @@ public class Zephyrus extends JavaPlugin {
 
 	PlayerListener playerListener = new PlayerListener(this);
 	LevelingListener levelListener = new LevelingListener(this);
-	
+
 	ConfigHandler config = new ConfigHandler(this, "spellconfig.yml");
 	LevelManager lvl = new LevelManager(this);
 
@@ -70,7 +71,7 @@ public class Zephyrus extends JavaPlugin {
 
 	public boolean isUpdate;
 	public String changelog;
-	
+
 	public Map<String, Object> fireRodDelay;
 	public Map<String, Object> lightningGemDelay;
 	public Map<String, Object> blinkPearlDelay;
@@ -84,13 +85,14 @@ public class Zephyrus extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
-		
+
 		new UpdateChecker(this).run();
 
 		PluginHook hook = new PluginHook();
 
 		if (hook.worldGuard()) {
-			getLogger().info("WorldGuard found. Integrating WorldGuard protections!");
+			getLogger().info(
+					"WorldGuard found. Integrating WorldGuard protections!");
 		}
 		if (hook.economy()) {
 			getLogger().info("Vault found. Integrating economy!");
@@ -116,16 +118,16 @@ public class Zephyrus extends JavaPlugin {
 		try {
 			new CraftLivingEntity(null, null);
 		} catch (NoClassDefFoundError err) {
-			getLogger().warning("This version of Zephyrus is not fully compatible with your version of CraftBukkit." +
-					" Some features have been disabled!");
+			getLogger()
+					.warning(
+							"This version of Zephyrus is not fully compatible with your version of CraftBukkit."
+									+ " Some features have been disabled!");
 		}
 
 		addCommands();
 		addListeners();
-
 		addEnchants();
 		addItems();
-
 		addSpells();
 	}
 
@@ -137,16 +139,19 @@ public class Zephyrus extends JavaPlugin {
 	}
 
 	public void addItems() {
-		new BlinkPearl(this);
-		new GemOfLightning(this);
-		new HoeOfGrowth(this);
-		new LifeSuckSword(this);
-		new ManaPotion(this);
-		new RodOfFire(this);
+		if (!getConfig().getBoolean("Disable-Recipes")) {
+			new BlinkPearl(this);
+			new GemOfLightning(this);
+			new HoeOfGrowth(this);
+			new LifeSuckSword(this);
+			new ManaPotion(this);
+			new RodOfFire(this);
+		}
 		new Wand(this);
 	}
 
 	public void addSpells() {
+		new Armour(this);
 		new Blink(this);
 		new Bolt(this);
 		new Butcher(this);
@@ -162,20 +167,18 @@ public class Zephyrus extends JavaPlugin {
 		new Phase(this);
 		new Punch(this);
 		new Repair(this);
-		//new Summon(this);
+		// new Summon(this);
 		new SuperHeat(this);
 		new Vanish(this);
-		
-		/*config.saveDefaultConfig();
-		Set<String> keys = this.spellMap.keySet();
-		Object[] string = keys.toArray();
-		for (Object s : string){
-			Spell spell = this.spellMap.get(s);
-			if (!config.getConfig().contains(spell.name())){
-				config.getConfig().set(spell.name(), spell.manaCost());
-			}
-		}
-		config.saveConfig();*/
+
+		/*
+		 * config.saveDefaultConfig(); Set<String> keys =
+		 * this.spellMap.keySet(); Object[] string = keys.toArray(); for (Object
+		 * s : string){ Spell spell = this.spellMap.get(s); if
+		 * (!config.getConfig().contains(spell.name())){
+		 * config.getConfig().set(spell.name(), spell.manaCost()); } }
+		 * config.saveConfig();
+		 */
 	}
 
 	public void addEnchants() {
