@@ -22,7 +22,9 @@ import minny.zephyrus.items.HoeOfGrowth;
 import minny.zephyrus.items.LifeSuckSword;
 import minny.zephyrus.items.ManaPotion;
 import minny.zephyrus.items.RodOfFire;
+import minny.zephyrus.items.SpellTome;
 import minny.zephyrus.items.Wand;
+import minny.zephyrus.listeners.EconListener;
 import minny.zephyrus.listeners.LevelingListener;
 import minny.zephyrus.listeners.PlayerListener;
 import minny.zephyrus.player.LevelManager;
@@ -35,6 +37,7 @@ import minny.zephyrus.spells.Dig;
 import minny.zephyrus.spells.Enderchest;
 import minny.zephyrus.spells.Feed;
 import minny.zephyrus.spells.Fireball;
+import minny.zephyrus.spells.Fly;
 import minny.zephyrus.spells.Frenzy;
 import minny.zephyrus.spells.Grow;
 import minny.zephyrus.spells.Heal;
@@ -87,12 +90,12 @@ public class Zephyrus extends JavaPlugin {
 		PluginHook hook = new PluginHook();
 
 		if (hook.worldGuard()) {
-			getLogger().info("WorldGuard integration implemented!");
-			hook.wgHook();
+			getLogger().info("WorldGuard found. Integrating WorldGuard protections!");
 		}
 		if (hook.economy()) {
-			getLogger().info("Vault integration implemented!");
-			hook.econHook();
+			getLogger().info("Vault found. Integrating economy!");
+			PluginManager pm = getServer().getPluginManager();
+			pm.registerEvents(new EconListener(this), this);
 		}
 
 		fireRodDelay = new HashMap<String, Object>();
@@ -151,6 +154,7 @@ public class Zephyrus extends JavaPlugin {
 		new Dig(this);
 		new Enderchest(this);
 		new Fireball(this);
+		new Fly(this);
 		new Frenzy(this);
 		new Feed(this);
 		new Grow(this);
@@ -193,6 +197,7 @@ public class Zephyrus extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(playerListener, this);
 		pm.registerEvents(levelListener, this);
+		pm.registerEvents(new SpellTome(this, null, null), this);
 	}
 
 	public void addCommands() {

@@ -88,7 +88,7 @@ public class BlinkPearl extends CustomItem {
 						if (block.getType() == Material.AIR
 								&& block2.getType() == Material.AIR) {
 							if (hook.worldGuard()) {
-								hook.wgHook();
+								hook.hookWG();
 								if (hook.wg.canBuild(e.getPlayer(), e
 										.getPlayer().getTargetBlock(null, 100))) {
 									ParticleEffects.sendToLocation(

@@ -22,7 +22,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class PlayerListener extends ItemUtil implements Listener {
 
 	LevelManager lvl;
-	
+
 	public PlayerListener(Zephyrus plugin) {
 		super(plugin);
 		lvl = new LevelManager(plugin);
@@ -32,16 +32,20 @@ public class PlayerListener extends ItemUtil implements Listener {
 
 	@EventHandler
 	public void onUpdateMessage(PlayerJoinEvent e) {
-		if (e.getPlayer().hasPermission("zephyrus.notify")){
+		if (e.getPlayer().hasPermission("zephyrus.notify")) {
 			Player player = e.getPlayer();
-			if (plugin.isUpdate){
-				player.sendMessage(ChatColor.RED + "There is a new version of Zephyrus out!");
-				player.sendMessage(ChatColor.DARK_AQUA + "Get it at: " + ChatColor.GRAY + "dev.bukkit.org/server-mods/Zephyrus");
-				player.sendMessage(ChatColor.DARK_AQUA + "[ChangeLog] " + plugin.changelog);
+			if (plugin.isUpdate) {
+				player.sendMessage(ChatColor.RED
+						+ "There is a new version of Zephyrus out!");
+				player.sendMessage(ChatColor.DARK_AQUA + "Get it at: "
+						+ ChatColor.GRAY
+						+ "dev.bukkit.org/server-mods/Zephyrus");
+				player.sendMessage(ChatColor.DARK_AQUA + "[ChangeLog] "
+						+ plugin.changelog);
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onSuckHealthEnchant(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Player) {
@@ -64,11 +68,12 @@ public class PlayerListener extends ItemUtil implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void playerFile(PlayerJoinEvent e) {
 		File playerFiles = new File(plugin.getDataFolder(), "Players");
-		File checkPlayer = new File(playerFiles, e.getPlayer().getName() + ".yml");
+		File checkPlayer = new File(playerFiles, e.getPlayer().getName()
+				+ ".yml");
 		if (!checkPlayer.exists()) {
 			config = new PlayerConfigHandler(plugin, e.getPlayer().getName());
 			config.saveDefaultConfig();
@@ -86,10 +91,10 @@ public class PlayerListener extends ItemUtil implements Listener {
 		plugin.mana.put(e.getPlayer().getName(), lvl.loadMana(e.getPlayer()));
 		new ManaRecharge(plugin, e.getPlayer()).runTaskLater(plugin, 30);
 	}
-	
+
 	@EventHandler
 	public void removeMana(PlayerQuitEvent e) {
-		lvl.saveMana(e.getPlayer());		
+		lvl.saveMana(e.getPlayer());
 		plugin.mana.remove(e.getPlayer().getName());
 	}
 
@@ -105,5 +110,14 @@ public class PlayerListener extends ItemUtil implements Listener {
 			e.setCancelled(true);
 		}
 	}
-	
+
+	@EventHandler
+	public void onCast(SpellCastEvent e) {
+		if (plugin.getConfig().getBoolean("Debug-Mode")) {
+			plugin.getLogger().info(
+					e.getPlayer().getName() + " casted " + e.getSpell().name()
+							+ " at " + e.getPlayer().getLocation());
+		}
+	}
+
 }

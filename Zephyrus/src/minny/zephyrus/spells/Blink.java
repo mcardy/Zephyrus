@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.hooks.PluginHook;
 import minny.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.ChatColor;
@@ -79,7 +78,6 @@ public class Blink extends Spell {
 	public boolean canRun(Player player) {
 		if (player.getTargetBlock(null, 100) != null
 				&& player.getTargetBlock(null, 100).getType() != Material.AIR) {
-			PluginHook hook = new PluginHook();
 			Location loc = player.getTargetBlock(null, 100).getLocation();
 			loc.setY(loc.getY() + 1);
 			Location loc2 = loc;
@@ -89,7 +87,6 @@ public class Blink extends Spell {
 			if (block.getType() == Material.AIR
 					&& block2.getType() == Material.AIR) {
 				if (hook.worldGuard()){
-					hook.wgHook();
 					if (hook.wg.canBuild(player, block)){
 						return true;
 					}

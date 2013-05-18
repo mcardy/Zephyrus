@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.hooks.PluginHook;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,11 +12,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class Dig extends Spell {
 
-	PluginHook hook;
-
 	public Dig(Zephyrus plugin) {
 		super(plugin);
-		hook = new PluginHook();
 	}
 
 	@Override
@@ -50,7 +46,6 @@ public class Dig extends Spell {
 	public boolean canRun(Player player) {
 		if (player.getTargetBlock(null, 12).getType() != Material.BEDROCK) {
 			if (hook.worldGuard()) {
-				hook.wgHook();
 				if (hook.wg.canBuild(player, player.getTargetBlock(null, 12))
 						&& player.getTargetBlock(null, 12).getType() != Material.AIR) {
 					return true;

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.hooks.PluginHook;
 import minny.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.ChatColor;
@@ -19,12 +18,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockIterator;
 
 public class SuperHeat extends Spell {
-
-	PluginHook hook;
 	
 	public SuperHeat(Zephyrus plugin) {
 		super(plugin);
-		this.hook = new PluginHook();
 	}
 
 	@Override
@@ -111,14 +107,14 @@ public class SuperHeat extends Spell {
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
-
+		i.add(new ItemStack(Material.COAL, 8));
+		i.add(new ItemStack(Material.FURNACE));
 		return i;
 	}
 
 	@Override
 	public boolean canRun(Player player) {
 		if (hook.worldGuard()) {
-			hook.wgHook();
 			if (!hook.wg.canBuild(player, player.getTargetBlock(null, 7))) {
 				return false;
 			}

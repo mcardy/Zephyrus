@@ -9,7 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class LevelUpItem extends CommandExceptions implements CommandExecutor {
+public class LevelUpItem extends ZephyrusCommand implements CommandExecutor {
 
 	ItemUtil item;
 	Zephyrus plugin;

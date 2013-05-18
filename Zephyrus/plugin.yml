@@ -1,6 +1,6 @@
 name: Zephyrus
 main: minny.zephyrus.Zephyrus
-version: 0.2.0
+version: 0.3.0
 commands:
    levelup:
    levelupitem:
@@ -34,7 +34,12 @@ permissions:
    zephyrus.level.other:
       default: op
       description: Allows access to the /level [player] command.
-   
+   zephyrus.buy:
+      default: true
+      description: Allows the player to buy spells from signs.
+   zephyrus.buy.create:
+      default: op
+      description: Allows the player to create buyspell signs.
    zephyrus.craft.*:
       default: true
       children:
@@ -67,4 +72,26 @@ permissions:
          zephyrus.spell.summon: true
          zephyrus.spell.superheat: true
          zephyrus.spell.vanish: true
+   zephyrus.cast.*:
+      default: false
+      children:
+         zephyrus.cast.armour: true
+         zephyrus.cast.blink: true
+         zephyrus.cast.bolt: true
+         zephyrus.cast.butcher: true
+         zephyrus.cast.confuse: true
+         zephyrus.cast.dig: true
+         zephyrus.cast.enderchest: true
+         zephyrus.cast.feed: true
+         zephyrus.cast.fireball: true
+         zephyrus.cast.fly: true
+         zephyrus.cast.frenzy: true
+         zephyrus.cast.grow: true
+         zephyrus.cast.heal: true
+         zephyrus.cast.phase: true
+         zephyrus.cast.punch: true
+         zephyrus.cast.repair: true
+         zephyrus.cast.summon: true
+         zephyrus.cast.superheat: true
+         zephyrus.cast.vanish: true
 load: STARTUP

@@ -1,16 +1,17 @@
 package minny.zephyrus.hooks;
 
-import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class PluginHook {
 
 	public WorldGuardPlugin wg;
-	public Vault vault;
+	public Economy econ = null;
 
 	public boolean worldGuard() {
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
@@ -21,19 +22,25 @@ public class PluginHook {
 	}
 
 	public boolean economy() {
-		Plugin plugin = Bukkit.getPluginManager().getPlugin("Vault");
-		if (plugin != null) {
-			return true;
+		if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
+			return false;
 		}
-		return false;
+		RegisteredServiceProvider<Economy> rsp = Bukkit.getServer()
+				.getServicesManager().getRegistration(Economy.class);
+		if (rsp == null) {
+			return false;
+		}
+		econ = rsp.getProvider();
+		return econ != null;
 	}
 
-	public void econHook() {
-		Plugin vaultplugin = Bukkit.getPluginManager().getPlugin("Vault");
-		vault = (Vault) vaultplugin;
+	public void hookEcon() {
+		RegisteredServiceProvider<Economy> rsp = Bukkit.getServer()
+				.getServicesManager().getRegistration(Economy.class);
+		econ = rsp.getProvider();
 	}
 
-	public void wgHook() {
+	public void hookWG() {
 		Plugin wgplugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
 		wg = (WorldGuardPlugin) wgplugin;
 	}

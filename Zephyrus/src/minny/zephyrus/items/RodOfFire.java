@@ -83,7 +83,7 @@ public class RodOfFire extends CustomItem {
 				&& !plugin.fireRodDelay.containsKey(e.getPlayer().getName())
 				&& getItemLevel(e.getPlayer().getItemInHand()) < 6) {
 			if (hook.worldGuard()) {
-				hook.wgHook();
+				hook.hookWG();
 				if (hook.wg.canBuild(e.getPlayer(), e.getPlayer()
 						.getTargetBlock(null, 1000))) {
 					Player player = e.getPlayer();
@@ -115,7 +115,7 @@ public class RodOfFire extends CustomItem {
 				&& !plugin.fireRodDelay.containsKey(e.getPlayer().getName())) {
 
 			if (hook.worldGuard()) {
-				hook.wgHook();
+				hook.hookWG();
 				if (hook.wg.canBuild(e.getPlayer(), e.getPlayer()
 						.getTargetBlock(null, 1000))) {
 					Player player = e.getPlayer();

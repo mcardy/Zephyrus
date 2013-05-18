@@ -4,11 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.utils.RemoveFlightUtil;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Fly extends Spell {
 
@@ -39,8 +40,8 @@ public class Fly extends Spell {
 	@Override
 	public void run(Player player) {
 		player.setAllowFlight(true);
-		new RemoveFlightUtil(plugin, player).cancel();
-		new RemoveFlightUtil(plugin, player).runTaskLater(plugin, 500);
+		BukkitRunnable task = new RemoveFlightUtil(plugin, player);
+		task.runTaskLater(plugin, 500);
 	}
 
 	@Override
@@ -51,5 +52,36 @@ public class Fly extends Spell {
 		
 		return i;
 	}
+	
+	@Override
+	public boolean canRun(Player player) {
+		return !player.getAllowFlight();
+	}
+	
+	@Override
+	public String failMessage() {
+		return "You can already fly!";
+	}
 
+} class RemoveFlightUtil extends BukkitRunnable {
+
+	Zephyrus plugin;
+	Player player;
+	
+	public RemoveFlightUtil(Zephyrus plugin, Player player) {
+		this.plugin = plugin;
+		this.player = player;
+	}
+	
+	public void run() {
+		player.sendMessage(ChatColor.GRAY + "5 seconds of flight remaining!");
+		new RemoveFlight().runTaskLater(plugin, 100);
+	}
+	
+	private class RemoveFlight extends BukkitRunnable {
+		public void run() {
+			player.setAllowFlight(false);
+		}
+	}
+	
 }

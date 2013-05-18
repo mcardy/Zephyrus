@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.hooks.PluginHook;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,12 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class Bolt extends Spell {
-
-	PluginHook hook;
 	
 	public Bolt(Zephyrus plugin) {
 		super(plugin);
-		this.hook = new PluginHook();	
 	}
 
 	@Override
@@ -58,12 +54,8 @@ public class Bolt extends Spell {
 	@Override
 	public boolean canRun(Player player) {
 		if (hook.worldGuard()) {
-			hook.wgHook();
-			if (hook.wg.canBuild(player, player.getTargetBlock(null, 1000))){
-				return true;
-			} else {
-				return false;
-			}
+			if (hook.wg.canBuild(player, player.getTargetBlock(null, 1000))) return true;
+			return false;
 		}
 		return true;
 	}

@@ -5,18 +5,19 @@ import java.util.List;
 
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.spells.Spell;
+import minny.zephyrus.utils.ItemUtil;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.BookMeta;
 
-public class SpellTome extends CustomItem {
+public class SpellTome extends ItemUtil implements Listener {
 
 	String spell;
 	String desc;
@@ -28,19 +29,16 @@ public class SpellTome extends CustomItem {
 		this.desc = desc;
 	}
 
-	@Override
 	public String name() {
 		return "¤bSpell Tome";
 	}
 
-	@Override
 	public ItemStack item() {
 		ItemStack i = new ItemStack(Material.WRITTEN_BOOK);
 		createItem(i);
 		return i;
 	}
 
-	@Override
 	public void createItem(ItemStack i) {
 		setItemName(i, this.name());
 		BookMeta m = (BookMeta) i.getItemMeta();
@@ -51,11 +49,6 @@ public class SpellTome extends CustomItem {
 		m.addPage(desc + "\n\n¤0Cast the spell with:\n¤9/cast " + spell + "\n\n¤0Learn this spell by left clicking this book!");
 		i.setItemMeta(m);
 		setGlow(i);
-	}
-
-	@Override
-	public Recipe recipe() {
-		return null;
 	}
 
 	@EventHandler
@@ -85,6 +78,7 @@ public class SpellTome extends CustomItem {
 					} else {
 						e.getPlayer().sendMessage(
 								"You already know that spell!");
+						return;
 					}
 
 				} else {
@@ -92,10 +86,5 @@ public class SpellTome extends CustomItem {
 				}
 			}
 		}
-	}
-
-	@Override
-	public boolean hasLevel(){
-		return false;
 	}
 }

@@ -83,7 +83,7 @@ public class Wand extends CustomItem {
 						.contains("Default wand")) {
 			Location loc = e.getClickedBlock().getLocation();
 			if (hook.worldGuard()) {
-				hook.wgHook();
+				hook.hookWG();
 				if (!hook.wg.canBuild(e.getPlayer(), loc)) {
 					return;
 				}
@@ -230,6 +230,9 @@ public class Wand extends CustomItem {
 				if (!(lvl.getMana(player) < spell.manaCost()
 						* plugin.getConfig().getInt("ManaMultiplier"))) {
 					if (spell.canRun(player)) {
+						if (hook.worldGuard()) {
+							hook.hookWG();
+						}
 						spell.run(player);
 						spell.drainMana(player, spell.manaCost()
 								* plugin.getConfig().getInt("ManaMultiplier"));

@@ -3,6 +3,7 @@ package minny.zephyrus.spells;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.hooks.PluginHook;
 import minny.zephyrus.items.SpellTome;
 import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.utils.ConfigHandler;
@@ -22,6 +23,7 @@ public abstract class Spell extends LevelManager{
 
 	PlayerConfigHandler config;
 	ConfigHandler spellConfig;
+	public PluginHook hook;
 	
 	public Spell(Zephyrus plugin){
 		super(plugin);
@@ -32,6 +34,7 @@ public abstract class Spell extends LevelManager{
 			plugin.spellCraftMap.put(this.spellItems(), this);
 		}
 		spellConfig = new ConfigHandler(plugin, "spellconfig.yml");
+		this.hook = new PluginHook();
 	}
 	
 	public abstract String name();
