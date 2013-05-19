@@ -1,4 +1,0 @@
-name: Zephyrus Example Addon
-main: minny.exampleaddon.ExamplePlugin
-version: 1.0
-depend: [Zephyrus] 
