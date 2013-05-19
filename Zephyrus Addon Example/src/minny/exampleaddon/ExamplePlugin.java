@@ -20,6 +20,9 @@ public class ExamplePlugin extends JavaPlugin {
 		
 		//Calls the constructor of the class Spell adding ExampleSpell to the list of spells.
 		new ExampleSpell(zephyrus);
+		
+		//Register WorldGuard spells exactly the same way
+		new ExampleWorldGuardSpell(zephyrus);
 	}
 	
 }
