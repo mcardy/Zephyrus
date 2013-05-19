@@ -34,8 +34,8 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 				if (args.length == 0) {
 					sender.sendMessage("Specify a spell to bind!");
 				} else {
-					if (plugin.spellMap.containsKey(args[0])) {
-						Spell spell = plugin.spellMap.get(args[0]);
+					if (Zephyrus.spellMap.containsKey(args[0])) {
+						Spell spell = Zephyrus.spellMap.get(args[0]);
 						Player player = (Player) sender;
 						if (spell.isLearned(player, spell.name())
 								|| spell.hasPermission(player, spell)) {
@@ -85,9 +85,8 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 	}
 
 	public List<String> learned(CommandSender p) {
-		PlayerConfigHandler config;
-		config = new PlayerConfigHandler(plugin, p.getName());
-		return config.getConfig().getStringList("learned");
+		Player player = (Player) p;
+		return PlayerConfigHandler.getConfig(plugin, player).getStringList("learned");
 	}
 
 }

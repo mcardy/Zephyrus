@@ -3,6 +3,7 @@ package minny.zephyrus.listeners;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.hooks.PluginHook;
 import minny.zephyrus.items.SpellTome;
+import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.spells.Spell;
 
 import org.bukkit.ChatColor;
@@ -37,10 +38,10 @@ public class EconListener implements Listener {
 							double cost = Double.parseDouble(s.getLine(1)
 									.replace("$", "").replace("¤6", ""));
 							if (hook.econ.getBalance(e.getPlayer().getName()) >= cost) {
-								Spell spell = plugin.spellMap.get(s.getLine(2)
+								Spell spell = Zephyrus.spellMap.get(s.getLine(2)
 										.toLowerCase().replace("¤4", ""));
 								if (e.getPlayer().hasPermission("zephyrus.spell." + spell.name())) {
-									if (!(spell.getLevel(e.getPlayer()) < spell
+									if (!(LevelManager.getLevel(e.getPlayer()) < spell
 											.reqLevel())) {
 										SpellTome tome = new SpellTome(plugin,
 												spell.name(), spell.bookText());
@@ -87,7 +88,7 @@ public class EconListener implements Listener {
 						player.sendMessage("Invalid Cost!");
 						return;
 					}
-					if (!plugin.spellMap
+					if (!Zephyrus.spellMap
 							.containsKey(e.getLine(2).toLowerCase())) {
 						player.sendMessage("Invalid Spell!");
 						return;

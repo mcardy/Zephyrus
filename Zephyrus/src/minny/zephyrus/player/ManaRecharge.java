@@ -19,11 +19,11 @@ public class ManaRecharge extends BukkitRunnable {
 
 	public void run() {
 		if (player.isOnline()) {
-			if (lvl.getMana(player) < lvl.getLevel(player) * 100) {
-				if (lvl.getMana(player) == 0) {
-					plugin.mana.put(player.getName(), 1);
+			if (LevelManager.getMana(player) < LevelManager.getLevel(player) * 100) {
+				if (LevelManager.getMana(player) == 0) {
+					Zephyrus.mana.put(player.getName(), 1);
 				} else {
-					plugin.mana.put(player.getName(), lvl.getMana(player) + 1);
+					Zephyrus.mana.put(player.getName(), LevelManager.getMana(player) + 1);
 				}
 			}
 			new ManaRecharge(plugin, player).runTaskLater(plugin, plugin.getConfig().getInt("ManaRegen"));

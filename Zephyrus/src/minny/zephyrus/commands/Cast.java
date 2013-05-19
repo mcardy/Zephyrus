@@ -36,12 +36,12 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 			if (args.length < 1) {
 				sender.sendMessage("Specify a spell to cast!");
 			} else {
-				if (plugin.spellMap.containsKey(args[0])) {
+				if (Zephyrus.spellMap.containsKey(args[0])) {
 					Player player = (Player) sender;
-					Spell spell = plugin.spellMap.get(args[0].toLowerCase());
+					Spell spell = Zephyrus.spellMap.get(args[0].toLowerCase());
 					if (spell.isLearned(player, spell.name())
 							|| spell.hasPermission(player, spell)) {
-						if (!(lvl.getMana(player) < spell.manaCost()
+						if (!(LevelManager.getMana(player) < spell.manaCost()
 								* plugin.getConfig().getInt("ManaMultiplier"))) {
 							if (spell.canRun(player)) {
 								SpellCastEvent event = new SpellCastEvent(
@@ -53,7 +53,7 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 										hook.hookWG();
 									}
 									spell.run(player);
-									spell.drainMana(
+									LevelManager.drainMana(
 											player,
 											spell.manaCost()
 													* plugin.getConfig()
@@ -88,8 +88,7 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 	}
 
 	public List<String> learned(CommandSender p) {
-		PlayerConfigHandler config;
-		config = new PlayerConfigHandler(plugin, p.getName());
-		return config.getConfig().getStringList("learned");
+		Player player = (Player) p;
+		return PlayerConfigHandler.getConfig(plugin, player).getStringList("learned");
 	}
 }

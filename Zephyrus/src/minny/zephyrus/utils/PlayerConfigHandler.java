@@ -2,63 +2,58 @@ package minny.zephyrus.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Level;
 
 import minny.zephyrus.Zephyrus;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 public class PlayerConfigHandler {
 
-	private final String fileName;
-	private final File dataFolder;
-	private final Zephyrus plugin;
+	private static File configFile;
+	private static FileConfiguration fileConfiguration;
 	
-	
-	private File configFile;
-	private FileConfiguration fileConfiguration;
-
-	public PlayerConfigHandler(Zephyrus plugin, String fileName) {
-		this.plugin = plugin;
-		this.fileName = fileName + ".yml";
-		this.dataFolder = new File(plugin.getDataFolder(), "Players");
+	public static void reloadConfig(Zephyrus plugin, Player player) {
+		String fileName = player.getName() + ".yml";
+		File dataFolder = new File(plugin.getDataFolder(), "Players");
 		dataFolder.mkdirs();
-	}
-	
-	public void reloadConfig() {
 		if (configFile == null) {
-			if (dataFolder == null)
-				throw new IllegalStateException();
 			configFile = new File(dataFolder, fileName);
 		}
 		fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
-		InputStream defConfigStream = plugin.getResource(fileName);
-		if (defConfigStream != null) {
-			YamlConfiguration defConfig = YamlConfiguration
-					.loadConfiguration(defConfigStream);
-			fileConfiguration.setDefaults(defConfig);
-		}
+		//InputStream defConfigStream = null;
+		//if (defConfigStream != null) {
+		//	YamlConfiguration defConfig = YamlConfiguration
+		//			.loadConfiguration(defConfigStream);
+		//	fileConfiguration.setDefaults(defConfig);
+		//}
 	}
 
-	public FileConfiguration getConfig() {
+	public static FileConfiguration getConfig(Zephyrus plugin, Player player) {
 		if (fileConfiguration == null) {
-			this.reloadConfig();
+			String fileName = player.getName() + ".yml";
+			File dataFolder = new File(plugin.getDataFolder(), "Players");
+			PlayerConfigHandler.reloadConfig(plugin, player);
+			configFile = new File(dataFolder, fileName);
+			fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 		}
 		return fileConfiguration;
 	}
 
-	public void saveConfig() {
-		if (dataFolder == null)
-			throw new IllegalStateException();
+	public static void saveConfig(Zephyrus plugin, Player player) {
+		String fileName = player.getName() + ".yml";
+		File dataFolder = new File(plugin.getDataFolder(), "Players");
+		dataFolder.mkdirs();
 		configFile = new File(dataFolder, fileName);
 		if (fileConfiguration == null || configFile == null) {
+			plugin.getLogger().info("Something broke!");
 			return;
 		} else {
 			try {
-				getConfig().save(configFile);
+				getConfig(plugin, player).save(configFile);
 			} catch (IOException ex) {
 				plugin.getLogger().log(Level.SEVERE,
 						"Could not save config to " + configFile, ex);
@@ -66,9 +61,10 @@ public class PlayerConfigHandler {
 		}
 	}
 
-	public void saveDefaultConfig() {
-		if (dataFolder == null)
-			throw new IllegalStateException();
+	public static void saveDefaultConfig(Zephyrus plugin, Player player) {
+		String fileName = player.getName() + ".yml";
+		File dataFolder = new File(plugin.getDataFolder(), "Players");
+		dataFolder.mkdirs();
 		configFile = new File(dataFolder, fileName);
 		if (!configFile.exists()) {
 			try {

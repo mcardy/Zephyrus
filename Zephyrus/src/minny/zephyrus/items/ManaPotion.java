@@ -67,8 +67,8 @@ public class ManaPotion extends CustomItem {
 	public void onManaPotion(PlayerItemConsumeEvent e) {
 		if (checkName(e.getItem(), "¤bMana Potion")) {
 			Player player = e.getPlayer();
-			plugin.mana.put(player.getName(),
-					lvl.getLevel(player) * 100);
+			Zephyrus.mana.put(player.getName(),
+					LevelManager.getLevel(player) * 100);
 		}
 	}
 	

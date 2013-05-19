@@ -19,7 +19,7 @@ public abstract class CustomItem extends ItemUtil implements Listener{
 		} catch (Exception e){
 		}
 		if (hasLevel() && this.name() != null){
-			plugin.itemMap.put(this.name(), this);
+			Zephyrus.itemMap.put(this.name(), this);
 		}
 	}
 

@@ -10,6 +10,7 @@ import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -21,7 +22,6 @@ public class SpellTome extends ItemUtil implements Listener {
 
 	String spell;
 	String desc;
-	PlayerConfigHandler config;
 
 	public SpellTome(Zephyrus plugin, String imput, String desc) {
 		super(plugin);
@@ -59,22 +59,21 @@ public class SpellTome extends ItemUtil implements Listener {
 				ItemStack i = e.getPlayer().getItemInHand();
 				List<String> l = i.getItemMeta().getLore();
 				String s = l.get(0).replace("¤7", "");
-				if (plugin.spellMap.containsKey(s)) {
-					Spell spell = plugin.spellMap.get(s);
-					config = new PlayerConfigHandler(plugin, e.getPlayer()
-							.getName());
-					config.reloadConfig();
-					if (!config.getConfig().getStringList("learned")
+				if (Zephyrus.spellMap.containsKey(s)) {
+					Spell spell = Zephyrus.spellMap.get(s);
+					Player player = e.getPlayer();
+					PlayerConfigHandler.reloadConfig(plugin, e.getPlayer());
+					if (!PlayerConfigHandler.getConfig(plugin, player).getStringList("learned")
 							.contains(spell.name())) {
-						List<String> learned = config.getConfig()
+						List<String> learned = PlayerConfigHandler.getConfig(plugin, player)
 								.getStringList("learned");
 						learned.add(spell.name());
-						config.getConfig().set("learned", learned);
+						PlayerConfigHandler.getConfig(plugin, player).set("learned", learned);
 						e.getPlayer().sendMessage(
 								"You have successfully learned "
 										+ ChatColor.GOLD + spell.name());
 						e.getPlayer().setItemInHand(null);
-						config.saveConfig();
+						PlayerConfigHandler.saveConfig(plugin, player);
 					} else {
 						e.getPlayer().sendMessage(
 								"You already know that spell!");

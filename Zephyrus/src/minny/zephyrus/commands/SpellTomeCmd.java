@@ -32,10 +32,10 @@ public class SpellTomeCmd extends ZephyrusCommand implements CommandExecutor {
 					sender.sendMessage("Usage: " + ChatColor.RED
 							+ "/spelltome [spell] [player]");
 				} else {
-					if (plugin.spellMap.containsKey(args[0])) {
+					if (Zephyrus.spellMap.containsKey(args[0])) {
 						if (isOnline(args[1])) {
 							Player player = Bukkit.getPlayer(args[1]);
-							Spell spell = plugin.spellMap.get(args[0]
+							Spell spell = Zephyrus.spellMap.get(args[0]
 									.toLowerCase());
 							SpellTome tome = new SpellTome(plugin,
 									spell.name(), spell.bookText());

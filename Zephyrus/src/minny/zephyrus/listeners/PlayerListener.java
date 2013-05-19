@@ -29,8 +29,6 @@ public class PlayerListener extends ItemUtil implements Listener {
 		lvl = new LevelManager(plugin);
 	}
 
-	PlayerConfigHandler config;
-
 	@EventHandler
 	public void onUpdateMessage(PlayerJoinEvent e) {
 		if (e.getPlayer().hasPermission("zephyrus.notify")) {
@@ -75,28 +73,30 @@ public class PlayerListener extends ItemUtil implements Listener {
 		File playerFiles = new File(plugin.getDataFolder(), "Players");
 		File checkPlayer = new File(playerFiles, e.getPlayer().getName()
 				+ ".yml");
+		Player player = e.getPlayer();
 		if (!checkPlayer.exists()) {
-			config = new PlayerConfigHandler(plugin, e.getPlayer().getName());
-			config.saveDefaultConfig();
-			config.getConfig().set("Level", 1);
-			config.getConfig().set("mana", 100);
-			config.getConfig().set("learned", new ArrayList<String>());
-			config.getConfig().set("progress", 0);
-			config.saveConfig();
+			PlayerConfigHandler.saveDefaultConfig(plugin, player);
+			PlayerConfigHandler.getConfig(plugin, player).set("Level", 1);
+			PlayerConfigHandler.getConfig(plugin, player).set("mana", 100);
+			PlayerConfigHandler.getConfig(plugin, player).set("learned",
+					new ArrayList<String>());
+			PlayerConfigHandler.getConfig(plugin, player).set("progress", 0);
+			PlayerConfigHandler.saveConfig(plugin, player);
 
 		}
 	}
 
 	@EventHandler
 	public void setMana(PlayerJoinEvent e) {
-		plugin.mana.put(e.getPlayer().getName(), lvl.loadMana(e.getPlayer()));
+		Zephyrus.mana.put(e.getPlayer().getName(),
+				LevelManager.loadMana(e.getPlayer()));
 		new ManaRecharge(plugin, e.getPlayer()).runTaskLater(plugin, 30);
 	}
 
 	@EventHandler
 	public void removeMana(PlayerQuitEvent e) {
-		lvl.saveMana(e.getPlayer());
-		plugin.mana.remove(e.getPlayer().getName());
+		LevelManager.saveMana(e.getPlayer());
+		Zephyrus.mana.remove(e.getPlayer().getName());
 	}
 
 	@EventHandler
@@ -110,7 +110,8 @@ public class PlayerListener extends ItemUtil implements Listener {
 	public void onMagicArmour(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {
 			Player player = (Player) e.getEntity();
-			if (player.getInventory().getBoots().hasItemMeta()
+			if (player.getInventory().getBoots() != null
+					&& player.getInventory().getBoots().hasItemMeta()
 					&& player.getInventory().getBoots().getItemMeta()
 							.getDisplayName().equals("¤6Magic Armour")) {
 				e.setCancelled(true);

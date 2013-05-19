@@ -49,6 +49,7 @@ import minny.zephyrus.spells.Spell;
 import minny.zephyrus.spells.SuperHeat;
 import minny.zephyrus.spells.Vanish;
 import minny.zephyrus.utils.ConfigHandler;
+import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
@@ -76,15 +77,19 @@ public class Zephyrus extends JavaPlugin {
 	public Map<String, Object> lightningGemDelay;
 	public Map<String, Object> blinkPearlDelay;
 
-	public Map<String, Object> mana;
+	public static Map<String, Object> mana;
 
-	public Map<String, Spell> spellMap;
-	public Map<Set<ItemStack>, Spell> spellCraftMap;
-	public Map<String, CustomItem> itemMap;
+	public static Map<String, Spell> spellMap;
+	public static Map<Set<ItemStack>, Spell> spellCraftMap;
+	public static Map<String, CustomItem> itemMap;
 
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
+
+		itemMap = new HashMap<String, CustomItem>();
+		spellCraftMap = new HashMap<Set<ItemStack>, Spell>();
+		spellMap = new HashMap<String, Spell>();
 
 		new UpdateChecker(this).run();
 
@@ -106,12 +111,8 @@ public class Zephyrus extends JavaPlugin {
 
 		mana = new HashMap<String, Object>();
 
-		spellMap = new HashMap<String, Spell>();
-		spellCraftMap = new HashMap<Set<ItemStack>, Spell>();
-		itemMap = new HashMap<String, CustomItem>();
-
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			this.mana.put(p.getName(), lvl.loadMana(p));
+			Zephyrus.mana.put(p.getName(), LevelManager.loadMana(p));;
 			new ManaRecharge(this, p).runTaskLater(this, 30);
 		}
 
@@ -129,12 +130,17 @@ public class Zephyrus extends JavaPlugin {
 		addEnchants();
 		addItems();
 		addSpells();
+
+		getLogger()
+				.info("Zephyrus v" + this.getDescription().getVersion()
+						+ " Enabled!");
 	}
 
 	public void onDisable() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			lvl.saveMana(p);
-			this.mana.remove(p);
+			LevelManager.saveMana(p);
+			PlayerConfigHandler.saveConfig(this, p);
+			Zephyrus.mana.remove(p);
 		}
 	}
 
@@ -213,5 +219,31 @@ public class Zephyrus extends JavaPlugin {
 		getCommand("bind").setTabCompleter(new Bind(this));
 		getCommand("spelltome").setExecutor(new SpellTomeCmd(this));
 		getCommand("Level").setExecutor(new Level(this));
+	}
+
+	public void addSpell(Spell spell) {
+		if ((spell.getClass().getPackage() == Spell.class.getPackage())) {
+			if (spell.name() != null
+					&& !Zephyrus.spellMap.containsKey(spell.name())) {
+				Zephyrus.spellMap.put(spell.name(), spell);
+			}
+			if (spell.spellItems() != null
+					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
+				Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
+
+			}
+		} else {
+			if (spell.name() != null
+					&& !Zephyrus.spellMap.containsKey(spell.name())) {
+				Zephyrus.spellMap.put(spell.name(), spell);
+			}
+			if (spell.spellItems() != null
+					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
+				Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
+			}
+			Bukkit.getLogger().info(
+					"[Zephyrus] External spell '" + spell.name()
+							+ "' registered!");
+		}
 	}
 }

@@ -25,9 +25,9 @@ public class LevelUpItem extends ZephyrusCommand implements CommandExecutor {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if (player.hasPermission("zephyrus.levelup.item") || player.isOp()) {
-				if (plugin.itemMap.containsKey(player.getItemInHand()
+				if (Zephyrus.itemMap.containsKey(player.getItemInHand()
 						.getItemMeta().getDisplayName())) {
-					CustomItem i = plugin.itemMap.get(player.getItemInHand()
+					CustomItem i = Zephyrus.itemMap.get(player.getItemInHand()
 							.getItemMeta().getDisplayName());
 					if (item.getItemLevel(player.getItemInHand()) < i
 							.maxLevel()) {

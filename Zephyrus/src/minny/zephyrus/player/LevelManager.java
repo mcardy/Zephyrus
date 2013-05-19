@@ -10,23 +10,21 @@ import org.bukkit.entity.Player;
 
 public class LevelManager {
 
-	PlayerConfigHandler config;
-	public Zephyrus plugin;
+	public static Zephyrus plugin;
 	private int levelBalance;
 	
 	public LevelManager(Zephyrus plugin) {
-		this.plugin = plugin;
+		LevelManager.plugin = plugin;
 	}
 
 	public void levelUp(Player player) {
-		config = new PlayerConfigHandler(plugin, player.getName());
-		config.reloadConfig();
-		int current = config.getConfig().getInt("Level");
+		PlayerConfigHandler.reloadConfig(plugin, player);
+		int current = PlayerConfigHandler.getConfig(plugin, player).getInt("Level");
 		current = current + 1;
-		config.getConfig().set("Level", current);
-		config.saveConfig();
-		config.reloadConfig();
-		plugin.mana.put(player.getName(), current * 100);
+		PlayerConfigHandler.getConfig(plugin, player).set("Level", current);
+		PlayerConfigHandler.saveConfig(plugin, player);
+		PlayerConfigHandler.reloadConfig(plugin, player);
+		Zephyrus.mana.put(player.getName(), current * 100);
 		player.sendMessage(ChatColor.AQUA + "You leveled up to level "
 				+ getLevel(player));
 		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 2, 1);
@@ -35,69 +33,61 @@ public class LevelManager {
 	}
 
 	public void levelProgress(Player player, int amount) {
-		this.levelBalance = plugin.getConfig().getInt("LevelBalance");
-		config = new PlayerConfigHandler(plugin, player.getName());
-		config.reloadConfig();
-		int current = config.getConfig().getInt("progress");
+		levelBalance = plugin.getConfig().getInt("LevelBalance");
+		PlayerConfigHandler.reloadConfig(plugin, player);
+		int current = PlayerConfigHandler.getConfig(plugin, player).getInt("progress");
 		current = current + amount;
 		if (current > getLevel(player) * levelBalance - 12) {
 			current = current - (getLevel(player) * levelBalance - 12);
 			levelUp(player);
 		}
-		config.getConfig().set("progress", current);
-		config.saveConfig();
-		config.reloadConfig();
+		PlayerConfigHandler.getConfig(plugin, player).set("progress", current);
+		PlayerConfigHandler.saveConfig(plugin, player);
+		PlayerConfigHandler.reloadConfig(plugin, player);
 	}
 
-	public int getLevelProgress(Player player) {
-		config = new PlayerConfigHandler(plugin, player.getName());
-		config.reloadConfig();
-		int current = config.getConfig().getInt("progress");
+	public static int getLevelProgress(Player player) {
+		PlayerConfigHandler.reloadConfig(plugin, player);
+		int current = PlayerConfigHandler.getConfig(plugin, player).getInt("progress");
 		return current;
 	}
 
-	public int getLevel(Player player) {
-		config = new PlayerConfigHandler(plugin, player.getName());
-		config.reloadConfig();
-		return config.getConfig().getInt("Level");
+	public static int getLevel(Player player) {
+		PlayerConfigHandler.reloadConfig(plugin, player);
+		return PlayerConfigHandler.getConfig(plugin, player).getInt("Level");
 	}
 
 	public int getLevel(HumanEntity player) {
-		config = new PlayerConfigHandler(plugin, player.getName());
-		config.reloadConfig();
-		return config.getConfig().getInt("Level");
+		Player p = (Player) player;
+		PlayerConfigHandler.reloadConfig(plugin, p);
+		return PlayerConfigHandler.getConfig(plugin, p).getInt("Level");
 	}
 
-	public void resetMana(Player player) {
-		plugin.mana.put(player.getName(), getLevel(player) * 100);
+	public static void resetMana(Player player) {
+		Zephyrus.mana.put(player.getName(), getLevel(player) * 100);
 	}
 
-	public int getMana(Player player) {
+	public static int getMana(Player player) {
 		try {
-			return (Integer) plugin.mana.get(player.getName());
+			return (Integer) Zephyrus.mana.get(player.getName());
 		} catch (Exception e) {
 			resetMana(player);
 			return getLevel(player) * 100;
 		}
 	}
 
-	public void saveMana(Player player) {
-		config = new PlayerConfigHandler(plugin, player.getName());
-		config.getConfig().set("mana", plugin.mana.get(player.getName()));
-		config.saveConfig();
-		config.reloadConfig();
+	public static void saveMana(Player player) {
+		PlayerConfigHandler.getConfig(plugin, player).set("mana", Zephyrus.mana.get(player.getName()));
+		PlayerConfigHandler.saveConfig(plugin, player);
 	}
 
-	public int loadMana(Player player) {
-		config = new PlayerConfigHandler(plugin, player.getName());
-		config.reloadConfig();
-		int i = config.getConfig().getInt("mana");
+	public static int loadMana(Player player) {
+		int i = PlayerConfigHandler.getConfig(plugin, player).getInt("mana");
 		return i;
 	}
 
-	public void drainMana(Player player, int amount) {
-		plugin.mana.put(player.getName(),
-				(Integer) plugin.mana.get(player.getName()) - amount);
+	public static void drainMana(Player player, int amount) {
+		Zephyrus.mana.put(player.getName(), (Integer) Zephyrus.mana.get(player.getName()) - amount);
 	}
 
 	public void displayMana(Player player) {

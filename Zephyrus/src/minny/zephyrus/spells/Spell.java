@@ -19,127 +19,130 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public abstract class Spell extends LevelManager{
+public abstract class Spell extends LevelManager {
 
-	PlayerConfigHandler config;
 	ConfigHandler spellConfig;
 	public PluginHook hook;
-	
-	public Spell(Zephyrus plugin){
+
+	public Spell(Zephyrus plugin) {
 		super(plugin);
-		if (!plugin.spellMap.containsKey(this.name())){
-			plugin.spellMap.put(this.name(), this);
-		}
-		if (this.spellItems() != null && !plugin.spellCraftMap.containsKey(this.spellItems())){
-			plugin.spellCraftMap.put(this.spellItems(), this);
-		}
+		plugin.addSpell(this);
 		spellConfig = new ConfigHandler(plugin, "spellconfig.yml");
 		this.hook = new PluginHook();
 	}
-	
+
 	/**
 	 * Defines the name of the spell
 	 */
 	public abstract String name();
+
 	/**
 	 * The text that appears in the SpellTome
 	 */
 	public abstract String bookText();
+
 	/**
 	 * The level required to craft the spell
 	 */
 	public abstract int reqLevel();
+
 	/**
 	 * The mana cost multiplied by the configurable mana multiplier
 	 */
 	public abstract int manaCost();
+
 	/**
 	 * The method called when the spell is cast
 	 */
 	public abstract void run(Player player);
+
 	/**
 	 * A Set containing all the items required to craft the spell
 	 */
 	public abstract Set<ItemStack> spellItems();
-	
+
 	/**
 	 * Weather or not the spell can be bound to a wand
 	 */
 	public boolean canBind() {
 		return true;
 	}
-	
+
 	/**
 	 * A spell that is required for crafting this spell
 	 */
-	public Spell reqSpell(){
+	public Spell reqSpell() {
 		return null;
 	}
-	
+
 	/**
 	 * The boolean dictating if the spell can be run
 	 */
 	public boolean canRun(Player player) {
 		return true;
 	}
-	
+
 	/**
 	 * The message that is sent to the player when canRun returns false
 	 */
-	public String failMessage(){
+	public String failMessage() {
 		return "";
 	}
-	
+
 	/**
 	 * If the spell is learned
 	 */
-	public boolean isLearned(Player p, String name){
-		config = new PlayerConfigHandler(plugin, p.getName());
-		config.reloadConfig();
-		if (config.getConfig().getStringList("learned").contains(name)){
+	public boolean isLearned(Player p, String name) {
+		PlayerConfigHandler.reloadConfig(plugin, p);
+		if (PlayerConfigHandler.getConfig(plugin, p).getStringList("learned").contains(name)) {
 			return true;
 		}
 		return false;
 	}
-	
-	public void notEnoughMana(Player p){
+
+	public void notEnoughMana(Player p) {
 		p.sendMessage(ChatColor.DARK_GRAY + "Not enough mana!");
 	}
-	
+
 	/**
-	 * Checks if the player has permission to cast the spell.
-	 * Returns false if OpKnowledge is false in the config
-	 * @param player The target player
-	 * @param spell The target spell
+	 * Checks if the player has permission to cast the spell. Returns false if
+	 * OpKnowledge is false in the config
+	 * 
+	 * @param player
+	 *            The target player
+	 * @param spell
+	 *            The target spell
 	 */
-	public boolean hasPermission(Player player, Spell spell){
-		if (plugin.getConfig().getBoolean("OpKnowledge")){
-			if (player.hasPermission("zephyrus.cast." + spell.name())){
+	public boolean hasPermission(Player player, Spell spell) {
+		if (plugin.getConfig().getBoolean("OpKnowledge")) {
+			if (player.hasPermission("zephyrus.cast." + spell.name())) {
 				return true;
 			}
-			if (player.isOp()){
+			if (player.isOp()) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * The method for destroying a bookshelf and dropping a spelltome
 	 */
-	public void dropSpell(Block bookshelf, String name, String desc){
+	public void dropSpell(Block bookshelf, String name, String desc) {
 		bookshelf.setType(Material.AIR);
 		SpellTome tome = new SpellTome(plugin, name, desc);
 		Location loc = bookshelf.getLocation();
 		loc.setX(loc.getX() + 0.5);
 		loc.setZ(loc.getZ() + 0.5);
-		loc.getWorld().dropItem(loc.add(0, +1, 0), tome.item()).setVelocity(new Vector(0, 0, 0));
+		loc.getWorld().dropItem(loc.add(0, +1, 0), tome.item())
+				.setVelocity(new Vector(0, 0, 0));
 		try {
-			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE, loc, 0, 0, 0, 1, 30);
+			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE,
+					loc, 0, 0, 0, 1, 30);
 			loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 3, 12);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

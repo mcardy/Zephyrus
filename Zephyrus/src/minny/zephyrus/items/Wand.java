@@ -92,13 +92,14 @@ public class Wand extends CustomItem {
 			Entity[] entitys = getNearbyEntities(loc, 1);
 			if (!getItems(entitys).isEmpty()) {
 				Set<ItemStack> i = getItems(entitys);
-				if (plugin.spellCraftMap.containsKey(i)) {
-					Spell s = plugin.spellCraftMap.get(i);
+				if (Zephyrus.spellCraftMap.containsKey(i)) {
+					Spell s = Zephyrus.spellCraftMap.get(i);
 					if (e.getPlayer().hasPermission(
 							"zephyrus.spell." + s.name())) {
 						if (s.reqSpell() != null) {
 							if (s.isLearned(e.getPlayer(), s.reqSpell().name())) {
-								if (!(s.getLevel(e.getPlayer()) < s.reqLevel())) {
+								if (!(LevelManager.getLevel(e.getPlayer()) < s
+										.reqLevel())) {
 									for (Item item : getItemEntity(entitys)) {
 										item.remove();
 									}
@@ -130,7 +131,8 @@ public class Wand extends CustomItem {
 												+ s.reqSpell().name());
 							}
 						} else {
-							if (!(s.getLevel(e.getPlayer()) < s.reqLevel())) {
+							if (!(LevelManager.getLevel(e.getPlayer()) < s
+									.reqLevel())) {
 								for (Item item : getItemEntity(entitys)) {
 									item.remove();
 								}
@@ -224,25 +226,32 @@ public class Wand extends CustomItem {
 					.replace(
 							ChatColor.GRAY + "Bound spell: "
 									+ ChatColor.DARK_GRAY, "");
-			if (plugin.spellMap.containsKey(s)) {
-				Spell spell = plugin.spellMap.get(s);
+			if (Zephyrus.spellMap.containsKey(s)) {
+				Spell spell = Zephyrus.spellMap.get(s);
 				Player player = e.getPlayer();
-				if (!(lvl.getMana(player) < spell.manaCost()
-						* plugin.getConfig().getInt("ManaMultiplier"))) {
-					if (spell.canRun(player)) {
-						if (hook.worldGuard()) {
-							hook.hookWG();
+				if (spell.isLearned(player, spell.name())) {
+					if (!(LevelManager.getMana(player) < spell.manaCost()
+							* plugin.getConfig().getInt("ManaMultiplier"))) {
+						if (spell.canRun(player)) {
+							if (hook.worldGuard()) {
+								hook.hookWG();
+							}
+							spell.run(player);
+							LevelManager.drainMana(
+									player,
+									spell.manaCost()
+											* plugin.getConfig().getInt(
+													"ManaMultiplier"));
+						} else {
+							if (spell.failMessage() != "") {
+								player.sendMessage(spell.failMessage());
+							}
 						}
-						spell.run(player);
-						spell.drainMana(player, spell.manaCost()
-								* plugin.getConfig().getInt("ManaMultiplier"));
 					} else {
-						if (spell.failMessage() != "") {
-							player.sendMessage(spell.failMessage());
-						}
+						player.sendMessage("Not enough mana!");
 					}
 				} else {
-					player.sendMessage("Not enough mana!");
+					player.sendMessage("You do not know that spell!");
 				}
 			}
 		}
