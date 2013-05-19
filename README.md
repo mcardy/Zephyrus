@@ -1,38 +1,18 @@
-Zephyrus
+Zephyrus-Addon
 ========
 
-Zephyrus a magical plugin for Bukkit. The name comes from the Greek god of the west wind.
+This is an example addon for the Bukkit servermod Zephyrus.
 
-This plugin will contain a few different 'spells' and custom items. The plugin will also come complete with a leveling system (possibly similar to the leveling system in the mod 'Ars Magica')
-There will also be an API for creating custom spells and custom items. The items can be leveled up as well.
+### Making an add-on for Zephyrus
 
-### Planned spells/items:
+#### Setting up your workspace
+First off, you must know how to make a plugin. If you don't, then don't continue with this tutorial. If you do, then add Zephyrus as an external jar much the same way as you would have added Bukkit. Instead of using Bukkit's javadocs use Zephyrus' (link: http://minnymin3.github.io/Zephyrus/). Then in your plugin.yml file, put this in ** depend: [Zephyrus] **. This makes your plugin dependant on Zephyrus so that your plugin cannot load without it. This will stop errors from spaming your consol. Now you are ready to start making your custom spells!
 
-**Items:**
-*    Fire wand
-*    Ice wand
-*    Hoe of Growth (sorry Azanor, im stealing your idea :P)
-*    Lightning item
-*    Blink item
-*    Construction wand (if I can get ranged building)
-*    AutoSmelting pickaxe
-*    InstaBreak pickaxe
-    
-**Spells:**
-*    Fireball spell
-*    Magic Bag spell
-*    Blink spell
-*    Explosion spell
-    
-  
-  
-### Planned features:
-*  Leveling system on items and players
-*  Wand delay system
-*  Leveling GUIs
-*  API for custom items
-*  Custom crafting recipies
-*  Custom enchantments
+#### Your first spell
+The first thing you are going to want to do is extend Spell (minny.zephyrus.spells.Spell) and add the unimplemented methods. When you hover over the methods you can see what each one is. Fill in each method appropriately. **Remember that the mana cost is multiplied by the mana multiplier which is 5 by default!** The run(Player player) is the most important method. This is called when the spell is cast. It is the method where you would heal the player in, feed the player in, or anything else! If your spell requires you to be looking at a specific block or something like that, then add **public boolean canRun(Player player)** to the class. This will decide if the spell can or can't run. If you then want to add a custom message that is sent to the player when canRun returns false, add **public String failMessage()**. Now you are done your first spell!
+
+#### Registering your spell
+Inside your main class, you will want to define Zephyrus as a variable. Add this into your onEnable: ** Zephyrus zephyrus = new Zephyrus;**. Now you will want to tell Zephyrus that you have a new spell. To do this, lets pretend that you named your spell class TestSpell. Add **new TestSpell(zephyrus);** into your onEnable and that registers your spell! Now you are all done!
   
 Licenced under GNU General Public Licence version 3
 
