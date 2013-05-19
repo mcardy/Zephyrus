@@ -3,6 +3,9 @@ package minny.zephyrus.hooks;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -51,6 +54,25 @@ public class PluginHook {
 	public static void hookWG() {
 		Plugin wgplugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
 		wg = (WorldGuardPlugin) wgplugin;
+	}
+	
+	public static boolean canBuild(Player player, Block block) {
+		if (PluginHook.worldGuard()) {
+			PluginHook.hookWG();
+			if (PluginHook.wg.canBuild(player, block)) {
+				return true;
+			}
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean canBuild(Player player, Location loc) {
+		if (PluginHook.worldGuard()) {
+			PluginHook.hookWG();
+			return PluginHook.wg.canBuild(player, loc);
+		}
+		return true;
 	}
 
 }

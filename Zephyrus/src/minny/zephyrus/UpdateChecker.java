@@ -25,7 +25,7 @@ public class UpdateChecker extends BukkitRunnable {
 	public UpdateChecker(Zephyrus plugin) {
 		this.plugin = plugin;
 	}
-
+	
 	@Override
 	public void run() {
 		if (plugin.getConfig().getBoolean("UpdateChecker")) {

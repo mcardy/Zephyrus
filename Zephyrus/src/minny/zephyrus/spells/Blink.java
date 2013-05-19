@@ -95,14 +95,7 @@ public class Blink extends Spell {
 			Block block2 = loc2.getBlock();
 			if (block.getType() == Material.AIR
 					&& block2.getType() == Material.AIR) {
-				if (PluginHook.worldGuard()) {
-					PluginHook.hookWG();
-					if (PluginHook.wg.canBuild(player, block)) {
-						return true;
-					}
-				} else {
-					return true;
-				}
+				return PluginHook.canBuild(player, block);
 			}
 		}
 		return false;

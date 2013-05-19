@@ -61,15 +61,7 @@ public class Fireball extends Spell {
 
 	@Override
 	public boolean canRun(Player player) {
-		if (PluginHook.worldGuard()) {
-			PluginHook.hookWG();
-			if (PluginHook.wg.canBuild(player, player.getTargetBlock(null, 1000))) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		return true;
+		return PluginHook.canBuild(player, player.getTargetBlock(null, 1000));
 	}
 
 	@Override

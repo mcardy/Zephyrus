@@ -101,8 +101,7 @@ public class Zephyrus extends JavaPlugin {
 		new UpdateChecker(this).run();
 
 		if (PluginHook.worldGuard()) {
-			getLogger().info(
-					"WorldGuard found. Protections integrated");
+			getLogger().info("WorldGuard found. Protections integrated");
 		}
 		if (PluginHook.economy()) {
 			getLogger().info("Vault found. Integrating economy!");
@@ -136,11 +135,11 @@ public class Zephyrus extends JavaPlugin {
 		addItems();
 		addSpells();
 
-		getLogger().info("Loaded " + Zephyrus.spellMap.size() + " internal spells");
-		
-		getLogger()
-				.info("Zephyrus v" + this.getDescription().getVersion()
-						+ " Enabled!");
+		getLogger().info("Loaded " + Zephyrus.spellMap.size() + " spells");
+
+		getLogger().info(
+				"Zephyrus v" + this.getDescription().getVersion() + " by "
+						+ this.getDescription().getAuthors().get(0) + " Enabled!");
 	}
 
 	@Override
@@ -248,9 +247,9 @@ public class Zephyrus extends JavaPlugin {
 					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
 				Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
 			}
-			Bukkit.getLogger().info(
-					"[Zephyrus] External spell '" + spell.name()
-							+ "' registered!");
+			//Bukkit.getLogger().info(
+			//		"[Zephyrus] External spell '" + spell.name()
+			//				+ "' registered!");
 		}
 	}
 }

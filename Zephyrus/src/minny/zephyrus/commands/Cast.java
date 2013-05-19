@@ -57,9 +57,6 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 								Bukkit.getServer().getPluginManager()
 										.callEvent(event);
 								if (!event.isCancelled()) {
-									if (PluginHook.worldGuard()) {
-										PluginHook.hookWG();
-									}
 									spell.run(player);
 									LevelManager
 											.drainMana(

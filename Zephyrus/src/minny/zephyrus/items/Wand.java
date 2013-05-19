@@ -242,9 +242,6 @@ public class Wand extends CustomItem {
 					if (!(LevelManager.getMana(player) < spell.manaCost()
 							* plugin.getConfig().getInt("ManaMultiplier"))) {
 						if (spell.canRun(player)) {
-							if (PluginHook.worldGuard()) {
-								PluginHook.hookWG();
-							}
 							spell.run(player);
 							LevelManager.drainMana(
 									player,

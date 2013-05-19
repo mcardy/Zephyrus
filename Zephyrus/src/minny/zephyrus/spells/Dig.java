@@ -54,22 +54,13 @@ public class Dig extends Spell {
 	@Override
 	public boolean canRun(Player player) {
 		if (player.getTargetBlock(null, 12).getType() != Material.BEDROCK) {
-			if (PluginHook.worldGuard()) {
-				PluginHook.hookWG();
-				if (PluginHook.wg.canBuild(player, player.getTargetBlock(null, 12))
-						&& player.getTargetBlock(null, 12).getType() != Material.AIR) {
-					return true;
-				} else if (player.getTargetBlock(null, 12).getType() != Material.AIR) {
-					player.sendMessage(ChatColor.DARK_RED
-							+ "You don't have permission for this area");
-					return false;
-				}
-				player.sendMessage(ChatColor.GRAY
-						+ "That block is out of range!");
-				return false;
-			}
-			if (player.getTargetBlock(null, 12).getType() != Material.AIR) {
+			if (PluginHook.canBuild(player, player.getTargetBlock(null, 12))
+					&& player.getTargetBlock(null, 12).getType() != Material.AIR) {
 				return true;
+			} else if (player.getTargetBlock(null, 12).getType() != Material.AIR) {
+				player.sendMessage(ChatColor.DARK_RED
+						+ "You don't have permission for this area");
+				return false;
 			}
 			player.sendMessage(ChatColor.GRAY + "That block is out of range!");
 			return false;
