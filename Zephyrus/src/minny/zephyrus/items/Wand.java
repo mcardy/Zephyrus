@@ -29,6 +29,14 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Wand extends CustomItem {
 
 	LevelManager lvl;
@@ -37,7 +45,7 @@ public class Wand extends CustomItem {
 	public Wand(Zephyrus plugin) {
 		super(plugin);
 		lvl = new LevelManager(plugin);
-		this.hook = new PluginHook();
+		hook = new PluginHook();
 	}
 
 	@Override
@@ -179,8 +187,9 @@ public class Wand extends CustomItem {
 				for (Entity e : new Location(l.getWorld(), x + (chX * 16), y, z
 						+ (chZ * 16)).getChunk().getEntities()) {
 					if (e.getLocation().distance(l) <= radius
-							&& e.getLocation().getBlock() != l.getBlock())
+							&& e.getLocation().getBlock() != l.getBlock()) {
 						radiusEntities.add(e);
+					}
 				}
 			}
 		}

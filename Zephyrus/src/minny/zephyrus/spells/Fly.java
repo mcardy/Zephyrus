@@ -11,6 +11,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Fly extends Spell {
 
 	public Fly(Zephyrus plugin) {
@@ -47,41 +55,45 @@ public class Fly extends Spell {
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
-		
+
 		i.add(new ItemStack(Material.FEATHER, 32));
-		
+
 		return i;
 	}
-	
+
 	@Override
 	public boolean canRun(Player player) {
 		return !player.getAllowFlight();
 	}
-	
+
 	@Override
 	public String failMessage() {
 		return "You can already fly!";
 	}
 
-} class RemoveFlightUtil extends BukkitRunnable {
+}
+
+class RemoveFlightUtil extends BukkitRunnable {
 
 	Zephyrus plugin;
 	Player player;
-	
+
 	public RemoveFlightUtil(Zephyrus plugin, Player player) {
 		this.plugin = plugin;
 		this.player = player;
 	}
-	
+
+	@Override
 	public void run() {
 		player.sendMessage(ChatColor.GRAY + "5 seconds of flight remaining!");
 		new RemoveFlight().runTaskLater(plugin, 100);
 	}
-	
+
 	private class RemoveFlight extends BukkitRunnable {
+		@Override
 		public void run() {
 			player.setAllowFlight(false);
 		}
 	}
-	
+
 }

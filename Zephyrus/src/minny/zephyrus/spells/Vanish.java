@@ -11,6 +11,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Vanish extends Spell {
 
 	public Vanish(Zephyrus plugin) {
@@ -46,7 +54,7 @@ public class Vanish extends Spell {
 
 	@Override
 	public Set<ItemStack> spellItems() {
-		//Potion extended Invisibility
+		// Potion extended Invisibility
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.POTION, 1, (short) 8270));
 		return i;

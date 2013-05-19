@@ -16,6 +16,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Bind extends ZephyrusCommand implements CommandExecutor,
 		TabCompleter {
 
@@ -30,7 +38,7 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 			String label, String[] args) {
 
 		if (sender instanceof Player) {
-			if (hasPerm(sender, "zephyrus.bind"))
+			if (hasPerm(sender, "zephyrus.bind")) {
 				if (args.length == 0) {
 					sender.sendMessage("Specify a spell to bind!");
 				} else {
@@ -68,7 +76,7 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 						sender.sendMessage("You do not know that spell!");
 					}
 				}
-			else {
+			} else {
 				needOp(sender);
 			}
 		} else {
@@ -86,7 +94,8 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 
 	public List<String> learned(CommandSender p) {
 		Player player = (Player) p;
-		return PlayerConfigHandler.getConfig(plugin, player).getStringList("learned");
+		return PlayerConfigHandler.getConfig(plugin, player).getStringList(
+				"learned");
 	}
 
 }

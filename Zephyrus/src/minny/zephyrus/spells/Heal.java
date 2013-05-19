@@ -3,11 +3,19 @@ package minny.zephyrus.spells;
 import java.util.HashSet;
 import java.util.Set;
 
+import minny.zephyrus.Zephyrus;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import minny.zephyrus.Zephyrus;
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
 
 public class Heal extends Spell {
 
@@ -49,10 +57,10 @@ public class Heal extends Spell {
 	}
 
 	@Override
-	public String failMessage(){
+	public String failMessage() {
 		return "You are already at max health!";
 	}
-	
+
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> items = new HashSet<ItemStack>();

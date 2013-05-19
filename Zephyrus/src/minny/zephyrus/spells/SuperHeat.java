@@ -17,8 +17,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockIterator;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class SuperHeat extends Spell {
-	
+
 	public SuperHeat(Zephyrus plugin) {
 		super(plugin);
 	}
@@ -59,7 +67,8 @@ public class SuperHeat extends Spell {
 				loc.setX(loc.getX() + 0.5);
 				loc.setZ(loc.getZ() + 0.5);
 				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1, 1, 1, 0, 10);
+				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1,
+						1, 1, 0, 10);
 			} else if (block == Material.SAND) {
 				player.getTargetBlock(null, 7).setType(Material.GLASS);
 				player.getWorld().playSound(player.getLocation(),
@@ -68,7 +77,8 @@ public class SuperHeat extends Spell {
 				loc.setX(loc.getX() + 0.5);
 				loc.setZ(loc.getZ() + 0.5);
 				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1, 1, 1, 0, 10);
+				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1,
+						1, 1, 0, 10);
 			} else if (block == Material.IRON_ORE) {
 				Block b = player.getTargetBlock(null, 7);
 				b.setType(Material.AIR);
@@ -80,7 +90,8 @@ public class SuperHeat extends Spell {
 				loc.setX(loc.getX() + 0.5);
 				loc.setZ(loc.getZ() + 0.5);
 				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1, 1, 1, 0, 10);
+				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1,
+						1, 1, 0, 10);
 			} else if (block == Material.GOLD_ORE) {
 				Block b = player.getTargetBlock(null, 7);
 				b.setType(Material.AIR);
@@ -92,7 +103,8 @@ public class SuperHeat extends Spell {
 				loc.setX(loc.getX() + 0.5);
 				loc.setZ(loc.getZ() + 0.5);
 				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1, 1, 1, 0, 30);
+				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1,
+						1, 1, 0, 30);
 			} else {
 				LivingEntity en = (LivingEntity) getTarget(player);
 				player.getWorld().playSound(player.getLocation(),
@@ -146,13 +158,16 @@ public class SuperHeat extends Spell {
 			Block item = iterator.next();
 			for (Entity entity : player.getNearbyEntities(100, 100, 100)) {
 				int acc = 2;
-				for (int x = -acc; x < acc; x++)
-					for (int z = -acc; z < acc; z++)
-						for (int y = -acc; y < acc; y++)
+				for (int x = -acc; x < acc; x++) {
+					for (int z = -acc; z < acc; z++) {
+						for (int y = -acc; y < acc; y++) {
 							if (entity.getLocation().getBlock()
 									.getRelative(x, y, z).equals(item)) {
 								return target = entity;
 							}
+						}
+					}
+				}
 			}
 		}
 		return target;

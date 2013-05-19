@@ -9,7 +9,15 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Feed extends Spell{
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
+public class Feed extends Spell {
 
 	public Feed(Zephyrus plugin) {
 		super(plugin);
@@ -24,7 +32,7 @@ public class Feed extends Spell{
 	public String bookText() {
 		return "You hungry? Not anymore!";
 	}
-	
+
 	@Override
 	public int reqLevel() {
 		return 0;
@@ -41,18 +49,18 @@ public class Feed extends Spell{
 	}
 
 	@Override
-	public boolean canRun(Player player){
-		if (player.getFoodLevel() == 20){
+	public boolean canRun(Player player) {
+		if (player.getFoodLevel() == 20) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	@Override
-	public String failMessage(){
+	public String failMessage() {
 		return "You are already at max hunger!";
 	}
-	
+
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> items = new HashSet<ItemStack>();

@@ -13,6 +13,14 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Butcher extends Spell {
 
 	public Butcher(Zephyrus plugin) {
@@ -43,14 +51,14 @@ public class Butcher extends Spell {
 	public boolean canBind() {
 		return true;
 	}
-	
+
 	@Override
 	public void run(Player player) {
 		LivingEntity[] e = getNearbyEntities(player.getLocation(), 4);
-		for (LivingEntity entity : e){
+		for (LivingEntity entity : e) {
 			if (entity instanceof Player) {
 				entity.damage(10, player);
-			} else if (entity instanceof EnderDragon){
+			} else if (entity instanceof EnderDragon) {
 				entity.damage(20, player);
 			} else {
 				entity.damage(50, player);
@@ -64,7 +72,7 @@ public class Butcher extends Spell {
 		i.add(new ItemStack(Material.DIAMOND_SWORD));
 		return i;
 	}
-	
+
 	public static LivingEntity[] getNearbyEntities(Location l, int radius) {
 		int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
 		HashSet<LivingEntity> radiusEntities = new HashSet<LivingEntity>();
@@ -74,10 +82,11 @@ public class Butcher extends Spell {
 				for (Entity e : new Location(l.getWorld(), x + (chX * 16), y, z
 						+ (chZ * 16)).getChunk().getEntities()) {
 					if (e.getLocation().distance(l) <= radius
-							&& e.getLocation().getBlock() != l.getBlock())
+							&& e.getLocation().getBlock() != l.getBlock()) {
 						if (e instanceof LivingEntity) {
 							radiusEntities.add((LivingEntity) e);
 						}
+					}
 				}
 			}
 		}

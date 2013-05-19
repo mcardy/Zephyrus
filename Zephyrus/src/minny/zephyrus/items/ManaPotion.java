@@ -18,11 +18,19 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class ManaPotion extends CustomItem {
 
 	LevelManager lvl;
 	RecipeUtil util;
-	
+
 	public ManaPotion(Zephyrus plugin) {
 		super(plugin);
 		lvl = new LevelManager(plugin);
@@ -62,7 +70,7 @@ public class ManaPotion extends CustomItem {
 		recipe.setIngredient('A', Material.GLOWSTONE_DUST);
 		return recipe;
 	}
-	
+
 	@EventHandler
 	public void onManaPotion(PlayerItemConsumeEvent e) {
 		if (checkName(e.getItem(), "¤bMana Potion")) {
@@ -71,12 +79,12 @@ public class ManaPotion extends CustomItem {
 					LevelManager.getLevel(player) * 100);
 		}
 	}
-	
+
 	@Override
-	public boolean hasLevel(){
+	public boolean hasLevel() {
 		return false;
 	}
-	
+
 	@EventHandler
 	public void onCraftHandle(PrepareItemCraftEvent e) {
 		if (e.getRecipe() == this.recipe()) {

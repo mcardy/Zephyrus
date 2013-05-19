@@ -17,13 +17,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class GemOfLightning extends CustomItem {
 
 	PluginHook hook;
 
 	public GemOfLightning(Zephyrus plugin) {
 		super(plugin);
-		this.hook = new PluginHook();
+		hook = new PluginHook();
 	}
 
 	@Override
@@ -79,7 +87,9 @@ public class GemOfLightning extends CustomItem {
 						delayFromLevel(getItemLevel(e.getPlayer()
 								.getItemInHand())), e.getPlayer().getName());
 			} else {
-				e.getPlayer().sendMessage(ChatColor.DARK_RED + "You don't have permission for this area");
+				e.getPlayer().sendMessage(
+						ChatColor.DARK_RED
+								+ "You don't have permission for this area");
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(),
@@ -94,7 +104,7 @@ public class GemOfLightning extends CustomItem {
 		}
 
 	}
-	
+
 	@EventHandler
 	public void onCraftHandle(PrepareItemCraftEvent e) {
 		if (e.getRecipe() == this.recipe()) {

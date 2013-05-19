@@ -11,8 +11,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.SmallFireball;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Fireball extends Spell {
-	
+
 	public Fireball(Zephyrus plugin) {
 		super(plugin);
 	}
@@ -21,7 +29,7 @@ public class Fireball extends Spell {
 	public String name() {
 		return "fireball";
 	}
-	
+
 	@Override
 	public String bookText() {
 		return "Fires a ¤cfireball ¤0on cast!";
@@ -45,15 +53,15 @@ public class Fireball extends Spell {
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
-		i.add(new ItemStack(Material.BLAZE_POWDER));		
+		i.add(new ItemStack(Material.BLAZE_POWDER));
 		i.add(new ItemStack(Material.COAL));
 		return i;
 	}
-	
+
 	@Override
 	public boolean canRun(Player player) {
 		if (hook.worldGuard()) {
-			if (hook.wg.canBuild(player, player.getTargetBlock(null, 1000))){
+			if (hook.wg.canBuild(player, player.getTargetBlock(null, 1000))) {
 				return true;
 			} else {
 				return false;
@@ -61,9 +69,9 @@ public class Fireball extends Spell {
 		}
 		return true;
 	}
-	
+
 	@Override
-	public String failMessage(){
+	public String failMessage() {
 		return ChatColor.DARK_RED + "You don't have permission for this area";
 	}
 

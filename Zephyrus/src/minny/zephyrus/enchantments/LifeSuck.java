@@ -4,7 +4,15 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
-public class LifeSuck extends Enchantment{
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
+public class LifeSuck extends Enchantment {
 
 	public LifeSuck(int id) {
 		super(id);

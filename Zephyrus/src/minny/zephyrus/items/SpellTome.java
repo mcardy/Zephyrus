@@ -18,6 +18,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class SpellTome extends ItemUtil implements Listener {
 
 	String spell;
@@ -25,7 +33,7 @@ public class SpellTome extends ItemUtil implements Listener {
 
 	public SpellTome(Zephyrus plugin, String imput, String desc) {
 		super(plugin);
-		this.spell = imput;
+		spell = imput;
 		this.desc = desc;
 	}
 
@@ -46,7 +54,8 @@ public class SpellTome extends ItemUtil implements Listener {
 		l.add("¤7" + spell);
 		m.setLore(l);
 		m.setTitle(spell);
-		m.addPage(desc + "\n\n¤0Cast the spell with:\n¤9/cast " + spell + "\n\n¤0Learn this spell by left clicking this book!");
+		m.addPage(desc + "\n\n¤0Cast the spell with:\n¤9/cast " + spell
+				+ "\n\n¤0Learn this spell by left clicking this book!");
 		i.setItemMeta(m);
 		setGlow(i);
 	}
@@ -63,12 +72,13 @@ public class SpellTome extends ItemUtil implements Listener {
 					Spell spell = Zephyrus.spellMap.get(s);
 					Player player = e.getPlayer();
 					PlayerConfigHandler.reloadConfig(plugin, e.getPlayer());
-					if (!PlayerConfigHandler.getConfig(plugin, player).getStringList("learned")
-							.contains(spell.name())) {
-						List<String> learned = PlayerConfigHandler.getConfig(plugin, player)
-								.getStringList("learned");
+					if (!PlayerConfigHandler.getConfig(plugin, player)
+							.getStringList("learned").contains(spell.name())) {
+						List<String> learned = PlayerConfigHandler.getConfig(
+								plugin, player).getStringList("learned");
 						learned.add(spell.name());
-						PlayerConfigHandler.getConfig(plugin, player).set("learned", learned);
+						PlayerConfigHandler.getConfig(plugin, player).set(
+								"learned", learned);
 						e.getPlayer().sendMessage(
 								"You have successfully learned "
 										+ ChatColor.GOLD + spell.name());

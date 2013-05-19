@@ -15,6 +15,14 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class EconListener implements Listener {
 
 	Zephyrus plugin;
@@ -22,7 +30,7 @@ public class EconListener implements Listener {
 
 	public EconListener(Zephyrus plugin) {
 		this.plugin = plugin;
-		this.hook = new PluginHook();
+		hook = new PluginHook();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -38,9 +46,11 @@ public class EconListener implements Listener {
 							double cost = Double.parseDouble(s.getLine(1)
 									.replace("$", "").replace("¤6", ""));
 							if (hook.econ.getBalance(e.getPlayer().getName()) >= cost) {
-								Spell spell = Zephyrus.spellMap.get(s.getLine(2)
-										.toLowerCase().replace("¤4", ""));
-								if (e.getPlayer().hasPermission("zephyrus.spell." + spell.name())) {
+								Spell spell = Zephyrus.spellMap.get(s
+										.getLine(2).toLowerCase()
+										.replace("¤4", ""));
+								if (e.getPlayer().hasPermission(
+										"zephyrus.spell." + spell.name())) {
 									if (!(LevelManager.getLevel(e.getPlayer()) < spell
 											.reqLevel())) {
 										SpellTome tome = new SpellTome(plugin,
@@ -59,7 +69,9 @@ public class EconListener implements Listener {
 														"You are too low a level to purchas that spell!");
 									}
 								} else {
-									e.getPlayer().sendMessage("You do not have permission for that spell!");
+									e.getPlayer()
+											.sendMessage(
+													"You do not have permission for that spell!");
 								}
 							} else {
 								e.getPlayer().sendMessage(
@@ -88,8 +100,8 @@ public class EconListener implements Listener {
 						player.sendMessage("Invalid Cost!");
 						return;
 					}
-					if (!Zephyrus.spellMap
-							.containsKey(e.getLine(2).toLowerCase())) {
+					if (!Zephyrus.spellMap.containsKey(e.getLine(2)
+							.toLowerCase())) {
 						player.sendMessage("Invalid Spell!");
 						return;
 					}

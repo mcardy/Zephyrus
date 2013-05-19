@@ -10,6 +10,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public enum ParticleEffects {
 
 	HUGE_EXPLOSION("hugeexplosion", 0), LARGE_EXPLODE("largeexplode", 1), FIREWORKS_SPARK(
@@ -108,8 +116,9 @@ public enum ParticleEffects {
 	public static Object createPacket(ParticleEffects effect,
 			Location location, float offsetX, float offsetY, float offsetZ,
 			float speed, int count) throws Exception {
-		if (count <= 0)
+		if (count <= 0) {
 			count = 1;
+		}
 		Object packet = getPacket63WorldParticles();
 		setValue(packet, "a", effect.name);
 		setValue(packet, "b", (float) location.getX());
@@ -126,8 +135,9 @@ public enum ParticleEffects {
 	public static Object createCrackPacket(boolean icon, int id, byte data,
 			Location location, float offsetX, float offsetY, float offsetZ,
 			int count) throws Exception {
-		if (count <= 0)
+		if (count <= 0) {
 			count = 1;
+		}
 		Object packet = getPacket63WorldParticles();
 		String modifier = "iconcrack_" + id;
 		if (!icon) {

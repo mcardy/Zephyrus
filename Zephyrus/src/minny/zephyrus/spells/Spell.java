@@ -19,6 +19,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public abstract class Spell extends LevelManager {
 
 	ConfigHandler spellConfig;
@@ -28,7 +36,7 @@ public abstract class Spell extends LevelManager {
 		super(plugin);
 		plugin.addSpell(this);
 		spellConfig = new ConfigHandler(plugin, "spellconfig.yml");
-		this.hook = new PluginHook();
+		hook = new PluginHook();
 	}
 
 	/**
@@ -94,7 +102,8 @@ public abstract class Spell extends LevelManager {
 	 */
 	public boolean isLearned(Player p, String name) {
 		PlayerConfigHandler.reloadConfig(plugin, p);
-		if (PlayerConfigHandler.getConfig(plugin, p).getStringList("learned").contains(name)) {
+		if (PlayerConfigHandler.getConfig(plugin, p).getStringList("learned")
+				.contains(name)) {
 			return true;
 		}
 		return false;

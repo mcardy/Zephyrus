@@ -6,6 +6,14 @@ import minny.zephyrus.Zephyrus;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class CountdownUtil extends BukkitRunnable {
 
 	Map<String, Object> map;
@@ -18,6 +26,7 @@ public class CountdownUtil extends BukkitRunnable {
 		this.plugin = plugin;
 	}
 
+	@Override
 	public void run() {
 		if (map.containsKey(string)) {
 			int time = (Integer) map.get(string);

@@ -2,6 +2,8 @@ package minny.zephyrus.items;
 
 import java.util.List;
 
+import minny.zephyrus.Zephyrus;
+
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
@@ -10,9 +12,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-import minny.zephyrus.Zephyrus;
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
 
-public class LifeSuckSword extends CustomItem{
+public class LifeSuckSword extends CustomItem {
 
 	public LifeSuckSword(Zephyrus plugin) {
 		super(plugin);
@@ -35,12 +43,12 @@ public class LifeSuckSword extends CustomItem{
 		setItemName(i, this.name());
 		setCustomEnchantment(i, plugin.suck, 1);
 	}
-	
+
 	public void createUpgradeItem(ItemStack i) {
 		setItemName(i, this.name());
 		setCustomEnchantment(i, plugin.suck, 2);
 	}
-	
+
 	public ItemStack upgradeItem() {
 		ItemStack i = new ItemStack(Material.DIAMOND_SWORD);
 		createUpgradeItem(i);
@@ -69,12 +77,12 @@ public class LifeSuckSword extends CustomItem{
 		recipe.setIngredient('A', Material.DIAMOND_SWORD);
 		return recipe;
 	}
-	
+
 	@Override
-	public boolean hasLevel(){
+	public boolean hasLevel() {
 		return false;
 	}
-	
+
 	@EventHandler
 	public void onCraftHandle(PrepareItemCraftEvent e) {
 		if (e.getRecipe() == this.recipe()) {

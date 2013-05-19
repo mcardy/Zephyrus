@@ -10,11 +10,19 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class PlayerConfigHandler {
 
 	private static File configFile;
 	private static FileConfiguration fileConfiguration;
-	
+
 	public static void reloadConfig(Zephyrus plugin, Player player) {
 		String fileName = player.getName() + ".yml";
 		File dataFolder = new File(plugin.getDataFolder(), "Players");
@@ -24,12 +32,12 @@ public class PlayerConfigHandler {
 		}
 		fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
-		//InputStream defConfigStream = null;
-		//if (defConfigStream != null) {
-		//	YamlConfiguration defConfig = YamlConfiguration
-		//			.loadConfiguration(defConfigStream);
-		//	fileConfiguration.setDefaults(defConfig);
-		//}
+		// InputStream defConfigStream = null;
+		// if (defConfigStream != null) {
+		// YamlConfiguration defConfig = YamlConfiguration
+		// .loadConfiguration(defConfigStream);
+		// fileConfiguration.setDefaults(defConfig);
+		// }
 	}
 
 	public static FileConfiguration getConfig(Zephyrus plugin, Player player) {
@@ -73,5 +81,5 @@ public class PlayerConfigHandler {
 			}
 		}
 	}
-	
+
 }

@@ -15,6 +15,14 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Grow extends Spell {
 
 	public Grow(Zephyrus plugin) {
@@ -30,7 +38,7 @@ public class Grow extends Spell {
 	public String bookText() {
 		return "Grows wheat and Saplings";
 	}
-	
+
 	@Override
 	public int reqLevel() {
 		return 0;
@@ -50,12 +58,12 @@ public class Grow extends Spell {
 			loc.setZ(loc.getZ() + 0.6);
 			loc.setY(loc.getY() + 0.3);
 			try {
-				ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER, loc,
-						1, 0, 1, 100, 20);
+				ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER,
+						loc, 1, 0, 1, 100, 20);
 			} catch (Exception e) {
 			}
 		}
-		if (player.getTargetBlock(null, 4).getType() == Material.SAPLING){
+		if (player.getTargetBlock(null, 4).getType() == Material.SAPLING) {
 			Block b = player.getTargetBlock(null, 4);
 			TreeType tt = getTree(b.getData());
 			World world = player.getWorld();
@@ -79,17 +87,17 @@ public class Grow extends Spell {
 				&& player.getTargetBlock(null, 3).getData() != 7) {
 			return true;
 		}
-		if (player.getTargetBlock(null, 4).getType() == Material.SAPLING){
+		if (player.getTargetBlock(null, 4).getType() == Material.SAPLING) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Override
-	public String failMessage(){
+	public String failMessage() {
 		return ChatColor.GRAY + "That block cannot be grown";
 	}
-	
+
 	public static TreeType getTree(int data) {
 		switch (data) {
 		case 0:

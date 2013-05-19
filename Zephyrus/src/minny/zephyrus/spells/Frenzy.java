@@ -14,7 +14,15 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Frenzy extends Spell{
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
+public class Frenzy extends Spell {
 
 	public Frenzy(Zephyrus plugin) {
 		super(plugin);
@@ -44,7 +52,7 @@ public class Frenzy extends Spell{
 	public boolean canBind() {
 		return true;
 	}
-	
+
 	@Override
 	public void run(Player player) {
 		Monster[] e = getNearbyEntities(player.getLocation(), 24);
@@ -72,9 +80,10 @@ public class Frenzy extends Spell{
 
 	@Override
 	public String failMessage() {
-		return ChatColor.RED + "Zephyrus is not fully compatible with this version of Bukkit.This spell has been disabled :(";
+		return ChatColor.RED
+				+ "Zephyrus is not fully compatible with this version of Bukkit.This spell has been disabled :(";
 	}
-	
+
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
@@ -88,10 +97,10 @@ public class Frenzy extends Spell{
 	}
 
 	@Override
-	public Spell reqSpell(){
+	public Spell reqSpell() {
 		return new Confuse(plugin);
 	}
-	
+
 	private static Monster[] getNearbyEntities(Location l, int radius) {
 		int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
 		HashSet<Monster> radiusEntities = new HashSet<Monster>();
@@ -101,10 +110,11 @@ public class Frenzy extends Spell{
 				for (Entity e : new Location(l.getWorld(), x + (chX * 16), y, z
 						+ (chZ * 16)).getChunk().getEntities()) {
 					if (e.getLocation().distance(l) <= radius
-							&& e.getLocation().getBlock() != l.getBlock())
-						if (e instanceof Monster){
+							&& e.getLocation().getBlock() != l.getBlock()) {
+						if (e instanceof Monster) {
 							radiusEntities.add((Monster) e);
 						}
+					}
 				}
 			}
 		}

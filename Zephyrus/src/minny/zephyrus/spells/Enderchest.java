@@ -11,6 +11,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Enderchest extends Spell {
 
 	public Enderchest(Zephyrus plugin) {
@@ -26,7 +34,7 @@ public class Enderchest extends Spell {
 	public String bookText() {
 		return "Your very own portable enderchest!";
 	}
-	
+
 	@Override
 	public int reqLevel() {
 		return 0;

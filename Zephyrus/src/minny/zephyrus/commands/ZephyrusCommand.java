@@ -5,28 +5,38 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class ZephyrusCommand {
 
-	public boolean hasPerm(CommandSender sender, String perm){
-		if (sender.hasPermission(perm)){
+	public boolean hasPerm(CommandSender sender, String perm) {
+		if (sender.hasPermission(perm)) {
 			return true;
 		}
 		return false;
 	}
-	
-	public boolean isOp(CommandSender sender){
-		if (sender.isOp()){
+
+	public boolean isOp(CommandSender sender) {
+		if (sender.isOp()) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean isOnline(String player) {
 		Player target = (Bukkit.getServer().getPlayer(player));
-		if (target == null) return false;
+		if (target == null) {
+			return false;
+		}
 		return true;
 	}
-	
+
 	public void inGameOnly(CommandSender sender) {
 		sender.sendMessage(ChatColor.RED + "Must be an ingame player!");
 	}
@@ -43,9 +53,9 @@ public class ZephyrusCommand {
 	public void notEnough(CommandSender sender) {
 		sender.sendMessage(ChatColor.RED + "Not enough arguments");
 	}
-	
+
 	public void notOnline(CommandSender sender) {
 		sender.sendMessage(ChatColor.RED + "That player is not online!");
 	}
-	
+
 }

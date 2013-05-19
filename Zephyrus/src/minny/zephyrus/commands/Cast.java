@@ -16,6 +16,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Cast extends ZephyrusCommand implements CommandExecutor,
 		TabCompleter {
 
@@ -25,7 +33,7 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 
 	public Cast(Zephyrus plugin) {
 		this.plugin = plugin;
-		this.lvl = new LevelManager(plugin);
+		lvl = new LevelManager(plugin);
 		hook = new PluginHook();
 	}
 
@@ -53,11 +61,12 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 										hook.hookWG();
 									}
 									spell.run(player);
-									LevelManager.drainMana(
-											player,
-											spell.manaCost()
-													* plugin.getConfig()
-															.getInt("ManaMultiplier"));
+									LevelManager
+											.drainMana(
+													player,
+													spell.manaCost()
+															* plugin.getConfig()
+																	.getInt("ManaMultiplier"));
 								}
 							} else {
 								if (spell.failMessage() != "") {
@@ -89,6 +98,7 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 
 	public List<String> learned(CommandSender p) {
 		Player player = (Player) p;
-		return PlayerConfigHandler.getConfig(plugin, player).getStringList("learned");
+		return PlayerConfigHandler.getConfig(plugin, player).getStringList(
+				"learned");
 	}
 }

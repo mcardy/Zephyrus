@@ -20,13 +20,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class BlinkPearl extends CustomItem {
 
 	PluginHook hook;
 
 	public BlinkPearl(Zephyrus plugin) {
 		super(plugin);
-		this.hook = new PluginHook();
+		hook = new PluginHook();
 	}
 
 	@Override
@@ -118,24 +126,20 @@ public class BlinkPearl extends CustomItem {
 								}
 							} else {
 								ParticleEffects.sendToLocation(
-										ParticleEffects.TOWN_AURA, loc, 1,
-										1, 1, 1, 10);
+										ParticleEffects.TOWN_AURA, loc, 1, 1,
+										1, 1, 10);
 								ParticleEffects.sendToLocation(
-										ParticleEffects.PORTAL, e
-												.getPlayer().getLocation(),
-										1, 1, 1, 1, 16);
+										ParticleEffects.PORTAL, e.getPlayer()
+												.getLocation(), 1, 1, 1, 1, 16);
 								e.getPlayer()
 										.getWorld()
-										.playSound(
-												e.getPlayer().getLocation(),
-												Sound.ENDERMAN_TELEPORT,
-												10, 1);
+										.playSound(e.getPlayer().getLocation(),
+												Sound.ENDERMAN_TELEPORT, 10, 1);
 								e.getPlayer().teleport(loc);
 								delay(plugin.blinkPearlDelay, plugin,
 										delayFromLevel(getItemLevel(e
-												.getPlayer()
-												.getItemInHand())), e
-												.getPlayer().getName());
+												.getPlayer().getItemInHand())),
+										e.getPlayer().getName());
 							}
 						} else {
 							e.getPlayer().sendMessage(
@@ -155,7 +159,7 @@ public class BlinkPearl extends CustomItem {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onCraftHandle(PrepareItemCraftEvent e) {
 		if (e.getRecipe() == this.recipe()) {

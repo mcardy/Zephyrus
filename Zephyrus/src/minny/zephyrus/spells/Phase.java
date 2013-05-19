@@ -13,6 +13,14 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Phase extends Spell {
 
 	public Phase(Zephyrus plugin) {
@@ -98,43 +106,49 @@ public class Phase extends Spell {
 			loc2 = loc1;
 			loc2.setY(loc2.getY() - 1);
 			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR)
+					&& loc2.getBlock().getType() == Material.AIR) {
 				return true;
+			}
 		} else if (bf == BlockFace.SOUTH) {
 			loc1.setZ(loc1.getZ() - 1);
 			loc2 = loc1;
 			loc2.setY(loc2.getY() - 1);
 			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR)
+					&& loc2.getBlock().getType() == Material.AIR) {
 				return true;
+			}
 		} else if (bf == BlockFace.EAST) {
 			loc1.setX(loc1.getX() - 1);
 			loc2 = loc1;
 			loc2.setY(loc2.getY() - 1);
 			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR)
+					&& loc2.getBlock().getType() == Material.AIR) {
 				return true;
+			}
 		} else if (bf == BlockFace.WEST) {
 			loc1.setX(loc1.getX() + 1);
 			loc2 = loc1;
 			loc2.setY(loc2.getY() - 1);
 			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR)
+					&& loc2.getBlock().getType() == Material.AIR) {
 				return true;
+			}
 		} else if (bf == BlockFace.DOWN) {
 			loc1.setY(loc1.getY() - 1);
 			loc2 = loc1;
 			loc2.setY(loc2.getY() - 1);
 			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR)
+					&& loc2.getBlock().getType() == Material.AIR) {
 				return true;
+			}
 		} else if (bf == BlockFace.UP) {
 			loc1.setY(loc1.getY() + 1);
 			loc2 = loc1;
 			loc2.setY(loc2.getY() + 1);
 			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR)
+					&& loc2.getBlock().getType() == Material.AIR) {
 				return true;
+			}
 		}
 		return false;
 	}

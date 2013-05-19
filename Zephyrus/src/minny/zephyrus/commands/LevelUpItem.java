@@ -9,6 +9,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class LevelUpItem extends ZephyrusCommand implements CommandExecutor {
 
 	ItemUtil item;
@@ -33,7 +41,8 @@ public class LevelUpItem extends ZephyrusCommand implements CommandExecutor {
 							.maxLevel()) {
 						int current = item.getItemLevel(player.getItemInHand());
 						item.setItemLevel(player.getItemInHand(), current + 1);
-						sender.sendMessage("You have leveled up the " + i.name());
+						sender.sendMessage("You have leveled up the "
+								+ i.name());
 					} else {
 						player.sendMessage("That item cannot be leveled anymore!");
 					}

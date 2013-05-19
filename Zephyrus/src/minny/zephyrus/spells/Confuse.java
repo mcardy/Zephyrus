@@ -14,6 +14,14 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Confuse extends Spell {
 
 	public Confuse(Zephyrus plugin) {
@@ -70,10 +78,11 @@ public class Confuse extends Spell {
 	public boolean canBind() {
 		return true;
 	}
-	
+
 	@Override
 	public String failMessage() {
-		return ChatColor.RED + "Zephyrus is not fully compatible with this version of Bukkit.This spell has been disabled :(";
+		return ChatColor.RED
+				+ "Zephyrus is not fully compatible with this version of Bukkit.This spell has been disabled :(";
 	}
 
 	@Override
@@ -95,10 +104,11 @@ public class Confuse extends Spell {
 				for (Entity e : new Location(l.getWorld(), x + (chX * 16), y, z
 						+ (chZ * 16)).getChunk().getEntities()) {
 					if (e.getLocation().distance(l) <= radius
-							&& e.getLocation().getBlock() != l.getBlock())
+							&& e.getLocation().getBlock() != l.getBlock()) {
 						if (e instanceof Monster) {
 							radiusEntities.add((Monster) e);
 						}
+					}
 				}
 			}
 		}

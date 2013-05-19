@@ -18,6 +18,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockIterator;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Summon extends Spell {
 
 	public Summon(Zephyrus plugin) {
@@ -66,10 +74,11 @@ public class Summon extends Spell {
 	public boolean canRun(Player player) {
 		try {
 			new CraftLivingEntity(null, null);
-			if (getTarget(player) != null)
+			if (getTarget(player) != null) {
 				return true;
-			else
+			} else {
 				return false;
+			}
 		} catch (NoClassDefFoundError err) {
 			return false;
 		}
@@ -91,14 +100,18 @@ public class Summon extends Spell {
 			Block item = iterator.next();
 			for (Entity entity : player.getNearbyEntities(100, 100, 100)) {
 				int acc = 2;
-				for (int x = -acc; x < acc; x++)
-					for (int z = -acc; z < acc; z++)
-						for (int y = -acc; y < acc; y++)
+				for (int x = -acc; x < acc; x++) {
+					for (int z = -acc; z < acc; z++) {
+						for (int y = -acc; y < acc; y++) {
 							if (entity.getLocation().getBlock()
 									.getRelative(x, y, z).equals(item)) {
-								if (entity instanceof Creature)
+								if (entity instanceof Creature) {
 									return target = (Creature) entity;
+								}
 							}
+						}
+					}
+				}
 			}
 		}
 		return target;

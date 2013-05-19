@@ -4,7 +4,15 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
-public class GlowEffect extends Enchantment{
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
+public class GlowEffect extends Enchantment {
 
 	public GlowEffect(int id) {
 		super(id);

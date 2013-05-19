@@ -19,6 +19,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class HoeOfGrowth extends CustomItem {
 
 	public HoeOfGrowth(Zephyrus plugin) {
@@ -149,7 +157,7 @@ public class HoeOfGrowth extends CustomItem {
 		}
 		return TreeType.TREE;
 	}
-	
+
 	@EventHandler
 	public void onCraftHandle(PrepareItemCraftEvent e) {
 		if (e.getRecipe() == this.recipe()) {

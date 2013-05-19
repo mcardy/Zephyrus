@@ -4,6 +4,14 @@ import java.util.Map;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class DelayUtil extends BukkitRunnable {
 
 	Map<String, Object> set;

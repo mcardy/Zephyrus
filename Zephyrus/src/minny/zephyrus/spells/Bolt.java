@@ -11,8 +11,16 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Bolt extends Spell {
-	
+
 	public Bolt(Zephyrus plugin) {
 		super(plugin);
 	}
@@ -21,7 +29,7 @@ public class Bolt extends Spell {
 	public String name() {
 		return "bolt";
 	}
-	
+
 	@Override
 	public String bookText() {
 		return "Strikes lightning where you point!";
@@ -50,18 +58,20 @@ public class Bolt extends Spell {
 		items.add(new ItemStack(Material.FLINT_AND_STEEL));
 		return items;
 	}
-	
+
 	@Override
 	public boolean canRun(Player player) {
 		if (hook.worldGuard()) {
-			if (hook.wg.canBuild(player, player.getTargetBlock(null, 1000))) return true;
+			if (hook.wg.canBuild(player, player.getTargetBlock(null, 1000))) {
+				return true;
+			}
 			return false;
 		}
 		return true;
 	}
-	
+
 	@Override
-	public String failMessage(){
+	public String failMessage() {
 		return ChatColor.DARK_RED + "You don't have permission for this area";
 	}
 

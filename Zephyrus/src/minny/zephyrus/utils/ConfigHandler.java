@@ -10,8 +10,16 @@ import minny.zephyrus.Zephyrus;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class ConfigHandler {
-	
+
 	String fileName;
 	Zephyrus plugin;
 
@@ -26,8 +34,9 @@ public class ConfigHandler {
 	public void reloadConfig() {
 		if (configFile == null) {
 			File dataFolder = plugin.getDataFolder();
-			if (dataFolder == null)
+			if (dataFolder == null) {
 				throw new IllegalStateException();
+			}
 			configFile = new File(dataFolder, fileName);
 		}
 		fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
@@ -49,8 +58,9 @@ public class ConfigHandler {
 
 	public void saveConfig() {
 		File dataFolder = plugin.getDataFolder();
-		if (dataFolder == null)
+		if (dataFolder == null) {
 			throw new IllegalStateException();
+		}
 		configFile = new File(dataFolder, fileName);
 		if (fileConfiguration == null || configFile == null) {
 			return;
@@ -66,11 +76,12 @@ public class ConfigHandler {
 
 	public void saveDefaultConfig() {
 		File dataFolder = plugin.getDataFolder();
-		if (dataFolder == null)
+		if (dataFolder == null) {
 			throw new IllegalStateException();
+		}
 		configFile = new File(dataFolder, fileName);
 		if (!configFile.exists()) {
-			this.plugin.saveResource(fileName, false);
+			plugin.saveResource(fileName, false);
 		}
 	}
 }

@@ -8,18 +8,27 @@ import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class LevelManager {
 
 	public static Zephyrus plugin;
 	private int levelBalance;
-	
+
 	public LevelManager(Zephyrus plugin) {
 		LevelManager.plugin = plugin;
 	}
 
 	public void levelUp(Player player) {
 		PlayerConfigHandler.reloadConfig(plugin, player);
-		int current = PlayerConfigHandler.getConfig(plugin, player).getInt("Level");
+		int current = PlayerConfigHandler.getConfig(plugin, player).getInt(
+				"Level");
 		current = current + 1;
 		PlayerConfigHandler.getConfig(plugin, player).set("Level", current);
 		PlayerConfigHandler.saveConfig(plugin, player);
@@ -35,7 +44,8 @@ public class LevelManager {
 	public void levelProgress(Player player, int amount) {
 		levelBalance = plugin.getConfig().getInt("LevelBalance");
 		PlayerConfigHandler.reloadConfig(plugin, player);
-		int current = PlayerConfigHandler.getConfig(plugin, player).getInt("progress");
+		int current = PlayerConfigHandler.getConfig(plugin, player).getInt(
+				"progress");
 		current = current + amount;
 		if (current > getLevel(player) * levelBalance - 12) {
 			current = current - (getLevel(player) * levelBalance - 12);
@@ -48,7 +58,8 @@ public class LevelManager {
 
 	public static int getLevelProgress(Player player) {
 		PlayerConfigHandler.reloadConfig(plugin, player);
-		int current = PlayerConfigHandler.getConfig(plugin, player).getInt("progress");
+		int current = PlayerConfigHandler.getConfig(plugin, player).getInt(
+				"progress");
 		return current;
 	}
 
@@ -77,7 +88,8 @@ public class LevelManager {
 	}
 
 	public static void saveMana(Player player) {
-		PlayerConfigHandler.getConfig(plugin, player).set("mana", Zephyrus.mana.get(player.getName()));
+		PlayerConfigHandler.getConfig(plugin, player).set("mana",
+				Zephyrus.mana.get(player.getName()));
 		PlayerConfigHandler.saveConfig(plugin, player);
 	}
 
@@ -87,7 +99,8 @@ public class LevelManager {
 	}
 
 	public static void drainMana(Player player, int amount) {
-		Zephyrus.mana.put(player.getName(), (Integer) Zephyrus.mana.get(player.getName()) - amount);
+		Zephyrus.mana.put(player.getName(),
+				(Integer) Zephyrus.mana.get(player.getName()) - amount);
 	}
 
 	public void displayMana(Player player) {
@@ -131,7 +144,7 @@ public class LevelManager {
 	}
 
 	public void displayLevel(Player player) {
-		this.levelBalance = plugin.getConfig().getInt("LevelBalance");
+		levelBalance = plugin.getConfig().getInt("LevelBalance");
 		int level = getLevel(player);
 		int currentLevelProg = getLevelProgress(player);
 		int maxLevelProg = level * levelBalance - 12;

@@ -21,6 +21,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class RodOfFire extends CustomItem {
 
 	RecipeUtil recipe;
@@ -31,7 +39,7 @@ public class RodOfFire extends CustomItem {
 		super(plugin);
 		recipe = new RecipeUtil();
 		lvl = new LevelManager(plugin);
-		this.hook = new PluginHook();
+		hook = new PluginHook();
 	}
 
 	@Override
@@ -105,10 +113,9 @@ public class RodOfFire extends CustomItem {
 				SmallFireball fireball = player
 						.launchProjectile(SmallFireball.class);
 				fireball.setVelocity(fireball.getVelocity().multiply(10));
-				delay(plugin.fireRodDelay,
-						plugin,
-						delayFromLevel(getItemLevel(player.getItemInHand())),
-						e.getPlayer().getName());
+				delay(plugin.fireRodDelay, plugin,
+						delayFromLevel(getItemLevel(player.getItemInHand())), e
+								.getPlayer().getName());
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
@@ -149,7 +156,7 @@ public class RodOfFire extends CustomItem {
 							+ " seconds to recharge!");
 		}
 	}
-	
+
 	@EventHandler
 	public void onCraftHandle(PrepareItemCraftEvent e) {
 		if (e.getRecipe() == this.recipe()) {

@@ -8,6 +8,14 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class PluginHook {
 
 	public WorldGuardPlugin wg;

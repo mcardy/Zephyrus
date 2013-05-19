@@ -8,6 +8,13 @@ import java.util.logging.Logger;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
 
 public class UpdateChecker extends BukkitRunnable {
 
@@ -19,6 +26,7 @@ public class UpdateChecker extends BukkitRunnable {
 		this.plugin = plugin;
 	}
 
+	@Override
 	public void run() {
 		if (plugin.getConfig().getBoolean("UpdateChecker")) {
 			String current = plugin.getDescription().getVersion();

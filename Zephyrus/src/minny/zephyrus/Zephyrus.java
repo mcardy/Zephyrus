@@ -59,6 +59,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Zephyrus extends JavaPlugin {
 
 	PlayerListener playerListener = new PlayerListener(this);
@@ -112,7 +120,7 @@ public class Zephyrus extends JavaPlugin {
 		mana = new HashMap<String, Object>();
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			Zephyrus.mana.put(p.getName(), LevelManager.loadMana(p));;
+			Zephyrus.mana.put(p.getName(), LevelManager.loadMana(p));
 			new ManaRecharge(this, p).runTaskLater(this, 30);
 		}
 
@@ -136,6 +144,7 @@ public class Zephyrus extends JavaPlugin {
 						+ " Enabled!");
 	}
 
+	@Override
 	public void onDisable() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			LevelManager.saveMana(p);
