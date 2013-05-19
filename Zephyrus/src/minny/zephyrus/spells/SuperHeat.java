@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.hooks.PluginHook;
 import minny.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.ChatColor;
@@ -126,8 +127,9 @@ public class SuperHeat extends Spell {
 
 	@Override
 	public boolean canRun(Player player) {
-		if (hook.worldGuard()) {
-			if (!hook.wg.canBuild(player, player.getTargetBlock(null, 7))) {
+		if (PluginHook.worldGuard()) {
+			PluginHook.hookWG();
+			if (!PluginHook.wg.canBuild(player, player.getTargetBlock(null, 7))) {
 				return false;
 			}
 		}

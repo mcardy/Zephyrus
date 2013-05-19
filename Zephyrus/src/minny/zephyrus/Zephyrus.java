@@ -49,7 +49,6 @@ import minny.zephyrus.spells.Spell;
 import minny.zephyrus.spells.SuperHeat;
 import minny.zephyrus.spells.Vanish;
 import minny.zephyrus.utils.ConfigHandler;
-import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
@@ -101,13 +100,11 @@ public class Zephyrus extends JavaPlugin {
 
 		new UpdateChecker(this).run();
 
-		PluginHook hook = new PluginHook();
-
-		if (hook.worldGuard()) {
+		if (PluginHook.worldGuard()) {
 			getLogger().info(
-					"WorldGuard found. Integrating WorldGuard protections!");
+					"WorldGuard found. Protections integrated");
 		}
-		if (hook.economy()) {
+		if (PluginHook.economy()) {
 			getLogger().info("Vault found. Integrating economy!");
 			PluginManager pm = getServer().getPluginManager();
 			pm.registerEvents(new EconListener(this), this);
@@ -139,6 +136,8 @@ public class Zephyrus extends JavaPlugin {
 		addItems();
 		addSpells();
 
+		getLogger().info("Loaded " + Zephyrus.spellMap.size() + " internal spells");
+		
 		getLogger()
 				.info("Zephyrus v" + this.getDescription().getVersion()
 						+ " Enabled!");
@@ -148,7 +147,6 @@ public class Zephyrus extends JavaPlugin {
 	public void onDisable() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			LevelManager.saveMana(p);
-			PlayerConfigHandler.saveConfig(this, p);
 			Zephyrus.mana.remove(p);
 		}
 	}

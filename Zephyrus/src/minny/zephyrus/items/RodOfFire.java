@@ -90,9 +90,9 @@ public class RodOfFire extends CustomItem {
 				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
 				&& !plugin.fireRodDelay.containsKey(e.getPlayer().getName())
 				&& getItemLevel(e.getPlayer().getItemInHand()) < 6) {
-			if (hook.worldGuard()) {
-				hook.hookWG();
-				if (hook.wg.canBuild(e.getPlayer(), e.getPlayer()
+			if (PluginHook.worldGuard()) {
+				PluginHook.hookWG();
+				if (PluginHook.wg.canBuild(e.getPlayer(), e.getPlayer()
 						.getTargetBlock(null, 1000))) {
 					Player player = e.getPlayer();
 					SmallFireball fireball = player
@@ -121,9 +121,9 @@ public class RodOfFire extends CustomItem {
 				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
 				&& !plugin.fireRodDelay.containsKey(e.getPlayer().getName())) {
 
-			if (hook.worldGuard()) {
-				hook.hookWG();
-				if (hook.wg.canBuild(e.getPlayer(), e.getPlayer()
+			if (PluginHook.worldGuard()) {
+				PluginHook.hookWG();
+				if (PluginHook.wg.canBuild(e.getPlayer(), e.getPlayer()
 						.getTargetBlock(null, 1000))) {
 					Player player = e.getPlayer();
 					Fireball fireball = player.launchProjectile(Fireball.class);

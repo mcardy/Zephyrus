@@ -148,42 +148,50 @@ public class LevelManager {
 		int level = getLevel(player);
 		int currentLevelProg = getLevelProgress(player);
 		int maxLevelProg = level * levelBalance - 12;
-		double devider = maxLevelProg / 120;
+		long devider = (maxLevelProg * 100) / 120;
 		StringBuffer full = new StringBuffer();
 		StringBuffer empty = new StringBuffer();
-		if (currentLevelProg != 0) {
-			double emptyLvl = maxLevelProg - currentLevelProg;
-			for (double i = currentLevelProg / devider; i >= 0; i = i - 1) {
-				full.append("|");
-			}
-			for (double i = emptyLvl / devider; i >= 1; i = i - 1) {
-				if (emptyLvl >= 1) {
-					empty.append("|");
-				} else {
-					break;
+		if (level != 0) {
+			if (currentLevelProg != 0) {
+				double emptyLvl = maxLevelProg - currentLevelProg;
+				for (long i = (currentLevelProg * 100) / devider; i >= 0; i = i - 1) {
+					if (i != Double.POSITIVE_INFINITY) {
+						full.append("|");
+					}
 				}
+				for (double i = (emptyLvl * 100) / devider; i >= 1; i = i - 1) {
+					if (emptyLvl >= 1) {
+						empty.append("|");
+					} else {
+						break;
+					}
+				}
+				player.sendMessage(ChatColor.DARK_BLUE + "  ---===["
+						+ ChatColor.BLUE + "Level: " + level + ChatColor.BOLD
+						+ "" + ChatColor.DARK_BLUE + " -=- " + ChatColor.BLUE
+						+ "Progress: " + currentLevelProg + "/" + maxLevelProg
+						+ ChatColor.DARK_BLUE + "]===---");
+				player.sendMessage(ChatColor.DARK_GRAY + "{"
+						+ ChatColor.LIGHT_PURPLE + full + ChatColor.GRAY
+						+ empty + ChatColor.DARK_GRAY + "}");
+			} else {
+				for (int i = 120; i > 0; i = i - 1) {
+					empty.append("|");
+				}
+				player.sendMessage(ChatColor.DARK_BLUE + "  ---===["
+						+ ChatColor.BLUE + "Level: " + level
+						+ ChatColor.DARK_BLUE + " -=- " + ChatColor.DARK_BLUE
+						+ "Progress: " + currentLevelProg + "/" + maxLevelProg
+						+ ChatColor.DARK_BLUE + "]===---");
+				player.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY
+						+ empty + ChatColor.DARK_AQUA + "}");
 			}
-			player.sendMessage(ChatColor.DARK_BLUE + " ---===["
-					+ ChatColor.BLUE + "Level: " + level + ChatColor.BOLD + ""
-					+ ChatColor.DARK_BLUE + " -=- " + ChatColor.BLUE
-					+ "Progress: " + currentLevelProg + "/" + maxLevelProg
-					+ ChatColor.DARK_BLUE + "]===---");
-			player.sendMessage(ChatColor.DARK_GRAY + "{"
-					+ ChatColor.LIGHT_PURPLE + full + ChatColor.GRAY + empty
-					+ ChatColor.DARK_GRAY + "}");
-		} else {
-			for (int i = 120; i > 0; i = i - 1) {
-				empty.append("|");
-			}
-			player.sendMessage(ChatColor.DARK_BLUE + " ---===["
-					+ ChatColor.BLUE + "Level: " + level + ChatColor.DARK_BLUE
-					+ " -=- " + ChatColor.DARK_BLUE + "Progress: "
-					+ currentLevelProg + "/" + maxLevelProg
-					+ ChatColor.DARK_BLUE + "]===---");
-			player.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY
-					+ empty + ChatColor.DARK_AQUA + "}");
-		}
 
+		} else {
+			player.sendMessage(ChatColor.DARK_BLUE + "             ---===["
+					+ ChatColor.BLUE + "Level: " + 0 + ChatColor.DARK_BLUE
+					+ "]===---");
+		}
 	}
 
 }

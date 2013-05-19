@@ -26,27 +26,20 @@ public class PlayerConfigHandler {
 	public static void reloadConfig(Zephyrus plugin, Player player) {
 		String fileName = player.getName() + ".yml";
 		File dataFolder = new File(plugin.getDataFolder(), "Players");
-		dataFolder.mkdirs();
-		if (configFile == null) {
-			configFile = new File(dataFolder, fileName);
-		}
+		configFile = new File(dataFolder, fileName);
 		fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
-		// InputStream defConfigStream = null;
+		// InputStream defConfigStream;
 		// if (defConfigStream != null) {
 		// YamlConfiguration defConfig = YamlConfiguration
 		// .loadConfiguration(defConfigStream);
 		// fileConfiguration.setDefaults(defConfig);
-		// }
+		// 8}
 	}
 
 	public static FileConfiguration getConfig(Zephyrus plugin, Player player) {
 		if (fileConfiguration == null) {
-			String fileName = player.getName() + ".yml";
-			File dataFolder = new File(plugin.getDataFolder(), "Players");
 			PlayerConfigHandler.reloadConfig(plugin, player);
-			configFile = new File(dataFolder, fileName);
-			fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 		}
 		return fileConfiguration;
 	}

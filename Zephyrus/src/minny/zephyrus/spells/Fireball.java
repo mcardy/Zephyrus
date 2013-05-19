@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
+import minny.zephyrus.hooks.PluginHook;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -60,8 +61,9 @@ public class Fireball extends Spell {
 
 	@Override
 	public boolean canRun(Player player) {
-		if (hook.worldGuard()) {
-			if (hook.wg.canBuild(player, player.getTargetBlock(null, 1000))) {
+		if (PluginHook.worldGuard()) {
+			PluginHook.hookWG();
+			if (PluginHook.wg.canBuild(player, player.getTargetBlock(null, 1000))) {
 				return true;
 			} else {
 				return false;

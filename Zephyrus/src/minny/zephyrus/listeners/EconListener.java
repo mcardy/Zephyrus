@@ -36,7 +36,7 @@ public class EconListener implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onClickSign(PlayerInteractEvent e) {
-		if (hook.economy()) {
+		if (PluginHook.economy()) {
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				if (e.getClickedBlock() != null
 						&& e.getClickedBlock().getState() instanceof Sign) {
@@ -45,7 +45,7 @@ public class EconListener implements Listener {
 						if (e.getPlayer().hasPermission("zephyrus.buy")) {
 							double cost = Double.parseDouble(s.getLine(1)
 									.replace("$", "").replace("¤6", ""));
-							if (hook.econ.getBalance(e.getPlayer().getName()) >= cost) {
+							if (PluginHook.econ.getBalance(e.getPlayer().getName()) >= cost) {
 								Spell spell = Zephyrus.spellMap.get(s
 										.getLine(2).toLowerCase()
 										.replace("¤4", ""));
@@ -55,7 +55,7 @@ public class EconListener implements Listener {
 											.reqLevel())) {
 										SpellTome tome = new SpellTome(plugin,
 												spell.name(), spell.bookText());
-										hook.econ.withdrawPlayer(e.getPlayer()
+										PluginHook.econ.withdrawPlayer(e.getPlayer()
 												.getName(), cost);
 										e.getPlayer().getInventory()
 												.addItem(tome.item());
@@ -88,7 +88,7 @@ public class EconListener implements Listener {
 	public void onCreateSign(SignChangeEvent e) {
 		if (e.getLine(0).equals("[BuySpell]")) {
 			if (e.getPlayer().hasPermission("zephyrus.buy.create")) {
-				if (hook.economy()) {
+				if (PluginHook.economy()) {
 					Player player = e.getPlayer();
 					try {
 						if (e.getLine(1).startsWith("$")) {

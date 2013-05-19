@@ -18,10 +18,10 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class PluginHook {
 
-	public WorldGuardPlugin wg;
-	public Economy econ = null;
+	public static WorldGuardPlugin wg;
+	public static Economy econ = null;
 
-	public boolean worldGuard() {
+	public static boolean worldGuard() {
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
 		if (plugin != null) {
 			return true;
@@ -29,7 +29,7 @@ public class PluginHook {
 		return false;
 	}
 
-	public boolean economy() {
+	public static boolean economy() {
 		if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
 			return false;
 		}
@@ -42,13 +42,13 @@ public class PluginHook {
 		return econ != null;
 	}
 
-	public void hookEcon() {
+	public static void hookEcon() {
 		RegisteredServiceProvider<Economy> rsp = Bukkit.getServer()
 				.getServicesManager().getRegistration(Economy.class);
 		econ = rsp.getProvider();
 	}
 
-	public void hookWG() {
+	public static void hookWG() {
 		Plugin wgplugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
 		wg = (WorldGuardPlugin) wgplugin;
 	}

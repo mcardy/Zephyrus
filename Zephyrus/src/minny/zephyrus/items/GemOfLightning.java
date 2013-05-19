@@ -77,8 +77,8 @@ public class GemOfLightning extends CustomItem {
 				&& e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(),
 						"¤bGem of Lightning")) {
-			hook.hookWG();
-			if (hook.wg.canBuild(e.getPlayer(),
+			PluginHook.hookWG();
+			if (PluginHook.wg.canBuild(e.getPlayer(),
 					e.getPlayer().getTargetBlock(null, 1000))) {
 				Location loc = e.getPlayer().getTargetBlock(null, 100)
 						.getLocation();

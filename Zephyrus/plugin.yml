@@ -1,6 +1,7 @@
 name: Zephyrus
 main: minny.zephyrus.Zephyrus
 version: 0.3.0
+author: minnymin3
 commands:
    levelup:
    levelupitem:
