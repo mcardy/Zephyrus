@@ -160,7 +160,7 @@ public class HoeOfGrowth extends CustomItem {
 
 	@EventHandler
 	public void onCraftHandle(PrepareItemCraftEvent e) {
-		if (e.getRecipe() == this.recipe()) {
+		if (checkName(e.getRecipe().getResult(), this.name())) {
 			List<HumanEntity> player = e.getViewers();
 			for (HumanEntity en : player) {
 				if (!en.hasPermission("zephyrus.craft.growhoe")) {

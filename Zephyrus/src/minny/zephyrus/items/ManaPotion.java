@@ -5,7 +5,6 @@ import java.util.List;
 
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.player.LevelManager;
-import minny.zephyrus.utils.RecipeUtil;
 
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -29,12 +28,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class ManaPotion extends CustomItem {
 
 	LevelManager lvl;
-	RecipeUtil util;
 
 	public ManaPotion(Zephyrus plugin) {
 		super(plugin);
 		lvl = new LevelManager(plugin);
-		util = new RecipeUtil();
 	}
 
 	@Override
@@ -87,7 +84,7 @@ public class ManaPotion extends CustomItem {
 
 	@EventHandler
 	public void onCraftHandle(PrepareItemCraftEvent e) {
-		if (e.getRecipe() == this.recipe()) {
+		if (checkName(e.getRecipe().getResult(), this.name())) {
 			List<HumanEntity> player = e.getViewers();
 			for (HumanEntity en : player) {
 				if (!en.hasPermission("zephyrus.craft.mana")) {

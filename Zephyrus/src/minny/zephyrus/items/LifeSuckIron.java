@@ -20,20 +20,20 @@ import org.bukkit.inventory.ShapedRecipe;
  * 
  */
 
-public class LifeSuckDiamond extends CustomItem {
+public class LifeSuckIron extends CustomItem {
 
-	public LifeSuckDiamond(Zephyrus plugin) {
+	public LifeSuckIron(Zephyrus plugin) {
 		super(plugin);
 	}
 
 	@Override
 	public String name() {
-		return "¤aDiamond Sword of Life";
+		return "¤aIron Sword of Life";
 	}
 
 	@Override
 	public ItemStack item() {
-		ItemStack i = new ItemStack(Material.DIAMOND_SWORD);
+		ItemStack i = new ItemStack(Material.IRON_SWORD);
 		createItem(i);
 		return i;
 	}
@@ -50,7 +50,7 @@ public class LifeSuckDiamond extends CustomItem {
 	}
 
 	public ItemStack upgradeItem() {
-		ItemStack i = new ItemStack(Material.DIAMOND_SWORD);
+		ItemStack i = new ItemStack(Material.IRON_SWORD);
 		createUpgradeItem(i);
 		return i;
 	}
@@ -61,15 +61,10 @@ public class LifeSuckDiamond extends CustomItem {
 
 		ShapedRecipe recipe = new ShapedRecipe(i);
 		recipe.shape("BCB", "BCB", "BAB");
-		recipe.setIngredient('C', Material.DIAMOND);
+		recipe.setIngredient('C', Material.IRON_INGOT);
 		recipe.setIngredient('B', Material.GHAST_TEAR);
 		recipe.setIngredient('A', Material.STICK);
 		return recipe;
-	}
-
-	@Override
-	public boolean hasLevel() {
-		return false;
 	}
 
 	@EventHandler
@@ -82,5 +77,10 @@ public class LifeSuckDiamond extends CustomItem {
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean hasLevel() {
+		return false;
 	}
 }

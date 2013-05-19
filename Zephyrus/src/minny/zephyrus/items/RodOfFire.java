@@ -5,7 +5,6 @@ import java.util.List;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.hooks.PluginHook;
 import minny.zephyrus.player.LevelManager;
-import minny.zephyrus.utils.RecipeUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -31,13 +30,11 @@ import org.bukkit.inventory.ShapedRecipe;
 
 public class RodOfFire extends CustomItem {
 
-	RecipeUtil recipe;
 	LevelManager lvl;
 	PluginHook hook;
 
 	public RodOfFire(Zephyrus plugin) {
 		super(plugin);
-		recipe = new RecipeUtil();
 		lvl = new LevelManager(plugin);
 		hook = new PluginHook();
 	}
@@ -159,7 +156,7 @@ public class RodOfFire extends CustomItem {
 
 	@EventHandler
 	public void onCraftHandle(PrepareItemCraftEvent e) {
-		if (e.getRecipe() == this.recipe()) {
+		if (checkName(e.getRecipe().getResult(), this.name())) {
 			List<HumanEntity> player = e.getViewers();
 			for (HumanEntity en : player) {
 				if (!en.hasPermission("zephyrus.craft.firerod")) {

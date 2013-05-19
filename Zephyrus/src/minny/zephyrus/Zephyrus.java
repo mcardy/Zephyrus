@@ -19,7 +19,9 @@ import minny.zephyrus.items.BlinkPearl;
 import minny.zephyrus.items.CustomItem;
 import minny.zephyrus.items.GemOfLightning;
 import minny.zephyrus.items.HoeOfGrowth;
-import minny.zephyrus.items.LifeSuckSword;
+import minny.zephyrus.items.LifeSuckDiamond;
+import minny.zephyrus.items.LifeSuckGold;
+import minny.zephyrus.items.LifeSuckIron;
 import minny.zephyrus.items.ManaPotion;
 import minny.zephyrus.items.RodOfFire;
 import minny.zephyrus.items.SpellTome;
@@ -155,7 +157,9 @@ public class Zephyrus extends JavaPlugin {
 			new BlinkPearl(this);
 			new GemOfLightning(this);
 			new HoeOfGrowth(this);
-			new LifeSuckSword(this);
+			new LifeSuckDiamond(this);
+			new LifeSuckGold(this);
+			new LifeSuckIron(this);
 			new ManaPotion(this);
 			new RodOfFire(this);
 		}

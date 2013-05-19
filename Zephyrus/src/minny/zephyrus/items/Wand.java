@@ -21,7 +21,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -265,7 +264,7 @@ public class Wand extends CustomItem {
 
 	@EventHandler
 	public void onCraftHandle(PrepareItemCraftEvent e) {
-		if (e.getRecipe() == this.recipe()) {
+		if (checkName(e.getRecipe().getResult(), this.name())) {
 			List<HumanEntity> player = e.getViewers();
 			for (HumanEntity en : player) {
 				if (!en.hasPermission("zephyrus.craft.wand")) {
@@ -274,16 +273,4 @@ public class Wand extends CustomItem {
 			}
 		}
 	}
-
-	@EventHandler
-	public void onCraft(CraftItemEvent e) {
-		if (e.getRecipe() == this.recipe()) {
-			List<HumanEntity> players = e.getViewers();
-			for (HumanEntity en : players) {
-				plugin.getLogger().info(
-						en.getName() + " has crafted a basic wand.");
-			}
-		}
-	}
-
 }

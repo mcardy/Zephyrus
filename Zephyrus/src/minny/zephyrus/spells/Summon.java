@@ -3,7 +3,6 @@ package minny.zephyrus.spells;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.utils.DespawnEntityUtil;
 import net.minecraft.server.v1_5_R3.NBTTagCompound;
 
 import org.bukkit.ChatColor;
@@ -16,6 +15,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
 /**
@@ -117,4 +117,20 @@ public class Summon extends Spell {
 		return target;
 	}
 
+	private class DespawnEntityUtil extends BukkitRunnable {
+
+		Creature entity;
+
+		public DespawnEntityUtil(Creature e) {
+			entity = e;
+		}
+
+		@Override
+		public void run() {
+
+			entity.damage(1000);
+		}
+
+	}
+	
 }

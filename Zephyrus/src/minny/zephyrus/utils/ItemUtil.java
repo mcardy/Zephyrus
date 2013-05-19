@@ -28,16 +28,31 @@ public class ItemUtil {
 		this.plugin = plugin;
 	}
 
-	public void setItemName(ItemStack i, String name) {
-		ItemMeta m = i.getItemMeta();
+	/**
+	 * Set the name for the item
+	 * @param item The ItemStack to rename
+	 * @param name The name of the ItemStack
+	 */
+	public void setItemName(ItemStack item, String name) {
+		ItemMeta m = item.getItemMeta();
 		m.setDisplayName(name);
-		i.setItemMeta(m);
+		item.setItemMeta(m);
 	}
 
-	public void setGlow(ItemStack i) {
-		i.addEnchantment(plugin.glow, 1);
+	/**
+	 * Sets a dummy enchantment on the item making it glow
+	 * @param item The ItemStack to add the enchantment effect to
+	 */
+	public void setGlow(ItemStack item) {
+		item.addEnchantment(plugin.glow, 1);
 	}
 
+	/**
+	 * Used for custom enchantments and displaying their names
+	 * @param item The ItemStack for the Enchantment
+	 * @param enchant The Enchantment
+	 * @param level The level of the Enchantment
+	 */
 	public void setCustomEnchantment(ItemStack item, Enchantment enchant,
 			int level) {
 		item.addEnchantment(enchant, level);
@@ -53,6 +68,11 @@ public class ItemUtil {
 		item.setItemMeta(meta);
 	}
 
+	/**
+	 * Gets the roman numeral for Enchantments from an integer
+	 * @param level The integer to convert
+	 * @return The equivalent roman numeral
+	 */
 	public String enchantLevel(int level) {
 		switch (level) {
 		case 1:
@@ -79,6 +99,12 @@ public class ItemUtil {
 		return "";
 	}
 
+	/**
+	 * Used for custom items, it sets the item level
+	 * @param i The target ItemStack
+	 * @param level The target level
+	 * @return An ItemStack with the custom level
+	 */
 	public ItemStack setItemLevel(ItemStack i, int level) {
 		ItemMeta m = i.getItemMeta();
 		List<String> l = m.getLore();
