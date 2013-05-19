@@ -127,7 +127,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 		}
 	}
 
-	@EventHandler
+	//@EventHandler
 	public void onCast(SpellCastEvent e) {
 		if (plugin.getConfig().getBoolean("Debug-Mode")) {
 			plugin.getLogger().info(
