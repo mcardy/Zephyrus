@@ -30,7 +30,7 @@ public class ExampleSpell extends Spell {
 		return "The spell will heal you";
 	}
 
-	//The mana cost of this spell multiplied by the ManaMultiplier (default 5)
+	//The mana cost of this spell multiplied by the ManaMultiplier (default 5, changeable in config file)
 	@Override
 	public int manaCost() {
 		return 5;
@@ -39,7 +39,7 @@ public class ExampleSpell extends Spell {
 	//The name of the spell used when casting or binding
 	@Override
 	public String name() {
-		return "test";
+		return "regenerate";
 	}
 
 	//The required level for the spell. Should line up with the mana cost.
