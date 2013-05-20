@@ -120,6 +120,12 @@ public class ItemUtil {
 		return i;
 	}
 
+	/**
+	 * Check if the name of the ItemStack is the same as the string provided
+	 * @param i The ItemStack to check
+	 * @param name The name to check
+	 * @return True if the display name of the item is the same as the string
+	 */
 	public boolean checkName(ItemStack i, String name) {
 		try {
 			if (i.getItemMeta().getDisplayName().equalsIgnoreCase(name)) {
@@ -130,12 +136,24 @@ public class ItemUtil {
 		return false;
 	}
 
+	/**
+	 * Gets the level of the item (defined in the lore)
+	 * @param i The target ItemStack
+	 * @return The level of the item
+	 */
 	public int getItemLevel(ItemStack i) {
 		ItemMeta m = i.getItemMeta();
 		String data = m.getLore().get(0).replace("¤7Level: ", "");
 		return Integer.parseInt(data);
 	}
 
+	/**
+	 * Sets the ItemDelay (see BlinkPearl)
+	 * @param map The Map<String, Object> to add the player to
+	 * @param plugin Zephyrus
+	 * @param delay The time, in ticks, of the delay
+	 * @param name The name of the player
+	 */
 	public void delay(Map<String, Object> map, Zephyrus plugin, int delay,
 			String name) {
 		int time = delay / 20;
@@ -144,6 +162,11 @@ public class ItemUtil {
 		new DelayUtil(map, name).runTaskLater(plugin, delay);
 	}
 
+	/**
+	 * Gets the tick delay from a level
+	 * @param level A level from an item
+	 * @return The tick delay from the integer. Anything above 10 will return 0
+	 */
 	public static int delayFromLevel(int level) {
 		switch (level) {
 		case 1:

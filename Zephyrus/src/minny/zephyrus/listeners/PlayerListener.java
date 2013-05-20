@@ -3,6 +3,7 @@ package minny.zephyrus.listeners;
 import java.io.File;
 import java.util.ArrayList;
 
+import minny.zephyrus.UpdateChecker;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.player.ManaRecharge;
@@ -41,14 +42,14 @@ public class PlayerListener extends ItemUtil implements Listener {
 	public void onUpdateMessage(PlayerJoinEvent e) {
 		if (e.getPlayer().hasPermission("zephyrus.notify")) {
 			Player player = e.getPlayer();
-			if (plugin.isUpdate) {
+			if (UpdateChecker.isUpdate) {
 				player.sendMessage(ChatColor.RED
 						+ "There is a new version of Zephyrus out!");
 				player.sendMessage(ChatColor.DARK_AQUA + "Get it at: "
 						+ ChatColor.GRAY
 						+ "dev.bukkit.org/server-mods/Zephyrus");
 				player.sendMessage(ChatColor.DARK_AQUA + "[ChangeLog] "
-						+ plugin.changelog);
+						+ UpdateChecker.changelog);
 			}
 		}
 	}

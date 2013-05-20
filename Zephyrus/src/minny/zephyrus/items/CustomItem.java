@@ -31,22 +31,50 @@ public abstract class CustomItem extends ItemUtil implements Listener {
 		}
 	}
 
+	/**
+	 * The displayname of the item
+	 * @return The displayname of the item
+	 */
 	public abstract String name();
 
+	/**
+	 * The item (with displayname, lore, etc.)
+	 * @return The item (with displayname, lore, etc.)
+	 */
 	public abstract ItemStack item();
 
+	/**
+	 * Adds the displayname, lore, etc. to the item
+	 * @param i The itemstack to change
+	 */
 	public abstract void createItem(ItemStack i);
 
+	/**
+	 * The custom recipe for the item
+	 * @return The custom recipe for the item
+	 */
 	public abstract Recipe recipe();
 
+	/**
+	 * Weather or not the custom item should have a level
+	 * @return Weather or not the custom item should have a level
+	 */
 	public boolean hasLevel() {
 		return true;
 	}
 
+	/**
+	 * The maximum level of a custom item
+	 * @return
+	 */
 	public int maxLevel() {
 		return 10;
 	}
 
+	/**
+	 * The required level of the player to craft the item
+	 * @return The required level of the player to craft the item
+	 */
 	public int reqLevel() {
 		return 0;
 	}

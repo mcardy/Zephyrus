@@ -47,6 +47,20 @@ public class SpellTome extends ItemUtil implements Listener {
 		return i;
 	}
 
+	public static ItemStack getSpelltome(Spell spell) {
+		ItemStack i = new ItemStack(Material.BOOK);
+		BookMeta m = (BookMeta) i.getItemMeta();
+		List<String> l = new ArrayList<String>();
+		l.add("¤7" + spell);
+		m.setLore(l);
+		m.setTitle(spell.name());
+		m.addPage(spell.bookText() + "\n\n¤0Cast the spell with:\n¤9/cast " + spell
+				+ "\n\n¤0Learn this spell by left clicking this book!");
+		i.setItemMeta(m);
+		i.addEnchantment(Zephyrus.iglow, 1);
+		return i;
+	}
+	
 	public void createItem(ItemStack i) {
 		setItemName(i, this.name());
 		BookMeta m = (BookMeta) i.getItemMeta();

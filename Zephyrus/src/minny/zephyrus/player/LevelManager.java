@@ -26,6 +26,10 @@ public class LevelManager {
 		LevelManager.plugin = plugin;
 	}
 
+	/**
+	 * Levelup the player
+	 * @param player The player to levelup
+	 */
 	public void levelUp(Player player) {
 		PlayerConfigHandler.reloadConfig(plugin, player);
 		int current = PlayerConfigHandler.getConfig(plugin, player).getInt(
@@ -42,6 +46,11 @@ public class LevelManager {
 		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 2, -1);
 	}
 
+	/**
+	 * Add levelprogress to player
+	 * @param player The player to add progress to
+	 * @param amount The amount to add
+	 */
 	public void levelProgress(Player player, int amount) {
 		levelBalance = plugin.getConfig().getInt("LevelBalance");
 		PlayerConfigHandler.reloadConfig(plugin, player);
@@ -57,6 +66,11 @@ public class LevelManager {
 		PlayerConfigHandler.reloadConfig(plugin, player);
 	}
 
+	/**
+	 * Get the level progress of the player
+	 * @param player The player
+	 * @return The player's level progress
+	 */
 	public static int getLevelProgress(Player player) {
 		PlayerConfigHandler.reloadConfig(plugin, player);
 		int current = PlayerConfigHandler.getConfig(plugin, player).getInt(
@@ -64,21 +78,40 @@ public class LevelManager {
 		return current;
 	}
 
+	/**
+	 * Gets the level of the player
+	 * @param player The player
+	 * @return The level of the player
+	 */
 	public static int getLevel(Player player) {
 		PlayerConfigHandler.reloadConfig(plugin, player);
 		return PlayerConfigHandler.getConfig(plugin, player).getInt("Level");
 	}
 
+	/**
+	 * Gets the level of the player
+	 * @param player The player
+	 * @return The level of the player
+	 */
 	public int getLevel(HumanEntity player) {
 		Player p = (Player) player;
 		PlayerConfigHandler.reloadConfig(plugin, p);
 		return PlayerConfigHandler.getConfig(plugin, p).getInt("Level");
 	}
 
+	/**
+	 * Reloads the mana from the player's level
+	 * @param player The player
+	 */
 	public static void resetMana(Player player) {
 		Zephyrus.mana.put(player.getName(), getLevel(player) * 100);
 	}
 
+	/**
+	 * 
+	 * @param player
+	 * @return
+	 */
 	public static int getMana(Player player) {
 		try {
 			return (Integer) Zephyrus.mana.get(player.getName());
@@ -88,26 +121,48 @@ public class LevelManager {
 		}
 	}
 
+	/**
+	 * Saves the mana level of a player to that player's config
+	 * @param player The player
+	 */
 	public static void saveMana(Player player) {
 		PlayerConfigHandler.getConfig(plugin, player).set("mana",
 				Zephyrus.mana.get(player.getName()));
 		PlayerConfigHandler.saveConfig(plugin, player);
 	}
 
+	/**
+	 * Loads the mana from the config
+	 * @param player The player
+	 * @return The player's mana level (from the config)
+	 */
 	public static int loadMana(Player player) {
 		int i = PlayerConfigHandler.getConfig(plugin, player).getInt("mana");
 		return i;
 	}
 
+	/**
+	 * Drains mana from a player
+	 * @param player The player
+	 * @param amount The amount to drain
+	 */
 	public static void drainMana(Player player, int amount) {
 		Zephyrus.mana.put(player.getName(),
 				(Integer) Zephyrus.mana.get(player.getName()) - amount);
 	}
 
+	/**
+	 * Sends the mana level to the player (in an awesome display way)
+	 * @param player The player
+	 */
 	public void displayMana(Player player) {
 		new DisplayMana(player).run();
 	}
 
+	/**
+	 * Sends the level and levelprogress to the player (in an awesome display way)
+	 * @param player The player
+	 */
 	public void displayLevel(Player player) {
 		new DisplayLevel(player).run();
 	}

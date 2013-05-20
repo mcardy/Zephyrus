@@ -21,9 +21,14 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class PluginHook {
 
-	public static WorldGuardPlugin wg;
+	private static WorldGuardPlugin wg;
+	
 	public static Economy econ = null;
 
+	/**
+	 * Determines if WorldGuard is installed
+	 * @return True if WorldGuard is installed, false otherwise
+	 */
 	public static boolean worldGuard() {
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
 		if (plugin != null) {
@@ -32,6 +37,10 @@ public class PluginHook {
 		return false;
 	}
 
+	/**
+	 * Determines if Vault is installed
+	 * @return True if Vault is installed, false otherwise
+	 */	
 	public static boolean economy() {
 		if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
 			return false;
@@ -45,17 +54,29 @@ public class PluginHook {
 		return econ != null;
 	}
 
+	/**
+	 * Hooks into Vault
+	 */
 	public static void hookEcon() {
 		RegisteredServiceProvider<Economy> rsp = Bukkit.getServer()
 				.getServicesManager().getRegistration(Economy.class);
 		econ = rsp.getProvider();
 	}
 
+	/**
+	 * Hooks into WorldGuard
+	 */
 	public static void hookWG() {
 		Plugin wgplugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
 		wg = (WorldGuardPlugin) wgplugin;
 	}
 	
+	/**
+	 * Checks if the player can build
+	 * @param player The player in question
+	 * @param block The block in question
+	 * @return True if the player can build, false otherwise
+	 */
 	public static boolean canBuild(Player player, Block block) {
 		if (PluginHook.worldGuard()) {
 			PluginHook.hookWG();
@@ -67,10 +88,24 @@ public class PluginHook {
 		return true;
 	}
 	
+	/**
+	 * Checks if the player can build
+	 * @param player The player in question
+	 * @param block The location in question
+	 * @return True if the player can build, false otherwise
+	 */
 	public static boolean canBuild(Player player, Location loc) {
 		if (PluginHook.worldGuard()) {
 			PluginHook.hookWG();
 			return PluginHook.wg.canBuild(player, loc);
+		}
+		return true;
+	}
+	
+	public static boolean allowExplosion() {
+		if (worldGuard()) {
+			hookWG();
+			return !wg.getConfig().getBoolean("ignition.block-tnt");
 		}
 		return true;
 	}

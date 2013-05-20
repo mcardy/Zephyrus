@@ -38,6 +38,7 @@ import minny.zephyrus.spells.Butcher;
 import minny.zephyrus.spells.Confuse;
 import minny.zephyrus.spells.Dig;
 import minny.zephyrus.spells.Enderchest;
+import minny.zephyrus.spells.Explode;
 import minny.zephyrus.spells.Feed;
 import minny.zephyrus.spells.Fireball;
 import minny.zephyrus.spells.Fly;
@@ -50,7 +51,6 @@ import minny.zephyrus.spells.Repair;
 import minny.zephyrus.spells.Spell;
 import minny.zephyrus.spells.SuperHeat;
 import minny.zephyrus.spells.Vanish;
-import minny.zephyrus.utils.ConfigHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
@@ -73,14 +73,11 @@ public class Zephyrus extends JavaPlugin {
 	PlayerListener playerListener = new PlayerListener(this);
 	LevelingListener levelListener = new LevelingListener(this);
 
-	ConfigHandler config = new ConfigHandler(this, "spellconfig.yml");
-	LevelManager lvl = new LevelManager(this);
+	//ConfigHandler config = new ConfigHandler(this, "spellconfig.yml");
 
 	public GlowEffect glow = new GlowEffect(120);
+	public static GlowEffect iglow = new GlowEffect(122);
 	public LifeSuck suck = new LifeSuck(121);
-
-	public boolean isUpdate;
-	public String changelog;
 
 	public Map<String, Object> fireRodDelay;
 	public Map<String, Object> lightningGemDelay;
@@ -100,8 +97,8 @@ public class Zephyrus extends JavaPlugin {
 		spellCraftMap = new HashMap<Set<ItemStack>, Spell>();
 		spellMap = new HashMap<String, Spell>();
 
-		new UpdateChecker(this).run();
-
+		new UpdateChecker(this);
+ 
 		if (PluginHook.worldGuard()) {
 			getLogger().info("WorldGuard found. Protections integrated");
 		}
@@ -121,7 +118,7 @@ public class Zephyrus extends JavaPlugin {
 			Zephyrus.mana.put(p.getName(), LevelManager.loadMana(p));
 			new ManaRecharge(this, p).runTaskLater(this, 30);
 		}
-
+		
 		try {
 			new CraftLivingEntity(null, null);
 		} catch (NoClassDefFoundError err) {
@@ -174,6 +171,7 @@ public class Zephyrus extends JavaPlugin {
 		new Confuse(this);
 		new Dig(this);
 		new Enderchest(this);
+		new Explode(this);
 		new Fireball(this);
 		new Fly(this);
 		new Frenzy(this);
@@ -231,6 +229,11 @@ public class Zephyrus extends JavaPlugin {
 		getCommand("Level").setExecutor(new Level(this));
 	}
 
+	/**
+	 * Adds the designated spell to Zephyrus
+	 * Automatically called in the Spell constructor
+	 * @param spell The spell to add
+	 */
 	public void addSpell(Spell spell) {
 		if ((spell.getClass().getPackage() == Spell.class.getPackage())) {
 			if (spell.name() != null

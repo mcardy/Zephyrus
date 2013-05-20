@@ -70,13 +70,10 @@ public class Blink extends Spell {
 		loc.setY(loc.getY() + 1);
 		loc.setPitch(player.getLocation().getPitch());
 		loc.setYaw(player.getLocation().getYaw());
-		try {
-			ParticleEffects.sendToLocation(ParticleEffects.TOWN_AURA, loc, 1,
-					1, 1, 1, 10);
-			ParticleEffects.sendToLocation(ParticleEffects.PORTAL,
-					player.getLocation(), 1, 1, 1, 1, 16);
-		} catch (Exception e) {
-		}
+		ParticleEffects.sendToLocation(ParticleEffects.TOWN_AURA, loc, 1, 1, 1,
+				1, 10);
+		ParticleEffects.sendToLocation(ParticleEffects.PORTAL,
+				player.getLocation(), 1, 1, 1, 1, 16);
 		player.getWorld().playSound(player.getLocation(),
 				Sound.ENDERMAN_TELEPORT, 10, 1);
 		player.teleport(loc);

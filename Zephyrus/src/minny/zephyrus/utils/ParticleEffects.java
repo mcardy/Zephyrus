@@ -29,7 +29,7 @@ public enum ParticleEffects {
 			"portal", 15), ENCHANTMENT_TABLE("enchantmenttable", 16), EXPLODE(
 			"explode", 17), FLAME("flame", 18), LAVA("lava", 19), FOOTSTEP(
 			"footstep", 20), SPLASH("splash", 21), LARGE_SMOKE("largesmoke", 22), CLOUD(
-			"cloud", 23), RED_DUST("reddust", 24), SNOWBALL_POOF(
+			"cloud", 23), REDSTONE_DUST("reddust", 24), SNOWBALL_POOF(
 			"snowballpoof", 25), DRIP_WATER("dripWater", 26), DRIP_LAVA(
 			"dripLava", 27), SNOW_SHOVEL("snowshovel", 28), SLIME("slime", 29), HEART(
 			"heart", 30), ANGRY_VILLAGER("angryVillager", 31), HAPPY_VILLAGER(
@@ -44,10 +44,20 @@ public enum ParticleEffects {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the name of the Particle Effect
+	 * 
+	 * @return The particle effect name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Gets the id of the Particle Effect
+	 * 
+	 * @return The id of the Particle Effect
+	 */
 	public int getId() {
 		return id;
 	}
@@ -61,6 +71,13 @@ public enum ParticleEffects {
 		}
 	}
 
+	/**
+	 * Gets the Particle Effect from its name
+	 * 
+	 * @param name
+	 *            The name of the particle effect
+	 * @return The particle effect from that name
+	 */
 	public static ParticleEffects fromName(String name) {
 		if (name == null) {
 			return null;
@@ -73,25 +90,81 @@ public enum ParticleEffects {
 		return null;
 	}
 
+	/**
+	 * Gets the Particle Effect from its id
+	 * 
+	 * @param id
+	 *            The id of the particle effect
+	 * @return The particle effect from that id
+	 */
 	public static ParticleEffects fromId(int id) {
 		return ID_MAP.get(id);
 	}
 
+	/**
+	 * Send a particle effect to a player
+	 * 
+	 * @param effect
+	 *            The particle effect to send
+	 * @param player
+	 *            The player to send the effect to
+	 * @param location
+	 *            The location to send the effect to
+	 * @param offsetX
+	 *            The x range of the particle effect
+	 * @param offsetY
+	 *            The y range of the particle effect
+	 * @param offsetZ
+	 *            The z range of the particle effect
+	 * @param speed
+	 *            The speed (or color depending on the effect) of the particle
+	 *            effect
+	 * @param count
+	 *            The count of effects
+	 */
 	public static void sendToPlayer(ParticleEffects effect, Player player,
 			Location location, float offsetX, float offsetY, float offsetZ,
-			float speed, int count) throws Exception {
-		Object packet = createPacket(effect, location, offsetX, offsetY,
-				offsetZ, speed, count);
-		sendPacket(player, packet);
+			float speed, int count) {
+		Object packet;
+		try {
+			packet = createPacket(effect, location, offsetX, offsetY, offsetZ,
+					speed, count);
+			sendPacket(player, packet);
+		} catch (Exception e) {
+		}
+
 	}
 
+	/**
+	 * Send a particle effect to all players
+	 * 
+	 * @param effect
+	 *            The particle effect to send
+	 * @param location
+	 *            The location to send the effect to
+	 * @param offsetX
+	 *            The x range of the particle effect
+	 * @param offsetY
+	 *            The y range of the particle effect
+	 * @param offsetZ
+	 *            The z range of the particle effect
+	 * @param speed
+	 *            The speed (or color depending on the effect) of the particle
+	 *            effect
+	 * @param count
+	 *            The count of effects
+	 */
 	public static void sendToLocation(ParticleEffects effect,
 			Location location, float offsetX, float offsetY, float offsetZ,
-			float speed, int count) throws Exception {
-		Object packet = createPacket(effect, location, offsetX, offsetY,
-				offsetZ, speed, count);
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			sendPacket(player, packet);
+			float speed, int count) {
+		try {
+			Object packet = createPacket(effect, location, offsetX, offsetY,
+					offsetZ, speed, count);
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				sendPacket(player, packet);
+			}
+		} catch (Exception e) {
+
 		}
 	}
 
@@ -113,7 +186,7 @@ public enum ParticleEffects {
 		}
 	}
 
-	public static Object createPacket(ParticleEffects effect,
+	private static Object createPacket(ParticleEffects effect,
 			Location location, float offsetX, float offsetY, float offsetZ,
 			float speed, int count) throws Exception {
 		if (count <= 0) {
@@ -132,7 +205,7 @@ public enum ParticleEffects {
 		return packet;
 	}
 
-	public static Object createCrackPacket(boolean icon, int id, byte data,
+	private static Object createCrackPacket(boolean icon, int id, byte data,
 			Location location, float offsetX, float offsetY, float offsetZ,
 			int count) throws Exception {
 		if (count <= 0) {

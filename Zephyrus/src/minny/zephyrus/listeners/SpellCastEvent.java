@@ -33,10 +33,18 @@ public class SpellCastEvent extends Event implements Cancellable {
 		return handlers;
 	}
 
+	/**
+	 * Gets the player who cast the spell
+	 * @return The player who cast the spell
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 
+	/**
+	 * Gets the spell that was cast
+	 * @return The spell that was cast
+	 */
 	public Spell getSpell() {
 		return spell;
 	}
@@ -45,11 +53,17 @@ public class SpellCastEvent extends Event implements Cancellable {
 		return handlers;
 	}
 
+	/**
+	 * Gets the cancellation state of this event
+	 */
 	@Override
 	public boolean isCancelled() {
 		return cancelled;
 	}
 
+	/**
+	 * Sets the cancellation state of this event
+	 */
 	@Override
 	public void setCancelled(boolean cancel) {
 		cancelled = cancel;

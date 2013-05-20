@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.logging.Logger;
 
-import org.bukkit.scheduler.BukkitRunnable;
-
 /**
  * Zephyrus
  * 
@@ -16,14 +14,21 @@ import org.bukkit.scheduler.BukkitRunnable;
  * 
  */
 
-public class UpdateChecker extends BukkitRunnable {
+public class UpdateChecker implements Runnable {
 
 	String checkURL = "https://raw.github.com/minnymin3/Zephyrus/master/version";
 	String changelogURL = "https://raw.github.com/minnymin3/Zephyrus/master/Changelog";
 	Zephyrus plugin;
-
+	
+	public static boolean isUpdate;
+	public static String changelog;
+	
+	Thread thread;
+	
 	public UpdateChecker(Zephyrus plugin) {
 		this.plugin = plugin;
+		thread = new Thread(this, "UpdateThread");
+	    thread.start();
 	}
 	
 	@Override
@@ -44,7 +49,7 @@ public class UpdateChecker extends BukkitRunnable {
 					if (isUpdate(current, line) == -1) {
 						log.warning("Zephyrus is out of date! Get the new version at:");
 						log.warning("dev.bukkit.org/server-mods/Zephyrus");
-						plugin.isUpdate = true;
+						isUpdate = true;
 						try {
 							URL change = new URL(changelogURL);
 							BufferedReader cl = new BufferedReader(
@@ -53,19 +58,19 @@ public class UpdateChecker extends BukkitRunnable {
 							while ((stri = cl.readLine()) != null) {
 								String scl = stri;
 								log.info("[Changelog] " + scl);
-								plugin.changelog = scl;
+								changelog = scl;
 							}
 						} catch (IOException e) {
 							log.severe("Unable to get Changelog");
 						}
 						break;
 					} else if (isUpdate(current, line) == 1) {
-						plugin.isUpdate = false;
+						isUpdate = false;
 						log.info("You are running a developement build of Zephyrus");
 						break;
 					} else if (isUpdate(current, line) == 0) {
 						log.info("Zephyrus is up to date!");
-						plugin.isUpdate = false;
+						isUpdate = false;
 						break;
 					}
 				}
@@ -76,7 +81,7 @@ public class UpdateChecker extends BukkitRunnable {
 		}
 	}
 
-	public int isUpdate(String str1, String str2) {
+	private int isUpdate(String str1, String str2) {
 		String[] vals1 = str1.split("\\.");
 		String[] vals2 = str2.split("\\.");
 		int i = 0;

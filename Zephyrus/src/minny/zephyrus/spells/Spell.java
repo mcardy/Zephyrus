@@ -3,10 +3,8 @@ package minny.zephyrus.spells;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
-import minny.zephyrus.hooks.PluginHook;
 import minny.zephyrus.items.SpellTome;
 import minny.zephyrus.player.LevelManager;
-import minny.zephyrus.utils.ConfigHandler;
 import minny.zephyrus.utils.ParticleEffects;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
@@ -29,14 +27,9 @@ import org.bukkit.util.Vector;
 
 public abstract class Spell extends LevelManager {
 
-	ConfigHandler spellConfig;
-	public PluginHook hook;
-
 	public Spell(Zephyrus plugin) {
 		super(plugin);
 		plugin.addSpell(this);
-		spellConfig = new ConfigHandler(plugin, "spellconfig.yml");
-		hook = new PluginHook();
 	}
 
 	/**

@@ -130,7 +130,7 @@ public class SuperHeat extends Spell {
 		Material block = player.getTargetBlock(null, 7).getType();
 		if (block == Material.COBBLESTONE || block == Material.SAND
 				|| block == Material.IRON_ORE || block == Material.GOLD_ORE) {
-			return PluginHook.wg.canBuild(player, player.getTargetBlock(null, 7));
+			return PluginHook.canBuild(player, player.getTargetBlock(null, 7));
 		} else if (getTarget(player) != null) {
 			if (getTarget(player) instanceof LivingEntity) {
 				return true;

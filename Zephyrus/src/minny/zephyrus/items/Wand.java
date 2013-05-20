@@ -89,11 +89,8 @@ public class Wand extends CustomItem {
 				&& e.getItem().getItemMeta().getLore().get(0)
 						.contains("Default wand")) {
 			Location loc = e.getClickedBlock().getLocation();
-			if (PluginHook.worldGuard()) {
-				PluginHook.hookWG();
-				if (!PluginHook.wg.canBuild(e.getPlayer(), loc)) {
-					return;
-				}
+			if (!PluginHook.canBuild(e.getPlayer(), loc)) {
+				return;
 			}
 			loc.setY(loc.getY() + 1);
 			Entity[] entitys = getNearbyEntities(loc, 1);

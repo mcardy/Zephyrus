@@ -87,25 +87,8 @@ public class RodOfFire extends CustomItem {
 				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
 				&& !plugin.fireRodDelay.containsKey(e.getPlayer().getName())
 				&& getItemLevel(e.getPlayer().getItemInHand()) < 6) {
-			if (PluginHook.worldGuard()) {
-				PluginHook.hookWG();
-				if (PluginHook.wg.canBuild(e.getPlayer(), e.getPlayer()
-						.getTargetBlock(null, 1000))) {
-					Player player = e.getPlayer();
-					SmallFireball fireball = player
-							.launchProjectile(SmallFireball.class);
-					fireball.setVelocity(fireball.getVelocity().multiply(10));
-					delay(plugin.fireRodDelay,
-							plugin,
-							delayFromLevel(getItemLevel(player.getItemInHand())),
-							e.getPlayer().getName());
-				} else {
-					e.getPlayer()
-							.sendMessage(
-									ChatColor.DARK_RED
-											+ "You don't have permission for this area");
-				}
-			} else {
+			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
+					.getTargetBlock(null, 1000))) {
 				Player player = e.getPlayer();
 				SmallFireball fireball = player
 						.launchProjectile(SmallFireball.class);
@@ -113,35 +96,27 @@ public class RodOfFire extends CustomItem {
 				delay(plugin.fireRodDelay, plugin,
 						delayFromLevel(getItemLevel(player.getItemInHand())), e
 								.getPlayer().getName());
+			} else {
+				e.getPlayer().sendMessage(
+						ChatColor.DARK_RED
+								+ "You don't have permission for this area");
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
 				&& !plugin.fireRodDelay.containsKey(e.getPlayer().getName())) {
 
-			if (PluginHook.worldGuard()) {
-				PluginHook.hookWG();
-				if (PluginHook.wg.canBuild(e.getPlayer(), e.getPlayer()
-						.getTargetBlock(null, 1000))) {
-					Player player = e.getPlayer();
-					Fireball fireball = player.launchProjectile(Fireball.class);
-					fireball.setVelocity(fireball.getVelocity().multiply(10));
-					delay(plugin.fireRodDelay,
-							plugin,
-							delayFromLevel(getItemLevel(player.getItemInHand())),
-							e.getPlayer().getName());
-				} else {
-					e.getPlayer()
-							.sendMessage(
-									ChatColor.DARK_RED
-											+ "You don't have permission for this area");
-				}
-			} else {
+			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
+					.getTargetBlock(null, 1000))) {
 				Player player = e.getPlayer();
 				Fireball fireball = player.launchProjectile(Fireball.class);
 				fireball.setVelocity(fireball.getVelocity().multiply(10));
 				delay(plugin.fireRodDelay, plugin,
 						delayFromLevel(getItemLevel(player.getItemInHand())), e
 								.getPlayer().getName());
+			} else {
+				e.getPlayer().sendMessage(
+						ChatColor.DARK_RED
+								+ "You don't have permission for this area");
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& plugin.fireRodDelay.containsKey(e.getPlayer().getName())
