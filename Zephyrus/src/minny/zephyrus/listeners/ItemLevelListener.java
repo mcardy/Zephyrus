@@ -4,7 +4,6 @@ import minny.zephyrus.Zephyrus;
 import minny.zephyrus.items.CustomItem;
 import minny.zephyrus.utils.merchant.Merchant;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
@@ -12,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -56,8 +56,9 @@ public class ItemLevelListener implements Listener {
 					if (Zephyrus.merchantMap.containsKey(e.getItem())) {
 						Merchant m = Zephyrus.merchantMap.get(e.getItem());
 						m.openTrading(e.getPlayer());
+						plugin.invPlayers.add(e.getPlayer().getName());
 					} else {
-						e.getPlayer().sendMessage("asdf");
+						e.getPlayer().sendMessage("Something went wrong...");
 					}
 				}
 			}
@@ -65,19 +66,26 @@ public class ItemLevelListener implements Listener {
 	}
 
 	@EventHandler
+	public void onInventoryClose(InventoryCloseEvent e) {
+		if (plugin.invPlayers.contains(e.getPlayer().getName())) {
+			plugin.invPlayers.remove(e.getPlayer().getName());
+		}
+	}
+
+	@EventHandler
 	public void onClickInv(InventoryClickEvent e) {
-		//TODO Make custom trade NOT break vanilla trades
-		if (e.getInventory().getType() == InventoryType.MERCHANT) {
-			ItemStack i = e.getCurrentItem();
-			ItemStack i2 = e.getCursor();
-			Bukkit.broadcastMessage("" + e.getRawSlot());
-			if (e.getRawSlot() != 0 && e.getRawSlot() != 1 && e.getRawSlot() != 2
-					&& !Zephyrus.merchantMap.containsKey(i)
-					&& !Zephyrus.merchantMap.containsKey(i2) && i != null
-					&& i.getType() != Material.EMERALD && i2 != null
-					&& i2.getType() != Material.EMERALD) {
-				Bukkit.broadcastMessage(e.getInventory().getName());
-				e.setCancelled(true);
+		if (plugin.invPlayers.contains(e.getWhoClicked().getName())) {
+			if (e.getInventory().getType() == InventoryType.MERCHANT) {
+				ItemStack i = e.getCurrentItem();
+				ItemStack i2 = e.getCursor();
+				if (e.getRawSlot() != 0 && e.getRawSlot() != 1
+						&& e.getRawSlot() != 2
+						&& !Zephyrus.merchantMap.containsKey(i)
+						&& !Zephyrus.merchantMap.containsKey(i2) && i != null
+						&& i.getType() != Material.EMERALD && i2 != null
+						&& i2.getType() != Material.EMERALD) {
+					e.setCancelled(true);
+				}
 			}
 		}
 	}
