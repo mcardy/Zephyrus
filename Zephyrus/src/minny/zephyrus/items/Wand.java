@@ -13,6 +13,7 @@ import minny.zephyrus.spells.Spell;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
@@ -79,6 +80,23 @@ public class Wand extends CustomItem {
 		recipe.setIngredient('B', Material.STICK);
 		recipe.setIngredient('A', Material.GOLD_INGOT);
 		return recipe;
+	}
+
+	@EventHandler
+	public void onClickEnchanting(PlayerInteractEvent e) {
+		if (e.getAction() == Action.RIGHT_CLICK_BLOCK
+				&& checkName(e.getItem(), this.name())
+				&& e.getItem().getItemMeta().getLore().get(0).contains("Default wand")) {
+			Block b = e.getClickedBlock();
+			if (b.getType() == Material.ENCHANTMENT_TABLE && b.getData() != 12) {
+				e.setCancelled(true);
+				b.setData((byte) 12);
+				e.getPlayer().sendMessage(
+						ChatColor.AQUA + "You have created an "
+								+ ChatColor.GOLD + ChatColor.BOLD
+								+ "Arcane Enchanter");
+			}
+		}
 	}
 
 	@EventHandler(priority = EventPriority.LOW)

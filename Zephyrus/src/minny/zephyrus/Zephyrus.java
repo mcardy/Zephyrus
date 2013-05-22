@@ -27,6 +27,7 @@ import minny.zephyrus.items.RodOfFire;
 import minny.zephyrus.items.SpellTome;
 import minny.zephyrus.items.Wand;
 import minny.zephyrus.listeners.EconListener;
+import minny.zephyrus.listeners.ItemLevelListener;
 import minny.zephyrus.listeners.LevelingListener;
 import minny.zephyrus.listeners.PlayerListener;
 import minny.zephyrus.player.LevelManager;
@@ -51,8 +52,11 @@ import minny.zephyrus.spells.Repair;
 import minny.zephyrus.spells.Spell;
 import minny.zephyrus.spells.SuperHeat;
 import minny.zephyrus.spells.Vanish;
+import minny.zephyrus.utils.merchant.Merchant;
+import minny.zephyrus.utils.merchant.MerchantOffer;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -73,7 +77,7 @@ public class Zephyrus extends JavaPlugin {
 	PlayerListener playerListener = new PlayerListener(this);
 	LevelingListener levelListener = new LevelingListener(this);
 
-	//ConfigHandler config = new ConfigHandler(this, "spellconfig.yml");
+	// ConfigHandler config = new ConfigHandler(this, "spellconfig.yml");
 
 	public GlowEffect glow = new GlowEffect(120);
 	public static GlowEffect iglow = new GlowEffect(122);
@@ -88,6 +92,7 @@ public class Zephyrus extends JavaPlugin {
 	public static Map<String, Spell> spellMap;
 	public static Map<Set<ItemStack>, Spell> spellCraftMap;
 	public static Map<String, CustomItem> itemMap;
+	public static Map<ItemStack, Merchant> merchantMap;
 
 	@Override
 	public void onEnable() {
@@ -96,9 +101,10 @@ public class Zephyrus extends JavaPlugin {
 		itemMap = new HashMap<String, CustomItem>();
 		spellCraftMap = new HashMap<Set<ItemStack>, Spell>();
 		spellMap = new HashMap<String, Spell>();
+		merchantMap = new HashMap<ItemStack, Merchant>();
 
 		new UpdateChecker(this);
- 
+
 		if (PluginHook.worldGuard()) {
 			getLogger().info("WorldGuard found. Protections integrated");
 		}
@@ -118,7 +124,7 @@ public class Zephyrus extends JavaPlugin {
 			Zephyrus.mana.put(p.getName(), LevelManager.loadMana(p));
 			new ManaRecharge(this, p).runTaskLater(this, 30);
 		}
-		
+
 		try {
 			new CraftLivingEntity(null, null);
 		} catch (NoClassDefFoundError err) {
@@ -138,7 +144,8 @@ public class Zephyrus extends JavaPlugin {
 
 		getLogger().info(
 				"Zephyrus v" + this.getDescription().getVersion() + " by "
-						+ this.getDescription().getAuthors().get(0) + " Enabled!");
+						+ this.getDescription().getAuthors().get(0)
+						+ " Enabled!");
 	}
 
 	@Override
@@ -159,6 +166,23 @@ public class Zephyrus extends JavaPlugin {
 			new LifeSuckIron(this);
 			new ManaPotion(this);
 			new RodOfFire(this);
+
+			for (CustomItem ci : Zephyrus.itemMap.values()) {
+				if (ci.hasLevel()) {
+					for (int i = 1; i < ci.maxLevel(); i++) {
+						ItemStack item = ci.item();
+						ci.setItemLevel(item, i);
+						ItemStack item2 = ci.item();
+						int i2 = i;
+						ci.setItemLevel(item2, i2+1);
+						Merchant m = new Merchant();
+						m.addOffer(new MerchantOffer(item, new ItemStack(
+								Material.EMERALD, i), item2));
+						Zephyrus.merchantMap.put(item, m);
+						Bukkit.getLogger().info(item.toString());
+					}
+				}
+			}
 		}
 		new Wand(this);
 	}
@@ -215,6 +239,7 @@ public class Zephyrus extends JavaPlugin {
 		pm.registerEvents(playerListener, this);
 		pm.registerEvents(levelListener, this);
 		pm.registerEvents(new SpellTome(this, null, null), this);
+		pm.registerEvents(new ItemLevelListener(this), this);
 	}
 
 	public void addCommands() {
@@ -230,9 +255,11 @@ public class Zephyrus extends JavaPlugin {
 	}
 
 	/**
-	 * Adds the designated spell to Zephyrus
-	 * Automatically called in the Spell constructor
-	 * @param spell The spell to add
+	 * Adds the designated spell to Zephyrus Automatically called in the Spell
+	 * constructor
+	 * 
+	 * @param spell
+	 *            The spell to add
 	 */
 	public void addSpell(Spell spell) {
 		if ((spell.getClass().getPackage() == Spell.class.getPackage())) {
@@ -254,9 +281,9 @@ public class Zephyrus extends JavaPlugin {
 					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
 				Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
 			}
-			//Bukkit.getLogger().info(
-			//		"[Zephyrus] External spell '" + spell.name()
-			//				+ "' registered!");
+			// Bukkit.getLogger().info(
+			// "[Zephyrus] External spell '" + spell.name()
+			// + "' registered!");
 		}
 	}
 }
