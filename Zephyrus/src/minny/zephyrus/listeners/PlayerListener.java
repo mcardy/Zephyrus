@@ -3,12 +3,12 @@ package minny.zephyrus.listeners;
 import java.io.File;
 import java.util.ArrayList;
 
-import minny.zephyrus.UpdateChecker;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.player.ManaRecharge;
 import minny.zephyrus.utils.ItemUtil;
 import minny.zephyrus.utils.PlayerConfigHandler;
+import minny.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -43,13 +43,13 @@ public class PlayerListener extends ItemUtil implements Listener {
 		if (e.getPlayer().hasPermission("zephyrus.notify")) {
 			Player player = e.getPlayer();
 			if (UpdateChecker.isUpdate) {
-				player.sendMessage(ChatColor.RED
-						+ "There is a new version of Zephyrus out!");
-				player.sendMessage(ChatColor.DARK_AQUA + "Get it at: "
+				player.sendMessage(ChatColor.DARK_RED
+						+ "Zephyrus is out of date!");
+				player.sendMessage(ChatColor.DARK_RED + "Get the new version at: "
 						+ ChatColor.GRAY
 						+ "dev.bukkit.org/server-mods/Zephyrus");
-				player.sendMessage(ChatColor.DARK_AQUA + "[ChangeLog] "
-						+ UpdateChecker.changelog);
+				player.sendMessage(ChatColor.DARK_RED + "ChangeLog: "
+						+ ChatColor.GRAY + UpdateChecker.changelog);
 			}
 		}
 	}
@@ -127,14 +127,4 @@ public class PlayerListener extends ItemUtil implements Listener {
 			}
 		}
 	}
-
-	//@EventHandler
-	public void onCast(SpellCastEvent e) {
-		if (plugin.getConfig().getBoolean("Debug-Mode")) {
-			plugin.getLogger().info(
-					e.getPlayer().getName() + " casted " + e.getSpell().name()
-							+ " at " + e.getPlayer().getLocation());
-		}
-	}
-
 }

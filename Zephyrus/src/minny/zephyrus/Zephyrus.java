@@ -52,6 +52,7 @@ import minny.zephyrus.spells.Repair;
 import minny.zephyrus.spells.Spell;
 import minny.zephyrus.spells.SuperHeat;
 import minny.zephyrus.spells.Vanish;
+import minny.zephyrus.utils.UpdateChecker;
 import minny.zephyrus.utils.merchant.Merchant;
 import minny.zephyrus.utils.merchant.MerchantOffer;
 

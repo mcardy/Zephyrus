@@ -28,13 +28,6 @@ public class PlayerConfigHandler {
 		File dataFolder = new File(plugin.getDataFolder(), "Players");
 		configFile = new File(dataFolder, fileName);
 		fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
-
-		// InputStream defConfigStream;
-		// if (defConfigStream != null) {
-		// YamlConfiguration defConfig = YamlConfiguration
-		// .loadConfiguration(defConfigStream);
-		// fileConfiguration.setDefaults(defConfig);
-		// 8}
 	}
 
 	public static FileConfiguration getConfig(Zephyrus plugin, Player player) {

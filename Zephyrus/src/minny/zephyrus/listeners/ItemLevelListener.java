@@ -43,7 +43,7 @@ public class ItemLevelListener implements Listener {
 					} catch (NoClassDefFoundError err) {
 						e.getPlayer()
 								.sendMessage(
-										"The version of CraftBukkit running on this server is not fully compatible with Zephyrus. This feature has been disabled...");
+										"Saadly, the version of CraftBukkit running on this server is not fully compatible with this version of Zephyrus. This feature has been disabled...");
 						return;
 					}
 					CustomItem customItem = Zephyrus.itemMap.get(i
@@ -58,7 +58,7 @@ public class ItemLevelListener implements Listener {
 						m.openTrading(e.getPlayer());
 						plugin.invPlayers.put(e.getPlayer().getName(), m);
 					} else {
-						e.getPlayer().sendMessage("Something went wrong...");
+						e.getPlayer().sendMessage("Something went wrong. Item not found...");
 					}
 				}
 			}

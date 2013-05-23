@@ -1,10 +1,12 @@
-package minny.zephyrus;
+package minny.zephyrus.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.logging.Logger;
+
+import minny.zephyrus.Zephyrus;
 
 /**
  * Zephyrus

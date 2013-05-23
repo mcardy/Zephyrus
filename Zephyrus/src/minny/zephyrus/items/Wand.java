@@ -65,7 +65,7 @@ public class Wand extends CustomItem {
 		setItemName(i, this.name());
 		ItemMeta m = i.getItemMeta();
 		List<String> lore = new ArrayList<String>();
-		lore.add(ChatColor.GRAY + "Default wand used to learn spells");
+		lore.add(ChatColor.GRAY + "Regular old default wand");
 		m.setLore(lore);
 
 		i.setItemMeta(m);
@@ -86,7 +86,7 @@ public class Wand extends CustomItem {
 	public void onClickEnchanting(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK
 				&& checkName(e.getItem(), this.name())
-				&& e.getItem().getItemMeta().getLore().get(0).contains("Default wand")) {
+				&& e.getItem().getItemMeta().getLore().get(0).contains("wand")) {
 			Block b = e.getClickedBlock();
 			if (b.getType() == Material.ENCHANTMENT_TABLE && b.getData() != 12) {
 				e.setCancelled(true);
@@ -105,7 +105,7 @@ public class Wand extends CustomItem {
 				&& e.getClickedBlock().getType() == Material.BOOKSHELF
 				&& checkName(e.getPlayer().getItemInHand(), this.name())
 				&& e.getItem().getItemMeta().getLore().get(0)
-						.contains("Default wand")) {
+						.contains("wand")) {
 			Location loc = e.getClickedBlock().getLocation();
 			if (!PluginHook.canBuild(e.getPlayer(), loc)) {
 				return;
@@ -179,7 +179,7 @@ public class Wand extends CustomItem {
 						}
 					} else {
 						e.getPlayer().sendMessage(
-								"You do not have permission to craft "
+								"You do not have permission to learn "
 										+ s.name());
 					}
 				} else {
