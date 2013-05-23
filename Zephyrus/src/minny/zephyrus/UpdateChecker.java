@@ -79,6 +79,7 @@ public class UpdateChecker implements Runnable {
 				log.severe("Was unable to check for update. URL may be invalid");
 			}
 		}
+
 	}
 
 	private int isUpdate(String str1, String str2) {

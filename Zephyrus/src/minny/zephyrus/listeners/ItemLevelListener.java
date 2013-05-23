@@ -56,7 +56,7 @@ public class ItemLevelListener implements Listener {
 					if (Zephyrus.merchantMap.containsKey(e.getItem())) {
 						Merchant m = Zephyrus.merchantMap.get(e.getItem());
 						m.openTrading(e.getPlayer());
-						plugin.invPlayers.add(e.getPlayer().getName());
+						plugin.invPlayers.put(e.getPlayer().getName(), m);
 					} else {
 						e.getPlayer().sendMessage("Something went wrong...");
 					}
@@ -67,22 +67,24 @@ public class ItemLevelListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent e) {
-		if (plugin.invPlayers.contains(e.getPlayer().getName())) {
+		if (plugin.invPlayers.containsKey(e.getPlayer().getName())) {
 			plugin.invPlayers.remove(e.getPlayer().getName());
 		}
 	}
 
 	@EventHandler
 	public void onClickInv(InventoryClickEvent e) {
-		if (plugin.invPlayers.contains(e.getWhoClicked().getName())) {
+		if (plugin.invPlayers.containsKey(e.getWhoClicked().getName())) {
 			if (e.getInventory().getType() == InventoryType.MERCHANT) {
+				Merchant m = plugin.invPlayers.get(e.getWhoClicked().getName());
 				ItemStack i = e.getCurrentItem();
+				ItemStack mi = m.getOffers().get(0).getFirstInput();
 				ItemStack i2 = e.getCursor();
 				if (e.getRawSlot() != 0 && e.getRawSlot() != 1
-						&& e.getRawSlot() != 2
-						&& !Zephyrus.merchantMap.containsKey(i)
-						&& !Zephyrus.merchantMap.containsKey(i2) && i != null
-						&& i.getType() != Material.EMERALD && i2 != null
+						&& e.getRawSlot() != 2 && i2 != null && i != null
+						&& !i.equals(mi)
+						&& !i2.equals(mi)
+						&& i.getType() != Material.EMERALD
 						&& i2.getType() != Material.EMERALD) {
 					e.setCancelled(true);
 				}

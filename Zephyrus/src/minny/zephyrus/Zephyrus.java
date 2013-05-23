@@ -2,7 +2,6 @@ package minny.zephyrus;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -88,7 +87,7 @@ public class Zephyrus extends JavaPlugin {
 	public Map<String, Object> lightningGemDelay;
 	public Map<String, Object> blinkPearlDelay;
 	
-	public Set<String> invPlayers;
+	public Map<String, Merchant> invPlayers;
 
 	public static Map<String, Object> mana;
 
@@ -105,7 +104,7 @@ public class Zephyrus extends JavaPlugin {
 		spellCraftMap = new HashMap<Set<ItemStack>, Spell>();
 		spellMap = new HashMap<String, Spell>();
 		merchantMap = new HashMap<ItemStack, Merchant>();
-		invPlayers = new HashSet<String>();
+		invPlayers = new HashMap<String, Merchant>();
 
 		new UpdateChecker(this);
 
@@ -143,7 +142,7 @@ public class Zephyrus extends JavaPlugin {
 		addEnchants();
 		addItems();
 		addSpells();
-
+		
 		getLogger().info("Loaded " + Zephyrus.spellMap.size() + " spells");
 
 		getLogger().info(
