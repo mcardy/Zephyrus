@@ -52,9 +52,8 @@ import minny.zephyrus.spells.Repair;
 import minny.zephyrus.spells.Spell;
 import minny.zephyrus.spells.SuperHeat;
 import minny.zephyrus.spells.Vanish;
+import minny.zephyrus.utils.Merchant;
 import minny.zephyrus.utils.UpdateChecker;
-import minny.zephyrus.utils.merchant.Merchant;
-import minny.zephyrus.utils.merchant.MerchantOffer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -87,7 +86,7 @@ public class Zephyrus extends JavaPlugin {
 	public Map<String, Object> fireRodDelay;
 	public Map<String, Object> lightningGemDelay;
 	public Map<String, Object> blinkPearlDelay;
-	
+
 	public Map<String, Merchant> invPlayers;
 
 	public static Map<String, Object> mana;
@@ -143,7 +142,7 @@ public class Zephyrus extends JavaPlugin {
 		addEnchants();
 		addItems();
 		addSpells();
-		
+
 		getLogger().info("Loaded " + Zephyrus.spellMap.size() + " spells");
 
 		getLogger().info(
@@ -171,21 +170,23 @@ public class Zephyrus extends JavaPlugin {
 			new ManaPotion(this);
 			new RodOfFire(this);
 
-			for (CustomItem ci : Zephyrus.itemMap.values()) {
-				if (ci.hasLevel()) {
-					for (int i = 1; i < ci.maxLevel(); i++) {
-						ItemStack item = ci.item();
-						ci.setItemLevel(item, i);
-						ItemStack item2 = ci.item();
-						int i2 = i;
-						ci.setItemLevel(item2, i2+1);
-						Merchant m = new Merchant();
-						m.addOffer(new MerchantOffer(item, new ItemStack(
-								Material.EMERALD, i), item2));
-						Zephyrus.merchantMap.put(item, m);
-						Bukkit.getLogger().info(item.toString());
+			try {
+				for (CustomItem ci : Zephyrus.itemMap.values()) {
+					if (ci.hasLevel()) {
+						for (int i = 1; i < ci.maxLevel(); i++) {
+							ItemStack item = ci.item();
+							ci.setItemLevel(item, i);
+							ItemStack item2 = ci.item();
+							int i2 = i;
+							ci.setItemLevel(item2, i2 + 1);
+							Merchant m = new Merchant();
+							m.addOffer(item, new ItemStack(Material.EMERALD, i), item2);
+							Zephyrus.merchantMap.put(item, m);
+						}
 					}
 				}
+			} catch (Exception e) {
+				getLogger().warning(e.getMessage());
 			}
 		}
 		new Wand(this);

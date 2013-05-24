@@ -2,7 +2,7 @@ package minny.zephyrus.listeners;
 
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.items.CustomItem;
-import minny.zephyrus.utils.merchant.Merchant;
+import minny.zephyrus.utils.Merchant;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -50,15 +50,17 @@ public class ItemLevelListener implements Listener {
 							.getItemMeta().getDisplayName());
 					if (!(customItem.getItemLevel(i) < customItem.maxLevel())) {
 						e.getPlayer().sendMessage(
-								"That item cannot be leveled anymore!");
+								"That item is already max level!");
 						return;
 					}
 					if (Zephyrus.merchantMap.containsKey(e.getItem())) {
-						Merchant m = Zephyrus.merchantMap.get(e.getItem());
-						m.openTrading(e.getPlayer());
+						Merchant mer = Zephyrus.merchantMap.get(e.getItem());
+						Merchant m = mer.clone();
+						m.openTrade(e.getPlayer());
 						plugin.invPlayers.put(e.getPlayer().getName(), m);
 					} else {
-						e.getPlayer().sendMessage("Something went wrong. Item not found...");
+						e.getPlayer().sendMessage(
+								"Something went wrong. Item not found...");
 					}
 				}
 			}
@@ -78,15 +80,21 @@ public class ItemLevelListener implements Listener {
 			if (e.getInventory().getType() == InventoryType.MERCHANT) {
 				Merchant m = plugin.invPlayers.get(e.getWhoClicked().getName());
 				ItemStack i = e.getCurrentItem();
-				ItemStack mi = m.getOffers().get(0).getFirstInput();
 				ItemStack i2 = e.getCursor();
-				if (e.getRawSlot() != 0 && e.getRawSlot() != 1
-						&& e.getRawSlot() != 2 && i2 != null && i != null
-						&& !i.equals(mi)
-						&& !i2.equals(mi)
+				ItemStack mi = m.getInput1();
+				ItemStack m2 = m.getOutput();
+				if (e.getRawSlot() != 0 && e.getRawSlot() != 1 && i != null
+						&& i2 != null && e.getRawSlot() != 2 && !i.equals(mi)
+						&& !i.equals(m2) && !i2.equals(mi) && !i2.equals(m2)
 						&& i.getType() != Material.EMERALD
 						&& i2.getType() != Material.EMERALD) {
 					e.setCancelled(true);
+				}
+				if (i != null && i.getType() == Material.EMERALD || i != null
+						&& i2.getType() == Material.EMERALD) {
+					if (i.hasItemMeta() || i2.hasItemMeta()) {
+						e.setCancelled(true);
+					}
 				}
 			}
 		}

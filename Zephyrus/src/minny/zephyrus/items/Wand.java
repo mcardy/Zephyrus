@@ -94,7 +94,7 @@ public class Wand extends CustomItem {
 				e.getPlayer().sendMessage(
 						ChatColor.AQUA + "You have created an "
 								+ ChatColor.GOLD + ChatColor.BOLD
-								+ "Arcane Enchanter");
+								+ "Arcane Leveler");
 			}
 		}
 	}

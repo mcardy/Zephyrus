@@ -79,6 +79,10 @@ public class BlinkPearl extends CustomItem {
 			e.setCancelled(true);
 			if (e.getAction() == Action.RIGHT_CLICK_AIR
 					|| e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				if (e.getAction() == Action.RIGHT_CLICK_BLOCK
+						&& e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE) {
+					return;
+				}
 				if (!plugin.blinkPearlDelay
 						.containsKey(e.getPlayer().getName())) {
 					if (e.getPlayer().getTargetBlock(null, 100) != null
@@ -95,33 +99,29 @@ public class BlinkPearl extends CustomItem {
 						Block block2 = loc2.getBlock();
 						if (block.getType() == Material.AIR
 								&& block2.getType() == Material.AIR) {
-								if (PluginHook.canBuild(e.getPlayer(), e
-										.getPlayer().getTargetBlock(null, 100))) {
-									ParticleEffects.sendToLocation(
-											ParticleEffects.TOWN_AURA, loc, 1,
-											1, 1, 1, 10);
-									ParticleEffects.sendToLocation(
-											ParticleEffects.PORTAL, e
-													.getPlayer().getLocation(),
-											1, 1, 1, 1, 16);
-									e.getPlayer()
-											.getWorld()
-											.playSound(
-													e.getPlayer().getLocation(),
-													Sound.ENDERMAN_TELEPORT,
-													10, 1);
-									e.getPlayer().teleport(loc);
-									delay(plugin.blinkPearlDelay, plugin,
-											delayFromLevel(getItemLevel(e
-													.getPlayer()
-													.getItemInHand())), e
-													.getPlayer().getName());
-								} else {
-									e.getPlayer()
-											.sendMessage(
-													ChatColor.DARK_RED
-															+ "You don't have permission for this area");
-								}
+							if (PluginHook.canBuild(e.getPlayer(), e
+									.getPlayer().getTargetBlock(null, 100))) {
+								ParticleEffects.sendToLocation(
+										ParticleEffects.TOWN_AURA, loc, 1, 1,
+										1, 1, 10);
+								ParticleEffects.sendToLocation(
+										ParticleEffects.PORTAL, e.getPlayer()
+												.getLocation(), 1, 1, 1, 1, 16);
+								e.getPlayer()
+										.getWorld()
+										.playSound(e.getPlayer().getLocation(),
+												Sound.ENDERMAN_TELEPORT, 10, 1);
+								e.getPlayer().teleport(loc);
+								delay(plugin.blinkPearlDelay, plugin,
+										delayFromLevel(getItemLevel(e
+												.getPlayer().getItemInHand())),
+										e.getPlayer().getName());
+							} else {
+								e.getPlayer()
+										.sendMessage(
+												ChatColor.DARK_RED
+														+ "You don't have permission for this area");
+							}
 						} else {
 							e.getPlayer().sendMessage(
 									ChatColor.GRAY + "Cannot blink there!");
