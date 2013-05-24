@@ -23,6 +23,11 @@ public class PlayerConfigHandler {
 	private static File configFile;
 	private static FileConfiguration fileConfiguration;
 
+	/**
+	 * Reloads the config from the file
+	 * @param plugin Zephyrus main class
+	 * @param player The player to get the config for
+	 */
 	public static void reloadConfig(Zephyrus plugin, Player player) {
 		String fileName = player.getName() + ".yml";
 		File dataFolder = new File(plugin.getDataFolder(), "Players");
@@ -30,6 +35,12 @@ public class PlayerConfigHandler {
 		fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 	}
 
+	/**
+	 * Gets the config for the specified player
+	 * @param plugin Zephyrus main class
+	 * @param player The player to get the config for
+	 * @return The player's FileConfiguration
+	 */
 	public static FileConfiguration getConfig(Zephyrus plugin, Player player) {
 		if (fileConfiguration == null) {
 			PlayerConfigHandler.reloadConfig(plugin, player);
@@ -37,6 +48,11 @@ public class PlayerConfigHandler {
 		return fileConfiguration;
 	}
 
+	/**
+	 * Saves the config file for the specified player
+	 * @param plugin Zephyrus main class
+	 * @param player The player to save the config for
+	 */
 	public static void saveConfig(Zephyrus plugin, Player player) {
 		String fileName = player.getName() + ".yml";
 		File dataFolder = new File(plugin.getDataFolder(), "Players");
@@ -55,6 +71,11 @@ public class PlayerConfigHandler {
 		}
 	}
 
+	/**
+	 * Saves a new file for the player
+	 * @param plugin Zephyrus main class
+	 * @param player The player to save the default config for
+	 */
 	public static void saveDefaultConfig(Zephyrus plugin, Player player) {
 		String fileName = player.getName() + ".yml";
 		File dataFolder = new File(plugin.getDataFolder(), "Players");

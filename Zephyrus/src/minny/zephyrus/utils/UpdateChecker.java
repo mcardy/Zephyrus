@@ -27,6 +27,10 @@ public class UpdateChecker implements Runnable {
 	
 	Thread thread;
 	
+	/**
+	 * Checks for an update for Zephyrus 
+	 * @param plugin Zephyrus plugin
+	 */
 	public UpdateChecker(Zephyrus plugin) {
 		this.plugin = plugin;
 		thread = new Thread(this, "UpdateThread");
