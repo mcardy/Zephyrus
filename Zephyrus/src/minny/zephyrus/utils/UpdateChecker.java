@@ -53,7 +53,8 @@ public class UpdateChecker implements Runnable {
 					String line = str;
 
 					if (isUpdate(current, line) == -1) {
-						log.warning("Zephyrus is out of date! Get the new version at:");
+						log.warning("New version of Zephyrus available: " + line);
+						log.warning("Get it at:");
 						log.warning("dev.bukkit.org/server-mods/Zephyrus");
 						isUpdate = true;
 						try {

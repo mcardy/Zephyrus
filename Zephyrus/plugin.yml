@@ -1,6 +1,6 @@
 name: Zephyrus
 main: minny.zephyrus.Zephyrus
-version: 0.4.0
+version: 0.4.1
 author: minnymin3
 commands:
    levelup:
@@ -61,8 +61,10 @@ permissions:
          zephyrus.spell.confuse: true
          zephyrus.spell.dig: true
          zephyrus.spell.enderchest: true
+         zephyrus.spell.explode: true
          zephyrus.spell.feed: true
          zephyrus.spell.fireball: true
+         zephyrus.spell.frenzy: true
          zephyrus.spell.fly: true
          zephyrus.spell.frenzy: true
          zephyrus.spell.grow: true
@@ -83,8 +85,10 @@ permissions:
          zephyrus.cast.confuse: true
          zephyrus.cast.dig: true
          zephyrus.cast.enderchest: true
+         zephyrus.cast.explode: true
          zephyrus.cast.feed: true
          zephyrus.cast.fireball: true
+         zephyrus.cast.flare: true
          zephyrus.cast.fly: true
          zephyrus.cast.frenzy: true
          zephyrus.cast.grow: true
