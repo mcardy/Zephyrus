@@ -13,6 +13,14 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Zephyrus Example Addon
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class ExampleWorldGuardSpell extends Spell {
 
 	public ExampleWorldGuardSpell(Zephyrus plugin) {
@@ -40,7 +48,7 @@ public class ExampleWorldGuardSpell extends Spell {
 	}
 
 	@Override
-	public void run(Player arg0) {
+	public void run(Player arg0, String[] args) {
 		//Gets the player's target block. Null for transparent blocks and 100 for the range.
 		Block block = arg0.getTargetBlock(null, 100);
 		block.setType(Material.AIR);
@@ -58,7 +66,7 @@ public class ExampleWorldGuardSpell extends Spell {
 	}
 	
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		//Checks if the area is protected by WorldGuard
 		return PluginHook.canBuild(player, player.getTargetBlock(null, 100));
 	}

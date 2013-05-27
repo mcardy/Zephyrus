@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * Zephyrus
+ * Zephyrus Example Addon
  * 
  * @author minnymin3
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
@@ -50,14 +50,14 @@ public class ExampleSpell extends Spell {
 
 	//The stuff the spell does
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		//As an example this spell heals the player
 		player.setHealth(20);
 	}
 
 	//Making sure that the player isn't at full health
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		if (player.getHealth() == 20) {
 			return false;
 		} else {
