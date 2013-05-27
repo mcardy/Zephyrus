@@ -57,7 +57,7 @@ public class SuperHeat extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		try {
 			Material block = player.getTargetBlock(null, 7).getType();
 			if (block == Material.COBBLESTONE) {
@@ -126,7 +126,7 @@ public class SuperHeat extends Spell {
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		Material block = player.getTargetBlock(null, 7).getType();
 		if (block == Material.COBBLESTONE || block == Material.SAND
 				|| block == Material.IRON_ORE || block == Material.GOLD_ORE) {

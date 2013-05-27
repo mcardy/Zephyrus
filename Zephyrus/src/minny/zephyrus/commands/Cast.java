@@ -52,13 +52,13 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 							|| spell.hasPermission(player, spell)) {
 						if (!(LevelManager.getMana(player) < spell.manaCost()
 								* plugin.getConfig().getInt("ManaMultiplier"))) {
-							if (spell.canRun(player)) {
+							if (spell.canRun(player, args)) {
 								SpellCastEvent event = new SpellCastEvent(
 										player, spell);
 								Bukkit.getServer().getPluginManager()
 										.callEvent(event);
 								if (!event.isCancelled()) {
-									spell.run(player);
+									spell.run(player, args);
 									LevelManager
 											.drainMana(
 													player,

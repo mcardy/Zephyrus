@@ -45,13 +45,13 @@ public class Heal extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		player.setHealth(player.getHealth() + 1);
 		player.sendMessage(ChatColor.GRAY + "You feel a bit stronger");
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		if (player.getHealth() == 20) {
 			return false;
 		}

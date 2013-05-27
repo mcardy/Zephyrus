@@ -38,7 +38,7 @@ public class Explode extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		player.getWorld().createExplosion(
 				player.getTargetBlock(null, 200).getLocation(), 2, true);
 	}
@@ -51,7 +51,7 @@ public class Explode extends Spell {
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		boolean b = PluginHook.canBuild(player,
 				player.getTargetBlock(null, 1000))
 				&& PluginHook.allowExplosion();

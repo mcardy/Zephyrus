@@ -65,7 +65,7 @@ public class Blink extends Spell {
 
 	// The execution of the spell when casted
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		Location loc = player.getTargetBlock(null, 100).getLocation();
 		loc.setY(loc.getY() + 1);
 		loc.setPitch(player.getLocation().getPitch());
@@ -81,7 +81,7 @@ public class Blink extends Spell {
 
 	// The boolean indicating if the spell can run
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		if (player.getTargetBlock(null, 100) != null
 				&& player.getTargetBlock(null, 100).getType() != Material.AIR) {
 			Location loc = player.getTargetBlock(null, 100).getLocation();

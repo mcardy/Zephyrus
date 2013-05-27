@@ -45,13 +45,13 @@ public class Feed extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		player.setFoodLevel(player.getFoodLevel() + 1);
 		player.sendMessage(ChatColor.GRAY + "You feel slightly less hungry");
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		if (player.getFoodLevel() == 20) {
 			return false;
 		}

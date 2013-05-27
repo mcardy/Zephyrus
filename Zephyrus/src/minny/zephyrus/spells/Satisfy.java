@@ -36,7 +36,7 @@ public class Satisfy extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		player.setFoodLevel(20);
 		player.setHealth(20);
 		player.setSaturation(20);

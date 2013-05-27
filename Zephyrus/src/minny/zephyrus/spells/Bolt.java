@@ -47,7 +47,7 @@ public class Bolt extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		Location loc = player.getTargetBlock(null, 1000).getLocation();
 		player.getWorld().strikeLightning(loc);
 	}
@@ -61,7 +61,7 @@ public class Bolt extends Spell {
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		return PluginHook.canBuild(player, player.getTargetBlock(null, 1000));
 	}
 

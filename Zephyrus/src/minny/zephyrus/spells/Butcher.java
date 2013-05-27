@@ -53,7 +53,7 @@ public class Butcher extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		LivingEntity[] e = getNearbyEntities(player.getLocation(), 4);
 		for (LivingEntity entity : e) {
 			if (entity instanceof Player) {

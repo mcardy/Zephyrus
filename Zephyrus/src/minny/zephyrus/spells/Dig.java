@@ -46,13 +46,13 @@ public class Dig extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		player.getTargetBlock(null, 12).breakNaturally(
 				new ItemStack(Material.DIAMOND_PICKAXE));
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		if (player.getTargetBlock(null, 12).getType() != Material.BEDROCK) {
 			if (PluginHook.canBuild(player, player.getTargetBlock(null, 12))
 					&& player.getTargetBlock(null, 12).getType() != Material.AIR) {

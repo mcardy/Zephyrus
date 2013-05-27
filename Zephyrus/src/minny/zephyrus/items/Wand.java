@@ -258,13 +258,13 @@ public class Wand extends CustomItem {
 				if (spell.isLearned(player, spell.name())) {
 					if (!(LevelManager.getMana(player) < spell.manaCost()
 							* plugin.getConfig().getInt("ManaMultiplier"))) {
-						if (spell.canRun(player)) {
+						if (spell.canRun(player, null)) {
 							SpellCastEvent event = new SpellCastEvent(
 									player, spell);
 							Bukkit.getServer().getPluginManager()
 									.callEvent(event);
 							if (!event.isCancelled()) {
-								spell.run(player);
+								spell.run(player, null);
 								LevelManager
 										.drainMana(
 												player,

@@ -47,7 +47,7 @@ public class Fireball extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		player.launchProjectile(SmallFireball.class);
 	}
 
@@ -60,7 +60,7 @@ public class Fireball extends Spell {
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		return PluginHook.canBuild(player, player.getTargetBlock(null, 1000));
 	}
 

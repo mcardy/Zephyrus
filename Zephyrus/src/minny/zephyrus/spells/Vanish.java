@@ -47,7 +47,7 @@ public class Vanish extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		player.removePotionEffect(PotionEffectType.INVISIBILITY);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,
 				600, 1));

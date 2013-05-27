@@ -48,6 +48,7 @@ import minny.zephyrus.spells.Fly;
 import minny.zephyrus.spells.Frenzy;
 import minny.zephyrus.spells.Grow;
 import minny.zephyrus.spells.Heal;
+import minny.zephyrus.spells.Home;
 import minny.zephyrus.spells.Phase;
 import minny.zephyrus.spells.Punch;
 import minny.zephyrus.spells.Repair;
@@ -66,6 +67,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Zephyrus
@@ -152,6 +154,7 @@ public class Zephyrus extends JavaPlugin {
 				"Zephyrus v" + this.getDescription().getVersion() + " by "
 						+ this.getDescription().getAuthors().get(0)
 						+ " Enabled!");
+		new PostInit().runTaskAsynchronously(this);
 	}
 
 	@Override
@@ -172,25 +175,6 @@ public class Zephyrus extends JavaPlugin {
 			new LifeSuckIron(this);
 			new ManaPotion(this);
 			new RodOfFire(this);
-
-			try {
-				for (CustomItem ci : Zephyrus.itemMap.values()) {
-					if (ci.hasLevel()) {
-						for (int i = 1; i < ci.maxLevel(); i++) {
-							ItemStack item = ci.item();
-							ci.setItemLevel(item, i);
-							ItemStack item2 = ci.item();
-							int i2 = i;
-							ci.setItemLevel(item2, i2 + 1);
-							Merchant m = new Merchant();
-							m.addOffer(item, new ItemStack(Material.EMERALD, i), item2);
-							Zephyrus.merchantMap.put(item, m);
-						}
-					}
-				}
-			} catch (Exception e) {
-				getLogger().warning(e.getMessage());
-			}
 		}
 		new Wand(this);
 	}
@@ -213,6 +197,7 @@ public class Zephyrus extends JavaPlugin {
 		new Feed(this);
 		new Grow(this);
 		new Heal(this);
+		new Home(this);
 		new Phase(this);
 		new Punch(this);
 		new Repair(this);
@@ -298,4 +283,30 @@ public class Zephyrus extends JavaPlugin {
 			// + "' registered!");
 		}
 	}
+
+	private class PostInit extends BukkitRunnable {
+		public void run() {
+			try {
+				for (CustomItem ci : Zephyrus.itemMap.values()) {
+					if (ci.hasLevel()) {
+						for (int i = 1; i < ci.maxLevel(); i++) {
+							ItemStack item = ci.item();
+							ci.setItemLevel(item, i);
+							ItemStack item2 = ci.item();
+							int i2 = i;
+							ci.setItemLevel(item2, i2 + 1);
+							Merchant m = new Merchant();
+							m.addOffer(item,
+									new ItemStack(Material.EMERALD, i), item2);
+							Zephyrus.merchantMap.put(item, m);
+						}
+					}
+				}
+			} catch (Exception e) {
+				getLogger().warning(e.getMessage());
+			}
+			getLogger().info("Loaded " + spellMap.size() + " spells!");
+		}
+	}
+
 }

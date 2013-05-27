@@ -48,13 +48,13 @@ public class Punch extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		LivingEntity c = (LivingEntity) getTarget(player);
-		c.damage(2);
+		c.damage(4);
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		Entity e = getTarget(player);
 		if (e != null && e instanceof LivingEntity) {
 			return true;

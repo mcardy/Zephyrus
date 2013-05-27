@@ -48,7 +48,7 @@ public class Phase extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		Location loc = player.getTargetBlock(null, 4).getLocation();
 		BlockFace bf = yawToFace(player);
 		loc.setY(loc.getY() - 1);
@@ -97,7 +97,7 @@ public class Phase extends Spell {
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		Location loc1 = player.getTargetBlock(null, 4).getLocation();
 		Location loc2;
 		BlockFace bf = yawToFace(player);

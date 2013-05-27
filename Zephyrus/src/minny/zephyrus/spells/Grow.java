@@ -50,7 +50,7 @@ public class Grow extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		if (player.getTargetBlock(null, 4).getTypeId() == 59) {
 			player.getTargetBlock(null, 4).setData((byte) 7);
 			Location loc = player.getTargetBlock(null, 4).getLocation();
@@ -82,7 +82,7 @@ public class Grow extends Spell {
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		if (player.getTargetBlock(null, 4).getTypeId() == 59
 				&& player.getTargetBlock(null, 3).getData() != 7) {
 			return true;

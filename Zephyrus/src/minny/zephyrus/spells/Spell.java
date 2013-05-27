@@ -55,7 +55,7 @@ public abstract class Spell extends LevelManager {
 	/**
 	 * The method called when the spell is cast
 	 */
-	public abstract void run(Player player);
+	public abstract void run(Player player, String[] args);
 
 	/**
 	 * A Set containing all the items required to craft the spell
@@ -79,7 +79,7 @@ public abstract class Spell extends LevelManager {
 	/**
 	 * The boolean dictating if the spell can be run
 	 */
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		return true;
 	}
 

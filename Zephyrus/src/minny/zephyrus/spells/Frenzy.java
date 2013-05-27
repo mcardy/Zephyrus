@@ -54,7 +54,7 @@ public class Frenzy extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		Monster[] e = getNearbyEntities(player.getLocation(), 24);
 		for (int i = 0; i < e.length; i++) {
 			int index = i + 1;
@@ -69,7 +69,7 @@ public class Frenzy extends Spell {
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		try {
 			new CraftLivingEntity(null, null);
 			return true;

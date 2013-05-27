@@ -53,7 +53,7 @@ public class Summon extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		Creature tar = getTarget(player);
 		Creature skel = (Creature) player.getWorld().spawnEntity(
 				tar.getLocation(), EntityType.ZOMBIE);
@@ -71,7 +71,7 @@ public class Summon extends Spell {
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		try {
 			new CraftLivingEntity(null, null);
 			if (getTarget(player) != null) {

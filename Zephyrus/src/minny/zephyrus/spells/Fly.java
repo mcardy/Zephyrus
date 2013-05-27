@@ -51,7 +51,7 @@ public class Fly extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		if (list.containsKey(player.getName())) {
 			list.put(player.getName(), list.get(player.getName()) + 120);
 			player.sendMessage(ChatColor.GRAY + "You can now float for " + list.get(player.getName()) + "seconds");

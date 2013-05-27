@@ -47,7 +47,7 @@ public class Enderchest extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		Inventory i = player.getEnderChest();
 		player.openInventory(i);
 		player.playSound(player.getLocation(), Sound.CHEST_OPEN, 1, 1);

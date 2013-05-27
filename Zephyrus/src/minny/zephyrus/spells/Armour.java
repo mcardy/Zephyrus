@@ -47,7 +47,7 @@ public class Armour extends Spell {
 	}
 
 	@Override
-	public void run(Player player) {
+	public void run(Player player, String[] args) {
 		ItemStack helm = new ItemStack(Material.GOLD_HELMET);
 		ItemStack chest = new ItemStack(Material.GOLD_CHESTPLATE);
 		ItemStack legs = new ItemStack(Material.GOLD_LEGGINGS);
@@ -68,7 +68,7 @@ public class Armour extends Spell {
 	}
 
 	@Override
-	public boolean canRun(Player player) {
+	public boolean canRun(Player player, String[] args) {
 		if (player.getInventory().getHelmet() == null
 				&& player.getInventory().getChestplate() == null
 				&& player.getInventory().getLeggings() == null
