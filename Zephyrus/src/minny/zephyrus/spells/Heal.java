@@ -5,6 +5,7 @@ import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -35,7 +36,7 @@ public class Heal extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 0;
+		return 1;
 	}
 
 	@Override
@@ -46,6 +47,7 @@ public class Heal extends Spell {
 	@Override
 	public void run(Player player) {
 		player.setHealth(player.getHealth() + 1);
+		player.sendMessage(ChatColor.GRAY + "You feel a bit stronger");
 	}
 
 	@Override

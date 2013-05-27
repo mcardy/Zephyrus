@@ -5,6 +5,7 @@ import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -37,7 +38,7 @@ public class Enderchest extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 0;
+		return 2;
 	}
 
 	@Override
@@ -50,6 +51,7 @@ public class Enderchest extends Spell {
 		Inventory i = player.getEnderChest();
 		player.openInventory(i);
 		player.playSound(player.getLocation(), Sound.CHEST_OPEN, 1, 1);
+		player.sendMessage(ChatColor.DARK_PURPLE + "The inventories of Ender appear at your command");
 	}
 
 	@Override

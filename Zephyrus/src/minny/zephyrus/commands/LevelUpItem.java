@@ -4,6 +4,7 @@ import minny.zephyrus.Zephyrus;
 import minny.zephyrus.items.CustomItem;
 import minny.zephyrus.utils.ItemUtil;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,10 +45,10 @@ public class LevelUpItem extends ZephyrusCommand implements CommandExecutor {
 						sender.sendMessage("You have leveled up the "
 								+ i.name());
 					} else {
-						player.sendMessage("That item cannot be leveled anymore!");
+						player.sendMessage(ChatColor.DARK_RED + "That item cannot be leveled anymore!");
 					}
 				} else {
-					player.sendMessage("The item you are holding cannot be leveled!");
+					player.sendMessage(ChatColor.DARK_RED + "The item you are holding cannot be leveled!");
 				}
 			} else {
 				needOp(sender);

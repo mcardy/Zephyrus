@@ -5,6 +5,7 @@ import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -37,7 +38,7 @@ public class Armour extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 4;
+		return 8;
 	}
 
 	@Override
@@ -62,6 +63,8 @@ public class Armour extends Spell {
 		player.getInventory().setChestplate(chest);
 		player.getInventory().setHelmet(helm);
 		new RemoveArmour(player).runTaskLater(plugin, 12000);
+		player.sendMessage(ChatColor.GOLD
+				+ "Your skin feels hardened with magic and gold!");
 	}
 
 	@Override

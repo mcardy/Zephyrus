@@ -40,7 +40,7 @@ public class Confuse extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 1;
+		return 2;
 	}
 
 	@Override

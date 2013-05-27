@@ -10,6 +10,7 @@ import minny.zephyrus.spells.Spell;
 import minny.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -71,14 +72,14 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 								}
 							}
 						} else {
-							player.sendMessage("Not enough mana!");
+							player.sendMessage(ChatColor.DARK_RED + "Not enough mana!");
 						}
 					} else {
-						player.sendMessage("You have not learned that spell yet!");
+						player.sendMessage(ChatColor.DARK_RED + "You have not learned that spell!");
 					}
 
 				} else {
-					sender.sendMessage("That spell does not exist!");
+					sender.sendMessage(ChatColor.DARK_RED + "You have not learned that spell!");
 				}
 			}
 		} else {

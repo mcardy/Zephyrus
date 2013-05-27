@@ -38,7 +38,7 @@ public class Bolt extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 2;
+		return 4;
 	}
 
 	@Override

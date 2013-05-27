@@ -34,17 +34,17 @@ public class LevelingListener implements Listener {
 			Player player = e.getEntity().getKiller();
 			Entity en = e.getEntity();
 			if (en instanceof Monster) {
-				lvl.levelProgress(player, 8);
+				lvl.levelProgress(player, 4);
 			} else if (en instanceof Player) {
-				lvl.levelProgress(player, 12);
+				lvl.levelProgress(player, 6);
 			} else {
-				lvl.levelProgress(player, 2);
+				lvl.levelProgress(player, 1);
 			}
 		}
 	}
 
 	@EventHandler
 	public void onCast(SpellCastEvent e) {
-		lvl.levelProgress(e.getPlayer(), e.getSpell().manaCost());
+		lvl.levelProgress(e.getPlayer(), e.getSpell().manaCost() / 2);
 	}
 }

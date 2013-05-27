@@ -7,9 +7,11 @@ import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.hooks.PluginHook;
+import minny.zephyrus.listeners.SpellCastEvent;
 import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.spells.Spell;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -127,6 +129,7 @@ public class Wand extends CustomItem {
 									}
 									s.dropSpell(e.getClickedBlock(), s.name(),
 											s.bookText());
+									
 									plugin.getLogger().info(
 											e.getPlayer().getName()
 													+ " crafted the "
@@ -256,12 +259,19 @@ public class Wand extends CustomItem {
 					if (!(LevelManager.getMana(player) < spell.manaCost()
 							* plugin.getConfig().getInt("ManaMultiplier"))) {
 						if (spell.canRun(player)) {
-							spell.run(player);
-							LevelManager.drainMana(
-									player,
-									spell.manaCost()
-											* plugin.getConfig().getInt(
-													"ManaMultiplier"));
+							SpellCastEvent event = new SpellCastEvent(
+									player, spell);
+							Bukkit.getServer().getPluginManager()
+									.callEvent(event);
+							if (!event.isCancelled()) {
+								spell.run(player);
+								LevelManager
+										.drainMana(
+												player,
+												spell.manaCost()
+														* plugin.getConfig()
+																.getInt("ManaMultiplier"));
+							}
 						} else {
 							if (spell.failMessage() != "") {
 								player.sendMessage(spell.failMessage());

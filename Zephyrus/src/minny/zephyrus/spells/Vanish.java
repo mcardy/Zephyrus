@@ -5,6 +5,7 @@ import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -37,7 +38,7 @@ public class Vanish extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 0;
+		return 2;
 	}
 
 	@Override
@@ -50,6 +51,7 @@ public class Vanish extends Spell {
 		player.removePotionEffect(PotionEffectType.INVISIBILITY);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,
 				600, 1));
+		player.sendMessage(ChatColor.GRAY + "You have dissappeared!");
 	}
 
 	@Override

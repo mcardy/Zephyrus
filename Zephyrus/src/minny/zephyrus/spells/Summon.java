@@ -44,7 +44,7 @@ public class Summon extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 3;
+		return 10;
 	}
 
 	@Override

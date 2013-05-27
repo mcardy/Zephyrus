@@ -36,7 +36,7 @@ public class Repair extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 0;
+		return 1;
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public class Repair extends Spell {
 	public void run(Player player) {
 		player.getItemInHand().setDurability(
 				(short) (player.getItemInHand().getDurability() + 30));
+		player.sendMessage(ChatColor.GRAY + "Your tool feels a bit stronger");
 	}
 
 	@Override

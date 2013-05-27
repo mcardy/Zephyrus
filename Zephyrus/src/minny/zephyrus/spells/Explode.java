@@ -29,18 +29,18 @@ public class Explode extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 5;
+		return 8;
 	}
 
 	@Override
 	public int manaCost() {
-		return 50;
+		return 100;
 	}
 
 	@Override
 	public void run(Player player) {
 		player.getWorld().createExplosion(
-				player.getTargetBlock(null, 200).getLocation(), 3, true);
+				player.getTargetBlock(null, 200).getLocation(), 2, true);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class Explode extends Spell {
 	@Override
 	public boolean canRun(Player player) {
 		boolean b = PluginHook.canBuild(player,
-				player.getTargetBlock(null, 200))
+				player.getTargetBlock(null, 1000))
 				&& PluginHook.allowExplosion();
 		return b;
 	}

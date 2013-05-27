@@ -58,22 +58,22 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 									ItemMeta m = i.getItemMeta();
 									m.setLore(list);
 									i.setItemMeta(m);
-									player.sendMessage("Bound "
+									player.sendMessage(ChatColor.GRAY + "Bound "
 											+ ChatColor.GOLD + spell.name()
-											+ ChatColor.WHITE
+											+ ChatColor.GRAY
 											+ " to that wand.");
 								} else {
-									sender.sendMessage("That spell cannot be bound");
+									sender.sendMessage(ChatColor.DARK_RED + "That spell cannot be bound");
 								}
 							} else {
-								sender.sendMessage("You need to be holding a wand!");
+								sender.sendMessage(ChatColor.DARK_RED + "You need to be holding a wand!");
 							}
 						} else {
-							sender.sendMessage("You do not know that spell!");
+							sender.sendMessage(ChatColor.DARK_RED + "You do not know that spell!");
 						}
 
 					} else {
-						sender.sendMessage("You do not know that spell!");
+						sender.sendMessage(ChatColor.DARK_RED + "You do not know that spell!");
 					}
 				}
 			} else {

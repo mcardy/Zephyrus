@@ -46,7 +46,7 @@ public class Blink extends Spell {
 	// The required level for crafting the spell
 	@Override
 	public int reqLevel() {
-		return 2;
+		return 3;
 	}
 
 	// The mana cost multiplied by the mana modifier (default 5)

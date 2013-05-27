@@ -142,9 +142,7 @@ public abstract class Spell extends LevelManager {
 			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE,
 					loc, 0, 0, 0, 1, 30);
 			loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 3, 12);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {}
 	}
 
 }

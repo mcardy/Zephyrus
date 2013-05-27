@@ -38,7 +38,7 @@ public class Fireball extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 0;
+		return 2;
 	}
 
 	@Override

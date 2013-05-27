@@ -39,7 +39,7 @@ public class Butcher extends Spell {
 
 	@Override
 	public int reqLevel() {
-		return 3;
+		return 5;
 	}
 
 	@Override

@@ -52,8 +52,7 @@ public class SpellTomeCmd extends ZephyrusCommand implements CommandExecutor {
 						notOnline(sender);
 					}
 				} else {
-					sender.sendMessage(ChatColor.RED
-							+ "That spell does not exist");
+					sender.sendMessage(ChatColor.DARK_RED + "That spell does not exist");
 				}
 			}
 		} else {

@@ -1,6 +1,8 @@
 package minny.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
@@ -21,8 +23,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Fly extends Spell {
 
+	Map<String, Integer> list;
+	
 	public Fly(Zephyrus plugin) {
 		super(plugin);
+		list = new HashMap<String, Integer>();
 	}
 
 	@Override
@@ -47,9 +52,17 @@ public class Fly extends Spell {
 
 	@Override
 	public void run(Player player) {
-		player.setAllowFlight(true);
-		BukkitRunnable task = new RemoveFlightUtil(plugin, player);
-		task.runTaskLater(plugin, 500);
+		if (list.containsKey(player.getName())) {
+			list.put(player.getName(), list.get(player.getName()) + 120);
+			player.sendMessage(ChatColor.GRAY + "You can now float for " + list.get(player.getName()) + "seconds");
+			player.setAllowFlight(true);
+			new FeatherRunnable(player).runTaskLater(plugin, 20);
+		} else {
+			list.put(player.getName(), 120);
+			player.sendMessage(ChatColor.GRAY + "You can now float for " + list.get(player.getName()) + " seconds");
+			player.setAllowFlight(true);
+			new FeatherRunnable(player).runTaskLater(plugin, 20);
+		}
 	}
 
 	@Override
@@ -60,40 +73,35 @@ public class Fly extends Spell {
 
 		return i;
 	}
-
+	
 	@Override
-	public boolean canRun(Player player) {
-		return !player.getAllowFlight();
+	public Spell reqSpell() {
+		return Zephyrus.spellMap.get("feather");
 	}
 
-	@Override
-	public String failMessage() {
-		return "You can already fly!";
-	}
+	private class FeatherRunnable extends BukkitRunnable {
 
-}
-
-class RemoveFlightUtil extends BukkitRunnable {
-
-	Zephyrus plugin;
-	Player player;
-
-	public RemoveFlightUtil(Zephyrus plugin, Player player) {
-		this.plugin = plugin;
-		this.player = player;
-	}
-
-	@Override
-	public void run() {
-		player.sendMessage(ChatColor.GRAY + "5 seconds of flight remaining!");
-		new RemoveFlight().runTaskLater(plugin, 100);
-	}
-
-	private class RemoveFlight extends BukkitRunnable {
+		Player player;
+		
+		FeatherRunnable(Player player) {
+			this.player = player;
+		}
+		
 		@Override
 		public void run() {
-			player.setAllowFlight(false);
+			if (list.containsKey(player.getName()) && list.get(player.getName()) > 0) {
+				if (list.get(player.getName()) == 5) {
+					player.sendMessage(ChatColor.GRAY + "5 seconds left of flight!");
+				}
+				list.put(player.getName(), list.get(player.getName()) - 1);
+				new FeatherRunnable(player).runTaskLater(plugin, 20);
+			} else {
+				list.remove(player.getName());
+				player.setAllowFlight(false);
+				player.sendMessage(ChatColor.GRAY + "Your wings dissappeared!");
+			}
 		}
+		
 	}
-
+	
 }

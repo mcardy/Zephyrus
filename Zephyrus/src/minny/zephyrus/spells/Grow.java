@@ -6,7 +6,6 @@ import java.util.Set;
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.utils.ParticleEffects;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -42,13 +41,7 @@ public class Grow extends Spell {
 
 	@Override
 	public int reqLevel() {
-		Player[] players = Bukkit.getOnlinePlayers();
-		for (Player p : players) {
-			if (p.getWorld() == Bukkit.getWorld("Lobby")) {
-				
-			}
-		}
-		return 0;
+		return 1;
 	}
 
 	@Override
