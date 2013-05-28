@@ -34,14 +34,9 @@ public class LifeSuckGold extends CustomItem {
 	@Override
 	public ItemStack item() {
 		ItemStack i = new ItemStack(Material.GOLD_SWORD);
-		createItem(i);
-		return i;
-	}
-
-	@Override
-	public void createItem(ItemStack i) {
 		setItemName(i, this.name());
 		setCustomEnchantment(i, plugin.suck, 1);
+		return i;
 	}
 
 	public void createUpgradeItem(ItemStack i) {
@@ -82,5 +77,10 @@ public class LifeSuckGold extends CustomItem {
 	@Override
 	public boolean hasLevel() {
 		return false;
+	}
+
+	@Override
+	public int maxLevel() {
+		return 0;
 	}
 }

@@ -57,7 +57,7 @@ public class SpellTome extends ItemUtil implements Listener {
 		m.addPage(spell.bookText() + "\n\n¤0Cast the spell with:\n¤9/cast " + spell
 				+ "\n\n¤0Learn this spell by left clicking this book!");
 		i.setItemMeta(m);
-		i.addEnchantment(Zephyrus.iglow, 1);
+		i.addEnchantment(Zephyrus.sGlow, 1);
 		return i;
 	}
 	

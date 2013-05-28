@@ -45,21 +45,15 @@ public class BlinkPearl extends CustomItem {
 	@Override
 	public ItemStack item() {
 		ItemStack i = new ItemStack(Material.ENDER_PEARL);
-		createItem(i);
+		setItemName(i, this.name());
+		setItemLevel(i, 1);
+		i.addEnchantment(plugin.glow, 1);
 		return i;
 	}
 
 	@Override
-	public void createItem(ItemStack i) {
-		setItemName(i, this.name());
-		setItemLevel(i, 1);
-		i.addEnchantment(plugin.glow, 1);
-	}
-
-	@Override
 	public Recipe recipe() {
-		ItemStack blinkPearl = new ItemStack(Material.ENDER_PEARL);
-		createItem(blinkPearl);
+		ItemStack blinkPearl = item();
 		ShapedRecipe recipe = new ShapedRecipe(blinkPearl);
 		recipe.shape("CCC", "BAB", "CCC");
 		recipe.setIngredient('C', Material.ENDER_PEARL);

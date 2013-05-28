@@ -42,12 +42,6 @@ public class ManaPotion extends CustomItem {
 	@Override
 	public ItemStack item() {
 		ItemStack i = new ItemStack(Material.POTION);
-		createItem(i);
-		return i;
-	}
-
-	@Override
-	public void createItem(ItemStack i) {
 		setItemName(i, this.name());
 		ItemMeta m = i.getItemMeta();
 		List<String> lore = new ArrayList<String>();
@@ -55,12 +49,12 @@ public class ManaPotion extends CustomItem {
 		m.setLore(lore);
 		i.setItemMeta(m);
 		setGlow(i);
+		return i;
 	}
 
 	@Override
 	public Recipe recipe() {
-		ItemStack manaPotion = new ItemStack(Material.POTION);
-		createItem(manaPotion);
+		ItemStack manaPotion = item();
 		ShapedRecipe recipe = new ShapedRecipe(manaPotion);
 		recipe.shape("AAA", "ABA", "AAA");
 		recipe.setIngredient('B', Material.POTION, 8192);
@@ -92,5 +86,10 @@ public class ManaPotion extends CustomItem {
 				}
 			}
 		}
+	}
+
+	@Override
+	public int maxLevel() {
+		return 0;
 	}
 }

@@ -44,16 +44,8 @@ public class HoeOfGrowth extends CustomItem {
 	}
 
 	@Override
-	public void createItem(ItemStack i) {
-		setItemName(i, this.name());
-		setItemLevel(i, 1);
-		i.addEnchantment(plugin.glow, 1);
-	}
-
-	@Override
 	public Recipe recipe() {
-		ItemStack grow_hoe = new ItemStack(Material.GOLD_HOE);
-		createItem(grow_hoe);
+		ItemStack grow_hoe = item();
 		ShapedRecipe recipe = new ShapedRecipe(grow_hoe);
 		recipe.shape("CBC", "BAB", "CBC");
 		recipe.setIngredient('C', Material.SAPLING);
@@ -65,7 +57,9 @@ public class HoeOfGrowth extends CustomItem {
 	@Override
 	public ItemStack item() {
 		ItemStack i = new ItemStack(Material.GOLD_HOE);
-		createItem(i);
+		setItemName(i, this.name());
+		setItemLevel(i, 1);
+		i.addEnchantment(plugin.glow, 1);
 		return i;
 	}
 

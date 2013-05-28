@@ -45,21 +45,13 @@ public class RodOfFire extends CustomItem {
 	}
 
 	@Override
-	public void createItem(ItemStack i) {
-		setItemName(i, this.name());
-		setItemLevel(i, 1);
-		setGlow(i);
-	}
-
-	@Override
 	public int maxLevel() {
 		return 9;
 	}
 
 	@Override
 	public Recipe recipe() {
-		ItemStack fire_rod = new ItemStack(Material.BLAZE_ROD);
-		createItem(fire_rod);
+		ItemStack fire_rod = item();
 
 		ShapedRecipe recipe = new ShapedRecipe(fire_rod);
 		recipe.shape("BCB", "BAB", "BBB");
@@ -72,7 +64,9 @@ public class RodOfFire extends CustomItem {
 	@Override
 	public ItemStack item() {
 		ItemStack i = new ItemStack(Material.BLAZE_ROD);
-		createItem(i);
+		setItemName(i, this.name());
+		setItemLevel(i, 1);
+		setGlow(i);
 		return i;
 	}
 

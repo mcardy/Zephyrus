@@ -21,22 +21,26 @@ public class UpdateChecker implements Runnable {
 	String checkURL = "https://raw.github.com/minnymin3/Zephyrus/master/version";
 	String changelogURL = "https://raw.github.com/minnymin3/Zephyrus/master/Changelog";
 	Zephyrus plugin;
-	
+
 	public static boolean isUpdate;
 	public static String changelog;
-	
+
+	private String[] result = new String[2];
+
 	Thread thread;
-	
+
 	/**
-	 * Checks for an update for Zephyrus 
-	 * @param plugin Zephyrus plugin
+	 * Checks for an update for Zephyrus
+	 * 
+	 * @param plugin
+	 *            Zephyrus plugin
 	 */
 	public UpdateChecker(Zephyrus plugin) {
 		this.plugin = plugin;
 		thread = new Thread(this, "UpdateThread");
-	    thread.start();
+		thread.start();
 	}
-	
+
 	@Override
 	public void run() {
 		if (plugin.getConfig().getBoolean("UpdateChecker")) {
@@ -44,7 +48,7 @@ public class UpdateChecker implements Runnable {
 			Logger log = plugin.getLogger();
 
 			try {
-				log.info("Checking for a new version...");
+				log.info("Starting update checker...");
 				URL url = new URL(checkURL);
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						url.openStream()));
@@ -53,9 +57,8 @@ public class UpdateChecker implements Runnable {
 					String line = str;
 
 					if (isUpdate(current, line) == -1) {
-						log.warning("New version of Zephyrus available: " + line);
-						log.warning("Get it at:");
-						log.warning("dev.bukkit.org/server-mods/Zephyrus");
+						result[0] = "New version of Zephyrus available: " + line;
+						result[1] = "Get it at: dev.bukkit.org/server-mods/Zephyrus";
 						isUpdate = true;
 						try {
 							URL change = new URL(changelogURL);
@@ -66,6 +69,7 @@ public class UpdateChecker implements Runnable {
 								String scl = stri;
 								log.info("[Changelog] " + scl);
 								changelog = scl;
+								result[2] = "[ChangeLog] " + scl;
 							}
 						} catch (IOException e) {
 							log.severe("Unable to get Changelog");
@@ -73,20 +77,25 @@ public class UpdateChecker implements Runnable {
 						break;
 					} else if (isUpdate(current, line) == 1) {
 						isUpdate = false;
-						log.info("You are running a developement build of Zephyrus");
+						result[0] = "You are running a developement build of Zephyrus";
 						break;
 					} else if (isUpdate(current, line) == 0) {
-						log.info("Zephyrus is up to date!");
+						result[0] = "Zephyrus is up to date!";
 						isUpdate = false;
 						break;
 					}
 				}
 				br.close();
+				plugin.update = result;
 			} catch (IOException e) {
-				log.severe("Was unable to check for update. URL may be invalid");
+				log.severe("Unable to check for updates!");
 			}
 		}
 
+	}
+
+	public String[] getResult() {
+		return result;
 	}
 
 	private int isUpdate(String str1, String str2) {

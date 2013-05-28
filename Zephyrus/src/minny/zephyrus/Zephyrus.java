@@ -85,8 +85,10 @@ public class Zephyrus extends JavaPlugin {
 	// ConfigHandler config = new ConfigHandler(this, "spellconfig.yml");
 
 	public GlowEffect glow = new GlowEffect(120);
-	public static GlowEffect iglow = new GlowEffect(122);
+	public static GlowEffect sGlow = new GlowEffect(122);
 	public LifeSuck suck = new LifeSuck(121);
+	
+	public String[] update;
 
 	public Map<String, Object> fireRodDelay;
 	public Map<String, Object> lightningGemDelay;
@@ -100,6 +102,8 @@ public class Zephyrus extends JavaPlugin {
 	public static Map<Set<ItemStack>, Spell> spellCraftMap;
 	public static Map<String, CustomItem> itemMap;
 	public static Map<ItemStack, Merchant> merchantMap;
+	
+	private int builtInSpells = 0;
 
 	@Override
 	public void onEnable() {
@@ -110,23 +114,12 @@ public class Zephyrus extends JavaPlugin {
 		spellMap = new HashMap<String, Spell>();
 		merchantMap = new HashMap<ItemStack, Merchant>();
 		invPlayers = new HashMap<String, Merchant>();
-
-		new UpdateChecker(this);
-
-		if (PluginHook.worldGuard()) {
-			getLogger().info("WorldGuard found. Protections integrated");
-		}
-		if (PluginHook.economy()) {
-			getLogger().info("Vault found. Integrating economy!");
-			PluginManager pm = getServer().getPluginManager();
-			pm.registerEvents(new EconListener(this), this);
-		}
-
 		fireRodDelay = new HashMap<String, Object>();
 		lightningGemDelay = new HashMap<String, Object>();
 		blinkPearlDelay = new HashMap<String, Object>();
-
 		mana = new HashMap<String, Object>();
+		
+		new UpdateChecker(this);
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			Zephyrus.mana.put(p.getName(), LevelManager.loadMana(p));
@@ -136,23 +129,21 @@ public class Zephyrus extends JavaPlugin {
 		try {
 			new CraftLivingEntity(null, null);
 		} catch (NoClassDefFoundError err) {
-			getLogger()
-					.warning(
+			getLogger().warning(
 							"This version of Zephyrus is not fully compatible with your version of CraftBukkit."
 									+ " Some features have been disabled!");
 		}
 
+		hook();
 		addCommands();
 		addListeners();
 		addEnchants();
 		addItems();
 		addSpells();
 
-		getLogger().info("Loaded " + Zephyrus.spellMap.size() + " spells");
-
 		getLogger().info(
 				"Zephyrus v" + this.getDescription().getVersion() + " by "
-						+ this.getDescription().getAuthors().get(0)
+						+ this.getDescription().getAuthors().toString().replace("[", "").replace("]", "")
 						+ " Enabled!");
 		new PostInit().runTaskAsynchronously(this);
 	}
@@ -165,7 +156,18 @@ public class Zephyrus extends JavaPlugin {
 		}
 	}
 
-	public void addItems() {
+	private void hook() {
+		if (PluginHook.worldGuard()) {
+			getLogger().info("WorldGuard found. Protections integrated");
+		}
+		if (PluginHook.economy()) {
+			getLogger().info("Vault found. Integrating economy!");
+			PluginManager pm = getServer().getPluginManager();
+			pm.registerEvents(new EconListener(this), this);
+		}
+	}
+	
+	private void addItems() {
 		if (!getConfig().getBoolean("Disable-Recipes")) {
 			new BlinkPearl(this);
 			new GemOfLightning(this);
@@ -179,7 +181,7 @@ public class Zephyrus extends JavaPlugin {
 		new Wand(this);
 	}
 
-	public void addSpells() {
+	private void addSpells() {
 		new Armour(this);
 		new Blink(this);
 		new Bolt(this);
@@ -205,18 +207,11 @@ public class Zephyrus extends JavaPlugin {
 		// new Summon(this);
 		new SuperHeat(this);
 		new Vanish(this);
-
-		/*
-		 * config.saveDefaultConfig(); Set<String> keys =
-		 * this.spellMap.keySet(); Object[] string = keys.toArray(); for (Object
-		 * s : string){ Spell spell = this.spellMap.get(s); if
-		 * (!config.getConfig().contains(spell.name())){
-		 * config.getConfig().set(spell.name(), spell.manaCost()); } }
-		 * config.saveConfig();
-		 */
+		
+		builtInSpells = spellMap.size();
 	}
 
-	public void addEnchants() {
+	private void addEnchants() {
 		try {
 			Field f = Enchantment.class.getDeclaredField("acceptingNew");
 			f.setAccessible(true);
@@ -231,7 +226,7 @@ public class Zephyrus extends JavaPlugin {
 		}
 	}
 
-	public void addListeners() {
+	private void addListeners() {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(playerListener, this);
 		pm.registerEvents(levelListener, this);
@@ -239,7 +234,7 @@ public class Zephyrus extends JavaPlugin {
 		pm.registerEvents(new ItemLevelListener(this), this);
 	}
 
-	public void addCommands() {
+	private void addCommands() {
 		getCommand("levelup").setExecutor(new LevelUp(this));
 		getCommand("levelupitem").setExecutor(new LevelUpItem(this));
 		getCommand("cast").setExecutor(new Cast(this));
@@ -278,9 +273,6 @@ public class Zephyrus extends JavaPlugin {
 					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
 				Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
 			}
-			// Bukkit.getLogger().info(
-			// "[Zephyrus] External spell '" + spell.name()
-			// + "' registered!");
 		}
 	}
 
@@ -305,7 +297,17 @@ public class Zephyrus extends JavaPlugin {
 			} catch (Exception e) {
 				getLogger().warning(e.getMessage());
 			}
-			getLogger().info("Loaded " + spellMap.size() + " spells!");
+			for (String s : update) {
+				if (s != null) {
+					getLogger().info(s);
+				}
+			}
+			String added = "";
+			if (!(spellMap.size() == builtInSpells)) {
+				int a = spellMap.size() - builtInSpells;
+				added = " " + a + " external spells registered. ";
+			}
+			getLogger().info("Loaded " + spellMap.size() + " spells." + added);
 		}
 	}
 

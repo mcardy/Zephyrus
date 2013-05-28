@@ -40,16 +40,8 @@ public class GemOfLightning extends CustomItem {
 	}
 
 	@Override
-	public void createItem(ItemStack i) {
-		setItemName(i, this.name());
-		setItemLevel(i, 1);
-		setGlow(i);
-	}
-
-	@Override
 	public Recipe recipe() {
-		ItemStack lightning_gem = new ItemStack(Material.EMERALD);
-		createItem(lightning_gem);
+		ItemStack lightning_gem = item();
 
 		ShapedRecipe recipe = new ShapedRecipe(lightning_gem);
 		recipe.shape(" B ", "BAB", " B ");
@@ -61,7 +53,9 @@ public class GemOfLightning extends CustomItem {
 	@Override
 	public ItemStack item() {
 		ItemStack i = new ItemStack(Material.EMERALD);
-		createItem(i);
+		setItemName(i, this.name());
+		setItemLevel(i, 1);
+		setGlow(i);
 		return i;
 	}
 

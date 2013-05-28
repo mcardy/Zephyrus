@@ -58,20 +58,14 @@ public class Wand extends CustomItem {
 	@Override
 	public ItemStack item() {
 		ItemStack i = new ItemStack(Material.STICK);
-		createItem(i);
-		return i;
-	}
-
-	@Override
-	public void createItem(ItemStack i) {
 		setItemName(i, this.name());
 		ItemMeta m = i.getItemMeta();
 		List<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.GRAY + "Regular old default wand");
 		m.setLore(lore);
-
 		i.setItemMeta(m);
 		setGlow(i);
+		return i;
 	}
 
 	@Override
@@ -297,5 +291,10 @@ public class Wand extends CustomItem {
 				}
 			}
 		}
+	}
+
+	@Override
+	public int maxLevel() {
+		return 0;
 	}
 }

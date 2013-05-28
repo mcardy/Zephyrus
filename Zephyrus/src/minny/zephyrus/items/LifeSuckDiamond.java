@@ -34,14 +34,9 @@ public class LifeSuckDiamond extends CustomItem {
 	@Override
 	public ItemStack item() {
 		ItemStack i = new ItemStack(Material.DIAMOND_SWORD);
-		createItem(i);
-		return i;
-	}
-
-	@Override
-	public void createItem(ItemStack i) {
 		setItemName(i, this.name());
 		setCustomEnchantment(i, plugin.suck, 1);
+		return i;
 	}
 
 	public void createUpgradeItem(ItemStack i) {
@@ -82,5 +77,10 @@ public class LifeSuckDiamond extends CustomItem {
 				}
 			}
 		}
+	}
+
+	@Override
+	public int maxLevel() {
+		return 0;
 	}
 }

@@ -24,8 +24,7 @@ public abstract class CustomItem extends ItemUtil implements Listener {
 		}
 		try {
 			plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 		if (hasLevel() && this.name() != null) {
 			Zephyrus.itemMap.put(this.name(), this);
 		}
@@ -44,16 +43,16 @@ public abstract class CustomItem extends ItemUtil implements Listener {
 	public abstract ItemStack item();
 
 	/**
-	 * Adds the displayname, lore, etc. to the item
-	 * @param i The itemstack to change
-	 */
-	public abstract void createItem(ItemStack i);
-
-	/**
 	 * The custom recipe for the item
 	 * @return The custom recipe for the item
 	 */
 	public abstract Recipe recipe();
+	
+	/**
+	 * The maximum level of a custom item
+	 * @return
+	 */
+	public abstract int maxLevel();
 
 	/**
 	 * Weather or not the custom item should have a level
@@ -61,14 +60,6 @@ public abstract class CustomItem extends ItemUtil implements Listener {
 	 */
 	public boolean hasLevel() {
 		return true;
-	}
-
-	/**
-	 * The maximum level of a custom item
-	 * @return
-	 */
-	public int maxLevel() {
-		return 10;
 	}
 
 	/**
