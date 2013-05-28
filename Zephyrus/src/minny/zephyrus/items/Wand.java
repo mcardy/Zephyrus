@@ -100,8 +100,7 @@ public class Wand extends CustomItem {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK
 				&& e.getClickedBlock().getType() == Material.BOOKSHELF
 				&& checkName(e.getPlayer().getItemInHand(), this.name())
-				&& e.getItem().getItemMeta().getLore().get(0)
-						.contains("wand")) {
+				&& e.getItem().getItemMeta().getLore().get(0).contains("wand")) {
 			Location loc = e.getClickedBlock().getLocation();
 			if (!PluginHook.canBuild(e.getPlayer(), loc)) {
 				return;
@@ -113,7 +112,8 @@ public class Wand extends CustomItem {
 				if (Zephyrus.spellCraftMap.containsKey(i)) {
 					Spell s = Zephyrus.spellCraftMap.get(i);
 					if (e.getPlayer().hasPermission(
-							"zephyrus.spell." + s.name())) {
+							"zephyrus.spell." + s.name())
+							|| e.getPlayer().hasPermission("zephyrus.spell.*")) {
 						if (s.reqSpell() != null) {
 							if (s.isLearned(e.getPlayer(), s.reqSpell().name())) {
 								if (!(LevelManager.getLevel(e.getPlayer()) < s
@@ -122,8 +122,8 @@ public class Wand extends CustomItem {
 										item.remove();
 									}
 									s.dropSpell(e.getClickedBlock(), s.name(),
-											s.bookText());
-									
+											s.bookText(), e.getPlayer());
+
 									plugin.getLogger().info(
 											e.getPlayer().getName()
 													+ " crafted the "
@@ -156,7 +156,7 @@ public class Wand extends CustomItem {
 									item.remove();
 								}
 								s.dropSpell(e.getClickedBlock(), s.name(),
-										s.bookText());
+										s.bookText(), e.getPlayer());
 								plugin.getLogger().info(
 										e.getPlayer().getName()
 												+ " crafted the "
@@ -237,45 +237,48 @@ public class Wand extends CustomItem {
 
 	@EventHandler
 	public void onWand(PlayerInteractEvent e) {
-		if (checkName(e.getItem(), this.name())) {
-			ItemStack i = e.getItem();
-			String s = i
-					.getItemMeta()
-					.getLore()
-					.get(0)
-					.replace(
-							ChatColor.GRAY + "Bound spell: "
-									+ ChatColor.DARK_GRAY, "");
-			if (Zephyrus.spellMap.containsKey(s)) {
-				Spell spell = Zephyrus.spellMap.get(s);
-				Player player = e.getPlayer();
-				if (spell.isLearned(player, spell.name())) {
-					if (!(LevelManager.getMana(player) < spell.manaCost()
-							* plugin.getConfig().getInt("ManaMultiplier"))) {
-						if (spell.canRun(player, null)) {
-							SpellCastEvent event = new SpellCastEvent(
-									player, spell);
-							Bukkit.getServer().getPluginManager()
-									.callEvent(event);
-							if (!event.isCancelled()) {
-								spell.run(player, null);
-								LevelManager
-										.drainMana(
-												player,
-												spell.manaCost()
-														* plugin.getConfig()
-																.getInt("ManaMultiplier"));
+		if (e.getAction() == Action.RIGHT_CLICK_AIR
+				|| e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			if (checkName(e.getItem(), this.name())) {
+				ItemStack i = e.getItem();
+				String s = i
+						.getItemMeta()
+						.getLore()
+						.get(0)
+						.replace(
+								ChatColor.GRAY + "Bound spell: "
+										+ ChatColor.DARK_GRAY, "");
+				if (Zephyrus.spellMap.containsKey(s)) {
+					Spell spell = Zephyrus.spellMap.get(s);
+					Player player = e.getPlayer();
+					if (spell.isLearned(player, spell.name())) {
+						if (!(LevelManager.getMana(player) < spell.manaCost()
+								* plugin.getConfig().getInt("ManaMultiplier"))) {
+							if (spell.canRun(player, null)) {
+								SpellCastEvent event = new SpellCastEvent(
+										player, spell);
+								Bukkit.getServer().getPluginManager()
+										.callEvent(event);
+								if (!event.isCancelled()) {
+									spell.run(player, null);
+									LevelManager
+											.drainMana(
+													player,
+													spell.manaCost()
+															* plugin.getConfig()
+																	.getInt("ManaMultiplier"));
+								}
+							} else {
+								if (spell.failMessage() != "") {
+									player.sendMessage(spell.failMessage());
+								}
 							}
 						} else {
-							if (spell.failMessage() != "") {
-								player.sendMessage(spell.failMessage());
-							}
+							player.sendMessage("Not enough mana!");
 						}
 					} else {
-						player.sendMessage("Not enough mana!");
+						player.sendMessage("You do not know that spell!");
 					}
-				} else {
-					player.sendMessage("You do not know that spell!");
 				}
 			}
 		}

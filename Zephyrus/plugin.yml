@@ -10,6 +10,7 @@ commands:
    bind:
    spelltome:
    level:
+   unbind:
 permissions:
    zephyrus.bind:
       default: true
@@ -53,50 +54,4 @@ permissions:
          zephyrus.craft.wand: true
    zephyrus.spell.*:
       default: true
-      children:
-         zephyrus.spell.armour: true
-         zephyrus.spell.blink: true
-         zephyrus.spell.bolt: true
-         zephyrus.spell.butcher: true
-         zephyrus.spell.confuse: true
-         zephyrus.spell.dig: true
-         zephyrus.spell.enderchest: true
-         zephyrus.spell.explode: true
-         zephyrus.spell.feed: true
-         zephyrus.spell.fireball: true
-         zephyrus.spell.frenzy: true
-         zephyrus.spell.fly: true
-         zephyrus.spell.frenzy: true
-         zephyrus.spell.grow: true
-         zephyrus.spell.heal: true
-         zephyrus.spell.phase: true
-         zephyrus.spell.punch: true
-         zephyrus.spell.repair: true
-         zephyrus.spell.summon: true
-         zephyrus.spell.superheat: true
-         zephyrus.spell.vanish: true
-   zephyrus.cast.*:
-      default: false
-      children:
-         zephyrus.cast.armour: true
-         zephyrus.cast.blink: true
-         zephyrus.cast.bolt: true
-         zephyrus.cast.butcher: true
-         zephyrus.cast.confuse: true
-         zephyrus.cast.dig: true
-         zephyrus.cast.enderchest: true
-         zephyrus.cast.explode: true
-         zephyrus.cast.feed: true
-         zephyrus.cast.fireball: true
-         zephyrus.cast.flare: true
-         zephyrus.cast.fly: true
-         zephyrus.cast.frenzy: true
-         zephyrus.cast.grow: true
-         zephyrus.cast.heal: true
-         zephyrus.cast.phase: true
-         zephyrus.cast.punch: true
-         zephyrus.cast.repair: true
-         zephyrus.cast.summon: true
-         zephyrus.cast.superheat: true
-         zephyrus.cast.vanish: true
 load: STARTUP

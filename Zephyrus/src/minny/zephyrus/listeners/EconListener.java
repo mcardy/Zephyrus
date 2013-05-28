@@ -7,6 +7,7 @@ import minny.zephyrus.player.LevelManager;
 import minny.zephyrus.spells.Spell;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,8 +39,8 @@ public class EconListener implements Listener {
 	public void onClickSign(PlayerInteractEvent e) {
 		if (PluginHook.economy()) {
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-				if (e.getClickedBlock() != null
-						&& e.getClickedBlock().getState() instanceof Sign) {
+				Material type = e.getClickedBlock().getType();
+				if (type == Material.SIGN || type == Material.SIGN_POST || type == Material.WALL_SIGN) {
 					Sign s = (Sign) e.getClickedBlock().getState();
 					if (s.getLine(0).equals(ChatColor.DARK_AQUA + "[BuySpell]")) {
 						if (e.getPlayer().hasPermission("zephyrus.buy")) {

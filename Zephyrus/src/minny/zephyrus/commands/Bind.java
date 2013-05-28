@@ -47,8 +47,12 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 						Player player = (Player) sender;
 						if (spell.isLearned(player, spell.name())
 								|| spell.hasPermission(player, spell)) {
-							if (player.getItemInHand().getItemMeta()
-									.getDisplayName().contains("¤6Wand")) {
+							if (player.getItemInHand() != null
+									&& player.getItemInHand().hasItemMeta()
+									&& player.getItemInHand().getItemMeta().hasDisplayName()
+									&& player.getItemInHand().getItemMeta()
+											.getDisplayName()
+											.contains("¤6Wand")) {
 								if (spell.canBind()) {
 									ItemStack i = player.getItemInHand();
 									List<String> list = new ArrayList<String>();
@@ -58,22 +62,26 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 									ItemMeta m = i.getItemMeta();
 									m.setLore(list);
 									i.setItemMeta(m);
-									player.sendMessage(ChatColor.GRAY + "Bound "
-											+ ChatColor.GOLD + spell.name()
-											+ ChatColor.GRAY
+									player.sendMessage(ChatColor.GRAY
+											+ "Bound " + ChatColor.GOLD
+											+ spell.name() + ChatColor.GRAY
 											+ " to that wand.");
 								} else {
-									sender.sendMessage(ChatColor.DARK_RED + "That spell cannot be bound");
+									sender.sendMessage(ChatColor.DARK_RED
+											+ "That spell cannot be bound");
 								}
 							} else {
-								sender.sendMessage(ChatColor.DARK_RED + "You need to be holding a wand!");
+								sender.sendMessage(ChatColor.DARK_RED
+										+ "You need to be holding a wand!");
 							}
 						} else {
-							sender.sendMessage(ChatColor.DARK_RED + "You do not know that spell!");
+							sender.sendMessage(ChatColor.DARK_RED
+									+ "You do not know that spell!");
 						}
 
 					} else {
-						sender.sendMessage(ChatColor.DARK_RED + "You do not know that spell!");
+						sender.sendMessage(ChatColor.DARK_RED
+								+ "You do not know that spell!");
 					}
 				}
 			} else {

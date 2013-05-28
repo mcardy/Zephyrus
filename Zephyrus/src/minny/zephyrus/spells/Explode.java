@@ -11,6 +11,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Zephyrus
+ * 
+ * @author minnymin3
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class Explode extends Spell {
 
 	public Explode(Zephyrus plugin) {
@@ -54,14 +62,14 @@ public class Explode extends Spell {
 	public boolean canRun(Player player, String[] args) {
 		boolean b = PluginHook.canBuild(player,
 				player.getTargetBlock(null, 1000))
-				&& PluginHook.allowExplosion();
+				&& PluginHook.allowExplosion() && player.getTargetBlock(null, 1000).getType() != Material.AIR;
 		return b;
 	}
 
 	@Override
 	public String failMessage() {
 		return ChatColor.DARK_RED
-				+ "TNT Explosions are disabled at your location!";
+				+ "Can't explode there!";
 	}
 
 }

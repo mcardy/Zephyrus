@@ -1,5 +1,6 @@
 package minny.zephyrus.spells;
 
+import java.util.Random;
 import java.util.Set;
 
 import minny.zephyrus.Zephyrus;
@@ -130,7 +131,8 @@ public abstract class Spell extends LevelManager {
 	/**
 	 * The method for destroying a bookshelf and dropping a spelltome
 	 */
-	public void dropSpell(Block bookshelf, String name, String desc) {
+	public void dropSpell(Block bookshelf, String name, String desc, Player player) {
+		Random r = new Random();
 		bookshelf.setType(Material.AIR);
 		SpellTome tome = new SpellTome(plugin, name, desc);
 		Location loc = bookshelf.getLocation();
@@ -138,6 +140,15 @@ public abstract class Spell extends LevelManager {
 		loc.setZ(loc.getZ() + 0.5);
 		loc.getWorld().dropItem(loc.add(0, +1, 0), tome.item())
 				.setVelocity(new Vector(0, 0, 0));
+		int chance = 1;
+		if (LevelManager.getLevel(player) < 7) {
+			chance = 1;
+		} else if (LevelManager.getLevel(player) < 15) {
+			chance = 2;
+		} else {
+			chance = 3;
+		}
+		loc.getWorld().dropItem(loc.add(0, +0.5, 0), new ItemStack(Material.BOOK, r.nextInt(chance)));
 		try {
 			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE,
 					loc, 0, 0, 0, 1, 30);

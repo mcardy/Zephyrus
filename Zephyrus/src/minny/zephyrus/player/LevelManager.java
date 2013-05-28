@@ -57,8 +57,9 @@ public class LevelManager {
 		int current = PlayerConfigHandler.getConfig(plugin, player).getInt(
 				"progress");
 		current = current + amount;
-		if (current > getLevel(player) * levelBalance - 12) {
-			current = current - (getLevel(player) * levelBalance - 12);
+		int level = getLevel(player);
+		if (current > (level * levelBalance) + (level * level + 100)) {
+			current = current - (level * levelBalance) + (level * level + 100);
 			levelUp(player);
 		}
 		PlayerConfigHandler.getConfig(plugin, player).set("progress", current);
@@ -227,7 +228,7 @@ public class LevelManager {
 			levelBalance = plugin.getConfig().getInt("LevelBalance");
 			int level = getLevel(player);
 			int currentLevelProg = getLevelProgress(player);
-			int maxLevelProg = level * levelBalance - 12;
+			int maxLevelProg = (level * levelBalance) + (level * level + 100);
 			long devider = (maxLevelProg * 100) / 120;
 			StringBuffer full = new StringBuffer();
 			StringBuffer empty = new StringBuffer();

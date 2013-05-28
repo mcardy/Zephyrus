@@ -12,6 +12,7 @@ import minny.zephyrus.commands.LevelUp;
 import minny.zephyrus.commands.LevelUpItem;
 import minny.zephyrus.commands.Mana;
 import minny.zephyrus.commands.SpellTomeCmd;
+import minny.zephyrus.commands.UnBind;
 import minny.zephyrus.enchantments.GlowEffect;
 import minny.zephyrus.enchantments.LifeSuck;
 import minny.zephyrus.hooks.PluginHook;
@@ -50,6 +51,7 @@ import minny.zephyrus.spells.Grow;
 import minny.zephyrus.spells.Heal;
 import minny.zephyrus.spells.Home;
 import minny.zephyrus.spells.Phase;
+import minny.zephyrus.spells.Prospect;
 import minny.zephyrus.spells.Punch;
 import minny.zephyrus.spells.Repair;
 import minny.zephyrus.spells.Smite;
@@ -87,7 +89,7 @@ public class Zephyrus extends JavaPlugin {
 	public GlowEffect glow = new GlowEffect(120);
 	public static GlowEffect sGlow = new GlowEffect(122);
 	public LifeSuck suck = new LifeSuck(121);
-	
+
 	public String[] update;
 
 	public Map<String, Object> fireRodDelay;
@@ -102,7 +104,7 @@ public class Zephyrus extends JavaPlugin {
 	public static Map<Set<ItemStack>, Spell> spellCraftMap;
 	public static Map<String, CustomItem> itemMap;
 	public static Map<ItemStack, Merchant> merchantMap;
-	
+
 	private int builtInSpells = 0;
 
 	@Override
@@ -118,7 +120,7 @@ public class Zephyrus extends JavaPlugin {
 		lightningGemDelay = new HashMap<String, Object>();
 		blinkPearlDelay = new HashMap<String, Object>();
 		mana = new HashMap<String, Object>();
-		
+
 		new UpdateChecker(this);
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
@@ -129,7 +131,8 @@ public class Zephyrus extends JavaPlugin {
 		try {
 			new CraftLivingEntity(null, null);
 		} catch (NoClassDefFoundError err) {
-			getLogger().warning(
+			getLogger()
+					.warning(
 							"This version of Zephyrus is not fully compatible with your version of CraftBukkit."
 									+ " Some features have been disabled!");
 		}
@@ -142,8 +145,11 @@ public class Zephyrus extends JavaPlugin {
 		addSpells();
 
 		getLogger().info(
-				"Zephyrus v" + this.getDescription().getVersion() + " by "
-						+ this.getDescription().getAuthors().toString().replace("[", "").replace("]", "")
+				"Zephyrus v"
+						+ this.getDescription().getVersion()
+						+ " by "
+						+ this.getDescription().getAuthors().toString()
+								.replace("[", "").replace("]", "")
 						+ " Enabled!");
 		new PostInit().runTaskAsynchronously(this);
 	}
@@ -166,7 +172,7 @@ public class Zephyrus extends JavaPlugin {
 			pm.registerEvents(new EconListener(this), this);
 		}
 	}
-	
+
 	private void addItems() {
 		if (!getConfig().getBoolean("Disable-Recipes")) {
 			new BlinkPearl(this);
@@ -201,13 +207,14 @@ public class Zephyrus extends JavaPlugin {
 		new Heal(this);
 		new Home(this);
 		new Phase(this);
+		new Prospect(this);
 		new Punch(this);
 		new Repair(this);
 		new Smite(this);
 		// new Summon(this);
 		new SuperHeat(this);
 		new Vanish(this);
-		
+
 		builtInSpells = spellMap.size();
 	}
 
@@ -243,7 +250,8 @@ public class Zephyrus extends JavaPlugin {
 		getCommand("bind").setExecutor(new Bind(this));
 		getCommand("bind").setTabCompleter(new Bind(this));
 		getCommand("spelltome").setExecutor(new SpellTomeCmd(this));
-		getCommand("Level").setExecutor(new Level(this));
+		getCommand("level").setExecutor(new Level(this));
+		getCommand("unbind").setExecutor(new UnBind());
 	}
 
 	/**
@@ -297,10 +305,14 @@ public class Zephyrus extends JavaPlugin {
 			} catch (Exception e) {
 				getLogger().warning(e.getMessage());
 			}
-			for (String s : update) {
-				if (s != null) {
-					getLogger().info(s);
+			try {
+				for (String s : update) {
+					if (s != null) {
+						getLogger().info(s);
+					}
 				}
+			} catch (NullPointerException e) {
+				getLogger().info("Could not check for updates...");
 			}
 			String added = "";
 			if (!(spellMap.size() == builtInSpells)) {
