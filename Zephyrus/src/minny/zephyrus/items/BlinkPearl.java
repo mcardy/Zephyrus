@@ -77,8 +77,7 @@ public class BlinkPearl extends CustomItem {
 						&& e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE) {
 					return;
 				}
-				if (!plugin.blinkPearlDelay
-						.containsKey(e.getPlayer().getName())) {
+				if (!ItemDelay.hasDelay(plugin, e.getPlayer(), this)) {
 					if (e.getPlayer().getTargetBlock(null, 100) != null
 							&& e.getPlayer().getTargetBlock(null, 100)
 									.getType() != Material.AIR) {
@@ -106,10 +105,8 @@ public class BlinkPearl extends CustomItem {
 										.playSound(e.getPlayer().getLocation(),
 												Sound.ENDERMAN_TELEPORT, 10, 1);
 								e.getPlayer().teleport(loc);
-								delay(plugin.blinkPearlDelay, plugin,
-										delayFromLevel(getItemLevel(e
-												.getPlayer().getItemInHand())),
-										e.getPlayer().getName());
+								int delay = delayFromLevel(getItemLevel(e.getItem()));
+								ItemDelay.setDelay(plugin, e.getPlayer(), this, delay);
 							} else {
 								e.getPlayer()
 										.sendMessage(
@@ -125,8 +122,7 @@ public class BlinkPearl extends CustomItem {
 								ChatColor.GRAY + "Location out of range!");
 					}
 				} else {
-					int time = (Integer) plugin.blinkPearlDelay.get(e
-							.getPlayer().getName());
+					int time = ItemDelay.getDelay(plugin, e.getPlayer(), this);
 					e.getPlayer().sendMessage(
 							ChatColor.GRAY + "The BlinkPearl still needs "
 									+ time + " seconds to recharge!");

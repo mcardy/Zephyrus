@@ -92,9 +92,7 @@ public class Zephyrus extends JavaPlugin {
 
 	public String[] update;
 
-	public Map<String, Object> fireRodDelay;
-	public Map<String, Object> lightningGemDelay;
-	public Map<String, Object> blinkPearlDelay;
+	public Map<String, Map<String, Integer>> itemDelay;
 
 	public Map<String, Merchant> invPlayers;
 
@@ -116,9 +114,7 @@ public class Zephyrus extends JavaPlugin {
 		spellMap = new HashMap<String, Spell>();
 		merchantMap = new HashMap<ItemStack, Merchant>();
 		invPlayers = new HashMap<String, Merchant>();
-		fireRodDelay = new HashMap<String, Object>();
-		lightningGemDelay = new HashMap<String, Object>();
-		blinkPearlDelay = new HashMap<String, Object>();
+		itemDelay = new HashMap<String, Map<String, Integer>>();
 		mana = new HashMap<String, Object>();
 
 		new UpdateChecker(this);

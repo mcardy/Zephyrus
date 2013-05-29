@@ -79,7 +79,7 @@ public class RodOfFire extends CustomItem {
 	public void fireball(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
-				&& !plugin.fireRodDelay.containsKey(e.getPlayer().getName())
+				&& ItemDelay.hasDelay(plugin, e.getPlayer(), this)
 				&& getItemLevel(e.getPlayer().getItemInHand()) < 6) {
 			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
 					.getTargetBlock(null, 1000))) {
@@ -87,9 +87,8 @@ public class RodOfFire extends CustomItem {
 				SmallFireball fireball = player
 						.launchProjectile(SmallFireball.class);
 				fireball.setVelocity(fireball.getVelocity().multiply(10));
-				delay(plugin.fireRodDelay, plugin,
-						delayFromLevel(getItemLevel(player.getItemInHand())), e
-								.getPlayer().getName());
+				int delay = delayFromLevel(getItemLevel(e.getItem()));
+				ItemDelay.setDelay(plugin, e.getPlayer(), this, delay);
 			} else {
 				e.getPlayer().sendMessage(
 						ChatColor.DARK_RED
@@ -97,26 +96,23 @@ public class RodOfFire extends CustomItem {
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
-				&& !plugin.fireRodDelay.containsKey(e.getPlayer().getName())) {
+				&& ItemDelay.hasDelay(plugin, e.getPlayer(), this)) {
 
 			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
 					.getTargetBlock(null, 1000))) {
 				Player player = e.getPlayer();
 				Fireball fireball = player.launchProjectile(Fireball.class);
 				fireball.setVelocity(fireball.getVelocity().multiply(10));
-				delay(plugin.fireRodDelay, plugin,
-						delayFromLevel(getItemLevel(player.getItemInHand())), e
-								.getPlayer().getName());
+				int delay = delayFromLevel(getItemLevel(e.getItem()));
+				ItemDelay.setDelay(plugin, e.getPlayer(), this, delay);
 			} else {
 				e.getPlayer().sendMessage(
 						ChatColor.DARK_RED
 								+ "You don't have permission for this area");
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
-				&& plugin.fireRodDelay.containsKey(e.getPlayer().getName())
 				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")) {
-			int time = (Integer) plugin.fireRodDelay.get(e.getPlayer()
-					.getName());
+			int time = ItemDelay.getDelay(plugin, e.getPlayer(), this);
 			e.getPlayer().sendMessage(
 					ChatColor.GRAY + "The rod of fire still needs " + time
 							+ " seconds to recharge!");

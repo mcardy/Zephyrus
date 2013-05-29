@@ -2,7 +2,6 @@ package minny.zephyrus.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import minny.zephyrus.Zephyrus;
 import minny.zephyrus.enchantments.GlowEffect;
@@ -145,21 +144,6 @@ public class ItemUtil {
 		ItemMeta m = i.getItemMeta();
 		String data = m.getLore().get(0).replace("¤7Level: ", "");
 		return Integer.parseInt(data);
-	}
-
-	/**
-	 * Sets the ItemDelay (see BlinkPearl)
-	 * @param map The Map<String, Object> to add the player to
-	 * @param plugin Zephyrus
-	 * @param delay The time, in ticks, of the delay
-	 * @param name The name of the player
-	 */
-	public void delay(Map<String, Object> map, Zephyrus plugin, int delay,
-			String name) {
-		int time = delay / 20;
-		map.put(name, time);
-		new CountdownUtil(map, name, plugin).runTaskLater(plugin, 20);
-		new DelayUtil(map, name).runTaskLater(plugin, delay);
 	}
 
 	/**
