@@ -9,7 +9,9 @@ import minny.zephyrus.Zephyrus;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,7 +33,7 @@ import org.bukkit.util.Vector;
 public class Feather extends Spell implements Listener {
 
 	Map<String, Integer> list;
-	
+
 	public Feather(Zephyrus plugin) {
 		super(plugin);
 		list = new HashMap<String, Integer>();
@@ -62,11 +64,13 @@ public class Feather extends Spell implements Listener {
 	public void run(Player player, String[] args) {
 		if (list.containsKey(player.getName())) {
 			list.put(player.getName(), list.get(player.getName()) + 120);
-			player.sendMessage("You can now float for " + list.get(player.getName()) + " seconds");
+			player.sendMessage("You can now float for "
+					+ list.get(player.getName()) + " seconds");
 			new FeatherRunnable(player).runTaskLater(plugin, 20);
 		} else {
 			list.put(player.getName(), 120);
-			player.sendMessage("You can now float for " + list.get(player.getName()) + " seconds");
+			player.sendMessage("You can now float for "
+					+ list.get(player.getName()) + " seconds");
 			new FeatherRunnable(player).runTaskLater(plugin, 20);
 		}
 	}
@@ -80,38 +84,45 @@ public class Feather extends Spell implements Listener {
 
 	@EventHandler
 	public void onMove(PlayerMoveEvent e) {
-		if (list.containsKey(e.getPlayer().getName()) && !e.getPlayer().isFlying()) {
+		if (list.containsKey(e.getPlayer().getName())
+				&& !e.getPlayer().isFlying()) {
 			if (e.getFrom().getY() > e.getTo().getY()) {
-				Vector v = e.getPlayer().getVelocity();
-				v.setY(v.getY() / 2);
-				e.getPlayer().setVelocity(v);
+				Location loc = e.getPlayer().getLocation();
+				loc.setY(loc.getY() - 1);
+				if (loc.getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR) {
+					Vector v = e.getPlayer().getVelocity();
+					v.setY(v.getY() / 1.5);
+					e.getPlayer().setVelocity(v);
+				}
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {
 			Player player = (Player) e.getEntity();
-			if (list.containsKey(player.getName()) && e.getCause() == DamageCause.FALL) {
+			if (list.containsKey(player.getName())
+					&& e.getCause() == DamageCause.FALL) {
 				e.setCancelled(true);
 			}
 		}
 	}
-	
+
 	private class FeatherRunnable extends BukkitRunnable {
 
 		Player player;
-		
+
 		FeatherRunnable(Player player) {
 			this.player = player;
 		}
-		
+
 		@Override
 		public void run() {
 			if (list.get(player.getName()) > 0) {
 				if (list.get(player.getName()) == 5) {
-					player.sendMessage(ChatColor.GRAY + "You start to feel heavier...");
+					player.sendMessage(ChatColor.GRAY
+							+ "You start to feel heavier...");
 				}
 				list.put(player.getName(), list.get(player.getName()) - 1);
 				new FeatherRunnable(player).runTaskLater(plugin, 20);
@@ -120,7 +131,7 @@ public class Feather extends Spell implements Listener {
 				player.sendMessage(ChatColor.GRAY + "You feel much heavier");
 			}
 		}
-		
+
 	}
-	
+
 }

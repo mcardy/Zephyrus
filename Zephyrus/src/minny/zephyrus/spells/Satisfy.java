@@ -25,7 +25,7 @@ public class Satisfy extends Spell {
 
 	@Override
 	public String name() {
-		return "Satisfy";
+		return "satisfy";
 	}
 
 	@Override

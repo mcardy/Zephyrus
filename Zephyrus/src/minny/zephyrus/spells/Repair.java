@@ -47,7 +47,7 @@ public class Repair extends Spell {
 	@Override
 	public void run(Player player, String[] args) {
 		player.getItemInHand().setDurability(
-				(short) (player.getItemInHand().getDurability() + 30));
+				(short) (player.getItemInHand().getDurability() - 30));
 		player.sendMessage(ChatColor.GRAY + "Your tool feels a bit stronger");
 	}
 
@@ -55,7 +55,7 @@ public class Repair extends Spell {
 	public boolean canRun(Player player, String[] args) {
 		if (player.getItemInHand() != null) {
 			if (player.getItemInHand().getDurability() < player.getItemInHand()
-					.getType().getMaxDurability() - 30) {
+					.getType().getMaxDurability() + 30 && player.getItemInHand().getType().getMaxDurability() != 0) {
 				return true;
 			}
 		}

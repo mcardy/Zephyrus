@@ -54,6 +54,7 @@ import minny.zephyrus.spells.Phase;
 import minny.zephyrus.spells.Prospect;
 import minny.zephyrus.spells.Punch;
 import minny.zephyrus.spells.Repair;
+import minny.zephyrus.spells.Satisfy;
 import minny.zephyrus.spells.Smite;
 import minny.zephyrus.spells.Spell;
 import minny.zephyrus.spells.SuperHeat;
@@ -206,6 +207,7 @@ public class Zephyrus extends JavaPlugin {
 		new Prospect(this);
 		new Punch(this);
 		new Repair(this);
+		new Satisfy(this);
 		new Smite(this);
 		// new Summon(this);
 		new SuperHeat(this);
@@ -260,8 +262,8 @@ public class Zephyrus extends JavaPlugin {
 	public void addSpell(Spell spell) {
 		if ((spell.getClass().getPackage() == Spell.class.getPackage())) {
 			if (spell.name() != null
-					&& !Zephyrus.spellMap.containsKey(spell.name())) {
-				Zephyrus.spellMap.put(spell.name(), spell);
+					&& !Zephyrus.spellMap.containsKey(spell.name().toLowerCase())) {
+				Zephyrus.spellMap.put(spell.name().toLowerCase(), spell);
 			}
 			if (spell.spellItems() != null
 					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
@@ -270,8 +272,8 @@ public class Zephyrus extends JavaPlugin {
 			}
 		} else {
 			if (spell.name() != null
-					&& !Zephyrus.spellMap.containsKey(spell.name())) {
-				Zephyrus.spellMap.put(spell.name(), spell);
+					&& !Zephyrus.spellMap.containsKey(spell.name().toLowerCase())) {
+				Zephyrus.spellMap.put(spell.name().toLowerCase(), spell);
 			}
 			if (spell.spellItems() != null
 					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
