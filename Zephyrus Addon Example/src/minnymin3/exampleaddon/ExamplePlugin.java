@@ -1,6 +1,6 @@
-package minny.exampleaddon;
+package minnymin3.exampleaddon;
 
-import minny.zephyrus.Zephyrus;
+import minnymin3.zephyrus.Zephyrus;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

@@ -1,10 +1,10 @@
-package minny.exampleaddon;
+package minnymin3.exampleaddon;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import minny.zephyrus.Zephyrus;
-import minny.zephyrus.spells.Spell;
+import minnymin3.zephyrus.Zephyrus;
+import minnymin3.zephyrus.spells.Spell;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
