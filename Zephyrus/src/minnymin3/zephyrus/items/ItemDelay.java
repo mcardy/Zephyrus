@@ -72,6 +72,7 @@ class CooldownUtil extends BukkitRunnable {
 		this.player = player;
 	}
 
+	@Override
 	public void run() {
 		Map<String, Integer> s = plugin.itemDelay.get(player.getName());
 		if (!(s.get(item.name()) <= 0)) {

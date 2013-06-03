@@ -21,14 +21,19 @@ import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Zephyrus
@@ -47,7 +52,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 		super(plugin);
 		lvl = new LevelManager(plugin);
 		results = new HashMap<ItemStack, CustomItem>();
-			for (String s : Zephyrus.itemMap.keySet()) {
+		for (String s : Zephyrus.itemMap.keySet()) {
 			CustomItem item = Zephyrus.itemMap.get(s);
 			if (item.recipe() != null) {
 				results.put(item.recipe().getResult(), item);
@@ -146,9 +151,98 @@ public class PlayerListener extends ItemUtil implements Listener {
 	}
 
 	@EventHandler
+	public void removeMana(PlayerKickEvent e) {
+		LevelManager.saveMana(e.getPlayer());
+		Zephyrus.mana.remove(e.getPlayer().getName());
+	}
+
+	@EventHandler
+	public void onMagicArmourLogin(PlayerJoinEvent e) {
+		if (e.getPlayer().getInventory().getBoots() != null
+				&& e.getPlayer().getInventory().getBoots().hasItemMeta()
+				&& e.getPlayer().getInventory().getBoots().getItemMeta()
+						.hasDisplayName()
+				&& e.getPlayer().getInventory().getBoots().getItemMeta()
+						.getDisplayName().equals("¤6Maigc Armour")) {
+			e.getPlayer().getInventory().getBoots().setType(Material.AIR);
+			e.getPlayer().getInventory().getLeggings().setType(Material.AIR);
+			e.getPlayer().getInventory().getChestplate().setType(Material.AIR);
+			e.getPlayer().getInventory().getHelmet().setType(Material.AIR);
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onMagicArmourClick(InventoryClickEvent e) {
-		if (checkName(e.getCurrentItem(), "¤6Magic Armour")) {
-			e.setCancelled(true);
+		if (e.getInventory().getType() == InventoryType.PLAYER) {
+			Bukkit.broadcastMessage("test");
+			PlayerInventory inv = (PlayerInventory) e.getInventory();
+			ItemStack helm = new ItemStack(Material.GOLD_HELMET);
+			ItemStack chest = new ItemStack(Material.GOLD_CHESTPLATE);
+			ItemStack legs = new ItemStack(Material.GOLD_LEGGINGS);
+			ItemStack boots = new ItemStack(Material.GOLD_BOOTS);
+			ItemMeta meta = helm.getItemMeta();
+			meta.setDisplayName("¤6Magic Armour");
+			helm.setItemMeta(meta);
+			chest.setItemMeta(meta);
+			legs.setItemMeta(meta);
+			boots.setItemMeta(meta);
+			if (e.getRawSlot() == 5 && checkName(inv.getHelmet(), "¤6Magic Armour")) {
+				e.setCursor(null);
+				e.getWhoClicked().getInventory().setBoots(boots);
+				e.getWhoClicked().getInventory().setLeggings(legs);
+				e.getWhoClicked().getInventory().setChestplate(chest);
+				e.getWhoClicked().getInventory().setHelmet(helm);
+				if (e.getWhoClicked() instanceof Player) {
+					Player player = (Player) e.getWhoClicked();
+					player.updateInventory();
+				}
+			} else if (e.getRawSlot() == 6 && checkName(inv.getChestplate(), "¤6Magic Armour")) {
+				e.setCursor(null);
+				e.getWhoClicked().getInventory().setBoots(boots);
+				e.getWhoClicked().getInventory().setLeggings(legs);
+				e.getWhoClicked().getInventory().setChestplate(chest);
+				e.getWhoClicked().getInventory().setHelmet(helm);
+				if (e.getWhoClicked() instanceof Player) {
+					Player player = (Player) e.getWhoClicked();
+					player.updateInventory();
+				}
+			} else if (e.getRawSlot() == 7 && checkName(inv.getLeggings(), "¤6Magic Armour")) {
+				e.setCursor(null);
+				e.getWhoClicked().getInventory().setBoots(boots);
+				e.getWhoClicked().getInventory().setLeggings(legs);
+				e.getWhoClicked().getInventory().setChestplate(chest);
+				e.getWhoClicked().getInventory().setHelmet(helm);
+				if (e.getWhoClicked() instanceof Player) {
+					Player player = (Player) e.getWhoClicked();
+					player.updateInventory();
+				}
+			} else if (e.getRawSlot() == 8 && checkName(inv.getBoots(), "¤6Magic Armour")) {
+				e.setCursor(null);
+				e.getWhoClicked().getInventory().setBoots(boots);
+				e.getWhoClicked().getInventory().setLeggings(legs);
+				e.getWhoClicked().getInventory().setChestplate(chest);
+				e.getWhoClicked().getInventory().setHelmet(helm);
+				if (e.getWhoClicked() instanceof Player) {
+					Player player = (Player) e.getWhoClicked();
+					player.updateInventory();
+				}
+			}
+			if (e.getCursor() == boots || e.getCursor() == legs || e.getCursor() == chest || e.getCursor() == helm
+					|| e.getCurrentItem() == boots || e.getCurrentItem() == legs || e.getCurrentItem() == chest || e.getCurrentItem() == helm) {
+				e.setCurrentItem(null);
+				e.setCancelled(true);
+				e.setCursor(null);
+				e.getWhoClicked().getInventory().setBoots(boots);
+				e.getWhoClicked().getInventory().setLeggings(legs);
+				e.getWhoClicked().getInventory().setChestplate(chest);
+				e.getWhoClicked().getInventory().setHelmet(helm);
+				if (e.getWhoClicked() instanceof Player) {
+					Player player = (Player) e.getWhoClicked();
+					player.updateInventory();
+				}
+				
+			}
 		}
 	}
 

@@ -50,36 +50,45 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 					Spell spell = Zephyrus.spellMap.get(args[0].toLowerCase());
 					if (spell.isLearned(player, spell.name())
 							|| spell.hasPermission(player, spell)) {
-						if (!(LevelManager.getMana(player) < spell.manaCost()
-								* plugin.getConfig().getInt("ManaMultiplier"))) {
-							if (spell.canRun(player, args)) {
-								PlayerCastSpellEvent event = new PlayerCastSpellEvent(
-										player, spell);
-								Bukkit.getServer().getPluginManager()
-										.callEvent(event);
-								if (!event.isCancelled()) {
-									spell.run(player, args);
-									LevelManager
-											.drainMana(
-													player,
-													spell.manaCost()
-															* plugin.getConfig()
-																	.getInt("ManaMultiplier"));
+						if (spell.isEnabled()) {
+							if (!(LevelManager.getMana(player) < spell
+									.getManaCost()
+									* plugin.getConfig().getInt(
+											"ManaMultiplier"))) {
+								if (spell.canRun(player, args)) {
+									PlayerCastSpellEvent event = new PlayerCastSpellEvent(
+											player, spell);
+									Bukkit.getServer().getPluginManager()
+											.callEvent(event);
+									if (!event.isCancelled()) {
+										spell.run(player, args);
+										LevelManager
+												.drainMana(
+														player,
+														spell.getManaCost()
+																* plugin.getConfig()
+																		.getInt("ManaMultiplier"));
+									}
+								} else {
+									if (spell.failMessage() != "") {
+										player.sendMessage(spell.failMessage());
+									}
 								}
 							} else {
-								if (spell.failMessage() != "") {
-									player.sendMessage(spell.failMessage());
-								}
+								player.sendMessage(ChatColor.DARK_RED
+										+ "Not enough mana!");
 							}
 						} else {
-							player.sendMessage(ChatColor.DARK_RED + "Not enough mana!");
+							sender.sendMessage("That spell is disabled!");
 						}
 					} else {
-						player.sendMessage(ChatColor.DARK_RED + "You have not learned that spell!");
+						player.sendMessage(ChatColor.DARK_RED
+								+ "You have not learned that spell!");
 					}
 
 				} else {
-					sender.sendMessage(ChatColor.DARK_RED + "You have not learned that spell!");
+					sender.sendMessage(ChatColor.DARK_RED
+							+ "You have not learned that spell!");
 				}
 			}
 		} else {

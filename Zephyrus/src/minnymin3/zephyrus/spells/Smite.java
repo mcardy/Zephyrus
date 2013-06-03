@@ -81,6 +81,7 @@ public class Smite extends Spell {
 			this.loc = loc;
 		}
 		
+		@Override
 		public void run() {
 			loc.getWorld().strikeLightning(loc);
 		}

@@ -45,12 +45,16 @@ public class SpellTomeCmd extends ZephyrusCommand implements CommandExecutor {
 							Player player = (Player) sender;
 							Spell spell = Zephyrus.spellMap.get(args[0]
 									.toLowerCase());
-							SpellTome tome = new SpellTome(plugin,
-									spell.name(), spell.bookText());
-							player.getInventory().addItem(tome.item());
-							sender.sendMessage("Gave " + player.getName()
-									+ " the " + ChatColor.GOLD + spell.name()
-									+ " spelltome");
+							if (spell.isEnabled()) {
+								SpellTome tome = new SpellTome(plugin,
+										spell.name(), spell.bookText());
+								player.getInventory().addItem(tome.item());
+								sender.sendMessage("Gave " + player.getName()
+										+ " the " + ChatColor.GOLD
+										+ spell.name() + " spelltome");
+							} else {
+								sender.sendMessage(ChatColor.RED + "That spell is disabled!");
+							}
 						} else {
 							sender.sendMessage(ChatColor.DARK_RED
 									+ "That spell does not exist");
@@ -65,12 +69,16 @@ public class SpellTomeCmd extends ZephyrusCommand implements CommandExecutor {
 							Player player = Bukkit.getPlayer(args[1]);
 							Spell spell = Zephyrus.spellMap.get(args[0]
 									.toLowerCase());
+							if (spell.isEnabled()) {
 							SpellTome tome = new SpellTome(plugin,
 									spell.name(), spell.bookText());
 							player.getInventory().addItem(tome.item());
 							sender.sendMessage("Gave " + player.getName()
 									+ " the " + ChatColor.GOLD + spell.name()
 									+ " spelltome");
+							} else {
+								sender.sendMessage(ChatColor.RED + "That spell is disabled!");
+							}
 						} else {
 							notOnline(sender);
 						}

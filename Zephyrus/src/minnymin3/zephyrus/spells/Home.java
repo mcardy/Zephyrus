@@ -85,7 +85,7 @@ public class Home extends Spell {
 		s.add(new ItemStack(Material.WOODEN_DOOR));
 		s.add(new ItemStack(Material.BED));
 		s.add(new ItemStack(Material.FURNACE));
-		return null;
+		return s;
 	}
 
 	private void setHome(Player player) {

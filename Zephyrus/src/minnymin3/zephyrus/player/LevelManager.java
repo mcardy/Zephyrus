@@ -180,6 +180,7 @@ public class LevelManager {
 			this.player = player;
 		}
 		
+		@Override
 		public void run() {
 			double maxMana = getLevel(player) * 100;
 			double currentMana = getMana(player);
@@ -228,6 +229,7 @@ public class LevelManager {
 			this.player = player;
 		}
 		
+		@Override
 		public void run() {
 			levelBalance = plugin.getConfig().getInt("LevelBalance");
 			int level = getLevel(player);

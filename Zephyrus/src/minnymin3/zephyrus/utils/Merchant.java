@@ -135,6 +135,7 @@ public class Merchant implements IMerchant {
 	/**
 	 * Clones the merchant and returns a new instance with the same trades
 	 */
+	@Override
 	public Merchant clone() {
 		Merchant mer = new Merchant();
 		mer.addOffer(getInput1(), getInput2(), getOutput());

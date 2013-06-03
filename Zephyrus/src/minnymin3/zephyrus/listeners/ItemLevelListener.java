@@ -118,6 +118,7 @@ public class ItemLevelListener implements Listener {
 		CloseInv(HumanEntity e) {
 			this.e = e;
 		}
+		@Override
 		public void run() {
 			e.closeInventory();
 		}

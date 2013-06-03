@@ -6,6 +6,7 @@ import java.util.Set;
 import minnymin3.zephyrus.Zephyrus;
 import minnymin3.zephyrus.items.SpellTome;
 import minnymin3.zephyrus.player.LevelManager;
+import minnymin3.zephyrus.utils.ConfigHandler;
 import minnymin3.zephyrus.utils.ParticleEffects;
 import minnymin3.zephyrus.utils.PlayerConfigHandler;
 
@@ -154,6 +155,17 @@ public abstract class Spell extends LevelManager {
 					loc, 0, 0, 0, 1, 30);
 			loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 3, 12);
 		} catch (Exception e) {}
+	}
+	
+	public int getManaCost() {
+		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
+		int cost = cfg.getConfig().getInt(this.name() + ".mana");
+		return cost;
+	}
+	
+	public boolean isEnabled() {
+		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
+		return cfg.getConfig().getBoolean(this.name() + ".enabled");
 	}
 
 }

@@ -44,7 +44,7 @@ public class LevelingListener implements Listener {
 
 	@EventHandler
 	public void onCast(PlayerCastSpellEvent e) {
-		float f = e.getSpell().manaCost() / 3;
+		float f = e.getSpell().getManaCost() / 3;
 		lvl.levelProgress(e.getPlayer(), Math.round(f) + 1);
 	}
 }

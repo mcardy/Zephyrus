@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -54,6 +55,18 @@ public class Wand extends CustomItem {
 		return "¤6Wand";
 	}
 
+	public static ItemStack getItem() {
+		ItemStack i = new ItemStack(Material.STICK);
+		ItemMeta m = i.getItemMeta();
+		m.setDisplayName("¤6Wand");
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GRAY + "Regular old default wand");
+		m.setLore(lore);
+		i.setItemMeta(m);
+		i.addEnchantment(Zephyrus.sGlow, 1);
+		return i;
+	}
+
 	@Override
 	public ItemStack item() {
 		ItemStack i = new ItemStack(Material.STICK);
@@ -78,7 +91,7 @@ public class Wand extends CustomItem {
 	}
 
 	@EventHandler
-	public void onClickEnchanting(PlayerInteractEvent e) {
+	public void arcaneClick(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK
 				&& checkName(e.getItem(), this.name())
 				&& e.getItem().getItemMeta().getLore().get(0).contains("wand")) {
@@ -95,11 +108,14 @@ public class Wand extends CustomItem {
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
-	public void onClick(PlayerInteractEvent e) {
+	public void bookShelfClick(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK
 				&& e.getClickedBlock().getType() == Material.BOOKSHELF
 				&& checkName(e.getPlayer().getItemInHand(), this.name())
 				&& e.getItem().getItemMeta().getLore().get(0).contains("wand")) {
+			if (plugin.getConfig().getBoolean("Disable-Spell-Crafting")) {
+				return;
+			}
 			Location loc = e.getClickedBlock().getLocation();
 			if (!PluginHook.canBuild(e.getPlayer(), loc)) {
 				return;
@@ -110,80 +126,60 @@ public class Wand extends CustomItem {
 				Set<ItemStack> i = getItems(entitys);
 				if (Zephyrus.spellCraftMap.containsKey(i)) {
 					Spell s = Zephyrus.spellCraftMap.get(i);
-					if (e.getPlayer().hasPermission(
-							"zephyrus.spell." + s.name())
-							|| e.getPlayer().hasPermission("zephyrus.spell.*")) {
-						if (s.reqSpell() != null) {
-							if (s.isLearned(e.getPlayer(), s.reqSpell().name())) {
+					if (s.isEnabled()) {
+						if (e.getPlayer().hasPermission(
+								"zephyrus.spell." + s.name())
+								|| e.getPlayer().hasPermission(
+										"zephyrus.spell.*")) {
+							if (s.reqSpell() != null) {
+								if (s.isLearned(e.getPlayer(), s.reqSpell()
+										.name())) {
+									if (!(LevelManager.getLevel(e.getPlayer()) < s
+											.reqLevel())) {
+										PlayerCraftSpellEvent event = new PlayerCraftSpellEvent(
+												e.getPlayer(), s);
+										Bukkit.getServer().getPluginManager()
+												.callEvent(event);
+										if (!event.isCancelled()) {
+											for (Item item : getItemEntity(entitys)) {
+												item.remove();
+											}
+											s.dropSpell(e.getClickedBlock(),
+													s.name(), s.bookText(),
+													e.getPlayer());
+										}
+									} else {
+										e.getPlayer().sendMessage(
+												"This spell requires level "
+														+ s.reqLevel());
+									}
+								} else {
+									e.getPlayer().sendMessage(
+											"This spell requires the knowledge of "
+													+ ChatColor.GOLD
+													+ s.reqSpell().name());
+								}
+							} else {
 								if (!(LevelManager.getLevel(e.getPlayer()) < s
 										.reqLevel())) {
-									PlayerCraftSpellEvent event = new PlayerCraftSpellEvent(
-											e.getPlayer(), s);
-									Bukkit.getServer().getPluginManager()
-											.callEvent(event);
-									if (!event.isCancelled()) {
-										for (Item item : getItemEntity(entitys)) {
-											item.remove();
-										}
-										s.dropSpell(e.getClickedBlock(),
-												s.name(), s.bookText(),
-												e.getPlayer());
-
-										plugin.getLogger().info(
-												e.getPlayer().getName()
-														+ " crafted the "
-														+ s.name()
-														+ " spelltome at "
-														+ e.getPlayer()
-																.getLocation()
-																.getBlockX()
-														+ e.getPlayer()
-																.getLocation()
-																.getBlockY()
-														+ e.getPlayer()
-																.getLocation()
-																.getBlockZ());
+									for (Item item : getItemEntity(entitys)) {
+										item.remove();
 									}
+									s.dropSpell(e.getClickedBlock(), s.name(),
+											s.bookText(), e.getPlayer());
 								} else {
 									e.getPlayer().sendMessage(
 											"This spell requires level "
 													+ s.reqLevel());
 								}
-							} else {
-								e.getPlayer().sendMessage(
-										"This spell requires the knowledge of "
-												+ ChatColor.GOLD
-												+ s.reqSpell().name());
 							}
 						} else {
-							if (!(LevelManager.getLevel(e.getPlayer()) < s
-									.reqLevel())) {
-								for (Item item : getItemEntity(entitys)) {
-									item.remove();
-								}
-								s.dropSpell(e.getClickedBlock(), s.name(),
-										s.bookText(), e.getPlayer());
-								plugin.getLogger().info(
-										e.getPlayer().getName()
-												+ " crafted the "
-												+ s.name()
-												+ " spelltome at "
-												+ e.getPlayer().getLocation()
-														.getBlockX()
-												+ e.getPlayer().getLocation()
-														.getBlockY()
-												+ e.getPlayer().getLocation()
-														.getBlockZ());
-							} else {
-								e.getPlayer().sendMessage(
-										"This spell requires level "
-												+ s.reqLevel());
-							}
+							e.getPlayer().sendMessage(
+									"You do not have permission to learn "
+											+ s.name());
 						}
 					} else {
-						e.getPlayer().sendMessage(
-								"You do not have permission to learn "
-										+ s.name());
+						e.getPlayer().sendMessage("This spell is disabled!");
 					}
 				} else {
 					e.getPlayer().sendMessage("Spell recipe not found");
@@ -242,7 +238,7 @@ public class Wand extends CustomItem {
 	}
 
 	@EventHandler
-	public void onWand(PlayerInteractEvent e) {
+	public void onBoundSpell(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR
 				|| e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (checkName(e.getItem(), this.name())) {
@@ -258,29 +254,35 @@ public class Wand extends CustomItem {
 					Spell spell = Zephyrus.spellMap.get(s);
 					Player player = e.getPlayer();
 					if (spell.isLearned(player, spell.name())) {
-						if (!(LevelManager.getMana(player) < spell.manaCost()
-								* plugin.getConfig().getInt("ManaMultiplier"))) {
-							if (spell.canRun(player, null)) {
-								PlayerCastSpellEvent event = new PlayerCastSpellEvent(
-										player, spell);
-								Bukkit.getServer().getPluginManager()
-										.callEvent(event);
-								if (!event.isCancelled()) {
-									spell.run(player, null);
-									LevelManager
-											.drainMana(
-													player,
-													spell.manaCost()
-															* plugin.getConfig()
-																	.getInt("ManaMultiplier"));
+						if (spell.isEnabled()) {
+							if (!(LevelManager.getMana(player) < spell
+									.getManaCost()
+									* plugin.getConfig().getInt(
+											"ManaMultiplier"))) {
+								if (spell.canRun(player, null)) {
+									PlayerCastSpellEvent event = new PlayerCastSpellEvent(
+											player, spell);
+									Bukkit.getServer().getPluginManager()
+											.callEvent(event);
+									if (!event.isCancelled()) {
+										spell.run(player, null);
+										LevelManager
+												.drainMana(
+														player,
+														spell.getManaCost()
+																* plugin.getConfig()
+																		.getInt("ManaMultiplier"));
+									}
+								} else {
+									if (spell.failMessage() != "") {
+										player.sendMessage(spell.failMessage());
+									}
 								}
 							} else {
-								if (spell.failMessage() != "") {
-									player.sendMessage(spell.failMessage());
-								}
+								player.sendMessage("Not enough mana!");
 							}
 						} else {
-							player.sendMessage("Not enough mana!");
+							player.sendMessage("That spell is disabled!");
 						}
 					} else {
 						player.sendMessage("You do not know that spell!");
@@ -298,5 +300,13 @@ public class Wand extends CustomItem {
 	@Override
 	public String perm() {
 		return "wand";
+	}
+
+	@EventHandler
+	public void onCraft(PrepareItemCraftEvent e) {
+		if (e.getRecipe().getResult() == this.recipe().getResult()
+				&& plugin.getConfig().getBoolean("Disable-Wand-Recipe")) {
+			e.getInventory().setResult(null);
+		}
 	}
 }

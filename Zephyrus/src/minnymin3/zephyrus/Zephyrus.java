@@ -59,6 +59,7 @@ import minnymin3.zephyrus.spells.Smite;
 import minnymin3.zephyrus.spells.Spell;
 import minnymin3.zephyrus.spells.SuperHeat;
 import minnymin3.zephyrus.spells.Vanish;
+import minnymin3.zephyrus.utils.ConfigHandler;
 import minnymin3.zephyrus.utils.Merchant;
 import minnymin3.zephyrus.utils.UpdateChecker;
 
@@ -82,7 +83,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Zephyrus extends JavaPlugin {
 
-	// ConfigHandler config = new ConfigHandler(this, "spellconfig.yml");
+	ConfigHandler config = new ConfigHandler(this, "spells.yml");
 
 	public GlowEffect glow = new GlowEffect(120);
 	public static GlowEffect sGlow = new GlowEffect(122);
@@ -106,6 +107,7 @@ public class Zephyrus extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
+		config.saveDefaultConfig();
 
 		itemMap = new HashMap<String, CustomItem>();
 		spellCraftMap = new HashMap<Set<ItemStack>, Spell>();
@@ -133,11 +135,26 @@ public class Zephyrus extends JavaPlugin {
 		addSpells();
 		addListeners();
 
+		for (Spell spell : spellMap.values()) {
+			if (!config.getConfig().contains(spell.name() + ".enabled")) {
+				if (spell instanceof Armour) {
+					config.getConfig().set(spell.name() + ".enabled", false);
+				} else {
+					config.getConfig().set(spell.name() + ".enabled", true);
+				}
+			}
+			if (!config.getConfig().contains(spell.name() + ".mana")) {
+				config.getConfig()
+						.set(spell.name() + ".mana", spell.manaCost());
+			}
+			config.saveConfig();
+		}
+
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			Zephyrus.mana.put(p.getName(), LevelManager.loadMana(p));
 			new ManaRecharge(this, p).runTaskLater(this, 30);
 		}
-		
+
 		getLogger().info(
 				"Zephyrus v"
 						+ this.getDescription().getVersion()
@@ -258,7 +275,8 @@ public class Zephyrus extends JavaPlugin {
 	public void addSpell(Spell spell) {
 		if ((spell.getClass().getPackage() == Spell.class.getPackage())) {
 			if (spell.name() != null
-					&& !Zephyrus.spellMap.containsKey(spell.name().toLowerCase())) {
+					&& !Zephyrus.spellMap.containsKey(spell.name()
+							.toLowerCase())) {
 				Zephyrus.spellMap.put(spell.name().toLowerCase(), spell);
 			}
 			if (spell.spellItems() != null
@@ -268,7 +286,8 @@ public class Zephyrus extends JavaPlugin {
 			}
 		} else {
 			if (spell.name() != null
-					&& !Zephyrus.spellMap.containsKey(spell.name().toLowerCase())) {
+					&& !Zephyrus.spellMap.containsKey(spell.name()
+							.toLowerCase())) {
 				Zephyrus.spellMap.put(spell.name().toLowerCase(), spell);
 			}
 			if (spell.spellItems() != null
@@ -279,6 +298,7 @@ public class Zephyrus extends JavaPlugin {
 	}
 
 	private class PostInit extends BukkitRunnable {
+		@Override
 		public void run() {
 			try {
 				for (CustomItem ci : Zephyrus.itemMap.values()) {
