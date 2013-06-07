@@ -1,6 +1,6 @@
 name: Zephyrus
 main: minnymin3.zephyrus.Zephyrus
-version: 1.0.0
+version: 1.0.1
 author: minnymin3
 commands:
    levelup:

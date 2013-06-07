@@ -17,12 +17,12 @@ import org.bukkit.entity.Player;
  * 
  */
 
-public class Mana extends ZephyrusCommand implements CommandExecutor {
+public class ManaCommand extends ZephyrusCommand implements CommandExecutor {
 
 	LevelManager lvl;
 	Zephyrus plugin;
 
-	public Mana(Zephyrus plugin) {
+	public ManaCommand(Zephyrus plugin) {
 		this.plugin = plugin;
 		lvl = new LevelManager(plugin);
 	}

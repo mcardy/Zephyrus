@@ -10,7 +10,7 @@ import minnymin3.zephyrus.commands.Cast;
 import minnymin3.zephyrus.commands.Level;
 import minnymin3.zephyrus.commands.LevelUp;
 import minnymin3.zephyrus.commands.LevelUpItem;
-import minnymin3.zephyrus.commands.Mana;
+import minnymin3.zephyrus.commands.ManaCommand;
 import minnymin3.zephyrus.commands.SpellTomeCmd;
 import minnymin3.zephyrus.commands.UnBind;
 import minnymin3.zephyrus.enchantments.GlowEffect;
@@ -257,7 +257,7 @@ public class Zephyrus extends JavaPlugin {
 		getCommand("levelupitem").setExecutor(new LevelUpItem(this));
 		getCommand("cast").setExecutor(new Cast(this));
 		getCommand("cast").setTabCompleter(new Cast(this));
-		getCommand("mana").setExecutor(new Mana(this));
+		getCommand("mana").setExecutor(new ManaCommand(this));
 		getCommand("bind").setExecutor(new Bind(this));
 		getCommand("bind").setTabCompleter(new Bind(this));
 		getCommand("spelltome").setExecutor(new SpellTomeCmd(this));

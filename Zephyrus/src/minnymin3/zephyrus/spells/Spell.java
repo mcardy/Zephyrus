@@ -1,5 +1,6 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -92,6 +93,10 @@ public abstract class Spell extends LevelManager {
 		return "";
 	}
 
+	public Map<String, String> getCfgKeys() {
+		return null;
+	}
+	
 	/**
 	 * If the spell is learned
 	 */

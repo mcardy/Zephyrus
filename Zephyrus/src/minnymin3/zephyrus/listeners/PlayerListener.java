@@ -175,7 +175,6 @@ public class PlayerListener extends ItemUtil implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onMagicArmourClick(InventoryClickEvent e) {
 		if (e.getInventory().getType() == InventoryType.PLAYER) {
-			Bukkit.broadcastMessage("test");
 			PlayerInventory inv = (PlayerInventory) e.getInventory();
 			ItemStack helm = new ItemStack(Material.GOLD_HELMET);
 			ItemStack chest = new ItemStack(Material.GOLD_CHESTPLATE);

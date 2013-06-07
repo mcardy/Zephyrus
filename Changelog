@@ -1,1 +1,1 @@
-Please be patient for 1.0.0 to upload to BukkitDev. More spells, Configurable enable/disable and mana of spells, and OUT OF ALPHA
+Fixed an annoying bug causing Bukkit to broadcast 'test' every time you click on your inventory.
