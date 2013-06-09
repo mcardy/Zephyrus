@@ -75,7 +75,7 @@ public class RodOfFire extends CustomItem {
 	public void fireball(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
-				&& ItemDelay.hasDelay(plugin, e.getPlayer(), this)
+				&& !ItemDelay.hasDelay(plugin, e.getPlayer(), this)
 				&& getItemLevel(e.getPlayer().getItemInHand()) < 6) {
 			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
 					.getTargetBlock(null, 1000))) {
@@ -92,7 +92,7 @@ public class RodOfFire extends CustomItem {
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
-				&& ItemDelay.hasDelay(plugin, e.getPlayer(), this)) {
+				&& !ItemDelay.hasDelay(plugin, e.getPlayer(), this)) {
 
 			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
 					.getTargetBlock(null, 1000))) {

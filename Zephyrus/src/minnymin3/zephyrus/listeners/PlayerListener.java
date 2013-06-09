@@ -11,6 +11,7 @@ import minnymin3.zephyrus.events.PlayerCraftCustomItemEvent;
 import minnymin3.zephyrus.items.CustomItem;
 import minnymin3.zephyrus.player.LevelManager;
 import minnymin3.zephyrus.player.ManaRecharge;
+import minnymin3.zephyrus.spells.Spell;
 import minnymin3.zephyrus.utils.ItemUtil;
 import minnymin3.zephyrus.utils.PlayerConfigHandler;
 import minnymin3.zephyrus.utils.UpdateChecker;
@@ -126,11 +127,22 @@ public class PlayerListener extends ItemUtil implements Listener {
 				+ ".yml");
 		Player player = e.getPlayer();
 		if (!checkPlayer.exists()) {
+			List<String> l = new ArrayList<String>();
+			for (Spell spell : Zephyrus.spellMap.values()) {
+				if (spell.getLevel() == 1) {
+					List<String> learned = PlayerConfigHandler.getConfig(
+							plugin, player).getStringList("learned");
+					learned.add(spell.name());
+					PlayerConfigHandler.getConfig(plugin, player).set(
+							"learned", learned);
+					PlayerConfigHandler.saveConfig(plugin, player);
+					l.add(spell.name());
+				}
+			}
 			PlayerConfigHandler.saveDefaultConfig(plugin, player);
 			PlayerConfigHandler.getConfig(plugin, player).set("Level", 1);
 			PlayerConfigHandler.getConfig(plugin, player).set("mana", 100);
-			PlayerConfigHandler.getConfig(plugin, player).set("learned",
-					new ArrayList<String>());
+			PlayerConfigHandler.getConfig(plugin, player).set("learned", l);
 			PlayerConfigHandler.getConfig(plugin, player).set("progress", 0);
 			PlayerConfigHandler.saveConfig(plugin, player);
 

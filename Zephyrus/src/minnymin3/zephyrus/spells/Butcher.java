@@ -1,6 +1,8 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -34,7 +36,8 @@ public class Butcher extends Spell {
 
 	@Override
 	public String bookText() {
-		return "Brutally murders all creatures within a 4 block radius!";
+		int r = getConfig().getInt(this.name() + ".radius");
+		return "Brutally murders all creatures within a " + r + " block radius!";
 	}
 
 	@Override
@@ -54,7 +57,8 @@ public class Butcher extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
-		LivingEntity[] e = getNearbyEntities(player.getLocation(), 4);
+		int r = getConfig().getInt(this.name() + ".radius");
+		LivingEntity[] e = getNearbyEntities(player.getLocation(), r);
 		for (LivingEntity entity : e) {
 			if (entity instanceof Player) {
 				entity.damage(10, player);
@@ -73,6 +77,13 @@ public class Butcher extends Spell {
 		return i;
 	}
 
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("radius", 5);
+		return map;
+	}
+	
 	public static LivingEntity[] getNearbyEntities(Location l, int radius) {
 		int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
 		HashSet<LivingEntity> radiusEntities = new HashSet<LivingEntity>();

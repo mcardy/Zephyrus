@@ -135,7 +135,7 @@ public class Wand extends CustomItem {
 								if (s.isLearned(e.getPlayer(), s.reqSpell()
 										.name())) {
 									if (!(LevelManager.getLevel(e.getPlayer()) < s
-											.reqLevel())) {
+											.getLevel())) {
 										PlayerCraftSpellEvent event = new PlayerCraftSpellEvent(
 												e.getPlayer(), s);
 										Bukkit.getServer().getPluginManager()
@@ -151,7 +151,7 @@ public class Wand extends CustomItem {
 									} else {
 										e.getPlayer().sendMessage(
 												"This spell requires level "
-														+ s.reqLevel());
+														+ s.getLevel());
 									}
 								} else {
 									e.getPlayer().sendMessage(
@@ -161,7 +161,7 @@ public class Wand extends CustomItem {
 								}
 							} else {
 								if (!(LevelManager.getLevel(e.getPlayer()) < s
-										.reqLevel())) {
+										.getLevel())) {
 									for (Item item : getItemEntity(entitys)) {
 										item.remove();
 									}
@@ -170,7 +170,7 @@ public class Wand extends CustomItem {
 								} else {
 									e.getPlayer().sendMessage(
 											"This spell requires level "
-													+ s.reqLevel());
+													+ s.getLevel());
 								}
 							}
 						} else {

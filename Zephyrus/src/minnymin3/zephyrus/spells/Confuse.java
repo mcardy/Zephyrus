@@ -1,6 +1,8 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -50,7 +52,8 @@ public class Confuse extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
-		Monster[] e = getNearbyEntities(player.getLocation(), 8);
+		int r = getConfig().getInt(this.name() + ".radius");
+		Monster[] e = getNearbyEntities(player.getLocation(), r);
 		for (int i = 0; i < e.length; i++) {
 			int index = i + 1;
 			if (index >= e.length) {
@@ -63,6 +66,13 @@ public class Confuse extends Spell {
 		}
 	}
 
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("radius", 8);
+		return map;
+	}
+	
 	@Override
 	public boolean canRun(Player player, String[] args) {
 		try {

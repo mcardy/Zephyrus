@@ -1,6 +1,8 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -46,20 +48,32 @@ public class Repair extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
-		player.getItemInHand().setDurability(
-				(short) (player.getItemInHand().getDurability() - 30));
+		int amount = getConfig().getInt(this.name() + ".amount");
+		ItemStack i = player.getItemInHand();
+		if (i.getDurability() < i.getType().getMaxDurability() + 30) {
+			player.getItemInHand().setDurability(
+					(short) (player.getItemInHand().getDurability() - amount));
+		} else {
+			player.getItemInHand().setDurability(
+					player.getItemInHand().getType().getMaxDurability());
+		}
 		player.sendMessage(ChatColor.GRAY + "Your tool feels a bit stronger");
 	}
 
 	@Override
 	public boolean canRun(Player player, String[] args) {
-		if (player.getItemInHand() != null) {
-			if (player.getItemInHand().getDurability() < player.getItemInHand()
-					.getType().getMaxDurability() + 30 && player.getItemInHand().getType().getMaxDurability() != 0) {
-				return true;
-			}
+		if (player.getItemInHand() != null
+				&& player.getItemInHand().getType().getMaxDurability() != 0) {
+			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("amount", 30);
+		return map;
 	}
 
 	@Override

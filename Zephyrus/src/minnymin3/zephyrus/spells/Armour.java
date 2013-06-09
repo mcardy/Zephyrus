@@ -1,6 +1,8 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -67,6 +69,12 @@ public class Armour extends Spell {
 				+ "Your skin feels hardened with magic and gold!");
 	}
 
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		return map;
+	}
+	
 	@Override
 	public boolean canRun(Player player, String[] args) {
 		if (player.getInventory().getHelmet() == null

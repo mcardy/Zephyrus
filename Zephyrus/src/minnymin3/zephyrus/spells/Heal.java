@@ -1,6 +1,8 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -46,8 +48,16 @@ public class Heal extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
-		player.setHealth(player.getHealth() + 1);
+		int a = getConfig().getInt(this.name() + ".amount");
+		player.setHealth(player.getHealth() + a);
 		player.sendMessage(ChatColor.GRAY + "You feel a bit stronger");
+	}
+	
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("amount", 1);
+		return map;
 	}
 
 	@Override

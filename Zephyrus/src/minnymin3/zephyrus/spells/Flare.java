@@ -58,8 +58,8 @@ public class Flare extends Spell {
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
-		i.add(new ItemStack(Material.BLAZE_ROD, 16));
-		i.add(new ItemStack(Material.COAL, 16));
+		i.add(new ItemStack(Material.FIREBALL, 32));
+		i.add(new ItemStack(Material.BLAZE_POWDER, 16));
 		return i;
 	}
 

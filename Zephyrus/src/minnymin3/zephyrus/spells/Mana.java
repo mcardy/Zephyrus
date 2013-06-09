@@ -1,6 +1,8 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -46,11 +48,13 @@ public class Mana extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
-		if (LevelManager.getMana(player) + 20 < LevelManager.getLevel(player) * 100) {
-			LevelManager.drainMana(player, -20);
+		int a = getConfig().getInt(this.name() + ".amount");
+		if (LevelManager.getMana(player) + a < LevelManager.getLevel(player) * 100) {
+			LevelManager.drainMana(player, -a);
 			player.damage(4);
 		} else {
 			LevelManager.resetMana(player);
+			player.damage(4);
 		}
 	}
 
@@ -59,6 +63,13 @@ public class Mana extends Spell {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.GLOWSTONE_DUST, 16));
 		return i;
+	}
+	
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("amount", 20);
+		return map;
 	}
 
 }

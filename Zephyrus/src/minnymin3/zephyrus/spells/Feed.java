@@ -1,6 +1,8 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -41,12 +43,13 @@ public class Feed extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 2;
+		return 1;
 	}
 
 	@Override
 	public void run(Player player, String[] args) {
-		player.setFoodLevel(player.getFoodLevel() + 1);
+		int a = getConfig().getInt(this.name() + ".amount");
+		player.setFoodLevel(player.getFoodLevel() + a);
 		player.sendMessage(ChatColor.GRAY + "You feel slightly less hungry");
 	}
 
@@ -61,6 +64,13 @@ public class Feed extends Spell {
 	@Override
 	public String failMessage() {
 		return "You are already at max hunger!";
+	}
+	
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("amount", 1);
+		return map;
 	}
 
 	@Override

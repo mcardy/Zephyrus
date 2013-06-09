@@ -55,7 +55,7 @@ public class EconListener implements Listener {
 								if (e.getPlayer().hasPermission(
 										"zephyrus.spell." + spell.name())) {
 									if (!(LevelManager.getLevel(e.getPlayer()) < spell
-											.reqLevel())) {
+											.getLevel())) {
 										SpellTome tome = new SpellTome(plugin,
 												spell.name(), spell.bookText());
 										PluginHook.econ.withdrawPlayer(e.getPlayer()

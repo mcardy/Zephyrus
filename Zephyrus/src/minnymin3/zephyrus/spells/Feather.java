@@ -62,13 +62,14 @@ public class Feather extends Spell implements Listener {
 
 	@Override
 	public void run(Player player, String[] args) {
+		int t = getConfig().getInt(this.name() + ".duration");
 		if (list.containsKey(player.getName())) {
-			list.put(player.getName(), list.get(player.getName()) + 120);
+			list.put(player.getName(), list.get(player.getName()) + t);
 			player.sendMessage("You can now float for "
 					+ list.get(player.getName()) + " seconds");
 			new FeatherRunnable(player).runTaskLater(plugin, 20);
 		} else {
-			list.put(player.getName(), 120);
+			list.put(player.getName(), t);
 			player.sendMessage("You can now float for "
 					+ list.get(player.getName()) + " seconds");
 			new FeatherRunnable(player).runTaskLater(plugin, 20);
@@ -80,6 +81,13 @@ public class Feather extends Spell implements Listener {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.FEATHER, 8));
 		return s;
+	}
+	
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("duration", 120);
+		return map;
 	}
 
 	@EventHandler

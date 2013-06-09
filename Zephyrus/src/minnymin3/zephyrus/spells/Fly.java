@@ -52,17 +52,25 @@ public class Fly extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
+		int t = getConfig().getInt(this.name() + ".duration");
 		if (list.containsKey(player.getName())) {
-			list.put(player.getName(), list.get(player.getName()) + 120);
+			list.put(player.getName(), list.get(player.getName()) + t);
 			player.sendMessage(ChatColor.GRAY + "You can now float for " + list.get(player.getName()) + "seconds");
 			player.setAllowFlight(true);
 			new FeatherRunnable(player).runTaskLater(plugin, 20);
 		} else {
-			list.put(player.getName(), 120);
+			list.put(player.getName(), t);
 			player.sendMessage(ChatColor.GRAY + "You can now float for " + list.get(player.getName()) + " seconds");
 			player.setAllowFlight(true);
 			new FeatherRunnable(player).runTaskLater(plugin, 20);
 		}
+	}
+	
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("duration", 120);
+		return map;
 	}
 
 	@Override

@@ -45,7 +45,7 @@ public class ManaPotion extends CustomItem {
 		setItemName(i, this.name());
 		ItemMeta m = i.getItemMeta();
 		List<String> lore = new ArrayList<String>();
-		lore.add("¤7Restors Mana");
+		lore.add("¤7Restores Mana");
 		m.setLore(lore);
 		i.setItemMeta(m);
 		setGlow(i);

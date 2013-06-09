@@ -44,12 +44,14 @@ import minnymin3.zephyrus.spells.Explode;
 import minnymin3.zephyrus.spells.Feather;
 import minnymin3.zephyrus.spells.Feed;
 import minnymin3.zephyrus.spells.Fireball;
+import minnymin3.zephyrus.spells.FlameStep;
 import minnymin3.zephyrus.spells.Flare;
 import minnymin3.zephyrus.spells.Fly;
 import minnymin3.zephyrus.spells.Frenzy;
 import minnymin3.zephyrus.spells.Grow;
 import minnymin3.zephyrus.spells.Heal;
 import minnymin3.zephyrus.spells.Home;
+import minnymin3.zephyrus.spells.Mana;
 import minnymin3.zephyrus.spells.Phase;
 import minnymin3.zephyrus.spells.Prospect;
 import minnymin3.zephyrus.spells.Punch;
@@ -135,21 +137,6 @@ public class Zephyrus extends JavaPlugin {
 		addSpells();
 		addListeners();
 
-		for (Spell spell : spellMap.values()) {
-			if (!config.getConfig().contains(spell.name() + ".enabled")) {
-				if (spell instanceof Armour) {
-					config.getConfig().set(spell.name() + ".enabled", false);
-				} else {
-					config.getConfig().set(spell.name() + ".enabled", true);
-				}
-			}
-			if (!config.getConfig().contains(spell.name() + ".mana")) {
-				config.getConfig()
-						.set(spell.name() + ".mana", spell.manaCost());
-			}
-			config.saveConfig();
-		}
-
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			Zephyrus.mana.put(p.getName(), LevelManager.loadMana(p));
 			new ManaRecharge(this, p).runTaskLater(this, 30);
@@ -210,6 +197,7 @@ public class Zephyrus extends JavaPlugin {
 		new Feather(this);
 		new Feed(this);
 		new Fireball(this);
+		new FlameStep(this);
 		new Flare(this);
 		new Fly(this);
 		new Frenzy(this);
@@ -217,6 +205,7 @@ public class Zephyrus extends JavaPlugin {
 		new Grow(this);
 		new Heal(this);
 		new Home(this);
+		new Mana(this);
 		new Phase(this);
 		new Prospect(this);
 		new Punch(this);
@@ -319,6 +308,34 @@ public class Zephyrus extends JavaPlugin {
 			} catch (Exception e) {
 				getLogger().warning(e.getMessage());
 			}
+			
+			for (Spell spell : spellMap.values()) {
+				if (!config.getConfig().getConfigurationSection(spell.name()).contains("enabled")) {
+					if (spell instanceof Armour) {
+						config.getConfig().set(spell.name() + ".enabled", false);
+					} else {
+						config.getConfig().set(spell.name() + ".enabled", true);
+					}
+				}
+				if (!config.getConfig().getConfigurationSection(spell.name()).contains("mana")) {
+					config.getConfig()
+							.set(spell.name() + ".mana", spell.manaCost());
+				}
+				if (!config.getConfig().getConfigurationSection(spell.name()).contains("level")) {
+					config.getConfig()
+					.set(spell.name() + ".level", spell.reqLevel());
+				}
+				if (spell.getConfigurations() != null) {
+					Map<String, Object> cfg = spell.getConfigurations();
+					for (String str : cfg.keySet()) {
+						if (!config.getConfig().getConfigurationSection(spell.name()).contains(str)) {
+							config.getConfig().getConfigurationSection(spell.name()).set(str, cfg.get(str));
+						}
+					}
+				}
+				config.saveConfig();
+			}
+			
 			try {
 				for (String s : update) {
 					if (s != null) {
@@ -333,6 +350,7 @@ public class Zephyrus extends JavaPlugin {
 				int a = spellMap.size() - builtInSpells;
 				added = " " + a + " external spells registered. ";
 			}
+			
 			getLogger().info("Loaded " + spellMap.size() + " spells." + added);
 		}
 	}

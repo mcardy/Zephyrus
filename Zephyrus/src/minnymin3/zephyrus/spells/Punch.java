@@ -1,6 +1,8 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -49,8 +51,9 @@ public class Punch extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
+		int damage = getConfig().getInt(this.name() + ".damage");
 		LivingEntity c = (LivingEntity) getTarget(player);
-		c.damage(4);
+		c.damage(damage);
 	}
 
 	@Override
@@ -62,6 +65,13 @@ public class Punch extends Spell {
 		return false;
 	}
 
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("damage", 4);
+		return map;
+	}
+	
 	@Override
 	public String failMessage() {
 		return "Nothing to punch!";

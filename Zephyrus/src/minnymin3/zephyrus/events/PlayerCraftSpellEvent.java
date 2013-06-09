@@ -17,8 +17,6 @@ import org.bukkit.event.HandlerList;
 
 public class PlayerCraftSpellEvent extends Event implements Cancellable {
 
-	private static final HandlerList handlers = new HandlerList();
-
 	private boolean cancelled;
 	private Player player;
 	private Spell spell;
@@ -46,9 +44,14 @@ public class PlayerCraftSpellEvent extends Event implements Cancellable {
 		this.cancelled = arg0;
 	}
 
-	@Override
+	private static final HandlerList handlers = new HandlerList();
+	 
 	public HandlerList getHandlers() {
-		return handlers;
+	    return handlers;
+	}
+	 
+	public static HandlerList getHandlerList() {
+	    return handlers;
 	}
 
 }

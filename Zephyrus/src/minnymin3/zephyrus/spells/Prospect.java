@@ -1,6 +1,8 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -32,7 +34,6 @@ public class Prospect extends Spell {
 
 	@Override
 	public String bookText() {
-		// TODO Auto-generated method stub
 		return "Searches for valuable materials nearby";
 	}
 
@@ -48,7 +49,7 @@ public class Prospect extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
-		int radius = 3;
+		int radius = getConfig().getInt(this.name() + ".radius");
 		final Block block = player.getLocation().getBlock();
 		Set<String> s = new HashSet<String>();
 		for (int x = -(radius); x <= radius; x++) {
@@ -86,6 +87,13 @@ public class Prospect extends Spell {
 		player.sendMessage(msg.toString());
 	}
 
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("radius", 3);
+		return map;
+	}
+	
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> s = new HashSet<ItemStack>();

@@ -16,6 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -168,9 +169,24 @@ public abstract class Spell extends LevelManager {
 		return cost;
 	}
 	
+	public int getLevel() {
+		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
+		int level = cfg.getConfig().getInt(this.name() + ".level");
+		return level;
+	}
+	
 	public boolean isEnabled() {
 		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
 		return cfg.getConfig().getBoolean(this.name() + ".enabled");
 	}
+	
+	public Map<String, Object> getConfigurations() {
+		return null;
+	}
 
+	public FileConfiguration getConfig() {
+		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
+		return cfg.getConfig();
+	}
+	
 }

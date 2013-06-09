@@ -20,8 +20,6 @@ import org.bukkit.event.inventory.PrepareItemCraftEvent;
 
 public class PlayerCraftCustomItemEvent extends Event implements Cancellable {
 
-	private static final HandlerList handlers = new HandlerList();
-
 	private boolean cancelled;
 	private List<HumanEntity> player;
 	private CustomItem item;
@@ -54,10 +52,15 @@ public class PlayerCraftCustomItemEvent extends Event implements Cancellable {
 	public void setCancelled(boolean arg0) {
 		this.cancelled = arg0;
 	}
-
-	@Override
+	
+	private static final HandlerList handlers = new HandlerList();
+	 
 	public HandlerList getHandlers() {
-		return handlers;
+	    return handlers;
+	}
+	 
+	public static HandlerList getHandlerList() {
+	    return handlers;
 	}
 
 }

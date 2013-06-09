@@ -38,3 +38,6 @@ Disable-Spell-Crafting: false
 
 #Disables the wand's recipe. It can still be obtained with a BuyWand sign
 Disable-Wand-Recipe: false
+
+#Makes you earn spells when you levelup. Disabling spell crafting is recommended for this.
+Levelup-Spells: false

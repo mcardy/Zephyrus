@@ -1,6 +1,8 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -47,8 +49,9 @@ public class Explode extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
+		int r = getConfig().getInt(this.name() + ".power");
 		player.getWorld().createExplosion(
-				player.getTargetBlock(null, 200).getLocation(), 2, true);
+				player.getTargetBlock(null, 200).getLocation(), r, true);
 	}
 
 	@Override
@@ -56,6 +59,13 @@ public class Explode extends Spell {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.TNT, 64));
 		return i;
+	}
+	
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("power", 2);
+		return map;
 	}
 
 	@Override

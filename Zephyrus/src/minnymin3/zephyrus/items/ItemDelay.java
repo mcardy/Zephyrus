@@ -24,6 +24,7 @@ public class ItemDelay {
 			Map<String, Integer> s = plugin.itemDelay.get(player.getName());
 			s.put(item.name(), delay);
 			plugin.itemDelay.put(player.getName(), s);
+			new CooldownUtil(plugin, player, item).runTaskLater(plugin, 20);
 		} else {
 			Map<String, Integer> s = new HashMap<String, Integer>();
 			s.put(item.name(), delay);
@@ -75,16 +76,14 @@ class CooldownUtil extends BukkitRunnable {
 	@Override
 	public void run() {
 		Map<String, Integer> s = plugin.itemDelay.get(player.getName());
-		if (!(s.get(item.name()) <= 0)) {
-			int i = s.get(item.name());
-			i = i - 20;
-			if (i == 0) {
-				s.remove(item.name());
-			} else {
-				s.put(item.name(), i);
-				new CooldownUtil(plugin, player, item).runTaskLater(plugin, 20);
-			}
-			plugin.itemDelay.put(player.getName(), s);
+		int i = s.get(item.name());
+		i = i - 20;
+		if (i <= 0) {
+			s.remove(item.name());
+		} else {
+			s.put(item.name(), i);
+			new CooldownUtil(plugin, player, item).runTaskLater(plugin, 20);
 		}
+		plugin.itemDelay.put(player.getName(), s);
 	}
 }

@@ -1,6 +1,8 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -48,9 +50,10 @@ public class Vanish extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
+		int t = getConfig().getInt(this.name() + ".duration");
 		player.removePotionEffect(PotionEffectType.INVISIBILITY);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,
-				600, 1));
+				t * 20, 1));
 		player.sendMessage(ChatColor.GRAY + "You have dissappeared!");
 	}
 
@@ -60,6 +63,13 @@ public class Vanish extends Spell {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.POTION, 1, (short) 8270));
 		return i;
+	}
+	
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("duration", 30);
+		return map;
 	}
 
 }
