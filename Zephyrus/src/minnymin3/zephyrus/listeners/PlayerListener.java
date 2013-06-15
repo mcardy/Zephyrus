@@ -19,11 +19,13 @@ import minnymin3.zephyrus.utils.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -257,6 +259,19 @@ public class PlayerListener extends ItemUtil implements Listener {
 		}
 	}
 
+	@EventHandler
+	public void onBreakJail(BlockBreakEvent e) {
+		if (e.getPlayer() != null) {
+			Block b = e.getBlock();
+			if (b.getType() == Material.IRON_FENCE || b.getType() == Material.IRON_BLOCK) {
+				if (b.getData() == 12) {
+					e.setCancelled(true);
+					e.getPlayer().sendMessage(ChatColor.GRAY + "You cannot break jail blocks!");
+				}
+			}
+		}
+	}
+	
 	@EventHandler
 	public void onMagicArmour(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {

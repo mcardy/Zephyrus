@@ -58,11 +58,7 @@ public class Punch extends Spell {
 
 	@Override
 	public boolean canRun(Player player, String[] args) {
-		Entity e = getTarget(player);
-		if (e != null && e instanceof LivingEntity) {
-			return true;
-		}
-		return false;
+		return getTarget(player) != null;
 	}
 
 	@Override

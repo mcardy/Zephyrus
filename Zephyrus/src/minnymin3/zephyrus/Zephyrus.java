@@ -51,6 +51,7 @@ import minnymin3.zephyrus.spells.Frenzy;
 import minnymin3.zephyrus.spells.Grow;
 import minnymin3.zephyrus.spells.Heal;
 import minnymin3.zephyrus.spells.Home;
+import minnymin3.zephyrus.spells.Jail;
 import minnymin3.zephyrus.spells.Mana;
 import minnymin3.zephyrus.spells.Phase;
 import minnymin3.zephyrus.spells.Prospect;
@@ -158,6 +159,7 @@ public class Zephyrus extends JavaPlugin {
 			LevelManager.saveMana(p);
 			Zephyrus.mana.remove(p);
 		}
+		disableSpells();
 	}
 
 	private void hook() {
@@ -185,6 +187,12 @@ public class Zephyrus extends JavaPlugin {
 		new Wand(this);
 	}
 
+	private void disableSpells() {
+		for (Spell spell : spellMap.values()) {
+			spell.onDisable();
+		}
+	}
+	
 	private void addSpells() {
 		new Armour(this);
 		new Blink(this);
@@ -205,6 +213,7 @@ public class Zephyrus extends JavaPlugin {
 		new Grow(this);
 		new Heal(this);
 		new Home(this);
+		new Jail(this);
 		new Mana(this);
 		new Phase(this);
 		new Prospect(this);
@@ -310,26 +319,26 @@ public class Zephyrus extends JavaPlugin {
 			}
 			
 			for (Spell spell : spellMap.values()) {
-				if (!config.getConfig().getConfigurationSection(spell.name()).contains("enabled")) {
+				if (!config.getConfig().contains(spell.name() + ".enabled")) {
 					if (spell instanceof Armour) {
 						config.getConfig().set(spell.name() + ".enabled", false);
 					} else {
 						config.getConfig().set(spell.name() + ".enabled", true);
 					}
 				}
-				if (!config.getConfig().getConfigurationSection(spell.name()).contains("mana")) {
+				if (!config.getConfig().contains(spell.name() + ".mana")) {
 					config.getConfig()
 							.set(spell.name() + ".mana", spell.manaCost());
 				}
-				if (!config.getConfig().getConfigurationSection(spell.name()).contains("level")) {
+				if (!config.getConfig().contains("level")) {
 					config.getConfig()
 					.set(spell.name() + ".level", spell.reqLevel());
 				}
 				if (spell.getConfigurations() != null) {
 					Map<String, Object> cfg = spell.getConfigurations();
 					for (String str : cfg.keySet()) {
-						if (!config.getConfig().getConfigurationSection(spell.name()).contains(str)) {
-							config.getConfig().getConfigurationSection(spell.name()).set(str, cfg.get(str));
+						if (!config.getConfig().contains(spell.name() + "." + str)) {
+							config.getConfig().set(spell.name() + "." + str, cfg.get(str));
 						}
 					}
 				}

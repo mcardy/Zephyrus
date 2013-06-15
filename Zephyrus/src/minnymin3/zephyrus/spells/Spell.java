@@ -134,7 +134,7 @@ public abstract class Spell extends LevelManager {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * The method for destroying a bookshelf and dropping a spelltome
 	 */
@@ -187,6 +187,9 @@ public abstract class Spell extends LevelManager {
 	public FileConfiguration getConfig() {
 		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
 		return cfg.getConfig();
+	}
+	
+	public void onDisable() {
 	}
 	
 }
