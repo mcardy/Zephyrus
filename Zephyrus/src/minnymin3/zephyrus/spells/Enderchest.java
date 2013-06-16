@@ -60,4 +60,9 @@ public class Enderchest extends Spell {
 		items.add(new ItemStack(Material.ENDER_CHEST));
 		return items;
 	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.OTHER;
+	}
 }

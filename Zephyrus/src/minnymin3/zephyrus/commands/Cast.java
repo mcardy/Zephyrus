@@ -57,7 +57,7 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 											"ManaMultiplier"))) {
 								if (spell.canRun(player, args)) {
 									PlayerCastSpellEvent event = new PlayerCastSpellEvent(
-											player, spell);
+											player, spell, args);
 									Bukkit.getServer().getPluginManager()
 											.callEvent(event);
 									if (!event.isCancelled()) {

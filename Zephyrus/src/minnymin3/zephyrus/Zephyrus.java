@@ -38,6 +38,7 @@ import minnymin3.zephyrus.spells.Blink;
 import minnymin3.zephyrus.spells.Bolt;
 import minnymin3.zephyrus.spells.Butcher;
 import minnymin3.zephyrus.spells.Confuse;
+import minnymin3.zephyrus.spells.Conjure;
 import minnymin3.zephyrus.spells.Dig;
 import minnymin3.zephyrus.spells.Enderchest;
 import minnymin3.zephyrus.spells.Explode;
@@ -199,6 +200,7 @@ public class Zephyrus extends JavaPlugin {
 		new Bolt(this);
 		new Butcher(this);
 		new Confuse(this);
+		new Conjure(this);
 		new Dig(this);
 		new Enderchest(this);
 		new Explode(this);

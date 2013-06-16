@@ -120,4 +120,9 @@ public class Grow extends Spell {
 		items.add(new ItemStack(Material.SEEDS));
 		return items;
 	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.EARTH;
+	}
 }

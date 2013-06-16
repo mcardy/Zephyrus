@@ -49,12 +49,13 @@ public class Mana extends Spell {
 	@Override
 	public void run(Player player, String[] args) {
 		int a = getConfig().getInt(this.name() + ".amount");
+		int d = getConfig().getInt(this.name() + ".damage");
 		if (LevelManager.getMana(player) + a < LevelManager.getLevel(player) * 100) {
 			LevelManager.drainMana(player, -a);
-			player.damage(4);
+			player.damage(d);
 		} else {
 			LevelManager.resetMana(player);
-			player.damage(4);
+			player.damage(d);
 		}
 	}
 
@@ -69,7 +70,13 @@ public class Mana extends Spell {
 	public Map<String, Object> getConfigurations() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("amount", 20);
+		map.put("damage", 4);
 		return map;
+	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.RESTORE;
 	}
 
 }

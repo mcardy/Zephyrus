@@ -169,4 +169,9 @@ public class SuperHeat extends Spell {
 		return target;
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.FIRE;
+	}
+
 }

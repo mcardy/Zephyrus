@@ -1,6 +1,7 @@
 package minnymin3.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -70,4 +71,18 @@ public class Bolt extends Spell {
 		return ChatColor.DARK_RED + "You don't have permission for this area";
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.ELEMENTAL;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		Random rand = new Random();
+		if (rand.nextInt(4) == 1) {
+			player.getWorld().strikeLightning(player.getLocation());
+			return true;
+		}
+		return false;
+	}
 }

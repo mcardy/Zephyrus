@@ -88,4 +88,17 @@ public class Repair extends Spell {
 		return items;
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.RESTORE;
+	}
+	
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		int amount = getConfig().getInt(this.name() + ".amount");
+		player.getItemInHand().setDurability((short) (player.getItemInHand().getDurability() + amount));
+		player.sendMessage(ChatColor.GRAY + "Your tool feels a bit weaker...");
+		return true;
+	}
+
 }

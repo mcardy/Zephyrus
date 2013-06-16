@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import minnymin3.zephyrus.Zephyrus;
-import minnymin3.zephyrus.enchantments.GlowEffect;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +20,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class ItemUtil {
 
 	public Zephyrus plugin;
-	GlowEffect glow;
 
 	public ItemUtil(Zephyrus plugin) {
 		this.plugin = plugin;
@@ -43,7 +41,7 @@ public class ItemUtil {
 	 * @param item The ItemStack to add the enchantment effect to
 	 */
 	public void setGlow(ItemStack item) {
-		item.addEnchantment(plugin.glow, 1);
+		item.addEnchantment(Zephyrus.sGlow, 1);
 	}
 
 	/**

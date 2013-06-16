@@ -49,7 +49,11 @@ public class Feed extends Spell {
 	@Override
 	public void run(Player player, String[] args) {
 		int a = getConfig().getInt(this.name() + ".amount");
-		player.setFoodLevel(player.getFoodLevel() + a);
+		if (player.getFoodLevel() + a > 20) {
+			player.setFoodLevel(20);
+		} else {
+			player.setFoodLevel(player.getFoodLevel() + a);
+		}
 		player.sendMessage(ChatColor.GRAY + "You feel slightly less hungry");
 	}
 
@@ -80,6 +84,23 @@ public class Feed extends Spell {
 		items.add(new ItemStack(Material.COOKED_CHICKEN));
 		items.add(new ItemStack(Material.COOKED_FISH));
 		return items;
+	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.RESTORE;
+	}
+	
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		int a = getConfig().getInt(this.name() + ".amount");
+		if (player.getFoodLevel() - a < 0) {
+			player.setFoodLevel(0);
+		} else {
+			player.setFoodLevel(player.getFoodLevel() - a);
+		}
+		player.sendMessage(ChatColor.GRAY + "You feel slightly more hungry...");
+		return true;
 	}
 
 }

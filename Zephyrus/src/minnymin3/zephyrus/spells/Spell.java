@@ -29,30 +29,36 @@ import org.bukkit.util.Vector;
  * 
  */
 
-public abstract class Spell extends LevelManager {
+public abstract class Spell {
 
+	public Zephyrus plugin;
+	
 	public Spell(Zephyrus plugin) {
-		super(plugin);
+		this.plugin = plugin;
 		plugin.addSpell(this);
 	}
 
 	/**
 	 * Defines the name of the spell
+	 * @return The name of the spell
 	 */
 	public abstract String name();
 
 	/**
 	 * The text that appears in the SpellTome
+	 * @return The SpellTome text
 	 */
 	public abstract String bookText();
 
 	/**
-	 * The level required to craft the spell
+	 * The level required by default to craft the spell
+	 * @return The default required level
 	 */
 	public abstract int reqLevel();
 
 	/**
-	 * The mana cost multiplied by the configurable mana multiplier
+	 * The mana required by default to cast the spell
+	 * @return The default required mana
 	 */
 	public abstract int manaCost();
 
@@ -62,12 +68,20 @@ public abstract class Spell extends LevelManager {
 	public abstract void run(Player player, String[] args);
 
 	/**
-	 * A Set containing all the items required to craft the spell
+	 * The items that are used in crafting the spell
+	 * @return
 	 */
 	public abstract Set<ItemStack> spellItems();
+	
+	/**
+	 * The type of the spell
+	 * @return A SpellType enum value
+	 */
+	public abstract SpellType type();
 
 	/**
 	 * Weather or not the spell can be bound to a wand
+	 * @return True by default
 	 */
 	public boolean canBind() {
 		return true;
@@ -75,6 +89,7 @@ public abstract class Spell extends LevelManager {
 
 	/**
 	 * A spell that is required for crafting this spell
+	 * @return The required spell
 	 */
 	public Spell reqSpell() {
 		return null;
@@ -82,6 +97,7 @@ public abstract class Spell extends LevelManager {
 
 	/**
 	 * The boolean dictating if the spell can be run
+	 * @return Whether or not the spell can be cast
 	 */
 	public boolean canRun(Player player, String[] args) {
 		return true;
@@ -89,17 +105,15 @@ public abstract class Spell extends LevelManager {
 
 	/**
 	 * The message that is sent to the player when canRun returns false
+	 * @return "" by default
 	 */
 	public String failMessage() {
 		return "";
 	}
-
-	public Map<String, String> getCfgKeys() {
-		return null;
-	}
 	
 	/**
 	 * If the spell is learned
+	 * @return False if the spell is not learned
 	 */
 	public boolean isLearned(Player p, String name) {
 		PlayerConfigHandler.reloadConfig(plugin, p);
@@ -110,6 +124,10 @@ public abstract class Spell extends LevelManager {
 		return false;
 	}
 
+	/**
+	 * The message sent to the player when they lack the required mana.
+	 * @param p
+	 */
 	public void notEnoughMana(Player p) {
 		p.sendMessage(ChatColor.DARK_GRAY + "Not enough mana!");
 	}
@@ -189,7 +207,11 @@ public abstract class Spell extends LevelManager {
 		return cfg.getConfig();
 	}
 	
+	
 	public void onDisable() {
 	}
 	
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
+	}
 }

@@ -77,4 +77,15 @@ public class Dig extends Spell {
 		return i;
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.EARTH;
+	}
+	
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		player.getTargetBlock(null, 12).breakNaturally(null);
+		return true;
+	}
+
 }

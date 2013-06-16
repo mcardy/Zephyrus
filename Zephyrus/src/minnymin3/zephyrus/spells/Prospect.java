@@ -104,4 +104,9 @@ public class Prospect extends Spell {
 		return s;
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.EARTH;
+	}
+
 }

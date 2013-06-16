@@ -1,6 +1,7 @@
 package minnymin3.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -67,6 +68,18 @@ public class Fireball extends Spell {
 	@Override
 	public String failMessage() {
 		return ChatColor.DARK_RED + "You don't have permission for this area";
+	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.FIRE;
+	}
+	
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		Random rand = new Random();
+		player.setFireTicks(rand.nextInt(40));
+		return false;
 	}
 
 }

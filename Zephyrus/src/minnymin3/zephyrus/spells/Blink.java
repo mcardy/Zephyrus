@@ -104,4 +104,9 @@ public class Blink extends Spell {
 		return ChatColor.GRAY + "Cannot blink there!";
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.TELEPORTATION;
+	}
+
 }

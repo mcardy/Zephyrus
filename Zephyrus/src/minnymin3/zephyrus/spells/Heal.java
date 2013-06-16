@@ -49,7 +49,11 @@ public class Heal extends Spell {
 	@Override
 	public void run(Player player, String[] args) {
 		int a = getConfig().getInt(this.name() + ".amount");
-		player.setHealth(player.getHealth() + a);
+		if (player.getFoodLevel() + a > 20) {
+			player.setHealth(20);
+		} else {
+			player.setHealth(player.getFoodLevel() + a);
+		}
 		player.sendMessage(ChatColor.GRAY + "You feel a bit stronger");
 	}
 	
@@ -80,4 +84,9 @@ public class Heal extends Spell {
 		return items;
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.RESTORE;
+	}
+	
 }

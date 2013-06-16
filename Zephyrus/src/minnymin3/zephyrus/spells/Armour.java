@@ -115,4 +115,9 @@ public class Armour extends Spell {
 		}
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.CONJURE;
+	}
+
 }

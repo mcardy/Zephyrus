@@ -72,4 +72,9 @@ public class Vanish extends Spell {
 		return map;
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.ILLUSION;
+	}
+
 }

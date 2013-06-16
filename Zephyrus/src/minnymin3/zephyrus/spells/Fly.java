@@ -111,5 +111,10 @@ public class Fly extends Spell {
 		}
 		
 	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.AIR;
+	}
 	
 }

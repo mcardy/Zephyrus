@@ -11,8 +11,14 @@
 #Enables or disables the update checker.
 UpdateChecker: true
 
-#Enables giving players spells via permissions.
+#Enables giving players spells via permissions. Ops will automatically have access to all spells.
 OpKnowledge: false
+
+
+###########
+#Balancing#
+###########
+
 
 #Casting mana multiplier where 5 is default. Change only if you think the mana costs are over/under powered.
 #Only use positive numbers. 0 will drain no mana.
@@ -29,6 +35,12 @@ ManaRegen: 30
 #i.e. Level 1 will require 180 xp while level 2 will require 264 xp and level 3 will require 379 xp
 LevelBalance: 80
 
+
+##########
+#Crafting#
+##########
+
+
 #Configuration for custom recipes. 
 #If set to false, all custom recipes (except the wand) will be disabled
 Disable-Recipes: false
@@ -41,3 +53,15 @@ Disable-Wand-Recipe: false
 
 #Makes you earn spells when you levelup. Disabling spell crafting is recommended for this.
 Levelup-Spells: false
+
+
+##############
+#Side Effects#
+##############
+
+
+#The configuration for Side Effects
+Enable-Side-Effects: true
+
+#The chance for side effects to occure. If set below 1, it will default to 1.
+Side-Effect-Chance: 3

@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import minnymin3.zephyrus.Zephyrus;
+import minnymin3.zephyrus.events.PlayerCastSpellEvent;
 import minnymin3.zephyrus.events.PlayerCraftCustomItemEvent;
 import minnymin3.zephyrus.items.CustomItem;
 import minnymin3.zephyrus.player.LevelManager;
@@ -64,7 +66,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 	}
 
 	@EventHandler
-	public void onUpdateMessage(PlayerJoinEvent e) {
+	public void updateMessage(PlayerJoinEvent e) {
 		if (e.getPlayer().hasPermission("zephyrus.notify")) {
 			Player player = e.getPlayer();
 			if (UpdateChecker.isUpdate) {
@@ -147,7 +149,6 @@ public class PlayerListener extends ItemUtil implements Listener {
 			PlayerConfigHandler.getConfig(plugin, player).set("learned", l);
 			PlayerConfigHandler.getConfig(plugin, player).set("progress", 0);
 			PlayerConfigHandler.saveConfig(plugin, player);
-
 		}
 	}
 
@@ -200,7 +201,8 @@ public class PlayerListener extends ItemUtil implements Listener {
 			chest.setItemMeta(meta);
 			legs.setItemMeta(meta);
 			boots.setItemMeta(meta);
-			if (e.getRawSlot() == 5 && checkName(inv.getHelmet(), "¤6Magic Armour")) {
+			if (e.getRawSlot() == 5
+					&& checkName(inv.getHelmet(), "¤6Magic Armour")) {
 				e.setCursor(null);
 				e.getWhoClicked().getInventory().setBoots(boots);
 				e.getWhoClicked().getInventory().setLeggings(legs);
@@ -210,7 +212,8 @@ public class PlayerListener extends ItemUtil implements Listener {
 					Player player = (Player) e.getWhoClicked();
 					player.updateInventory();
 				}
-			} else if (e.getRawSlot() == 6 && checkName(inv.getChestplate(), "¤6Magic Armour")) {
+			} else if (e.getRawSlot() == 6
+					&& checkName(inv.getChestplate(), "¤6Magic Armour")) {
 				e.setCursor(null);
 				e.getWhoClicked().getInventory().setBoots(boots);
 				e.getWhoClicked().getInventory().setLeggings(legs);
@@ -220,7 +223,8 @@ public class PlayerListener extends ItemUtil implements Listener {
 					Player player = (Player) e.getWhoClicked();
 					player.updateInventory();
 				}
-			} else if (e.getRawSlot() == 7 && checkName(inv.getLeggings(), "¤6Magic Armour")) {
+			} else if (e.getRawSlot() == 7
+					&& checkName(inv.getLeggings(), "¤6Magic Armour")) {
 				e.setCursor(null);
 				e.getWhoClicked().getInventory().setBoots(boots);
 				e.getWhoClicked().getInventory().setLeggings(legs);
@@ -230,7 +234,8 @@ public class PlayerListener extends ItemUtil implements Listener {
 					Player player = (Player) e.getWhoClicked();
 					player.updateInventory();
 				}
-			} else if (e.getRawSlot() == 8 && checkName(inv.getBoots(), "¤6Magic Armour")) {
+			} else if (e.getRawSlot() == 8
+					&& checkName(inv.getBoots(), "¤6Magic Armour")) {
 				e.setCursor(null);
 				e.getWhoClicked().getInventory().setBoots(boots);
 				e.getWhoClicked().getInventory().setLeggings(legs);
@@ -241,8 +246,12 @@ public class PlayerListener extends ItemUtil implements Listener {
 					player.updateInventory();
 				}
 			}
-			if (e.getCursor() == boots || e.getCursor() == legs || e.getCursor() == chest || e.getCursor() == helm
-					|| e.getCurrentItem() == boots || e.getCurrentItem() == legs || e.getCurrentItem() == chest || e.getCurrentItem() == helm) {
+			if (e.getCursor() == boots || e.getCursor() == legs
+					|| e.getCursor() == chest || e.getCursor() == helm
+					|| e.getCurrentItem() == boots
+					|| e.getCurrentItem() == legs
+					|| e.getCurrentItem() == chest
+					|| e.getCurrentItem() == helm) {
 				e.setCurrentItem(null);
 				e.setCancelled(true);
 				e.setCursor(null);
@@ -254,7 +263,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 					Player player = (Player) e.getWhoClicked();
 					player.updateInventory();
 				}
-				
+
 			}
 		}
 	}
@@ -263,15 +272,17 @@ public class PlayerListener extends ItemUtil implements Listener {
 	public void onBreakJail(BlockBreakEvent e) {
 		if (e.getPlayer() != null) {
 			Block b = e.getBlock();
-			if (b.getType() == Material.IRON_FENCE || b.getType() == Material.IRON_BLOCK) {
+			if (b.getType() == Material.IRON_FENCE
+					|| b.getType() == Material.IRON_BLOCK) {
 				if (b.getData() == 12) {
 					e.setCancelled(true);
-					e.getPlayer().sendMessage(ChatColor.GRAY + "You cannot break jail blocks!");
+					e.getPlayer().sendMessage(
+							ChatColor.GRAY + "You cannot break jail blocks!");
 				}
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onMagicArmour(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {
@@ -279,8 +290,30 @@ public class PlayerListener extends ItemUtil implements Listener {
 			if (player.getInventory().getBoots() != null
 					&& player.getInventory().getBoots().hasItemMeta()
 					&& player.getInventory().getBoots().getItemMeta()
+							.hasDisplayName()
+					&& player.getInventory().getBoots().getItemMeta()
 							.getDisplayName().equals("¤6Magic Armour")) {
 				e.setCancelled(true);
+			}
+		}
+	}
+
+	@EventHandler
+	public void onSpellCast(PlayerCastSpellEvent e) {
+		if (plugin.getConfig().getBoolean("Enable-Side-Effects") || !plugin.getConfig().contains("Enable-Side-Effects")) {
+			int chanceMultiplier = plugin.getConfig().getInt("Side-Effect-Chance");
+			if (chanceMultiplier < 1) {
+				chanceMultiplier = 1;
+			}
+			Random rand = new Random();
+			int chance = LevelManager.getLevel(e.getPlayer()) * chanceMultiplier;
+			if (rand.nextInt(chance) == 1) {
+				boolean b = e.getSpell().sideEffect(e.getPlayer(), e.getArgs());
+				if (b == true) {
+					e.setCancelled(true);
+					LevelManager.drainMana(e.getPlayer(), e.getSpell()
+							.getManaCost());
+				}
 			}
 		}
 	}

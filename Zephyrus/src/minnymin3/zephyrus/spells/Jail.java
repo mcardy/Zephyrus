@@ -23,7 +23,6 @@ import org.bukkit.util.BlockIterator;
  * Zephyrus
  * 
  * @author minnymin3
- * @version 1.0.0
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
@@ -174,6 +173,11 @@ public class Jail extends Spell {
 				b.setData(mat.getData());
 			}
 		}
+	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.CONJURE;
 	}
 
 }

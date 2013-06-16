@@ -261,7 +261,7 @@ public class Wand extends CustomItem {
 											"ManaMultiplier"))) {
 								if (spell.canRun(player, null)) {
 									PlayerCastSpellEvent event = new PlayerCastSpellEvent(
-											player, spell);
+											player, spell, null);
 									Bukkit.getServer().getPluginManager()
 											.callEvent(event);
 									if (!event.isCancelled()) {

@@ -61,4 +61,9 @@ public class Satisfy extends Spell {
 		return s;
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.RESTORE;
+	}
+
 }

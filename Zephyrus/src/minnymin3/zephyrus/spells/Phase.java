@@ -173,4 +173,9 @@ public class Phase extends Spell {
 			return null;
 		}
 	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.TELEPORTATION;
+	}
 }

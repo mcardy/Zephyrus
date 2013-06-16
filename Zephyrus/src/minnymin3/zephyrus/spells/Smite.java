@@ -97,4 +97,9 @@ public class Smite extends Spell {
 		return ChatColor.DARK_RED + "You don't have permission for this area";
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.ELEMENTAL;
+	}
+
 }

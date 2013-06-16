@@ -142,4 +142,9 @@ public class Feather extends Spell implements Listener {
 
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.AIR;
+	}
+
 }

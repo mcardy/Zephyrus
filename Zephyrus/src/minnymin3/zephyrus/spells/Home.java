@@ -120,4 +120,9 @@ public class Home extends Spell {
 		player.getWorld().playSound(loc, Sound.ENDERMAN_TELEPORT, 10, 1);
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.TELEPORTATION;
+	}
+
 }

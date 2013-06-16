@@ -83,7 +83,6 @@ public class Punch extends Spell {
 	}
 
 	public Entity getTarget(Player player) {
-
 		BlockIterator iterator = new BlockIterator(player.getWorld(), player
 				.getLocation().toVector(), player.getEyeLocation()
 				.getDirection(), 0, 100);
@@ -105,6 +104,17 @@ public class Punch extends Spell {
 			}
 		}
 		return target;
+	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.INJURY;
+	}
+	
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		player.damage(1, player);
+		return false;
 	}
 
 }

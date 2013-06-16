@@ -6,12 +6,13 @@ import java.util.Map;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
-import minnymin3.zephyrus.hooks.PluginHook;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Zephyrus
@@ -21,78 +22,66 @@ import org.bukkit.inventory.ItemStack;
  * 
  */
 
-public class Explode extends Spell {
+public class Vision extends Spell {
 
-	public Explode(Zephyrus plugin) {
+	public Vision(Zephyrus plugin) {
 		super(plugin);
 	}
 
 	@Override
 	public String name() {
-		return "explode";
+		return "vision";
 	}
 
 	@Override
 	public String bookText() {
-		return "Makes a big boom!";
+		return "You can see in the dark now!";
 	}
 
 	@Override
 	public int reqLevel() {
-		return 8;
+		return 2;
 	}
 
 	@Override
 	public int manaCost() {
-		return 100;
+		return 20;
 	}
 
 	@Override
 	public void run(Player player, String[] args) {
-		int r = getConfig().getInt(this.name() + ".power");
-		player.getWorld().createExplosion(
-				player.getTargetBlock(null, 200).getLocation(), r, true);
+		int t = getConfig().getInt(this.name() + ".duration");
+		player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+		player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION,
+				t * 20, 1));
+		player.sendMessage(ChatColor.GRAY + "You can now see in the dark!");
 	}
 
 	@Override
 	public Set<ItemStack> spellItems() {
+		// Potion extended Nightvision
 		Set<ItemStack> i = new HashSet<ItemStack>();
-		i.add(new ItemStack(Material.TNT, 64));
+		i.add(new ItemStack(Material.POTION, 1, (short) 8262));
 		return i;
 	}
 	
 	@Override
 	public Map<String, Object> getConfigurations() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("power", 2);
+		map.put("duration", 30);
 		return map;
 	}
 
 	@Override
-	public boolean canRun(Player player, String[] args) {
-		boolean b = PluginHook.canBuild(player,
-				player.getTargetBlock(null, 1000))
-				&& PluginHook.allowExplosion() && player.getTargetBlock(null, 1000).getType() != Material.AIR;
-		return b;
-	}
-
-	@Override
-	public String failMessage() {
-		return ChatColor.DARK_RED
-				+ "Can't explode there!";
-	}
-
-	@Override
 	public SpellType type() {
-		return SpellType.EARTH;
+		return SpellType.ILLUSION;
 	}
 	
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
-		int r = getConfig().getInt(this.name() + ".power");
-		player.getWorld().createExplosion(
-				player.getTargetBlock(null, 200).getLocation(), r * 2, true);
-		return true;
+		int t = getConfig().getInt(this.name() + ".duration");
+		player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, t*4, 1));
+		return false;
 	}
 
 }

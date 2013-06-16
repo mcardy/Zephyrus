@@ -61,29 +61,31 @@ public class LevelingListener implements Listener {
 		if (plugin.getConfig().getBoolean("Levelup-Spells")) {
 			Player player = e.getPlayer();
 			List<String> l = new ArrayList<String>();
+			List<String> learned = PlayerConfigHandler.getConfig(
+					plugin, player).getStringList("learned");
 			for (Spell spell : Zephyrus.spellMap.values()) {
-				if (spell.getLevel() <= e.getLevel() && !spell.isLearned(player, spell.name())) {
-					List<String> learned = PlayerConfigHandler.getConfig(
-							plugin, player).getStringList("learned");
+				if (spell.getLevel() == e.getLevel()) {
 					learned.add(spell.name());
-					PlayerConfigHandler.getConfig(plugin, player).set(
-							"learned", learned);
-					PlayerConfigHandler.saveConfig(plugin, player);
 					l.add(spell.name());
 				}
 			}
+			PlayerConfigHandler.getConfig(plugin, player).set(
+					"learned", learned);
+			PlayerConfigHandler.saveConfig(plugin, player);
 			StringBuilder sb = new StringBuilder();
 			Iterator<String> it = l.iterator();
 			while (it.hasNext()) {
 				String str = it.next();
 				if (it.hasNext()) {
 					sb.append(", " + str);
-				} else {
+				} else if (sb.length() != 0) {
 					sb.append(" and " + str);
+				} else {
+					sb.append(str);
 				}
 			}
 			String str = sb.toString();
-			if (sb.equals("")) {
+			if (str.equals("") || sb.length() == 0) {
 				player.sendMessage(ChatColor.AQUA + "You have learned no new spells");
 			} else {
 				player.sendMessage(ChatColor.AQUA + "You have learned" + ChatColor.DARK_AQUA + str.replaceFirst(",", ""));

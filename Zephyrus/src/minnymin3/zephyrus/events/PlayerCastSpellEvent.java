@@ -22,10 +22,12 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 	private boolean cancelled;
 	private Player player;
 	private Spell spell;
+	private String[] args;
 
-	public PlayerCastSpellEvent(Player player, Spell spell) {
+	public PlayerCastSpellEvent(Player player, Spell spell, String[] args) {
 		this.player = player;
 		this.spell = spell;
+		this.args = args;
 	}
 
 	@Override
@@ -51,6 +53,10 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 
 	public static HandlerList getHandlerList() {
 		return handlers;
+	}
+	
+	public String[] getArgs() {
+		return args;
 	}
 
 	/**

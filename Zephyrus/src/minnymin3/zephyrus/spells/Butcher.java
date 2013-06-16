@@ -3,6 +3,7 @@ package minnymin3.zephyrus.spells;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -102,6 +103,18 @@ public class Butcher extends Spell {
 			}
 		}
 		return radiusEntities.toArray(new LivingEntity[radiusEntities.size()]);
+	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.INJURY;
+	}
+	
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		Random rand = new Random();
+		player.damage(rand.nextInt(4));
+		return false;
 	}
 
 }

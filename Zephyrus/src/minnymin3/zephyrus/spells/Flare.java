@@ -78,4 +78,9 @@ public class Flare extends Spell {
 		return new Fireball(plugin);
 	}
 
+	@Override
+	public SpellType type() {
+		return SpellType.FIRE;
+	}
+
 }

@@ -130,4 +130,9 @@ public class Frenzy extends Spell {
 		}
 		return radiusEntities.toArray(new Monster[radiusEntities.size()]);
 	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.ILLUSION;
+	}
 }
