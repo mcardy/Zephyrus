@@ -4,7 +4,6 @@ import java.util.List;
 
 import minnymin3.zephyrus.Zephyrus;
 import minnymin3.zephyrus.events.PlayerCastSpellEvent;
-import minnymin3.zephyrus.hooks.PluginHook;
 import minnymin3.zephyrus.player.LevelManager;
 import minnymin3.zephyrus.spells.Spell;
 import minnymin3.zephyrus.utils.PlayerConfigHandler;
@@ -29,13 +28,9 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 		TabCompleter {
 
 	Zephyrus plugin;
-	LevelManager lvl;
-	PluginHook hook;
 
 	public Cast(Zephyrus plugin) {
 		this.plugin = plugin;
-		lvl = new LevelManager(plugin);
-		hook = new PluginHook();
 	}
 
 	@Override

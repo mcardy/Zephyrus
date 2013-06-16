@@ -17,8 +17,10 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
 /**
@@ -213,5 +215,28 @@ public abstract class Spell {
 	
 	public boolean sideEffect(Player player, String[] args) {
 		return false;
+	}
+	
+	public Entity getTarget(Player player) {
+		BlockIterator iterator = new BlockIterator(player.getWorld(), player
+				.getLocation().toVector(), player.getEyeLocation()
+				.getDirection(), 0, 100);
+		while (iterator.hasNext()) {
+			Block item = iterator.next();
+			for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
+				int acc = 2;
+				for (int x = -acc; x < acc; x++) {
+					for (int z = -acc; z < acc; z++) {
+						for (int y = -acc; y < acc; y++) {
+							if (entity.getLocation().getBlock()
+									.getRelative(x, y, z).equals(item)) {
+								return entity;
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

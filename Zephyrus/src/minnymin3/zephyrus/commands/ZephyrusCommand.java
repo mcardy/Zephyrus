@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 public class ZephyrusCommand {
 	
 	public boolean hasPerm(CommandSender sender, String perm) {
-		if (sender.hasPermission(perm)) {
+		if (sender.hasPermission(perm) || sender.isOp()) {
 			return true;
 		}
 		return false;

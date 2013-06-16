@@ -7,6 +7,7 @@ import minnymin3.zephyrus.Zephyrus;
 import minnymin3.zephyrus.spells.Spell;
 import minnymin3.zephyrus.utils.PlayerConfigHandler;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -60,9 +61,10 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 											+ ChatColor.DARK_GRAY
 											+ spell.name());
 									ItemMeta m = i.getItemMeta();
+									m.setDisplayName("¤6Wand" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY + WordUtils.capitalizeFully(spell.name()));
 									m.setLore(list);
 									try {
-									i.setItemMeta(m);
+										i.setItemMeta(m);
 									} catch (Exception e) {}
 									i.addEnchantment(Zephyrus.sGlow, 1);
 									player.sendMessage(ChatColor.GRAY

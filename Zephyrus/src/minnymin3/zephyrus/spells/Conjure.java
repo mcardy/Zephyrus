@@ -1,6 +1,7 @@
 package minnymin3.zephyrus.spells;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
@@ -126,12 +127,16 @@ public class Conjure extends Spell {
 
 	@Override
 	public Set<ItemStack> spellItems() {
-		return null;
+		Set<ItemStack> s = new HashSet<ItemStack>();
+		s.add(new ItemStack(Material.DIAMOND, 4));
+		s.add(new ItemStack(Material.GOLD_INGOT, 8));
+		s.add(new ItemStack(Material.IRON_INGOT, 16));
+		return s;
 	}
 
 	@Override
 	public SpellType type() {
-		return null;
+		return SpellType.CONJURE;
 	}
 	
 	@Override

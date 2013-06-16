@@ -40,10 +40,12 @@ import minnymin3.zephyrus.spells.Butcher;
 import minnymin3.zephyrus.spells.Confuse;
 import minnymin3.zephyrus.spells.Conjure;
 import minnymin3.zephyrus.spells.Dig;
+import minnymin3.zephyrus.spells.Dispel;
 import minnymin3.zephyrus.spells.Enderchest;
 import minnymin3.zephyrus.spells.Explode;
 import minnymin3.zephyrus.spells.Feather;
 import minnymin3.zephyrus.spells.Feed;
+import minnymin3.zephyrus.spells.FireRing;
 import minnymin3.zephyrus.spells.Fireball;
 import minnymin3.zephyrus.spells.FlameStep;
 import minnymin3.zephyrus.spells.Flare;
@@ -53,6 +55,7 @@ import minnymin3.zephyrus.spells.Grow;
 import minnymin3.zephyrus.spells.Heal;
 import minnymin3.zephyrus.spells.Home;
 import minnymin3.zephyrus.spells.Jail;
+import minnymin3.zephyrus.spells.LifeSteal;
 import minnymin3.zephyrus.spells.Mana;
 import minnymin3.zephyrus.spells.Phase;
 import minnymin3.zephyrus.spells.Prospect;
@@ -87,6 +90,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Zephyrus extends JavaPlugin {
 
+	private static Zephyrus instance;
+	
 	ConfigHandler config = new ConfigHandler(this, "spells.yml");
 
 	public GlowEffect glow = new GlowEffect(120);
@@ -110,6 +115,7 @@ public class Zephyrus extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		instance = this;
 		saveDefaultConfig();
 		config.saveDefaultConfig();
 
@@ -162,6 +168,10 @@ public class Zephyrus extends JavaPlugin {
 		}
 		disableSpells();
 	}
+	
+	public static Zephyrus getInstance() {
+		return instance;
+	}
 
 	private void hook() {
 		if (PluginHook.worldGuard()) {
@@ -202,11 +212,13 @@ public class Zephyrus extends JavaPlugin {
 		new Confuse(this);
 		new Conjure(this);
 		new Dig(this);
+		new Dispel(this);
 		new Enderchest(this);
 		new Explode(this);
 		new Feather(this);
 		new Feed(this);
 		new Fireball(this);
+		new FireRing(this);
 		new FlameStep(this);
 		new Flare(this);
 		new Fly(this);
@@ -216,6 +228,7 @@ public class Zephyrus extends JavaPlugin {
 		new Heal(this);
 		new Home(this);
 		new Jail(this);
+		new LifeSteal(this);
 		new Mana(this);
 		new Phase(this);
 		new Prospect(this);

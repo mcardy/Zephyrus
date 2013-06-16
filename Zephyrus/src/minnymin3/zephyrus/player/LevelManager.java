@@ -267,7 +267,7 @@ public class LevelManager {
 					}
 					player.sendMessage(ChatColor.DARK_BLUE + "  ---===["
 							+ ChatColor.BLUE + "Level: " + level
-							+ ChatColor.DARK_BLUE + " -=- " + ChatColor.DARK_BLUE
+							+ ChatColor.DARK_BLUE + " -=- " + ChatColor.BLUE
 							+ "Progress: " + currentLevelProg + "/" + maxLevelProg
 							+ ChatColor.DARK_BLUE + "]===---");
 					player.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY

@@ -39,7 +39,7 @@ public class Level extends ZephyrusCommand implements CommandExecutor {
 					needOp(sender);
 				}
 			} else {
-				if (hasPerm(sender, "zephyrus.level.other") || isOp(sender)) {
+				if (hasPerm(sender, "zephyrus.level.other")) {
 					if (isOnline(args[0])) {
 						Player target = Bukkit.getServer().getPlayer(args[0]);
 						lvl.displayLevel(target);

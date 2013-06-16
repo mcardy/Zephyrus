@@ -41,13 +41,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Wand extends CustomItem {
 
-	LevelManager lvl;
-	PluginHook hook;
-
 	public Wand(Zephyrus plugin) {
 		super(plugin);
-		lvl = new LevelManager(plugin);
-		hook = new PluginHook();
 	}
 
 	@Override
@@ -56,8 +51,22 @@ public class Wand extends CustomItem {
 	}
 
 	public static ItemStack getItem() {
-		ItemStack i = new ItemStack(Material.STICK);
-		ItemMeta m = i.getItemMeta();
+		int id = Zephyrus.getInstance().getConfig().getInt("Wand-ID");
+		ItemStack i;
+		try {
+			i = new ItemStack(Material.getMaterial(id));
+		} catch (Exception e) {
+			i = new ItemStack(Material.STICK);
+		}
+		ItemMeta m;
+		try {
+			m = i.getItemMeta();
+			m.setDisplayName("¤6Wand");
+		} catch (Exception e) {
+			i = new ItemStack(Material.STICK);
+			m = i.getItemMeta();
+			m.setDisplayName("¤6Wand");
+		}
 		m.setDisplayName("¤6Wand");
 		List<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.GRAY + "Regular old default wand");
@@ -69,8 +78,19 @@ public class Wand extends CustomItem {
 
 	@Override
 	public ItemStack item() {
-		ItemStack i = new ItemStack(Material.STICK);
-		setItemName(i, this.name());
+		int id = Zephyrus.getInstance().getConfig().getInt("Wand-ID");
+		ItemStack i;
+		try {
+			i = new ItemStack(Material.getMaterial(id));
+		} catch (Exception e) {
+			i = new ItemStack(Material.STICK);
+		}
+		try {
+			setItemName(i, this.name());
+		} catch (Exception e) {
+			i = new ItemStack(Material.STICK);
+			setItemName(i, this.name());
+		}
 		ItemMeta m = i.getItemMeta();
 		List<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.GRAY + "Regular old default wand");
@@ -241,8 +261,10 @@ public class Wand extends CustomItem {
 	public void onBoundSpell(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR
 				|| e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (checkName(e.getItem(), this.name())) {
-				ItemStack i = e.getItem();
+			ItemStack i = e.getItem();
+			if (i != null && i.hasItemMeta()
+					&& i.getItemMeta().hasDisplayName()
+					&& i.getItemMeta().getDisplayName().contains(this.name())) {
 				String s = i
 						.getItemMeta()
 						.getLore()

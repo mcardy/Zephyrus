@@ -3,6 +3,8 @@ package minnymin3.zephyrus.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import minnymin3.zephyrus.Zephyrus;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -40,8 +42,12 @@ public class UnBind extends ZephyrusCommand implements CommandExecutor {
 						List<String> list = new ArrayList<String>();
 						list.add(ChatColor.GRAY + "Regular old default wand");
 						ItemMeta m = i.getItemMeta();
+						m.setDisplayName("¤6Wand");
 						m.setLore(list);
-						i.setItemMeta(m);
+						try {
+							i.setItemMeta(m);
+						} catch (Exception e) {}
+						i.addEnchantment(Zephyrus.sGlow, 1);
 						player.sendMessage("Unbound the spell from your wand!");
 					} else {
 						sender.sendMessage("There is no spell bound to that wand!");

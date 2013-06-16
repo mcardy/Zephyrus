@@ -45,13 +45,16 @@ LevelBalance: 80
 #If set to false, all custom recipes (except the wand) will be disabled
 Disable-Recipes: false
 
-#Disables the ability to craft spells with a wand
+#Disables the ability to craft spells with items on a bookshelf
 Disable-Spell-Crafting: false
 
 #Disables the wand's recipe. It can still be obtained with a BuyWand sign
 Disable-Wand-Recipe: false
 
-#Makes you earn spells when you levelup. Disabling spell crafting is recommended for this.
+#The item id of the wand
+Wand-ID: 280
+
+#Makes you earn spells when you levelup
 Levelup-Spells: false
 
 
@@ -63,5 +66,7 @@ Levelup-Spells: false
 #The configuration for Side Effects
 Enable-Side-Effects: true
 
-#The chance for side effects to occure. If set below 1, it will default to 1.
+#The chance for side effects to occure. 
+#This number is multiplied by the player's level and the chance is once in that number.
+#If set below 1, it will default to 1.
 Side-Effect-Chance: 3

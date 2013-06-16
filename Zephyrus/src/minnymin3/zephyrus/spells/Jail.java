@@ -17,7 +17,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.BlockIterator;
 
 /**
  * Zephyrus
@@ -115,7 +114,9 @@ public class Jail extends Spell {
 
 	@Override
 	public Set<ItemStack> spellItems() {
-		return null;
+		Set<ItemStack> s = new HashSet<ItemStack>();
+		s.add(new ItemStack(Material.IRON_FENCE, 64));
+		return s;
 	}
 
 	@Override
@@ -130,31 +131,6 @@ public class Jail extends Spell {
 				b.setData(mat.getData());
 			}
 		}
-	}
-
-	public Entity getTarget(Player player) {
-
-		BlockIterator iterator = new BlockIterator(player.getWorld(), player
-				.getLocation().toVector(), player.getEyeLocation()
-				.getDirection(), 0, 100);
-		Entity target = null;
-		while (iterator.hasNext()) {
-			Block item = iterator.next();
-			for (Entity entity : player.getNearbyEntities(100, 100, 100)) {
-				int acc = 2;
-				for (int x = -acc; x < acc; x++) {
-					for (int z = -acc; z < acc; z++) {
-						for (int y = -acc; y < acc; y++) {
-							if (entity.getLocation().getBlock()
-									.getRelative(x, y, z).equals(item)) {
-								return target = entity;
-							}
-						}
-					}
-				}
-			}
-		}
-		return target;
 	}
 
 	private class Reset extends BukkitRunnable {

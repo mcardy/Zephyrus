@@ -22,6 +22,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -132,22 +133,33 @@ public class PlayerListener extends ItemUtil implements Listener {
 		Player player = e.getPlayer();
 		if (!checkPlayer.exists()) {
 			List<String> l = new ArrayList<String>();
-			for (Spell spell : Zephyrus.spellMap.values()) {
-				if (spell.getLevel() == 1) {
-					List<String> learned = PlayerConfigHandler.getConfig(
-							plugin, player).getStringList("learned");
-					learned.add(spell.name());
-					PlayerConfigHandler.getConfig(plugin, player).set(
-							"learned", learned);
-					PlayerConfigHandler.saveConfig(plugin, player);
-					l.add(spell.name());
+			if (plugin.getConfig().getBoolean("Levelup-Spells")) {
+				for (Spell spell : Zephyrus.spellMap.values()) {
+					if (spell.getLevel() == 1) {
+						List<String> learned = PlayerConfigHandler.getConfig(
+								plugin, player).getStringList("learned");
+						learned.add(spell.name());
+						PlayerConfigHandler.getConfig(plugin, player).set(
+								"learned", learned);
+						PlayerConfigHandler.saveConfig(plugin, player);
+						l.add(spell.name());
+					}
 				}
 			}
 			PlayerConfigHandler.saveDefaultConfig(plugin, player);
-			PlayerConfigHandler.getConfig(plugin, player).set("Level", 1);
-			PlayerConfigHandler.getConfig(plugin, player).set("mana", 100);
-			PlayerConfigHandler.getConfig(plugin, player).set("learned", l);
-			PlayerConfigHandler.getConfig(plugin, player).set("progress", 0);
+			FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin, player);
+			if (!cfg.contains("Level")) {
+				PlayerConfigHandler.getConfig(plugin, player).set("Level", 1);
+			}
+			if (!cfg.contains("mana")) {
+				PlayerConfigHandler.getConfig(plugin, player).set("mana", 100);
+			}
+			if (!cfg.contains("learned")) {
+				PlayerConfigHandler.getConfig(plugin, player).set("learned", l);
+			}
+			if (!cfg.contains("progress")) {
+				PlayerConfigHandler.getConfig(plugin, player).set("progress", 0);
+			}
 			PlayerConfigHandler.saveConfig(plugin, player);
 		}
 	}
@@ -300,14 +312,17 @@ public class PlayerListener extends ItemUtil implements Listener {
 
 	@EventHandler
 	public void onSpellCast(PlayerCastSpellEvent e) {
-		if (plugin.getConfig().getBoolean("Enable-Side-Effects") || !plugin.getConfig().contains("Enable-Side-Effects")) {
-			int chanceMultiplier = plugin.getConfig().getInt("Side-Effect-Chance");
+		if (plugin.getConfig().getBoolean("Enable-Side-Effects")
+				|| !plugin.getConfig().contains("Enable-Side-Effects")) {
+			int chanceMultiplier = plugin.getConfig().getInt(
+					"Side-Effect-Chance");
 			if (chanceMultiplier < 1) {
 				chanceMultiplier = 1;
 			}
 			Random rand = new Random();
-			int chance = LevelManager.getLevel(e.getPlayer()) * chanceMultiplier;
-			if (rand.nextInt(chance) == 1) {
+			int chance = LevelManager.getLevel(e.getPlayer())
+					* chanceMultiplier;
+			if (rand.nextInt(chance) == 0) {
 				boolean b = e.getSpell().sideEffect(e.getPlayer(), e.getArgs());
 				if (b == true) {
 					e.setCancelled(true);

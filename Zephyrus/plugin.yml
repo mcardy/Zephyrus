@@ -4,13 +4,21 @@ version: 1.1.0
 author: minnymin3
 commands:
    levelup:
+      description: Levels up the specified player
    levelupitem:
+      description: Levels up the item in your hand
    cast:
+      description: Casts the specified spell if the caster knows it
    mana:
+      description: Displays your mana
    bind:
+      description: Binds a spell to a wand
    spelltome:
+      description: Gives you the spelltome of the designated spell
    level:
+      description: Shows your level progress
    unbind:
+      description: Allows you to unbind the spell from the wand
 permissions:
    zephyrus.bind:
       default: true
@@ -33,6 +41,9 @@ permissions:
    zephyrus.mana.other:
       default: op
       description: Allows access to the /mana [player] command.
+   zephyrus.mana.restore:
+      default: op
+      description: Allows access to the /mana restore command.
    zephyrus.level.other:
       default: op
       description: Allows access to the /level [player] command.

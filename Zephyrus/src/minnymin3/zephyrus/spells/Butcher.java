@@ -107,7 +107,7 @@ public class Butcher extends Spell {
 
 	@Override
 	public SpellType type() {
-		return SpellType.INJURY;
+		return SpellType.DAMAGE;
 	}
 	
 	@Override
