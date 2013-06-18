@@ -52,8 +52,8 @@ public class Conjure extends Spell {
 		int id;
 		byte data = 0;
 		int amount = 1;
-		if (args[1].contains(":")) {
-			String[] ids = args[1].split(":");
+		if (args[1].contains("\\:")) {
+			String[] ids = args[1].split("\\:");
 			id = Integer.parseInt(ids[0]);
 			data = Byte.parseByte(ids[1]);
 		} else {
@@ -76,8 +76,8 @@ public class Conjure extends Spell {
 	public boolean canRun(Player player, String[] args) {
 		if (!(args.length < 2)) {
 			int id = -1;
-			if (args[1].contains(":")) {
-				String[] ids = args[1].split(":");
+			if (args[1].contains("\\:")) {
+				String[] ids = args[1].split("\\:");
 				if (ids.length == 2) {
 					try {
 						id = Integer.parseInt(ids[0]);

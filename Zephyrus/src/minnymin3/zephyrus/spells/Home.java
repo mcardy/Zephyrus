@@ -124,5 +124,10 @@ public class Home extends Spell {
 	public SpellType type() {
 		return SpellType.TELEPORTATION;
 	}
+	
+	@Override
+	public boolean canBind() {
+		return false;
+	}
 
 }

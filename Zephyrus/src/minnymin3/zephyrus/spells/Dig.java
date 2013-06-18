@@ -7,7 +7,9 @@ import minnymin3.zephyrus.Zephyrus;
 import minnymin3.zephyrus.hooks.PluginHook;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -86,6 +88,32 @@ public class Dig extends Spell {
 	public boolean sideEffect(Player player, String[] args) {
 		player.getTargetBlock(null, 12).breakNaturally(null);
 		return true;
+	}
+	
+	@Override
+	public Set<SpellType> types() {
+		Set<SpellType> t = types();
+		t.add(SpellType.FIRE);
+		return t;
+	}
+	
+	@Override
+	public void comboSpell(Player player, String[] args, SpellType type, int level) {
+		Block block = player.getTargetBlock(null, 12);
+		Location loc = block.getLocation();
+		loc.setX(loc.getX() + 0.5);
+		loc.setY(loc.getY() + 0.5);
+		loc.setZ(loc.getZ() + 0.5);
+		if (block.getType() == Material.STONE) {
+			block.setType(Material.AIR);
+			block.getWorld().dropItemNaturally(loc, new ItemStack(Material.STONE, 1));
+		} else if (block.getType() == Material.SAND) {
+			block.getWorld().dropItemNaturally(loc, new ItemStack(Material.GLASS, 1));
+		} else if (block.getType() == Material.CLAY) {
+			block.getWorld().dropItemNaturally(loc, new ItemStack(Material.BRICK));
+		} else {
+			block.breakNaturally(new ItemStack(Material.DIAMOND_PICKAXE));
+		}
 	}
 
 }

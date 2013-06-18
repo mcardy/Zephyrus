@@ -51,7 +51,7 @@ public class Explode extends Spell {
 	public void run(Player player, String[] args) {
 		int r = getConfig().getInt(this.name() + ".power");
 		player.getWorld().createExplosion(
-				player.getTargetBlock(null, 200).getLocation(), r, true);
+				player.getTargetBlock(null, 200).getLocation(), r, false);
 	}
 
 	@Override
@@ -91,8 +91,32 @@ public class Explode extends Spell {
 	public boolean sideEffect(Player player, String[] args) {
 		int r = getConfig().getInt(this.name() + ".power");
 		player.getWorld().createExplosion(
-				player.getTargetBlock(null, 200).getLocation(), r * 2, true);
+				player.getTargetBlock(null, 200).getLocation(), r * 2, false);
 		return true;
+	}
+	
+	@Override
+	public Set<SpellType> types() {
+		Set<SpellType> t = types();
+		t.add(SpellType.FIRE);
+		t.add(SpellType.AIR);
+		return t;
+	}
+	
+	@Override
+	public void comboSpell(Player player, String[] args, SpellType type, int level) {
+		int r = getConfig().getInt(this.name() + ".power");
+		switch (type) {
+		case FIRE:
+			player.getWorld().createExplosion(
+					player.getTargetBlock(null, 200).getLocation(), r, true);
+			break;
+		case AIR:
+			player.getWorld().createExplosion(
+					player.getTargetBlock(null, 200).getLocation(), r * 2, true);
+			break;
+		default: break;
+		}
 	}
 
 }

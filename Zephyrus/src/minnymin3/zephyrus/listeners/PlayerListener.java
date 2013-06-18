@@ -132,10 +132,11 @@ public class PlayerListener extends ItemUtil implements Listener {
 				+ ".yml");
 		Player player = e.getPlayer();
 		if (!checkPlayer.exists()) {
+			FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin, player);
 			List<String> l = new ArrayList<String>();
 			if (plugin.getConfig().getBoolean("Levelup-Spells")) {
 				for (Spell spell : Zephyrus.spellMap.values()) {
-					if (spell.getLevel() == 1) {
+					if (spell.getLevel() == 1 && spell.isEnabled()) {
 						List<String> learned = PlayerConfigHandler.getConfig(
 								plugin, player).getStringList("learned");
 						learned.add(spell.name());
@@ -146,8 +147,10 @@ public class PlayerListener extends ItemUtil implements Listener {
 					}
 				}
 			}
+			if (cfg.contains("Level") && cfg.contains("mana") && cfg.contains("learned") && cfg.contains("progress")) {
+				return;
+			}
 			PlayerConfigHandler.saveDefaultConfig(plugin, player);
-			FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin, player);
 			if (!cfg.contains("Level")) {
 				PlayerConfigHandler.getConfig(plugin, player).set("Level", 1);
 			}

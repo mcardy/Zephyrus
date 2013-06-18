@@ -1,5 +1,6 @@
 package minnymin3.zephyrus.spells;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -156,6 +157,115 @@ public abstract class Spell {
 	}
 	
 	/**
+	 * Gets the mana cost from the config file.
+	 * @return The configured mana cost.
+	 */
+	public int getManaCost() {
+		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
+		int cost = cfg.getConfig().getInt(this.name() + ".mana");
+		return cost;
+	}
+	
+	/**
+	 * Gets the level from the config file.
+	 * @return The configured level.
+	 */
+	public int getLevel() {
+		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
+		int level = cfg.getConfig().getInt(this.name() + ".level");
+		return level;
+	}
+	
+	/**
+	 * Gets whether or not the spell is enabled from the config file.
+	 * @return Whether or not the spell is enabled.
+	 */
+	public boolean isEnabled() {
+		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
+		return cfg.getConfig().getBoolean(this.name() + ".enabled");
+	}
+	
+	/**
+	 * A list of configurations defined by the spell
+	 * @return The configurations
+	 */
+	public Map<String, Object> getConfigurations() {
+		return null;
+	}
+
+	/**
+	 * Gets the spell configuration
+	 * @return A FileConfiguration of the config
+	 */
+	public FileConfiguration getConfig() {
+		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
+		return cfg.getConfig();
+	}
+	
+	/**
+	 * A method for things to be done on the disabling of the plugin
+	 */
+	public void onDisable() {
+	}
+	
+	/**
+	 * A side effect that may occur while casting the spell
+	 * @param player The player who cast the spell
+	 * @param args The arguments passed through the command
+	 * @return True if the spell should be cancelled, false otherwise.
+	 */
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
+	}
+	
+	/**
+	 * The compatible spell types. Combo spells should be able to handle all the given types.
+	 * @return A list of compatible spell types
+	 */
+	public Set<SpellType> types() {
+		Set<SpellType> types = new HashSet<SpellType>();
+		return types;
+	}
+	
+	/**
+	 * The effects of the combo spell
+	 * @param player The caster
+	 * @param args The argument
+	 * @param type The SpellType of spell being cast
+	 * @param level The combined level of the combo spell spells
+	 */
+	public void comboSpell(Player player, String[] args, SpellType type, int level) {
+	}
+	
+	/**
+	 * Get the target entity of the player
+	 * @param player The player
+	 * @return The entity the player is looking at.
+	 */
+	public Entity getTarget(Player player) {
+		BlockIterator iterator = new BlockIterator(player.getWorld(), player
+				.getLocation().toVector(), player.getEyeLocation()
+				.getDirection(), 0, 100);
+		while (iterator.hasNext()) {
+			Block item = iterator.next();
+			for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
+				int acc = 2;
+				for (int x = -acc; x < acc; x++) {
+					for (int z = -acc; z < acc; z++) {
+						for (int y = -acc; y < acc; y++) {
+							if (entity.getLocation().getBlock()
+									.getRelative(x, y, z).equals(item)) {
+								return entity;
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * The method for destroying a bookshelf and dropping a spelltome
 	 */
 	public void dropSpell(Block bookshelf, String name, String desc, Player player) {
@@ -181,62 +291,5 @@ public abstract class Spell {
 					loc, 0, 0, 0, 1, 30);
 			loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 3, 12);
 		} catch (Exception e) {}
-	}
-	
-	public int getManaCost() {
-		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
-		int cost = cfg.getConfig().getInt(this.name() + ".mana");
-		return cost;
-	}
-	
-	public int getLevel() {
-		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
-		int level = cfg.getConfig().getInt(this.name() + ".level");
-		return level;
-	}
-	
-	public boolean isEnabled() {
-		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
-		return cfg.getConfig().getBoolean(this.name() + ".enabled");
-	}
-	
-	public Map<String, Object> getConfigurations() {
-		return null;
-	}
-
-	public FileConfiguration getConfig() {
-		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
-		return cfg.getConfig();
-	}
-	
-	
-	public void onDisable() {
-	}
-	
-	public boolean sideEffect(Player player, String[] args) {
-		return false;
-	}
-	
-	public Entity getTarget(Player player) {
-		BlockIterator iterator = new BlockIterator(player.getWorld(), player
-				.getLocation().toVector(), player.getEyeLocation()
-				.getDirection(), 0, 100);
-		while (iterator.hasNext()) {
-			Block item = iterator.next();
-			for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
-				int acc = 2;
-				for (int x = -acc; x < acc; x++) {
-					for (int z = -acc; z < acc; z++) {
-						for (int y = -acc; y < acc; y++) {
-							if (entity.getLocation().getBlock()
-									.getRelative(x, y, z).equals(item)) {
-								return entity;
-							}
-						}
-					}
-				}
-			}
-		}
-		return null;
 	}
 }

@@ -2,6 +2,7 @@ package minnymin3.zephyrus.spells;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 /**
  * Zephyrus
@@ -38,7 +40,8 @@ public class Butcher extends Spell {
 	@Override
 	public String bookText() {
 		int r = getConfig().getInt(this.name() + ".radius");
-		return "Brutally murders all creatures within a " + r + " block radius!";
+		return "Brutally murders all creatures within a " + r
+				+ " block radius!";
 	}
 
 	@Override
@@ -59,14 +62,17 @@ public class Butcher extends Spell {
 	@Override
 	public void run(Player player, String[] args) {
 		int r = getConfig().getInt(this.name() + ".radius");
-		LivingEntity[] e = getNearbyEntities(player.getLocation(), r);
-		for (LivingEntity entity : e) {
-			if (entity instanceof Player) {
-				entity.damage(10, player);
-			} else if (entity instanceof EnderDragon) {
-				entity.damage(20, player);
-			} else {
-				entity.damage(50, player);
+		List<Entity> e = player.getNearbyEntities(r, r, r);
+		for (Entity en : e) {
+			if (en instanceof LivingEntity) {
+				LivingEntity entity = (LivingEntity) en;
+				if (entity instanceof Player) {
+					entity.damage(10, player);
+				} else if (entity instanceof EnderDragon) {
+					entity.damage(20, player);
+				} else {
+					entity.damage(50, player);
+				}
 			}
 		}
 	}
@@ -84,37 +90,64 @@ public class Butcher extends Spell {
 		map.put("radius", 5);
 		return map;
 	}
-	
-	public static LivingEntity[] getNearbyEntities(Location l, int radius) {
-		int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
-		HashSet<LivingEntity> radiusEntities = new HashSet<LivingEntity>();
-		for (int chX = 0 - chunkRadius; chX <= chunkRadius; chX++) {
-			for (int chZ = 0 - chunkRadius; chZ <= chunkRadius; chZ++) {
-				int x = (int) l.getX(), y = (int) l.getY(), z = (int) l.getZ();
-				for (Entity e : new Location(l.getWorld(), x + (chX * 16), y, z
-						+ (chZ * 16)).getChunk().getEntities()) {
-					if (e.getLocation().distance(l) <= radius
-							&& e.getLocation().getBlock() != l.getBlock()) {
-						if (e instanceof LivingEntity) {
-							radiusEntities.add((LivingEntity) e);
-						}
-					}
-				}
-			}
-		}
-		return radiusEntities.toArray(new LivingEntity[radiusEntities.size()]);
-	}
 
 	@Override
 	public SpellType type() {
 		return SpellType.DAMAGE;
 	}
-	
+
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		Random rand = new Random();
 		player.damage(rand.nextInt(4));
 		return false;
+	}
+
+	@Override
+	public Set<SpellType> types() {
+		Set<SpellType> t = types();
+		t.add(SpellType.AIR);
+		t.add(SpellType.RESTORE);
+		t.add(SpellType.FIRE);
+		t.add(SpellType.TELEPORTATION);
+		return t;
+	}
+
+	@Override
+	public void comboSpell(Player player, String[] args, SpellType type, int level) {
+		int r = getConfig().getInt(this.name() + ".radius");
+		List<Entity> e = player.getNearbyEntities(r, r, r);
+		switch (type) {
+		case AIR:
+			for (Entity en : e) {
+				if (en instanceof LivingEntity) {
+					en.setVelocity(new Vector(0, level, 0));
+				}
+			}
+		case FIRE: 
+			for (Entity en : e) {
+				if (en instanceof LivingEntity) {
+					en.setFireTicks(level * 8);
+				}
+			}
+		case RESTORE:
+			for (Entity en : e) {
+				if (en instanceof LivingEntity) {
+					LivingEntity ent = (LivingEntity) en;
+					ent.setHealth(ent.getMaxHealth());
+				}
+			}
+		case TELEPORTATION:
+			for (Entity en : e) {
+				if (en instanceof LivingEntity) {
+					Location loc = en.getLocation();
+					loc.setY(loc.getY() + level * 4);
+					en.teleport(loc);
+				}
+			}
+		default:
+			break;
+		}
 	}
 
 }
