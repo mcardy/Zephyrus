@@ -7,12 +7,20 @@ import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType.SlotType;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Zephyrus
@@ -50,6 +58,7 @@ public class Armour extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
+		int time = getConfig().getInt(this.name() + ".delay");
 		ItemStack helm = new ItemStack(Material.GOLD_HELMET);
 		ItemStack chest = new ItemStack(Material.GOLD_CHESTPLATE);
 		ItemStack legs = new ItemStack(Material.GOLD_LEGGINGS);
@@ -64,17 +73,39 @@ public class Armour extends Spell {
 		player.getInventory().setLeggings(legs);
 		player.getInventory().setChestplate(chest);
 		player.getInventory().setHelmet(helm);
-		new RemoveArmour(player).runTaskLater(plugin, 12000);
+		startDelay(player, time * 20);
+		playerMap.add(player.getName());
+		player.sendMessage("" + time);
 		player.sendMessage(ChatColor.GOLD
 				+ "Your skin feels hardened with magic and gold!");
 	}
 
 	@Override
-	public Map<String, Object> getConfigurations() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		return map;
+	public void delayedAction(Player player) {
+		player.getInventory().setBoots(null);
+		player.getInventory().setHelmet(null);
+		player.getInventory().setChestplate(null);
+		player.getInventory().setLeggings(null);
+		if (player.isOnline()) {
+			playerMap.remove(player.getName());
+		}
+	}
+
+	@Override
+	public void onDisable() {
+		for (String s : playerMap) {
+			Player player = Bukkit.getPlayer(s);
+			delayedAction(player);
+		}
 	}
 	
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("delay", 60);
+		return map;
+	}
+
 	@Override
 	public boolean canRun(Player player, String[] args) {
 		if (player.getInventory().getHelmet() == null
@@ -101,23 +132,57 @@ public class Armour extends Spell {
 		return i;
 	}
 
-	private class RemoveArmour extends BukkitRunnable {
-
-		Player player;
-
-		RemoveArmour(Player player) {
-			this.player = player;
-		}
-
-		@Override
-		public void run() {
-			player.getInventory().setArmorContents(null);
-		}
-	}
-
 	@Override
 	public SpellType type() {
 		return SpellType.CONJURE;
 	}
 
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent e) {
+		if (e.getSlotType() == SlotType.ARMOR
+				&& playerMap.contains(e.getWhoClicked().getName())) {
+			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent e) {
+		if (playerMap.contains(e.getPlayer().getName())) {
+			delayedAction(e.getPlayer());
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerKick(PlayerKickEvent e) {
+		if (playerMap.contains(e.getPlayer().getName())) {
+			delayedAction(e.getPlayer());
+		}
+	}
+
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent e) {
+		for (ItemStack i : e.getDrops()) {
+			if (i.hasItemMeta()
+					&& i.getItemMeta().hasDisplayName()
+					&& i.getItemMeta().getDisplayName()
+							.equalsIgnoreCase("¤6Magic Armour")) {
+				e.getDrops().remove(i);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onDamage(EntityDamageEvent e) {
+		if (e.getEntity() instanceof Player && e.getCause() != DamageCause.VOID) {
+			Player player = (Player) e.getEntity();
+			if (player.getInventory().getBoots() != null
+					&& player.getInventory().getBoots().hasItemMeta()
+					&& player.getInventory().getBoots().getItemMeta()
+							.hasDisplayName()
+					&& player.getInventory().getBoots().getItemMeta()
+							.getDisplayName().equals("¤6Magic Armour")) {
+				e.setCancelled(true);
+			}
+		}
+	}
 }

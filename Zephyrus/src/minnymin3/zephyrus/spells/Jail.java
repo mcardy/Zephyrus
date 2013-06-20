@@ -10,11 +10,14 @@ import minnymin3.zephyrus.Zephyrus;
 import minnymin3.zephyrus.hooks.PluginHook;
 import minnymin3.zephyrus.utils.BlockData;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -154,6 +157,21 @@ public class Jail extends Spell {
 	@Override
 	public SpellType type() {
 		return SpellType.CONJURE;
+	}
+	
+	@EventHandler
+	public void onBreakJail(BlockBreakEvent e) {
+		if (e.getPlayer() != null) {
+			Block b = e.getBlock();
+			if (b.getType() == Material.IRON_FENCE
+					|| b.getType() == Material.IRON_BLOCK) {
+				if (b.getData() == 12) {
+					e.setCancelled(true);
+					e.getPlayer().sendMessage(
+							ChatColor.GRAY + "You cannot break jail blocks!");
+				}
+			}
+		}
 	}
 
 }

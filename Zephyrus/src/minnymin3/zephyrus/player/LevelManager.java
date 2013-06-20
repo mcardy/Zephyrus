@@ -40,7 +40,7 @@ public class LevelManager {
 		int current = PlayerConfigHandler.getConfig(plugin, player).getInt(
 				"Level");
 		current = current + 1;
-		PlayerConfigHandler.getConfig(plugin, player).set("Level", current);
+		cfg.set("Level", current);
 		PlayerConfigHandler.saveConfig(plugin, player, cfg);
 		Zephyrus.mana.put(player.getName(), current * 100);
 		player.sendMessage(ChatColor.AQUA + "You leveled up to level "

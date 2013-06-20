@@ -1,6 +1,7 @@
 package minnymin3.zephyrus;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -75,6 +76,7 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -206,6 +208,7 @@ public class Zephyrus extends JavaPlugin {
 		for (Spell spell : spellMap.values()) {
 			spell.onDisable();
 		}
+		instance = null;
 	}
 	
 	private void addSpells() {
@@ -299,7 +302,10 @@ public class Zephyrus extends JavaPlugin {
 			if (spell.spellItems() != null
 					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
 				Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
-
+			}
+			if (isListener(spell) && !spell.listenerEnabled) {
+				getServer().getPluginManager().registerEvents(spell, this);
+				spell.listenerEnabled = true;
 			}
 		} else {
 			if (spell.name() != null
@@ -314,6 +320,15 @@ public class Zephyrus extends JavaPlugin {
 		}
 	}
 
+	private boolean isListener(Spell spell) {
+		for (Method m : spell.getClass().getMethods()) {
+			if (m.isAnnotationPresent(EventHandler.class)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private class PostInit extends BukkitRunnable {
 		@Override
 		public void run() {

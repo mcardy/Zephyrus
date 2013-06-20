@@ -20,7 +20,9 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
@@ -32,13 +34,16 @@ import org.bukkit.util.Vector;
  * 
  */
 
-public abstract class Spell {
+public abstract class Spell implements Listener {
 
 	public Zephyrus plugin;
+	public boolean listenerEnabled;
+	public Set<String> playerMap;
 	
 	public Spell(Zephyrus plugin) {
 		this.plugin = plugin;
 		plugin.addSpell(this);
+		playerMap = new HashSet<String>();
 	}
 
 	/**
@@ -207,6 +212,13 @@ public abstract class Spell {
 	public void onDisable() {
 	}
 	
+	public void delayedAction(Player player) {
+	}
+	
+	public void startDelay(Player player, int time) {
+		new DelayedActionRunnable(this, player, time);
+	}
+	
 	/**
 	 * A side effect that may occur while casting the spell
 	 * @param player The player who cast the spell
@@ -290,5 +302,21 @@ public abstract class Spell {
 					loc, 0, 0, 0, 1, 30);
 			loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 3, 12);
 		} catch (Exception e) {}
+	}
+	
+	private class DelayedActionRunnable extends BukkitRunnable {
+		
+		Player player;
+		Spell spell;
+		
+		DelayedActionRunnable(Spell spell, Player player, int time) {
+			this.spell = spell;
+			this.player = player;
+			this.runTaskLater(Zephyrus.getInstance(), time);
+		}
+		
+		public void run() {
+			spell.delayedAction(player);
+		}
 	}
 }
