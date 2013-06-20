@@ -93,7 +93,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class Zephyrus extends JavaPlugin {
 
 	private static Zephyrus instance;
-	
+
 	ConfigHandler config = new ConfigHandler(this, "spells.yml");
 
 	public GlowEffect glow = new GlowEffect(120);
@@ -170,9 +170,10 @@ public class Zephyrus extends JavaPlugin {
 		}
 		disableSpells();
 	}
-	
+
 	/**
 	 * An instance of Zephyrus defined onEnable
+	 * 
 	 * @return An instance of Zephyrus
 	 */
 	public static Zephyrus getInstance() {
@@ -201,6 +202,7 @@ public class Zephyrus extends JavaPlugin {
 			new ManaPotion(this);
 			new RodOfFire(this);
 		}
+		new ManaPotion(this);
 		new Wand(this);
 	}
 
@@ -210,7 +212,7 @@ public class Zephyrus extends JavaPlugin {
 		}
 		instance = null;
 	}
-	
+
 	private void addSpells() {
 		new Armour(this);
 		new Blink(this);
@@ -328,7 +330,7 @@ public class Zephyrus extends JavaPlugin {
 		}
 		return false;
 	}
-	
+
 	private class PostInit extends BukkitRunnable {
 		@Override
 		public void run() {
@@ -351,34 +353,32 @@ public class Zephyrus extends JavaPlugin {
 			} catch (Exception e) {
 				getLogger().warning(e.getMessage());
 			}
-			
+
 			for (Spell spell : spellMap.values()) {
 				if (!config.getConfig().contains(spell.name() + ".enabled")) {
-					if (spell instanceof Armour) {
-						config.getConfig().set(spell.name() + ".enabled", false);
-					} else {
-						config.getConfig().set(spell.name() + ".enabled", true);
-					}
+					config.getConfig().set(spell.name() + ".enabled", true);
 				}
 				if (!config.getConfig().contains(spell.name() + ".mana")) {
-					config.getConfig()
-							.set(spell.name() + ".mana", spell.manaCost());
+					config.getConfig().set(spell.name() + ".mana",
+							spell.manaCost());
 				}
 				if (!config.getConfig().contains("level")) {
-					config.getConfig()
-					.set(spell.name() + ".level", spell.reqLevel());
+					config.getConfig().set(spell.name() + ".level",
+							spell.reqLevel());
 				}
 				if (spell.getConfigurations() != null) {
 					Map<String, Object> cfg = spell.getConfigurations();
 					for (String str : cfg.keySet()) {
-						if (!config.getConfig().contains(spell.name() + "." + str)) {
-							config.getConfig().set(spell.name() + "." + str, cfg.get(str));
+						if (!config.getConfig().contains(
+								spell.name() + "." + str)) {
+							config.getConfig().set(spell.name() + "." + str,
+									cfg.get(str));
 						}
 					}
 				}
 				config.saveConfig();
 			}
-			
+
 			try {
 				for (String s : update) {
 					if (s != null) {
@@ -393,7 +393,7 @@ public class Zephyrus extends JavaPlugin {
 				int a = spellMap.size() - builtInSpells;
 				added = " " + a + " external spells registered. ";
 			}
-			
+
 			getLogger().info("Loaded " + spellMap.size() + " spells." + added);
 		}
 	}

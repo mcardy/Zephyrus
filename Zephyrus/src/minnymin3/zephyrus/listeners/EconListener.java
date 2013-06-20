@@ -42,13 +42,15 @@ public class EconListener implements Listener {
 		if (PluginHook.economy()) {
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Material type = e.getClickedBlock().getType();
-				if (type == Material.SIGN || type == Material.SIGN_POST || type == Material.WALL_SIGN) {
+				if (type == Material.SIGN || type == Material.SIGN_POST
+						|| type == Material.WALL_SIGN) {
 					Sign s = (Sign) e.getClickedBlock().getState();
 					if (s.getLine(0).equals(ChatColor.DARK_AQUA + "[BuySpell]")) {
 						if (e.getPlayer().hasPermission("zephyrus.buy")) {
 							double cost = Double.parseDouble(s.getLine(1)
 									.replace("$", "").replace("¤6", ""));
-							if (PluginHook.econ.getBalance(e.getPlayer().getName()) >= cost) {
+							if (PluginHook.econ.getBalance(e.getPlayer()
+									.getName()) >= cost) {
 								Spell spell = Zephyrus.spellMap.get(s
 										.getLine(2).toLowerCase()
 										.replace("¤4", ""));
@@ -58,8 +60,8 @@ public class EconListener implements Listener {
 											.getLevel())) {
 										SpellTome tome = new SpellTome(plugin,
 												spell.name(), spell.bookText());
-										PluginHook.econ.withdrawPlayer(e.getPlayer()
-												.getName(), cost);
+										PluginHook.econ.withdrawPlayer(e
+												.getPlayer().getName(), cost);
 										e.getPlayer().getInventory()
 												.addItem(tome.item());
 										e.getPlayer().updateInventory();
@@ -81,11 +83,13 @@ public class EconListener implements Listener {
 										ChatColor.RED + "Insufficient funds!");
 							}
 						}
-					} else if (s.getLine(0).equals(ChatColor.DARK_AQUA + "[BuyWand]")) {
+					} else if (s.getLine(0).equals(
+							ChatColor.DARK_AQUA + "[BuyWand]")) {
 						if (e.getPlayer().hasPermission("zephyrus.buy")) {
 							double cost = Double.parseDouble(s.getLine(1)
 									.replace("$", "").replace("¤6", ""));
-							if (PluginHook.econ.getBalance(e.getPlayer().getName()) >= cost) {
+							if (PluginHook.econ.getBalance(e.getPlayer()
+									.getName()) >= cost) {
 								PluginHook.econ.withdrawPlayer(e.getPlayer()
 										.getName(), cost);
 								ItemStack wand = Wand.getItem();
@@ -123,7 +127,8 @@ public class EconListener implements Listener {
 						player.sendMessage("Invalid Spell!");
 						return;
 					}
-					Spell spell = Zephyrus.spellMap.get(e.getLine(2));
+					Spell spell = Zephyrus.spellMap.get(e.getLine(2)
+							.toLowerCase());
 					if (!spell.isEnabled()) {
 						player.sendMessage("That spell is disabled!");
 						return;
