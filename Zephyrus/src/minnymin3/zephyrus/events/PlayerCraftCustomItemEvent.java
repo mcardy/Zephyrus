@@ -31,14 +31,26 @@ public class PlayerCraftCustomItemEvent extends Event implements Cancellable {
 		this.e = e;
 	}
 	
+	/**
+	 * The humans crafting the item
+	 * @return
+	 */
 	public List<HumanEntity> getPlayers() {
 		return player;
 	}
 	
+	/**
+	 * Gets the event of crafting the item
+	 * @return
+	 */
 	public PrepareItemCraftEvent getPrepareItemCraft() {
 		return e;
 	}
 	
+	/**
+	 * Gets the item being crafted
+	 * @return
+	 */
 	public CustomItem getItem() {
 		return item;
 	}

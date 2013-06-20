@@ -97,7 +97,7 @@ public class Home extends Spell {
 		cfg.set("spell.home.yaw", loc.getYaw());
 		cfg.set("spell.home.pitch", loc.getPitch());
 		cfg.set("spell.home.world", loc.getWorld().getName());
-		PlayerConfigHandler.saveConfig(plugin, player);
+		PlayerConfigHandler.saveConfig(plugin, player, cfg);
 	}
 
 	private boolean isHomeSet(Player player) {

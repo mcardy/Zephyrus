@@ -26,10 +26,18 @@ public class PlayerCraftSpellEvent extends Event implements Cancellable {
 		this.spell = spell;
 	}
 	
+	/**
+	 * Gets the player who is crafting the spell
+	 * @return The Crafter
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * Gets the spell that is being crafted
+	 * @return The spell
+	 */
 	public Spell getSpell() {
 		return spell;
 	}

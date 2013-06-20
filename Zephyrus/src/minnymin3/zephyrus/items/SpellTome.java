@@ -12,6 +12,7 @@ import minnymin3.zephyrus.utils.PlayerConfigHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -87,9 +88,8 @@ public class SpellTome extends ItemUtil implements Listener {
 				if (Zephyrus.spellMap.containsKey(s)) {
 					Spell spell = Zephyrus.spellMap.get(s);
 					Player player = e.getPlayer();
-					PlayerConfigHandler.reloadConfig(plugin, e.getPlayer());
-					if (!PlayerConfigHandler.getConfig(plugin, player)
-							.getStringList("learned").contains(spell.name())) {
+					FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin, player);
+					if (!cfg.getStringList("learned").contains(spell.name())) {
 						PlayerLearnSpellEvent event = new PlayerLearnSpellEvent(
 								player, spell);
 						Bukkit.getServer().getPluginManager().callEvent(event);
@@ -98,13 +98,12 @@ public class SpellTome extends ItemUtil implements Listener {
 									.getConfig(plugin, player).getStringList(
 											"learned");
 							learned.add(spell.name());
-							PlayerConfigHandler.getConfig(plugin, player).set(
-									"learned", learned);
+							cfg.set("learned", learned);
 							e.getPlayer().sendMessage(
 									"You have successfully learned "
 											+ ChatColor.GOLD + spell.name());
 							e.getPlayer().setItemInHand(null);
-							PlayerConfigHandler.saveConfig(plugin, player);
+							PlayerConfigHandler.saveConfig(plugin, player, cfg);
 						}
 					} else {
 						e.getPlayer().sendMessage(

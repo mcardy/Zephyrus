@@ -55,6 +55,10 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 		return handlers;
 	}
 	
+	/**
+	 * Gets the arguments used to cast the spell. Null if cast from a wand or a spellbook
+	 * @return
+	 */
 	public String[] getArgs() {
 		return args;
 	}

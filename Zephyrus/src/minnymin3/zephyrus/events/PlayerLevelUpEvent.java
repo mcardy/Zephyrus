@@ -22,10 +22,18 @@ public class PlayerLevelUpEvent extends Event {
 		this.level = level;
 	}
 	
+	/**
+	 * Gets the player who is leveling up
+	 * @return The leveling player
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * Gets the level that the player is leveling up to
+	 * @return An int
+	 */
 	public int getLevel() {
 		return level;
 	}

@@ -78,7 +78,7 @@ public class FireRing extends Spell {
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
-		s.add(new ItemStack(Material.FLINT_AND_STEEL));
+		s.add(new ItemStack(Material.FLINT_AND_STEEL, 4));
 		return s;
 	}
 

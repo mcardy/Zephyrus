@@ -119,7 +119,6 @@ public abstract class Spell {
 	 * @return False if the spell is not learned
 	 */
 	public boolean isLearned(Player p, String name) {
-		PlayerConfigHandler.reloadConfig(plugin, p);
 		if (PlayerConfigHandler.getConfig(plugin, p).getStringList("learned")
 				.contains(name)) {
 			return true;

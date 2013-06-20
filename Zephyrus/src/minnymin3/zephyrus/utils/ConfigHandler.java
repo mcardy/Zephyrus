@@ -26,11 +26,19 @@ public class ConfigHandler {
 	File configFile;
 	FileConfiguration fileConfiguration;
 
+	/**
+	 * Creates a configuration instance
+	 * @param plugin Zephyrus instance
+	 * @param fileName The name of the file containing .yml
+	 */
 	public ConfigHandler(Zephyrus plugin, String fileName) {
 		this.plugin = plugin;
 		this.fileName = fileName;
 	}
 
+	/**
+	 * Reloads the configuration from the file
+	 */
 	public void reloadConfig() {
 		if (configFile == null) {
 			File dataFolder = plugin.getDataFolder();
@@ -49,6 +57,10 @@ public class ConfigHandler {
 		}
 	}
 
+	/**
+	 * Gets the FileConfiguration of the config object
+	 * @return A FileConfiguration of the object
+	 */
 	public FileConfiguration getConfig() {
 		if (fileConfiguration == null) {
 			this.reloadConfig();
@@ -56,6 +68,9 @@ public class ConfigHandler {
 		return fileConfiguration;
 	}
 
+	/**
+	 * Saves the config from saved instance's FileConfiguration
+	 */
 	public void saveConfig() {
 		File dataFolder = plugin.getDataFolder();
 		if (dataFolder == null) {
@@ -74,6 +89,9 @@ public class ConfigHandler {
 		}
 	}
 
+	/**
+	 * Saves a default config from an embedded resource
+	 */
 	public void saveDefaultConfig() {
 		File dataFolder = plugin.getDataFolder();
 		if (dataFolder == null) {

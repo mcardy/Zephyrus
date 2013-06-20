@@ -1,7 +1,6 @@
 package minnymin3.zephyrus.listeners;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,38 +131,36 @@ public class PlayerListener extends ItemUtil implements Listener {
 				+ ".yml");
 		Player player = e.getPlayer();
 		if (!checkPlayer.exists()) {
-			FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin, player);
-			List<String> l = new ArrayList<String>();
-			if (plugin.getConfig().getBoolean("Levelup-Spells")) {
-				for (Spell spell : Zephyrus.spellMap.values()) {
-					if (spell.getLevel() == 1 && spell.isEnabled()) {
-						List<String> learned = PlayerConfigHandler.getConfig(
-								plugin, player).getStringList("learned");
-						learned.add(spell.name());
-						PlayerConfigHandler.getConfig(plugin, player).set(
-								"learned", learned);
-						PlayerConfigHandler.saveConfig(plugin, player);
-						l.add(spell.name());
-					}
-				}
-			}
-			if (cfg.contains("Level") && cfg.contains("mana") && cfg.contains("learned") && cfg.contains("progress")) {
+			FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin,
+					player);
+			if (cfg.contains("Level") && cfg.contains("mana")
+					&& cfg.contains("learned") && cfg.contains("progress")) {
 				return;
 			}
 			PlayerConfigHandler.saveDefaultConfig(plugin, player);
-			if (!cfg.contains("Level")) {
-				PlayerConfigHandler.getConfig(plugin, player).set("Level", 1);
+			if (!cfg.contains("Level") || cfg == null) {
+				cfg.set("Level", 1);
 			}
-			if (!cfg.contains("mana")) {
-				PlayerConfigHandler.getConfig(plugin, player).set("mana", 100);
+			if (!cfg.contains("mana") || cfg == null) {
+				cfg.set("mana", 100);
 			}
-			if (!cfg.contains("learned")) {
-				PlayerConfigHandler.getConfig(plugin, player).set("learned", l);
+			if (plugin.getConfig().getBoolean("Levelup-Spells")) {
+				for (Spell spell : Zephyrus.spellMap.values()) {
+					if (spell.getLevel() == 1 && spell.isEnabled()) {
+						List<String> learned = cfg.getStringList("learned");
+						learned.add(spell.name());
+						cfg.set("learned", learned);
+					}
+				}
+			} else {
+				if (!cfg.contains("learned") || cfg == null) {
+					cfg.set("learned", "[]");
+				}
 			}
-			if (!cfg.contains("progress")) {
-				PlayerConfigHandler.getConfig(plugin, player).set("progress", 0);
+			if (!cfg.contains("progress") || cfg == null) {
+				cfg.set("progress", 0);
 			}
-			PlayerConfigHandler.saveConfig(plugin, player);
+			PlayerConfigHandler.saveConfig(plugin, player, cfg);
 		}
 	}
 

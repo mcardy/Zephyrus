@@ -26,10 +26,18 @@ public class PlayerLearnSpellEvent extends Event implements Cancellable {
 		this.spell = spell;
 	}
 	
+	/**
+	 * Gets the player who is learning the spell via SpellTome
+	 * @return The Learner
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * Gets the spell being learned
+	 * @return A spell
+	 */
 	public Spell getSpell() {
 		return spell;
 	}

@@ -169,6 +169,10 @@ public class Zephyrus extends JavaPlugin {
 		disableSpells();
 	}
 	
+	/**
+	 * An instance of Zephyrus defined onEnable
+	 * @return An instance of Zephyrus
+	 */
 	public static Zephyrus getInstance() {
 		return instance;
 	}

@@ -12,6 +12,7 @@ import minnymin3.zephyrus.spells.Spell;
 import minnymin3.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -61,17 +62,18 @@ public class LevelingListener implements Listener {
 		if (plugin.getConfig().getBoolean("Levelup-Spells")) {
 			Player player = e.getPlayer();
 			List<String> l = new ArrayList<String>();
-			List<String> learned = PlayerConfigHandler.getConfig(
-					plugin, player).getStringList("learned");
+			List<String> learned = PlayerConfigHandler
+					.getConfig(plugin, player).getStringList("learned");
 			for (Spell spell : Zephyrus.spellMap.values()) {
 				if (spell.getLevel() == e.getLevel()) {
 					learned.add(spell.name());
 					l.add(spell.name());
 				}
 			}
-			PlayerConfigHandler.getConfig(plugin, player).set(
-					"learned", learned);
-			PlayerConfigHandler.saveConfig(plugin, player);
+			FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin,
+					player);
+			cfg.set("learned", learned);
+			PlayerConfigHandler.saveConfig(plugin, player, cfg);
 			StringBuilder sb = new StringBuilder();
 			Iterator<String> it = l.iterator();
 			while (it.hasNext()) {
@@ -86,9 +88,11 @@ public class LevelingListener implements Listener {
 			}
 			String str = sb.toString();
 			if (str.equals("") || sb.length() == 0) {
-				player.sendMessage(ChatColor.AQUA + "You have learned no new spells");
+				player.sendMessage(ChatColor.AQUA
+						+ "You have learned no new spells");
 			} else {
-				player.sendMessage(ChatColor.AQUA + "You have learned" + ChatColor.DARK_AQUA + str.replaceFirst(",", ""));
+				player.sendMessage(ChatColor.AQUA + "You have learned"
+						+ ChatColor.DARK_AQUA + str.replaceFirst(",", ""));
 			}
 		}
 	}
