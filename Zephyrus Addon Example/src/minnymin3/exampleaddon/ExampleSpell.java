@@ -5,6 +5,7 @@ import java.util.Set;
 
 import minnymin3.zephyrus.Zephyrus;
 import minnymin3.zephyrus.spells.Spell;
+import minnymin3.zephyrus.spells.SpellType;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -78,6 +79,11 @@ public class ExampleSpell extends Spell {
 		ItemStack item = new ItemStack(Material.APPLE);
 		items.add(item);
 		return items;
+	}
+
+	@Override
+	public SpellType type() {
+		return SpellType.RESTORE;
 	}
 	
 }

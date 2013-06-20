@@ -6,6 +6,7 @@ import java.util.Set;
 import minnymin3.zephyrus.Zephyrus;
 import minnymin3.zephyrus.hooks.PluginHook;
 import minnymin3.zephyrus.spells.Spell;
+import minnymin3.zephyrus.spells.SpellType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -75,6 +76,11 @@ public class ExampleWorldGuardSpell extends Spell {
 	public String failMessage() {
 		//The message sent to the player when canBuild returns false
 		return ChatColor.DARK_RED + "You do not have permission for this area!";
+	}
+	
+	@Override
+	public SpellType type() {
+		return SpellType.EARTH;
 	}
 	
 }

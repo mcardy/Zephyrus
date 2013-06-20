@@ -16,7 +16,7 @@ public class ExamplePlugin extends JavaPlugin {
 
 	public void onEnable() {
 		//Initializes the plugin Zephyrus as a variable.
-		Zephyrus zephyrus = new Zephyrus();
+		Zephyrus zephyrus = Zephyrus.getInstance();
 		
 		//Calls the constructor of the class Spell adding ExampleSpell to the list of spells.
 		new ExampleSpell(zephyrus);
