@@ -110,7 +110,7 @@ public class ItemUtil {
 			l.set(0, ChatColor.GRAY + "Level: " + level);
 		} catch (NullPointerException e) {
 			l = new ArrayList<String>();
-			l.add(0, ChatColor.GRAY + "¤7Level: " + level);
+			l.add(0, ChatColor.GRAY + "Level: " + level);
 		}
 
 		m.setLore(l);
