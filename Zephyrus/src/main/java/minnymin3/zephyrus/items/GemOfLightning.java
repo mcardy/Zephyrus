@@ -32,7 +32,7 @@ public class GemOfLightning extends CustomItem {
 
 	@Override
 	public String name() {
-		return "¤bGem of Lightning";
+		return ChatColor.getByChar("b") + "Gem of Lightning";
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class GemOfLightning extends CustomItem {
 				&& e.getPlayer().getItemInHand().getType() == Material.EMERALD
 				&& e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(),
-						"¤bGem of Lightning")) {
+						name())) {
 			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
 					.getTargetBlock(null, 1000))) {
 				Location loc = e.getPlayer().getTargetBlock(null, 100)
@@ -81,7 +81,7 @@ public class GemOfLightning extends CustomItem {
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(),
-						"¤bGem of Lightning")
+						name())
 				&& ItemDelay.hasDelay(plugin, e.getPlayer(), this)) {
 			int time = ItemDelay.getDelay(plugin, e.getPlayer(), this);
 			e.getPlayer().sendMessage(

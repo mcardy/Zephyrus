@@ -6,6 +6,7 @@ import java.util.List;
 import minnymin3.zephyrus.Zephyrus;
 import minnymin3.zephyrus.player.LevelManager;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -36,7 +37,7 @@ public class ManaPotion extends CustomItem {
 
 	@Override
 	public String name() {
-		return "¤bMana Potion";
+		return ChatColor.getByChar("b") + "Mana Potion";
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class ManaPotion extends CustomItem {
 		setItemName(i, this.name());
 		ItemMeta m = i.getItemMeta();
 		List<String> lore = new ArrayList<String>();
-		lore.add("¤7Restores Mana");
+		lore.add(ChatColor.GRAY + "Restores Mana");
 		m.setLore(lore);
 		i.setItemMeta(m);
 		setGlow(i);
@@ -64,7 +65,7 @@ public class ManaPotion extends CustomItem {
 
 	@EventHandler
 	public void onManaPotion(PlayerItemConsumeEvent e) {
-		if (checkName(e.getItem(), "¤bMana Potion")) {
+		if (checkName(e.getItem(), this.name())) {
 			Player player = e.getPlayer();
 			Zephyrus.mana.put(player.getName(),
 					LevelManager.getLevel(player) * 100);

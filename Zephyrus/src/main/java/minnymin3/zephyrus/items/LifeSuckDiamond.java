@@ -2,6 +2,7 @@ package minnymin3.zephyrus.items;
 
 import minnymin3.zephyrus.Zephyrus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -23,7 +24,7 @@ public class LifeSuckDiamond extends CustomItem {
 
 	@Override
 	public String name() {
-		return "¤aDiamond Sword of Life";
+		return ChatColor.getByChar("a") + "Diamond Sword of Life";
 	}
 
 	@Override

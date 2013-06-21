@@ -53,7 +53,7 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 									&& player.getItemInHand().getItemMeta().hasDisplayName()
 									&& player.getItemInHand().getItemMeta()
 											.getDisplayName()
-											.contains("¤6Wand")) {
+											.contains(ChatColor.GOLD + "Wand")) {
 								if (spell.canBind()) {
 									ItemStack i = player.getItemInHand();
 									List<String> list = new ArrayList<String>();
@@ -61,7 +61,7 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 											+ ChatColor.DARK_GRAY
 											+ spell.name());
 									ItemMeta m = i.getItemMeta();
-									m.setDisplayName("¤6Wand" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY + WordUtils.capitalizeFully(spell.name()));
+									m.setDisplayName(ChatColor.GOLD + "Wand" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY + WordUtils.capitalizeFully(spell.name()));
 									m.setLore(list);
 									try {
 										i.setItemMeta(m);

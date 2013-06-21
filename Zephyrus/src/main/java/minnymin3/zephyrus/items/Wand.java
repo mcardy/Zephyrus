@@ -47,7 +47,7 @@ public class Wand extends CustomItem {
 
 	@Override
 	public String name() {
-		return "¤6Wand";
+		return ChatColor.GOLD + "Wand";
 	}
 
 	public static ItemStack getItem() {
@@ -61,13 +61,13 @@ public class Wand extends CustomItem {
 		ItemMeta m;
 		try {
 			m = i.getItemMeta();
-			m.setDisplayName("¤6Wand");
+			m.setDisplayName(ChatColor.GOLD + "Wand");
 		} catch (Exception e) {
 			i = new ItemStack(Material.STICK);
 			m = i.getItemMeta();
-			m.setDisplayName("¤6Wand");
+			m.setDisplayName(ChatColor.GOLD + "Wand");
 		}
-		m.setDisplayName("¤6Wand");
+		m.setDisplayName(ChatColor.GOLD + "Wand");
 		List<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.GRAY + "Regular old default wand");
 		m.setLore(lore);

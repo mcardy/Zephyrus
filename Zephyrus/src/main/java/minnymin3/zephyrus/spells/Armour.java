@@ -64,7 +64,7 @@ public class Armour extends Spell {
 		ItemStack legs = new ItemStack(Material.GOLD_LEGGINGS);
 		ItemStack boots = new ItemStack(Material.GOLD_BOOTS);
 		ItemMeta meta = helm.getItemMeta();
-		meta.setDisplayName("¤6Magic Armour");
+		meta.setDisplayName(ChatColor.GOLD + "Magic Armour");
 		helm.setItemMeta(meta);
 		chest.setItemMeta(meta);
 		legs.setItemMeta(meta);
@@ -165,7 +165,7 @@ public class Armour extends Spell {
 			if (i.hasItemMeta()
 					&& i.getItemMeta().hasDisplayName()
 					&& i.getItemMeta().getDisplayName()
-							.equalsIgnoreCase("¤6Magic Armour")) {
+							.equalsIgnoreCase(ChatColor.GOLD + "Magic Armour")) {
 				e.getDrops().remove(i);
 			}
 		}
@@ -180,7 +180,7 @@ public class Armour extends Spell {
 					&& player.getInventory().getBoots().getItemMeta()
 							.hasDisplayName()
 					&& player.getInventory().getBoots().getItemMeta()
-							.getDisplayName().equals("¤6Magic Armour")) {
+							.getDisplayName().equals(ChatColor.GOLD + "Magic Armour")) {
 				e.setCancelled(true);
 			}
 		}

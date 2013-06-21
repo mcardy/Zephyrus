@@ -99,7 +99,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 			Player player = (Player) e.getDamager();
 			if (player.getItemInHand().getType() != Material.AIR
 					&& checkName(player.getItemInHand(),
-							"¤aDiamond Sword of Life")
+							ChatColor.getByChar("a") + "Diamond Sword of Life")
 					&& player.getHealth() != 20) {
 				String level = player.getItemInHand().getItemMeta().getLore()
 						.get(0);

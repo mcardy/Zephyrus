@@ -35,7 +35,7 @@ public class BlinkPearl extends CustomItem {
 
 	@Override
 	public String name() {
-		return "¤1Blink Pearl";
+		return ChatColor.getByChar("1") + "Blink Pearl";
 	}
 
 	@Override

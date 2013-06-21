@@ -33,7 +33,7 @@ public class Flare extends Spell {
 
 	@Override
 	public String bookText() {
-		return "Fires a ¤cbig fireball ¤0on cast!";
+		return "Fires a big fireball on cast!";
 	}
 
 	@Override

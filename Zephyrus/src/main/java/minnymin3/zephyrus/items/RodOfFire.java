@@ -37,7 +37,7 @@ public class RodOfFire extends CustomItem {
 
 	@Override
 	public String name() {
-		return "¤cRod of Fire";
+		return ChatColor.getByChar("c") + "Rod of Fire";
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class RodOfFire extends CustomItem {
 	@EventHandler
 	public void fireball(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR
-				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
+				&& checkName(e.getPlayer().getItemInHand(), this.name())
 				&& !ItemDelay.hasDelay(plugin, e.getPlayer(), this)
 				&& getItemLevel(e.getPlayer().getItemInHand()) < 6) {
 			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
@@ -91,7 +91,7 @@ public class RodOfFire extends CustomItem {
 								+ "You don't have permission for this area");
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
-				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")
+				&& checkName(e.getPlayer().getItemInHand(), this.name())
 				&& !ItemDelay.hasDelay(plugin, e.getPlayer(), this)) {
 
 			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
@@ -107,7 +107,7 @@ public class RodOfFire extends CustomItem {
 								+ "You don't have permission for this area");
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
-				&& checkName(e.getPlayer().getItemInHand(), "¤cRod of Fire")) {
+				&& checkName(e.getPlayer().getItemInHand(), this.name())) {
 			int time = ItemDelay.getDelay(plugin, e.getPlayer(), this);
 			e.getPlayer().sendMessage(
 					ChatColor.GRAY + "The rod of fire still needs " + time

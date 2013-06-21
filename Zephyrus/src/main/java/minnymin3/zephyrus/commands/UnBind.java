@@ -35,14 +35,14 @@ public class UnBind extends ZephyrusCommand implements CommandExecutor {
 						&& player.getItemInHand().getItemMeta()
 								.hasDisplayName()
 						&& player.getItemInHand().getItemMeta()
-								.getDisplayName().contains("¤6Wand")) {
+								.getDisplayName().contains(ChatColor.GOLD + "Wand")) {
 					if (player.getItemInHand().getItemMeta().getLore().get(0) != ChatColor.GRAY
 							+ "Regular old default wand") {
 						ItemStack i = player.getItemInHand();
 						List<String> list = new ArrayList<String>();
 						list.add(ChatColor.GRAY + "Regular old default wand");
 						ItemMeta m = i.getItemMeta();
-						m.setDisplayName("¤6Wand");
+						m.setDisplayName(ChatColor.GOLD + "Wand");
 						m.setLore(list);
 						try {
 							i.setItemMeta(m);

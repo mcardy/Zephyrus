@@ -34,7 +34,7 @@ public class Fireball extends Spell {
 
 	@Override
 	public String bookText() {
-		return "Fires a ¤cfireball ¤0on cast!";
+		return "Fires a fireball on cast!";
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 import minnymin3.zephyrus.Zephyrus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -56,10 +57,10 @@ public class ItemUtil {
 		ItemMeta meta = item.getItemMeta();
 		List<String> lore = meta.getLore();
 		try {
-			lore.add("¤7" + enchant.getName() + " " + enchantLevel(level));
+			lore.add(ChatColor.GRAY + enchant.getName() + " " + enchantLevel(level));
 		} catch (Exception e) {
 			lore = new ArrayList<String>();
-			lore.add("¤7" + enchant.getName() + " " + enchantLevel(level));
+			lore.add(ChatColor.GRAY + enchant.getName() + " " + enchantLevel(level));
 		}
 		meta.setLore(lore);
 		item.setItemMeta(meta);
@@ -106,10 +107,10 @@ public class ItemUtil {
 		ItemMeta m = i.getItemMeta();
 		List<String> l = m.getLore();
 		try {
-			l.set(0, "¤7Level: " + level);
+			l.set(0, ChatColor.GRAY + "Level: " + level);
 		} catch (NullPointerException e) {
 			l = new ArrayList<String>();
-			l.add(0, "¤7Level: " + level);
+			l.add(0, ChatColor.GRAY + "¤7Level: " + level);
 		}
 
 		m.setLore(l);
@@ -140,7 +141,7 @@ public class ItemUtil {
 	 */
 	public int getItemLevel(ItemStack i) {
 		ItemMeta m = i.getItemMeta();
-		String data = m.getLore().get(0).replace("¤7Level: ", "");
+		String data = m.getLore().get(0).replace(ChatColor.GRAY + "Level: ", "");
 		return Integer.parseInt(data);
 	}
 

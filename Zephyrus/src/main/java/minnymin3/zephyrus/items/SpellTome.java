@@ -41,7 +41,7 @@ public class SpellTome extends ItemUtil implements Listener {
 	}
 
 	public String name() {
-		return "¤bSpell Tome";
+		return ChatColor.getByChar("b") + "Spell Tome";
 	}
 
 	public ItemStack item() {
@@ -54,11 +54,13 @@ public class SpellTome extends ItemUtil implements Listener {
 		ItemStack i = new ItemStack(Material.BOOK);
 		BookMeta m = (BookMeta) i.getItemMeta();
 		List<String> l = new ArrayList<String>();
-		l.add("¤7" + spell);
+		l.add(ChatColor.GRAY + "" + spell);
 		m.setLore(l);
 		m.setTitle(spell.name());
-		m.addPage(spell.bookText() + "\n\n¤0Cast the spell with:\n¤9/cast "
-				+ spell + "\n\n¤0Learn this spell by left clicking this book!");
+		m.addPage(spell.bookText() + "\n\n" + ChatColor.getByChar("0")
+				+ "Cast the spell with:\n" + ChatColor.getByChar("9")
+				+ "/cast " + spell
+				+ "\n\n" + ChatColor.getByChar("0") + "Learn this spell by left clicking this book!");
 		i.setItemMeta(m);
 		i.addEnchantment(Zephyrus.sGlow, 1);
 		return i;
@@ -68,11 +70,13 @@ public class SpellTome extends ItemUtil implements Listener {
 		setItemName(i, this.name());
 		BookMeta m = (BookMeta) i.getItemMeta();
 		List<String> l = new ArrayList<String>();
-		l.add("¤7" + spell);
+		l.add(ChatColor.GRAY + "" + spell);
 		m.setLore(l);
 		m.setTitle(spell);
-		m.addPage(desc + "\n\n¤0Cast the spell with:\n¤9/cast " + spell
-				+ "\n\n¤0Learn this spell by left clicking this book!");
+		m.addPage(desc + "\n\n" + ChatColor.getByChar("0")
+				+ "Cast the spell with:\n" + ChatColor.getByChar("9")
+				+ "/cast " + spell
+				+ "\n\n" + ChatColor.getByChar("0") + "Learn this spell by left clicking this book!");
 		i.setItemMeta(m);
 		setGlow(i);
 	}
@@ -84,11 +88,12 @@ public class SpellTome extends ItemUtil implements Listener {
 			if (checkName(e.getPlayer().getItemInHand(), this.name())) {
 				ItemStack i = e.getPlayer().getItemInHand();
 				List<String> l = i.getItemMeta().getLore();
-				String s = l.get(0).replace("¤7", "");
+				String s = l.get(0).replace(ChatColor.GRAY + "", "");
 				if (Zephyrus.spellMap.containsKey(s)) {
 					Spell spell = Zephyrus.spellMap.get(s);
 					Player player = e.getPlayer();
-					FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin, player);
+					FileConfiguration cfg = PlayerConfigHandler.getConfig(
+							plugin, player);
 					if (!cfg.getStringList("learned").contains(spell.name())) {
 						PlayerLearnSpellEvent event = new PlayerLearnSpellEvent(
 								player, spell);

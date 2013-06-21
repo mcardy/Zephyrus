@@ -3,6 +3,7 @@ package minnymin3.zephyrus.items;
 import minnymin3.zephyrus.Zephyrus;
 import minnymin3.zephyrus.utils.ParticleEffects;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
@@ -31,7 +32,7 @@ public class HoeOfGrowth extends CustomItem {
 
 	@Override
 	public String name() {
-		return "¤aHoe of Growth";
+		return ChatColor.getByChar("a") + "Hoe of Growth";
 	}
 
 	@Override

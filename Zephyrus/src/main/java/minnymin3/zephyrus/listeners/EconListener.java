@@ -48,12 +48,12 @@ public class EconListener implements Listener {
 					if (s.getLine(0).equals(ChatColor.DARK_AQUA + "[BuySpell]")) {
 						if (e.getPlayer().hasPermission("zephyrus.buy")) {
 							double cost = Double.parseDouble(s.getLine(1)
-									.replace("$", "").replace("¤6", ""));
+									.replace("$", "").replace(ChatColor.GOLD + "", ""));
 							if (PluginHook.econ.getBalance(e.getPlayer()
 									.getName()) >= cost) {
 								Spell spell = Zephyrus.spellMap.get(s
 										.getLine(2).toLowerCase()
-										.replace("¤4", ""));
+										.replace(ChatColor.getByChar("4") + "", ""));
 								if (e.getPlayer().hasPermission(
 										"zephyrus.spell." + spell.name())) {
 									if (!(LevelManager.getLevel(e.getPlayer()) < spell
@@ -87,7 +87,7 @@ public class EconListener implements Listener {
 							ChatColor.DARK_AQUA + "[BuyWand]")) {
 						if (e.getPlayer().hasPermission("zephyrus.buy")) {
 							double cost = Double.parseDouble(s.getLine(1)
-									.replace("$", "").replace("¤6", ""));
+									.replace("$", "").replace(ChatColor.GOLD + "", ""));
 							if (PluginHook.econ.getBalance(e.getPlayer()
 									.getName()) >= cost) {
 								PluginHook.econ.withdrawPlayer(e.getPlayer()
@@ -134,8 +134,8 @@ public class EconListener implements Listener {
 						return;
 					}
 					e.setLine(0, ChatColor.DARK_AQUA + "[BuySpell]");
-					e.setLine(1, "$" + "¤6" + e.getLine(1).replace("$", ""));
-					e.setLine(2, "¤4" + e.getLine(2));
+					e.setLine(1, "$" + ChatColor.GOLD + e.getLine(1).replace("$", ""));
+					e.setLine(2, ChatColor.getByChar("4") + e.getLine(2));
 					player.sendMessage("Successfully created a BuySpell sign!");
 
 				} else {
@@ -160,7 +160,7 @@ public class EconListener implements Listener {
 						return;
 					}
 					e.setLine(0, ChatColor.DARK_AQUA + "[BuyWand]");
-					e.setLine(1, "$" + "¤6" + e.getLine(1).replace("$", ""));
+					e.setLine(1, "$" + ChatColor.GOLD + e.getLine(1).replace("$", ""));
 					player.sendMessage("Successfully created a BuyWand sign!");
 
 				} else {
