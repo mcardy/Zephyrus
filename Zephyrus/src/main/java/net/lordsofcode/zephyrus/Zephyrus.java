@@ -15,6 +15,7 @@ import net.lordsofcode.zephyrus.commands.ManaCommand;
 import net.lordsofcode.zephyrus.commands.SpellTomeCmd;
 import net.lordsofcode.zephyrus.commands.UnBind;
 import net.lordsofcode.zephyrus.enchantments.GlowEffect;
+import net.lordsofcode.zephyrus.enchantments.InstaMine;
 import net.lordsofcode.zephyrus.enchantments.LifeSuck;
 import net.lordsofcode.zephyrus.hooks.PluginHook;
 import net.lordsofcode.zephyrus.items.BlinkPearl;
@@ -252,6 +253,7 @@ public class Zephyrus extends JavaPlugin {
 	}
 
 	private void addEnchants() {
+		new InstaMine(123);
 		try {
 			Field f = Enchantment.class.getDeclaredField("acceptingNew");
 			f.setAccessible(true);

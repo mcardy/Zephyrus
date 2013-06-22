@@ -54,7 +54,7 @@ permissions:
       default: op
       description: Allows the player to create buyspell signs.
    zephyrus.craft.*:
-      default: false
+      default: true
       children:
          zephyrus.craft.blinkpearl: true
          zephyrus.craft.lightninggem: true
