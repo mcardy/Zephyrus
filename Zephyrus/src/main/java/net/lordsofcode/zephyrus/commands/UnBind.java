@@ -3,8 +3,6 @@ package net.lordsofcode.zephyrus.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.lordsofcode.zephyrus.Zephyrus;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -44,10 +42,7 @@ public class UnBind extends ZephyrusCommand implements CommandExecutor {
 						ItemMeta m = i.getItemMeta();
 						m.setDisplayName(ChatColor.GOLD + "Wand");
 						m.setLore(list);
-						try {
-							i.setItemMeta(m);
-						} catch (Exception e) {}
-						i.addEnchantment(Zephyrus.sGlow, 1);
+						i.setItemMeta(m);
 						player.sendMessage("Unbound the spell from your wand!");
 					} else {
 						sender.sendMessage("There is no spell bound to that wand!");

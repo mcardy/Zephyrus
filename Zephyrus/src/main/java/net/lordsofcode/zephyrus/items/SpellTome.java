@@ -62,7 +62,7 @@ public class SpellTome extends ItemUtil implements Listener {
 				+ "/cast " + spell
 				+ "\n\n" + ChatColor.getByChar("0") + "Learn this spell by left clicking this book!");
 		i.setItemMeta(m);
-		i.addEnchantment(Zephyrus.sGlow, 1);
+		i.addEnchantment(Zephyrus.getInstance().glow, 1);
 		return i;
 	}
 

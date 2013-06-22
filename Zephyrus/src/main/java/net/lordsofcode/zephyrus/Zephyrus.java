@@ -15,7 +15,6 @@ import net.lordsofcode.zephyrus.commands.ManaCommand;
 import net.lordsofcode.zephyrus.commands.SpellTomeCmd;
 import net.lordsofcode.zephyrus.commands.UnBind;
 import net.lordsofcode.zephyrus.enchantments.GlowEffect;
-import net.lordsofcode.zephyrus.enchantments.InstaMine;
 import net.lordsofcode.zephyrus.enchantments.LifeSuck;
 import net.lordsofcode.zephyrus.hooks.PluginHook;
 import net.lordsofcode.zephyrus.items.BlinkPearl;
@@ -98,7 +97,6 @@ public class Zephyrus extends JavaPlugin {
 	ConfigHandler config = new ConfigHandler(this, "spells.yml");
 
 	public GlowEffect glow = new GlowEffect(120);
-	public static GlowEffect sGlow = new GlowEffect(122);
 	public LifeSuck suck = new LifeSuck(121);
 
 	public String[] update;
@@ -253,7 +251,7 @@ public class Zephyrus extends JavaPlugin {
 	}
 
 	private void addEnchants() {
-		new InstaMine(123);
+		//new InstaMine(123);
 		try {
 			Field f = Enchantment.class.getDeclaredField("acceptingNew");
 			f.setAccessible(true);

@@ -40,7 +40,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  */
 
 public class Wand extends CustomItem {
-
+	
 	public Wand(Zephyrus plugin) {
 		super(plugin);
 	}
@@ -72,7 +72,7 @@ public class Wand extends CustomItem {
 		lore.add(ChatColor.GRAY + "Regular old default wand");
 		m.setLore(lore);
 		i.setItemMeta(m);
-		i.addEnchantment(Zephyrus.sGlow, 1);
+		i.addEnchantment(Zephyrus.getInstance().glow, 1);
 		return i;
 	}
 

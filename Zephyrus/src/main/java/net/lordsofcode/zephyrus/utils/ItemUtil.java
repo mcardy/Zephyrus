@@ -42,7 +42,7 @@ public class ItemUtil {
 	 * @param item The ItemStack to add the enchantment effect to
 	 */
 	public void setGlow(ItemStack item) {
-		item.addEnchantment(Zephyrus.sGlow, 1);
+		item.addEnchantment(Zephyrus.getInstance().glow, 1);
 	}
 
 	/**

@@ -63,10 +63,7 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 									ItemMeta m = i.getItemMeta();
 									m.setDisplayName(ChatColor.GOLD + "Wand" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY + WordUtils.capitalizeFully(spell.name()));
 									m.setLore(list);
-									try {
-										i.setItemMeta(m);
-									} catch (Exception e) {}
-									i.addEnchantment(Zephyrus.sGlow, 1);
+									i.setItemMeta(m);
 									player.sendMessage(ChatColor.GRAY
 											+ "Bound " + ChatColor.GOLD
 											+ spell.name() + ChatColor.GRAY
