@@ -1,6 +1,6 @@
 name: Zephyrus
 main: net.lordsofcode.zephyrus.Zephyrus
-version: 1.1.2
+version: 1.2.0
 author: minnymin3
 commands:
    levelup:
