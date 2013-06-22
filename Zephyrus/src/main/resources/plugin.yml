@@ -1,5 +1,5 @@
 name: Zephyrus
-main: minnymin3.zephyrus.Zephyrus
+main: net.lordsofcode.zephyrus.Zephyrus
 version: 1.2.0
 author: minnymin3
 commands:
