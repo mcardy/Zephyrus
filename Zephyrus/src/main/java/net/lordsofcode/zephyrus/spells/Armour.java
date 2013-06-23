@@ -32,6 +32,22 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Armour extends Spell {
 
+	public static ItemStack[] armor;
+	
+	static {
+		ItemStack helm = new ItemStack(Material.GOLD_HELMET);
+		ItemStack chest = new ItemStack(Material.GOLD_CHESTPLATE);
+		ItemStack legs = new ItemStack(Material.GOLD_LEGGINGS);
+		ItemStack boots = new ItemStack(Material.GOLD_BOOTS);
+		ItemMeta meta = helm.getItemMeta();
+		meta.setDisplayName(ChatColor.GOLD + "Magic Armour");
+		helm.setItemMeta(meta);
+		chest.setItemMeta(meta);
+		legs.setItemMeta(meta);
+		boots.setItemMeta(meta);
+		armor = new ItemStack[] { boots, legs, chest, helm };
+	}
+	
 	public Armour(Zephyrus plugin) {
 		super(plugin);
 	}
@@ -59,20 +75,7 @@ public class Armour extends Spell {
 	@Override
 	public void run(Player player, String[] args) {
 		int time = getConfig().getInt(this.name() + ".delay");
-		ItemStack helm = new ItemStack(Material.GOLD_HELMET);
-		ItemStack chest = new ItemStack(Material.GOLD_CHESTPLATE);
-		ItemStack legs = new ItemStack(Material.GOLD_LEGGINGS);
-		ItemStack boots = new ItemStack(Material.GOLD_BOOTS);
-		ItemMeta meta = helm.getItemMeta();
-		meta.setDisplayName(ChatColor.GOLD + "Magic Armour");
-		helm.setItemMeta(meta);
-		chest.setItemMeta(meta);
-		legs.setItemMeta(meta);
-		boots.setItemMeta(meta);
-		player.getInventory().setBoots(boots);
-		player.getInventory().setLeggings(legs);
-		player.getInventory().setChestplate(chest);
-		player.getInventory().setHelmet(helm);
+		player.getInventory().setArmorContents(armor);
 		startDelay(player, time * 20);
 		playerMap.add(player.getName());
 		player.sendMessage("" + time);
