@@ -73,6 +73,7 @@ import net.lordsofcode.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -95,7 +96,12 @@ public class Zephyrus extends JavaPlugin {
 	private static Zephyrus instance;
 
 	ConfigHandler config = new ConfigHandler(this, "spells.yml");
-
+	
+	public ConfigHandler langCfg = new ConfigHandler(this, "lang.yml");
+	
+	public FileConfiguration lang;
+	public FileConfiguration spells;
+	
 	public GlowEffect glow = new GlowEffect(120);
 	public LifeSuck suck = new LifeSuck(121);
 
@@ -119,6 +125,7 @@ public class Zephyrus extends JavaPlugin {
 		instance = this;
 		saveDefaultConfig();
 		config.saveDefaultConfig();
+		langCfg.saveDefaultConfig();
 
 		itemMap = new HashMap<String, CustomItem>();
 		spellCraftMap = new HashMap<Set<ItemStack>, Spell>();
@@ -150,7 +157,6 @@ public class Zephyrus extends JavaPlugin {
 			Zephyrus.mana.put(p.getName(), LevelManager.loadMana(p));
 			new ManaRecharge(this, p).runTaskLater(this, 30);
 		}
-
 		getLogger().info(
 				"Zephyrus v"
 						+ this.getDescription().getVersion()
@@ -358,6 +364,9 @@ public class Zephyrus extends JavaPlugin {
 				if (!config.getConfig().contains(spell.name() + ".enabled")) {
 					config.getConfig().set(spell.name() + ".enabled", true);
 				}
+				if (!config.getConfig().contains(spell.name() + ".desc")) {
+					config.getConfig().set(spell.name() + ".desc", spell.bookText());
+				}
 				if (!config.getConfig().contains(spell.name() + ".mana")) {
 					config.getConfig().set(spell.name() + ".mana",
 							spell.manaCost());
@@ -379,6 +388,9 @@ public class Zephyrus extends JavaPlugin {
 				config.saveConfig();
 			}
 
+			lang = langCfg.getConfig();
+			spells = config.getConfig();
+			
 			try {
 				for (String s : update) {
 					if (s != null) {

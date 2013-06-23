@@ -8,7 +8,6 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.player.LevelManager;
-import net.lordsofcode.zephyrus.utils.ConfigHandler;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
@@ -165,8 +164,7 @@ public abstract class Spell implements Listener {
 	 * @return The configured mana cost.
 	 */
 	public int getManaCost() {
-		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
-		int cost = cfg.getConfig().getInt(this.name() + ".mana");
+		int cost = getConfig().getInt(this.name() + ".mana");
 		return cost;
 	}
 	
@@ -175,8 +173,7 @@ public abstract class Spell implements Listener {
 	 * @return The configured level.
 	 */
 	public int getLevel() {
-		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
-		int level = cfg.getConfig().getInt(this.name() + ".level");
+		int level = getConfig().getInt(this.name() + ".level");
 		return level;
 	}
 	
@@ -185,8 +182,12 @@ public abstract class Spell implements Listener {
 	 * @return Whether or not the spell is enabled.
 	 */
 	public boolean isEnabled() {
-		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
-		return cfg.getConfig().getBoolean(this.name() + ".enabled");
+		return getConfig().getBoolean(this.name() + ".enabled");
+	}
+	
+	public String getDesc() {
+		String desc = getConfig().getString(this.name() + ".desc");
+		return desc;
 	}
 	
 	/**
@@ -202,8 +203,7 @@ public abstract class Spell implements Listener {
 	 * @return A FileConfiguration of the config
 	 */
 	public FileConfiguration getConfig() {
-		ConfigHandler cfg = new ConfigHandler(plugin, "spells.yml");
-		return cfg.getConfig();
+		return Zephyrus.getInstance().spells;
 	}
 	
 	/**
@@ -212,9 +212,18 @@ public abstract class Spell implements Listener {
 	public void onDisable() {
 	}
 	
+	/**
+	 * An action that should be executed after a period of time or on disable.
+	 * @param player The target of the delay
+	 */
 	public void delayedAction(Player player) {
 	}
 	
+	/**
+	 * Starts the delayed action
+	 * @param player The target of the delay
+	 * @param time The time, in ticks, to wait
+	 */
 	public void startDelay(Player player, int time) {
 		new DelayedActionRunnable(this, player, time);
 	}

@@ -27,6 +27,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public abstract class CustomEnchantment extends Enchantment implements Listener {
 
+	/**
+	 * Creates a new Custom Enchantment
+	 * @param id The id of the enchantment. Should be unique
+	 */
 	public CustomEnchantment(int id) {
 		super(id);
 		try {
@@ -42,10 +46,21 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 		Bukkit.getPluginManager().registerEvents(this, Zephyrus.getInstance());
 	}
 
+	/**
+	 * The cost of the enchantment per level
+	 */
 	public abstract int enchantLevelCost();
 
+	/**
+	 * The chance of the enchantment being applied to the item when it is enchanted
+	 */
 	public abstract int chance();
 	
+	/**
+	 * Whether or not the enchantment should be applied
+	 * @param map The map of enchantments to be applied
+	 * @return True if the enchantment is incompatible and should not be applied
+	 */
 	public abstract boolean incompatible(Map<Enchantment, Integer> map);
 	
 	@EventHandler
@@ -72,6 +87,11 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 		}
 	}
 
+	/**
+	 * Gets the Roman Numeral from the integer
+	 * @param i The int to change
+	 * @return The roman numeral versino of that integer
+	 */
 	public String numeral(int i) {
 		switch (i) {
 		case 1:
