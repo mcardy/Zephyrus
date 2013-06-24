@@ -55,7 +55,8 @@ public class EconListener implements Listener {
 										.getLine(2).toLowerCase()
 										.replace(ChatColor.getByChar("4") + "", ""));
 								if (e.getPlayer().hasPermission(
-										"zephyrus.spell." + spell.name())) {
+										"zephyrus.spell." + spell.name()) || 
+										e.getPlayer().hasPermission("zephyrus.spell.*")) {
 									if (!(LevelManager.getLevel(e.getPlayer()) < spell
 											.getLevel())) {
 										SpellTome tome = new SpellTome(plugin,
