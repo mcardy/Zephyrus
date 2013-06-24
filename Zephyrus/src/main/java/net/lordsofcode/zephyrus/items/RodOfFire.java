@@ -3,6 +3,7 @@ package net.lordsofcode.zephyrus.items;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.hooks.PluginHook;
 import net.lordsofcode.zephyrus.player.LevelManager;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -33,6 +34,7 @@ public class RodOfFire extends CustomItem {
 		super(plugin);
 		lvl = new LevelManager(plugin);
 		hook = new PluginHook();
+		Lang.add("firerod.recharge", "The Rod of Fire still needs [TIME] to recharge...");
 	}
 
 	@Override
@@ -86,9 +88,7 @@ public class RodOfFire extends CustomItem {
 				int delay = delayFromLevel(getItemLevel(e.getItem()));
 				ItemDelay.setDelay(plugin, e.getPlayer(), this, delay);
 			} else {
-				e.getPlayer().sendMessage(
-						ChatColor.DARK_RED
-								+ "You don't have permission for this area");
+				Lang.errMsg("worldguard", e.getPlayer());
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(), this.name())
@@ -102,16 +102,13 @@ public class RodOfFire extends CustomItem {
 				int delay = delayFromLevel(getItemLevel(e.getItem()));
 				ItemDelay.setDelay(plugin, e.getPlayer(), this, delay);
 			} else {
-				e.getPlayer().sendMessage(
-						ChatColor.DARK_RED
-								+ "You don't have permission for this area");
+				Lang.errMsg("worldguard", e.getPlayer());
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(), this.name())) {
 			int time = ItemDelay.getDelay(plugin, e.getPlayer(), this);
 			e.getPlayer().sendMessage(
-					ChatColor.GRAY + "The rod of fire still needs " + time
-							+ " seconds to recharge!");
+					ChatColor.GRAY + Lang.get("firerod.recharge").replace("[TIME]", time + ""));
 		}
 	}
 

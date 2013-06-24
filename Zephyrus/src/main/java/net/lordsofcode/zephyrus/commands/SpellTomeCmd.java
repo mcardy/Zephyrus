@@ -4,6 +4,7 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.player.LevelManager;
 import net.lordsofcode.zephyrus.spells.Spell;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,6 +29,7 @@ public class SpellTomeCmd extends ZephyrusCommand implements CommandExecutor {
 	public SpellTomeCmd(Zephyrus plugin) {
 		this.plugin = plugin;
 		lvl = new LevelManager(plugin);
+		Lang.add("spelltomecmd.nospell", "Specify a spell to give!");
 	}
 
 	@Override
@@ -35,8 +37,7 @@ public class SpellTomeCmd extends ZephyrusCommand implements CommandExecutor {
 			String label, String[] args) {
 		if (sender.hasPermission("zephyrus.spelltome.give") || sender.isOp()) {
 			if (args.length < 1) {
-				sender.sendMessage("Usage: " + ChatColor.RED
-						+ "/spelltome [spell] [player]");
+				Lang.errMsg("spelltomecmd", sender);
 			} else {
 				if (args.length < 2) {
 					if (sender instanceof Player) {
@@ -47,7 +48,7 @@ public class SpellTomeCmd extends ZephyrusCommand implements CommandExecutor {
 									.toLowerCase());
 							if (spell.isEnabled()) {
 								SpellTome tome = new SpellTome(plugin,
-										spell.name(), spell.bookText());
+										spell.name(), spell.getDesc());
 								player.getInventory().addItem(tome.item());
 								sender.sendMessage("Gave " + player.getName()
 										+ " the " + ChatColor.GOLD
@@ -71,7 +72,7 @@ public class SpellTomeCmd extends ZephyrusCommand implements CommandExecutor {
 									.toLowerCase());
 							if (spell.isEnabled()) {
 							SpellTome tome = new SpellTome(plugin,
-									spell.name(), spell.bookText());
+									spell.name(), spell.getDesc());
 							player.getInventory().addItem(tome.item());
 							sender.sendMessage("Gave " + player.getName()
 									+ " the " + ChatColor.GOLD + spell.name()
@@ -80,7 +81,7 @@ public class SpellTomeCmd extends ZephyrusCommand implements CommandExecutor {
 								sender.sendMessage(ChatColor.RED + "That spell is disabled!");
 							}
 						} else {
-							notOnline(sender);
+							Lang.errMsg("notonline", sender);
 						}
 					} else {
 						sender.sendMessage(ChatColor.DARK_RED
@@ -89,7 +90,7 @@ public class SpellTomeCmd extends ZephyrusCommand implements CommandExecutor {
 				}
 			}
 		} else {
-			needOp(sender);
+			Lang.errMsg("noperm", sender);
 		}
 		return false;
 	}

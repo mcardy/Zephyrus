@@ -2,6 +2,7 @@ package net.lordsofcode.zephyrus.items;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.hooks.PluginHook;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.ChatColor;
@@ -26,11 +27,12 @@ import org.bukkit.inventory.ShapedRecipe;
 
 public class BlinkPearl extends CustomItem {
 
-	PluginHook hook;
-
 	public BlinkPearl(Zephyrus plugin) {
 		super(plugin);
-		hook = new PluginHook();
+		Lang.add("blinkpearl.outofrange", "That location is out of range!");
+		Lang.add("blinkpearl.recharge",
+				"The BlinkPearl still needs [TIME] to recharge...");
+		Lang.add("blinkpearl.noblink", "You can't blink there!");
 	}
 
 	@Override
@@ -101,27 +103,25 @@ public class BlinkPearl extends CustomItem {
 										.playSound(e.getPlayer().getLocation(),
 												Sound.ENDERMAN_TELEPORT, 10, 1);
 								e.getPlayer().teleport(loc);
-								int delay = delayFromLevel(getItemLevel(e.getItem()));
-								ItemDelay.setDelay(plugin, e.getPlayer(), this, delay);
+								int delay = delayFromLevel(getItemLevel(e
+										.getItem()));
+								ItemDelay.setDelay(plugin, e.getPlayer(), this,
+										delay);
 							} else {
-								e.getPlayer()
-										.sendMessage(
-												ChatColor.DARK_RED
-														+ "You don't have permission for this area");
+								Lang.errMsg("worldguard", e.getPlayer());
 							}
 						} else {
-							e.getPlayer().sendMessage(
-									ChatColor.GRAY + "Cannot blink there!");
+							Lang.errMsg("blinkpearl.noblink", e.getPlayer());
 						}
 					} else {
-						e.getPlayer().sendMessage(
-								ChatColor.GRAY + "Location out of range!");
+						Lang.errMsg("outofrange", e.getPlayer());
 					}
 				} else {
 					int time = ItemDelay.getDelay(plugin, e.getPlayer(), this);
 					e.getPlayer().sendMessage(
-							ChatColor.GRAY + "The BlinkPearl still needs "
-									+ time + " seconds to recharge!");
+							ChatColor.GRAY
+									+ Lang.get("blinkpearl.recharge").replace(
+											"[TIME]", time + ""));
 				}
 			}
 		}

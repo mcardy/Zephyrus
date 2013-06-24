@@ -6,10 +6,10 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.events.PlayerCastSpellEvent;
 import net.lordsofcode.zephyrus.player.LevelManager;
 import net.lordsofcode.zephyrus.spells.Spell;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,6 +31,7 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 
 	public Cast(Zephyrus plugin) {
 		this.plugin = plugin;
+		Lang.add("cast.nospell", "Specify a spell to cast!");
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 			String label, String[] args) {
 		if (sender instanceof Player) {
 			if (args.length < 1) {
-				sender.sendMessage("Specify a spell to cast!");
+				Lang.errMsg("cast.nospell", sender);
 			} else {
 				if (Zephyrus.spellMap.containsKey(args[0])) {
 					Player player = (Player) sender;
@@ -70,24 +71,21 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 									}
 								}
 							} else {
-								player.sendMessage(ChatColor.DARK_RED
-										+ "Not enough mana!");
+								Lang.errMsg("nomana", sender);
 							}
 						} else {
-							sender.sendMessage("That spell is disabled!");
+							Lang.errMsg("disabled", sender);
 						}
 					} else {
-						player.sendMessage(ChatColor.DARK_RED
-								+ "You have not learned that spell!");
+						Lang.errMsg("notlearned", sender);
 					}
 
 				} else {
-					sender.sendMessage(ChatColor.DARK_RED
-							+ "You have not learned that spell!");
+					Lang.errMsg("notlearned", sender);
 				}
 			}
 		} else {
-			inGameOnly(sender);
+			Lang.errMsg("ingameonly", sender);
 		}
 		return false;
 	}

@@ -11,6 +11,7 @@ import net.lordsofcode.zephyrus.events.PlayerCraftSpellEvent;
 import net.lordsofcode.zephyrus.hooks.PluginHook;
 import net.lordsofcode.zephyrus.player.LevelManager;
 import net.lordsofcode.zephyrus.spells.Spell;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -40,9 +41,15 @@ import org.bukkit.inventory.meta.ItemMeta;
  */
 
 public class Wand extends CustomItem {
-	
+
 	public Wand(Zephyrus plugin) {
 		super(plugin);
+		Lang.add("wand.enchanter",
+				"You have successfully created an #6#lArcane Leveller");
+		Lang.add("wand.nospell", "Spell recipe not found!");
+		Lang.add("wand.noperm", "You do not have permission to learn [SPELL]");
+		Lang.add("wand.reqlevel", "That spell requires level [LEVEL]");
+		Lang.add("wand.reqspell", "That spell requires the knowledge of [SPELL]");
 	}
 
 	@Override
@@ -119,10 +126,7 @@ public class Wand extends CustomItem {
 			if (b.getType() == Material.ENCHANTMENT_TABLE && b.getData() != 12) {
 				e.setCancelled(true);
 				b.setData((byte) 12);
-				e.getPlayer().sendMessage(
-						ChatColor.AQUA + "You have created an "
-								+ ChatColor.GOLD + ChatColor.BOLD
-								+ "Arcane Leveler");
+				Lang.msg("wand.enchanter", e.getPlayer());
 			}
 		}
 	}
@@ -165,19 +169,15 @@ public class Wand extends CustomItem {
 												item.remove();
 											}
 											s.dropSpell(e.getClickedBlock(),
-													s.name(), s.bookText(),
+													s.name(), s.getDesc(),
 													e.getPlayer());
 										}
 									} else {
-										e.getPlayer().sendMessage(
-												"This spell requires level "
-														+ s.getLevel());
+										e.getPlayer().sendMessage(ChatColor.RED + Lang.get("wand.reqlevel").replace("[LEVEL]", s.reqLevel() + ""));
 									}
 								} else {
 									e.getPlayer().sendMessage(
-											"This spell requires the knowledge of "
-													+ ChatColor.GOLD
-													+ s.reqSpell().name());
+											Lang.get("wand.reqspell").replace("[SPELL]", s.reqSpell().name()));
 								}
 							} else {
 								if (!(LevelManager.getLevel(e.getPlayer()) < s
@@ -186,26 +186,22 @@ public class Wand extends CustomItem {
 										item.remove();
 									}
 									s.dropSpell(e.getClickedBlock(), s.name(),
-											s.bookText(), e.getPlayer());
+											s.getDesc(), e.getPlayer());
 								} else {
-									e.getPlayer().sendMessage(
-											"This spell requires level "
-													+ s.getLevel());
+									e.getPlayer().sendMessage(ChatColor.RED + Lang.get("wand.reqlevel").replace("[LEVEL]", s.reqLevel() + ""));
 								}
 							}
 						} else {
-							e.getPlayer().sendMessage(
-									"You do not have permission to learn "
-											+ s.name());
+							e.getPlayer().sendMessage(ChatColor.RED + Lang.get("wand.noperm").replace("[WAND]", s.name()));
 						}
 					} else {
-						e.getPlayer().sendMessage("This spell is disabled!");
+						Lang.errMsg("disabled", e.getPlayer());
 					}
 				} else {
-					e.getPlayer().sendMessage("Spell recipe not found");
+					Lang.errMsg("wand.nospell", e.getPlayer());
 				}
 			} else {
-				e.getPlayer().sendMessage("Spell recipe not found");
+				Lang.errMsg("wand.nospell", e.getPlayer());
 			}
 
 		}
@@ -301,13 +297,13 @@ public class Wand extends CustomItem {
 									}
 								}
 							} else {
-								player.sendMessage("Not enough mana!");
+								Lang.errMsg("nomana", e.getPlayer());
 							}
 						} else {
-							player.sendMessage("That spell is disabled!");
+							Lang.errMsg("disabled", e.getPlayer());
 						}
 					} else {
-						player.sendMessage("You do not know that spell!");
+						Lang.errMsg("notlearned", e.getPlayer());
 					}
 				}
 			}

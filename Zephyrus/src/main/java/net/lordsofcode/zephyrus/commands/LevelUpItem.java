@@ -3,8 +3,8 @@ package net.lordsofcode.zephyrus.commands;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.items.CustomItem;
 import net.lordsofcode.zephyrus.utils.ItemUtil;
+import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,6 +26,9 @@ public class LevelUpItem extends ZephyrusCommand implements CommandExecutor {
 	public LevelUpItem(Zephyrus plugin) {
 		item = new ItemUtil(plugin);
 		this.plugin = plugin;
+		Lang.add("itemlevel.nomore", "That item cannot be leveled any more!");
+		Lang.add("itemlevel.cantlevel", "The item you are holding cannot be leveled!");
+		Lang.add("itemlevel.complete", "You have leveled up the [ITEMNAME]");
 	}
 
 	@Override
@@ -42,19 +45,18 @@ public class LevelUpItem extends ZephyrusCommand implements CommandExecutor {
 							.maxLevel()) {
 						int current = item.getItemLevel(player.getItemInHand());
 						item.setItemLevel(player.getItemInHand(), current + 1);
-						sender.sendMessage("You have leveled up the "
-								+ i.name());
+						sender.sendMessage(Lang.get("itemlevel.complete").replace("[ITEMNAME]", Lang.caps(i.name())));
 					} else {
-						player.sendMessage(ChatColor.DARK_RED + "That item cannot be leveled anymore!");
+						Lang.errMsg("itemlevel.nomore", sender);
 					}
 				} else {
-					player.sendMessage(ChatColor.DARK_RED + "The item you are holding cannot be leveled!");
+					Lang.errMsg("cantlevel", sender);
 				}
 			} else {
-				needOp(sender);
+				Lang.errMsg("noperm", sender);
 			}
 		} else {
-			inGameOnly(sender);
+			Lang.errMsg("ingameonly", sender);
 		}
 		return false;
 	}

@@ -186,7 +186,7 @@ public abstract class Spell implements Listener {
 	}
 	
 	public String getDesc() {
-		String desc = getConfig().getString(this.name() + ".desc");
+		String desc = getConfig().getString(this.name() + ".desc").replace("$", ChatColor.COLOR_CHAR + "");
 		return desc;
 	}
 	

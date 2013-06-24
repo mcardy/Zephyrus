@@ -68,6 +68,7 @@ import net.lordsofcode.zephyrus.spells.Spell;
 import net.lordsofcode.zephyrus.spells.SuperHeat;
 import net.lordsofcode.zephyrus.spells.Vanish;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.Merchant;
 import net.lordsofcode.zephyrus.utils.UpdateChecker;
 
@@ -123,6 +124,8 @@ public class Zephyrus extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
+		new UpdateChecker(this);
+		
 		saveDefaultConfig();
 		config.saveDefaultConfig();
 		langCfg.saveDefaultConfig();
@@ -135,8 +138,21 @@ public class Zephyrus extends JavaPlugin {
 		itemDelay = new HashMap<String, Map<String, Integer>>();
 		mana = new HashMap<String, Object>();
 
-		new UpdateChecker(this);
-
+		Lang.add("noperm", "You do not have permission to do that!");
+		Lang.add("ingameonly", "You must be an in-game player to perform this command!");
+		Lang.add("notonline", "That player is not online!");
+		
+		Lang.add("nomana", "Not enough mana!");
+		Lang.add("disabled", "That spell has been disabled...");
+		Lang.add("notlearned", "You do not know that spell!");
+		Lang.add("worldguard", "You do not have permission for this area!");
+		
+		Lang.add("spelltome.learn", "Learn this spell by left clicking this book");
+		Lang.add("spelltome.cast", "Cast this spell with $b/cast [SPELL]$f");
+		Lang.add("spelltome.nospell", "That spell was not found!");
+		Lang.add("spelltome.known", "You already know that spell!");
+		Lang.add("spelltome.success", "You have successfully learned $6[SPELL]");
+		
 		try {
 			new CraftLivingEntity(null, null);
 		} catch (NoClassDefFoundError err) {

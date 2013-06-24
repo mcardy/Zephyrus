@@ -3,6 +3,8 @@ package net.lordsofcode.zephyrus.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.lordsofcode.zephyrus.utils.Lang;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,6 +23,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class UnBind extends ZephyrusCommand implements CommandExecutor {
 
+	public UnBind() {
+		Lang.add("unbind.unbound", "Spell unbound from your wand!");
+		Lang.add("unbind.nospell", "There is no spell bound to that wand!");
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
@@ -43,19 +50,18 @@ public class UnBind extends ZephyrusCommand implements CommandExecutor {
 						m.setDisplayName(ChatColor.GOLD + "Wand");
 						m.setLore(list);
 						i.setItemMeta(m);
-						player.sendMessage("Unbound the spell from your wand!");
+						Lang.msg("unbind.unbound", sender);
 					} else {
-						sender.sendMessage("There is no spell bound to that wand!");
+						Lang.errMsg("unbind.nospell", sender);
 					}
 				} else {
-					sender.sendMessage(ChatColor.DARK_RED
-							+ "You need to be holding a wand!");
+					Lang.errMsg("bind.needwand", sender);
 				}
 			} else {
-				needOp(sender);
+				Lang.errMsg("noperm", sender);
 			}
 		} else {
-			inGameOnly(sender);
+			Lang.errMsg("ingameonly", sender);
 		}
 
 		return true;

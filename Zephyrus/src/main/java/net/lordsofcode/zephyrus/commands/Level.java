@@ -2,6 +2,7 @@ package net.lordsofcode.zephyrus.commands;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.player.LevelManager;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -36,7 +37,7 @@ public class Level extends ZephyrusCommand implements CommandExecutor {
 					Player player = (Player) sender;
 					lvl.displayLevel(player);
 				} else {
-					needOp(sender);
+					Lang.errMsg("noperm", sender);
 				}
 			} else {
 				if (hasPerm(sender, "zephyrus.level.other")) {
@@ -44,14 +45,15 @@ public class Level extends ZephyrusCommand implements CommandExecutor {
 						Player target = Bukkit.getServer().getPlayer(args[0]);
 						lvl.displayLevel(target);
 					} else {
-						notOnline(sender);
+						Lang.errMsg("notonline", sender);
 					}
 				} else {
-					needOp(sender);
+					Lang.errMsg("noperm", sender);
 				}
 			}
 		} else {
-			inGameOnly(sender);
+			//TODO view player's level from console
+			Lang.errMsg("ingameonly", sender);
 		}
 		return false;
 	}

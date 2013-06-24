@@ -7,6 +7,7 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.events.PlayerLearnSpellEvent;
 import net.lordsofcode.zephyrus.spells.Spell;
 import net.lordsofcode.zephyrus.utils.ItemUtil;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.Bukkit;
@@ -57,10 +58,8 @@ public class SpellTome extends ItemUtil implements Listener {
 		l.add(ChatColor.GRAY + "" + spell);
 		m.setLore(l);
 		m.setTitle(spell.name());
-		m.addPage(spell.bookText() + "\n\n" + ChatColor.getByChar("0")
-				+ "Cast the spell with:\n" + ChatColor.getByChar("9")
-				+ "/cast " + spell
-				+ "\n\n" + ChatColor.getByChar("0") + "Learn this spell by left clicking this book!");
+		m.addPage(spell.getDesc() + "\n\n" + Lang.get("spelltome.cast").replace("[SPELL]", spell.name())
+				+ "\n\n" + Lang.get("spelltome.learn"));
 		i.setItemMeta(m);
 		i.addEnchantment(Zephyrus.getInstance().glow, 1);
 		return i;
@@ -73,10 +72,8 @@ public class SpellTome extends ItemUtil implements Listener {
 		l.add(ChatColor.GRAY + "" + spell);
 		m.setLore(l);
 		m.setTitle(spell);
-		m.addPage(desc + "\n\n" + ChatColor.getByChar("0")
-				+ "Cast the spell with:\n" + ChatColor.getByChar("9")
-				+ "/cast " + spell
-				+ "\n\n" + ChatColor.getByChar("0") + "Learn this spell by left clicking this book!");
+		m.addPage(desc + "\n\n" + Lang.get("spelltome.cast").replace("[SPELL]", spell)
+				+ "\n\n" + Lang.get("spelltome.learn"));
 		i.setItemMeta(m);
 		setGlow(i);
 	}
@@ -104,20 +101,15 @@ public class SpellTome extends ItemUtil implements Listener {
 											"learned");
 							learned.add(spell.name());
 							cfg.set("learned", learned);
-							e.getPlayer().sendMessage(
-									"You have successfully learned "
-											+ ChatColor.GOLD + spell.name());
+							e.getPlayer().sendMessage(Lang.get("spelltome.success").replace("[SPELL]", spell.name()));
 							e.getPlayer().setItemInHand(null);
 							PlayerConfigHandler.saveConfig(plugin, player, cfg);
 						}
 					} else {
-						e.getPlayer().sendMessage(
-								"You already know that spell!");
-						return;
+						Lang.errMsg("spelltome.known", e.getPlayer());
 					}
-
 				} else {
-					e.getPlayer().sendMessage("Spell not found...");
+					Lang.errMsg("spelltome.nospell", e.getPlayer());
 				}
 			}
 		}

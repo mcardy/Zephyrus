@@ -2,6 +2,7 @@ package net.lordsofcode.zephyrus.commands;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.player.LevelManager;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,6 +27,7 @@ public class ManaCommand extends ZephyrusCommand implements CommandExecutor {
 	public ManaCommand(Zephyrus plugin) {
 		this.plugin = plugin;
 		lvl = new LevelManager(plugin);
+		Lang.add("mana.restored", "Your magical powers feel restored!");
 	}
 
 	@Override
@@ -37,30 +39,39 @@ public class ManaCommand extends ZephyrusCommand implements CommandExecutor {
 					Player player = (Player) sender;
 					lvl.displayMana(player);
 				} else {
-					needOp(sender);
+					Lang.errMsg("noperm", sender);
 				}
 			} else {
 				if (args[0].equalsIgnoreCase("restore")) {
-					if (hasPerm(sender, "zephyrus.mana.restore")) {
-						Player player = (Player) sender;
-						LevelManager.resetMana(player);
-						player.sendMessage(ChatColor.DARK_AQUA + "Mana restored!");
+					if (args.length > 2) {
+						if (hasPerm(sender, "zephyrus.mana.restore")) {
+							Player player = (Player) sender;
+							LevelManager.resetMana(player);
+							player.sendMessage(ChatColor.DARK_AQUA + Lang.get("mana.restored"));
+						} else {
+							Lang.errMsg("noperm", sender);
+						}
 					} else {
-						needOp(sender);
+						if (isOnline(args[0])) {
+							
+						} else {
+							Lang.errMsg("notonline", sender);
+						}
 					}
 				} else if (hasPerm(sender, "zephyrus.mana.other")) {
 					if (isOnline(args[0])) {
 						Player target = Bukkit.getServer().getPlayer(args[0]);
 						lvl.displayMana(target);
 					} else {
-						notOnline(sender);
+						Lang.errMsg("notonline", sender);
 					}
 				} else {
-					needOp(sender);
+					Lang.errMsg("noperm", sender);
 				}
 			}
 		} else {
-			inGameOnly(sender);
+			//TODO restore and view player's mana from console
+			Lang.errMsg("ingameonly", sender);
 		}
 		return false;
 	}

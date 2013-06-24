@@ -2,9 +2,9 @@ package net.lordsofcode.zephyrus.commands;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.player.LevelManager;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,6 +26,7 @@ public class LevelUp extends ZephyrusCommand implements CommandExecutor {
 	public LevelUp(Zephyrus plugin) {
 		this.plugin = plugin;
 		lvl = new LevelManager(plugin);
+		Lang.add("levelupcmd", "You have leveled up [PLAYER]");
 	}
 
 	@Override
@@ -40,17 +41,17 @@ public class LevelUp extends ZephyrusCommand implements CommandExecutor {
 					if (isOnline(args[0])) {
 						Player player = Bukkit.getPlayer(args[0]);
 						lvl.levelUp(player);
-						sender.sendMessage(ChatColor.GRAY + "You have leveled up "
-								+ player.getName());
+						sender.sendMessage(Lang.get("levelupcmd").replace("[PLAYER]", player.getName()));
 					} else {
-						notOnline(sender);
+						Lang.errMsg("notonline", sender);
 					}
 				}
 			} else {
-				needOp(sender);
+				Lang.errMsg("noperm", sender);
 			}
 		} else {
-			inGameOnly(sender);
+			//TODO level up in-game players from console
+			Lang.errMsg("ingameonly", sender);
 		}
 		return false;
 	}

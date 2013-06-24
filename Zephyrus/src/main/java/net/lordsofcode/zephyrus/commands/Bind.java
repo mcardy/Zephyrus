@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.spells.Spell;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
 import org.apache.commons.lang.WordUtils;
@@ -32,6 +33,10 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 
 	public Bind(Zephyrus plugin) {
 		this.plugin = plugin;
+		Lang.add("bind.nospell", "Specify a spell to bind!");
+		Lang.add("bind.needwand", "You need to be holding a wand!");
+		Lang.add("bind.cantbind", "$6[SPELL] cannot be bound!");
+		Lang.add("bind.finish", "Bound [SPELL] to your wand");
 	}
 
 	@Override
@@ -41,7 +46,7 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 		if (sender instanceof Player) {
 			if (hasPerm(sender, "zephyrus.bind")) {
 				if (args.length == 0) {
-					sender.sendMessage("Specify a spell to bind!");
+					Lang.errMsg("bind.nospell", sender);
 				} else {
 					if (Zephyrus.spellMap.containsKey(args[0])) {
 						Spell spell = Zephyrus.spellMap.get(args[0]);
@@ -50,7 +55,8 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 								|| spell.hasPermission(player, spell)) {
 							if (player.getItemInHand() != null
 									&& player.getItemInHand().hasItemMeta()
-									&& player.getItemInHand().getItemMeta().hasDisplayName()
+									&& player.getItemInHand().getItemMeta()
+											.hasDisplayName()
 									&& player.getItemInHand().getItemMeta()
 											.getDisplayName()
 											.contains(ChatColor.GOLD + "Wand")) {
@@ -61,36 +67,42 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 											+ ChatColor.DARK_GRAY
 											+ spell.name());
 									ItemMeta m = i.getItemMeta();
-									m.setDisplayName(ChatColor.GOLD + "Wand" + ChatColor.DARK_GRAY + " | " + ChatColor.GRAY + WordUtils.capitalizeFully(spell.name()));
+									m.setDisplayName(ChatColor.GOLD
+											+ "Wand"
+											+ ChatColor.DARK_GRAY
+											+ " | "
+											+ ChatColor.GRAY
+											+ WordUtils.capitalizeFully(spell
+													.name()));
 									m.setLore(list);
 									i.setItemMeta(m);
 									player.sendMessage(ChatColor.GRAY
-											+ "Bound " + ChatColor.GOLD
-											+ spell.name() + ChatColor.GRAY
-											+ " to that wand.");
+											+ Lang.get("bind.finish").replace("[SPELL]",
+													WordUtils.capitalizeFully(ChatColor.GOLD
+															+ spell.name() + ChatColor.GRAY)));
 								} else {
 									sender.sendMessage(ChatColor.DARK_RED
-											+ "That spell cannot be bound");
+											+ Lang.get("bind.cantbind")
+													.replace("[SPELL]",
+															ChatColor.GOLD + WordUtils.capitalizeFully(
+																			spell.name()) + ChatColor.RED));
 								}
 							} else {
-								sender.sendMessage(ChatColor.DARK_RED
-										+ "You need to be holding a wand!");
+								Lang.errMsg("bind.needwand", player);
 							}
 						} else {
-							sender.sendMessage(ChatColor.DARK_RED
-									+ "You do not know that spell!");
+							Lang.errMsg("notlearned", sender);
 						}
 
 					} else {
-						sender.sendMessage(ChatColor.DARK_RED
-								+ "You do not know that spell!");
+						Lang.errMsg("notlearned", sender);
 					}
 				}
 			} else {
-				needOp(sender);
+				Lang.errMsg("noperm", sender);
 			}
 		} else {
-			inGameOnly(sender);
+			Lang.errMsg("ingameonly", sender);
 		}
 
 		return false;

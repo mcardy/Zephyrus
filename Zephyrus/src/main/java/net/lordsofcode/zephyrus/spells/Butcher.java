@@ -39,9 +39,7 @@ public class Butcher extends Spell {
 
 	@Override
 	public String bookText() {
-		int r = getConfig().getInt(this.name() + ".radius");
-		return "Brutally murders all creatures within a " + r
-				+ " block radius!";
+		return "Brutally murders all creatures within a radius";
 	}
 
 	@Override

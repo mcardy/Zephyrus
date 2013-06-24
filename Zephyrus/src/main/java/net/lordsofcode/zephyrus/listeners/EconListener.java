@@ -6,6 +6,7 @@ import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.items.Wand;
 import net.lordsofcode.zephyrus.player.LevelManager;
 import net.lordsofcode.zephyrus.spells.Spell;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -34,6 +35,14 @@ public class EconListener implements Listener {
 	public EconListener(Zephyrus plugin) {
 		this.plugin = plugin;
 		hook = new PluginHook();
+		Lang.add("econ.spell.success", "You have successfully purchased [SPELL]");
+		Lang.add("econ.spell.nolevel", "You are not high enough level to purchase [SPELL]");
+		Lang.add("econ.notenough", "Insufficient funds!");
+		Lang.add("econ.spell.create.success", "Successfully created a BuySpell sign!");
+		Lang.add("econ.badcost", "Invalad cost! $<cost>");
+		Lang.add("econ.spell.create.badspell", "Invalad spell!");
+		Lang.add("econ.novault", "Vault was not detected! Economy has been disabled!");
+		Lang.add("econ.wand.create.success", "Successfully created a BuyWand sign!");
 	}
 
 	@SuppressWarnings("deprecation")
@@ -60,28 +69,22 @@ public class EconListener implements Listener {
 									if (!(LevelManager.getLevel(e.getPlayer()) < spell
 											.getLevel())) {
 										SpellTome tome = new SpellTome(plugin,
-												spell.name(), spell.bookText());
+												spell.name(), spell.getDesc());
 										PluginHook.econ.withdrawPlayer(e
 												.getPlayer().getName(), cost);
 										e.getPlayer().getInventory()
 												.addItem(tome.item());
 										e.getPlayer().updateInventory();
-										e.getPlayer().sendMessage(
-												"You successfully purchased "
-														+ spell.name());
+										e.getPlayer().sendMessage(Lang.get("econ.spell.success").replace("[SPELL]", spell.name()));
 									} else {
 										e.getPlayer()
-												.sendMessage(
-														"You are too low a level to purchas that spell!");
+												.sendMessage(Lang.get("econ.spell.nolevel").replace("[SPELL]", spell.name()));
 									}
 								} else {
-									e.getPlayer()
-											.sendMessage(
-													"You do not have permission for that spell!");
+									Lang.errMsg("noperm", e.getPlayer());
 								}
 							} else {
-								e.getPlayer().sendMessage(
-										ChatColor.RED + "Insufficient funds!");
+								Lang.errMsg("econ.notenough", e.getPlayer());
 							}
 						}
 					} else if (s.getLine(0).equals(
@@ -97,8 +100,7 @@ public class EconListener implements Listener {
 								e.getPlayer().getInventory().addItem(wand);
 								e.getPlayer().updateInventory();
 							} else {
-								e.getPlayer().sendMessage(
-										ChatColor.RED + "Insufficient funds!");
+								Lang.errMsg("econ.notenough", e.getPlayer());
 							}
 						}
 					}
@@ -120,30 +122,27 @@ public class EconListener implements Listener {
 							throw new NumberFormatException();
 						}
 					} catch (NumberFormatException nFE) {
-						player.sendMessage("Invalid Cost!");
+						Lang.errMsg("econ.badcost", player);
 						return;
 					}
 					if (!Zephyrus.spellMap.containsKey(e.getLine(2)
 							.toLowerCase())) {
-						player.sendMessage("Invalid Spell!");
+						Lang.errMsg("econ.spell.create.badspell", player);
 						return;
 					}
 					Spell spell = Zephyrus.spellMap.get(e.getLine(2)
 							.toLowerCase());
 					if (!spell.isEnabled()) {
-						player.sendMessage("That spell is disabled!");
+						Lang.errMsg("disabled", player);
 						return;
 					}
 					e.setLine(0, ChatColor.DARK_AQUA + "[BuySpell]");
 					e.setLine(1, "$" + ChatColor.GOLD + e.getLine(1).replace("$", ""));
 					e.setLine(2, ChatColor.getByChar("4") + e.getLine(2));
-					player.sendMessage("Successfully created a BuySpell sign!");
+					Lang.msg("econ.spell.create.success", player);
 
 				} else {
-					e.getPlayer()
-							.sendMessage(
-									ChatColor.RED
-											+ "Vault not detected! Install vault to use BuySpell signs.");
+					Lang.errMsg("econ.novault", e.getPlayer());
 				}
 			}
 		} else if (e.getLine(0).equals("[BuyWand]")) {
@@ -157,18 +156,14 @@ public class EconListener implements Listener {
 							throw new NumberFormatException();
 						}
 					} catch (NumberFormatException nFE) {
-						player.sendMessage("Invalid Cost!");
+						Lang.errMsg("econ.badcost", player);
 						return;
 					}
 					e.setLine(0, ChatColor.DARK_AQUA + "[BuyWand]");
 					e.setLine(1, "$" + ChatColor.GOLD + e.getLine(1).replace("$", ""));
-					player.sendMessage("Successfully created a BuyWand sign!");
-
+					Lang.msg("econ.wand.create.success", player);
 				} else {
-					e.getPlayer()
-							.sendMessage(
-									ChatColor.RED
-											+ "Vault not detected! Install vault to use BuySpell signs.");
+					Lang.errMsg("econ.novault", e.getPlayer());
 				}
 			}
 		}

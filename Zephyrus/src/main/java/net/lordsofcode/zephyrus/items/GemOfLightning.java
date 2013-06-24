@@ -2,6 +2,7 @@ package net.lordsofcode.zephyrus.items;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.hooks.PluginHook;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -28,6 +29,7 @@ public class GemOfLightning extends CustomItem {
 	public GemOfLightning(Zephyrus plugin) {
 		super(plugin);
 		hook = new PluginHook();
+		Lang.add("lightninggem.recharge", "The Gem of Lightning still needs [TIME] to recharge...");
 	}
 
 	@Override
@@ -75,9 +77,7 @@ public class GemOfLightning extends CustomItem {
 				int delay = delayFromLevel(getItemLevel(e.getItem()));
 				ItemDelay.setDelay(plugin, e.getPlayer(), this, delay);
 			} else {
-				e.getPlayer().sendMessage(
-						ChatColor.DARK_RED
-								+ "You don't have permission for this area");
+				Lang.errMsg("worldguard", e.getPlayer());
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
 				&& checkName(e.getPlayer().getItemInHand(),
@@ -85,8 +85,7 @@ public class GemOfLightning extends CustomItem {
 				&& ItemDelay.hasDelay(plugin, e.getPlayer(), this)) {
 			int time = ItemDelay.getDelay(plugin, e.getPlayer(), this);
 			e.getPlayer().sendMessage(
-					ChatColor.GRAY + "The gem still needs " + time
-							+ " seconds to recharge!");
+					ChatColor.GRAY + Lang.get("lightninggem.recharge").replace("[TIME]", time + ""));
 		}
 
 	}
