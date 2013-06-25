@@ -43,7 +43,7 @@ public class ManaCommand extends ZephyrusCommand implements CommandExecutor {
 				}
 			} else {
 				if (args[0].equalsIgnoreCase("restore")) {
-					if (args.length > 2) {
+					if (args.length < 2) {
 						if (hasPerm(sender, "zephyrus.mana.restore")) {
 							Player player = (Player) sender;
 							LevelManager.resetMana(player);
@@ -52,8 +52,8 @@ public class ManaCommand extends ZephyrusCommand implements CommandExecutor {
 							Lang.errMsg("noperm", sender);
 						}
 					} else {
-						if (isOnline(args[0])) {
-							
+						if (isOnline(args[1])) {
+							//TODO restore mana to other players
 						} else {
 							Lang.errMsg("notonline", sender);
 						}

@@ -93,7 +93,7 @@ public abstract class Spell implements Listener {
 	public boolean canBind() {
 		return true;
 	}
-
+	
 	/**
 	 * A spell that is required for crafting this spell
 	 * @return The required spell
@@ -129,15 +129,7 @@ public abstract class Spell implements Listener {
 		}
 		return false;
 	}
-
-	/**
-	 * The message sent to the player when they lack the required mana.
-	 * @param p
-	 */
-	public void notEnoughMana(Player p) {
-		p.sendMessage(ChatColor.DARK_GRAY + "Not enough mana!");
-	}
-
+	
 	/**
 	 * Checks if the player has permission to cast the spell. Returns false if
 	 * OpKnowledge is false in the config

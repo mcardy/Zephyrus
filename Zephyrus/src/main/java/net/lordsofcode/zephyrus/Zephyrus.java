@@ -65,6 +65,7 @@ import net.lordsofcode.zephyrus.spells.Repair;
 import net.lordsofcode.zephyrus.spells.Satisfy;
 import net.lordsofcode.zephyrus.spells.Smite;
 import net.lordsofcode.zephyrus.spells.Spell;
+import net.lordsofcode.zephyrus.spells.Summon;
 import net.lordsofcode.zephyrus.spells.SuperHeat;
 import net.lordsofcode.zephyrus.spells.Vanish;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
@@ -141,6 +142,7 @@ public class Zephyrus extends JavaPlugin {
 		Lang.add("noperm", "You do not have permission to do that!");
 		Lang.add("ingameonly", "You must be an in-game player to perform this command!");
 		Lang.add("notonline", "That player is not online!");
+		Lang.add("outofdatebukkit", "Sadly, the version of Craftbukkit that you are using is out of date...");
 		
 		Lang.add("nomana", "Not enough mana!");
 		Lang.add("disabled", "That spell has been disabled...");
@@ -266,6 +268,7 @@ public class Zephyrus extends JavaPlugin {
 		new Repair(this);
 		new Satisfy(this);
 		new Smite(this);
+		new Summon(this);
 		new SuperHeat(this);
 		new Vanish(this);
 

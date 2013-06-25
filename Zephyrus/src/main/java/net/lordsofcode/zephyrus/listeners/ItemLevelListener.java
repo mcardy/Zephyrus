@@ -2,6 +2,7 @@ package net.lordsofcode.zephyrus.listeners;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.items.CustomItem;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.Merchant;
 
 import org.bukkit.Material;
@@ -32,6 +33,8 @@ public class ItemLevelListener implements Listener {
 
 	public ItemLevelListener(Zephyrus plugin) {
 		this.plugin = plugin;
+		Lang.add("itemlevel.max", "That item is already at max level!");
+		Lang.add("itemlevel.noitemerror", "Something went wrong. Item not found...");
 	}
 
 	@EventHandler
@@ -51,16 +54,13 @@ public class ItemLevelListener implements Listener {
 					try {
 						new CraftLivingEntity(null, null);
 					} catch (NoClassDefFoundError err) {
-						e.getPlayer()
-								.sendMessage(
-										"Saadly, the version of CraftBukkit running on this server is not fully compatible with this version of Zephyrus. This feature has been disabled...");
+						Lang.errMsg("outofdatebukkit", e.getPlayer());
 						return;
 					}
 					CustomItem customItem = Zephyrus.itemMap.get(i
 							.getItemMeta().getDisplayName());
 					if (!(customItem.getItemLevel(i) < customItem.maxLevel())) {
-						e.getPlayer().sendMessage(
-								"That item is already max level!");
+						Lang.errMsg("itemlevel.max", e.getPlayer());
 						return;
 					}
 					if (Zephyrus.merchantMap.containsKey(e.getItem())) {
@@ -69,8 +69,7 @@ public class ItemLevelListener implements Listener {
 						m.openTrade(e.getPlayer());
 						plugin.invPlayers.put(e.getPlayer().getName(), m);
 					} else {
-						e.getPlayer().sendMessage(
-								"Something went wrong. Item not found...");
+						Lang.errMsg("itemlevel.noitemerror", e.getPlayer());
 					}
 				}
 			}
