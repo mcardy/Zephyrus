@@ -74,6 +74,7 @@ import net.lordsofcode.zephyrus.utils.Merchant;
 import net.lordsofcode.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
@@ -81,6 +82,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -175,13 +178,15 @@ public class Zephyrus extends JavaPlugin {
 			Zephyrus.mana.put(p.getName(), LevelManager.loadMana(p));
 			new ManaRecharge(this, p).runTaskLater(this, 30);
 		}
+		
 		getLogger().info(
 				"Zephyrus v"
-						+ this.getDescription().getVersion()
+						+ getDescription().getVersion()
 						+ " by "
-						+ this.getDescription().getAuthors().toString()
+						+ getDescription().getAuthors().toString()
 								.replace("[", "").replace("]", "")
-						+ " Enabled!");
+						+ " enabled!");
+		
 		new PostInit().runTaskAsynchronously(this);
 	}
 
@@ -321,10 +326,10 @@ public class Zephyrus extends JavaPlugin {
 	 */
 	public void addSpell(Spell spell) {
 		if ((spell.getClass().getPackage() == Spell.class.getPackage())) {
-			if (spell.name() != null
-					&& !Zephyrus.spellMap.containsKey(spell.name()
+			spellCfg(spell);
+			if (!Zephyrus.spellMap.containsKey(spell.getDisplayName()
 							.toLowerCase())) {
-				Zephyrus.spellMap.put(spell.name().toLowerCase(), spell);
+				Zephyrus.spellMap.put(spell.getDisplayName().toLowerCase(), spell);
 			}
 			if (spell.spellItems() != null
 					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
@@ -334,19 +339,62 @@ public class Zephyrus extends JavaPlugin {
 				getServer().getPluginManager().registerEvents(spell, this);
 				spell.listenerEnabled = true;
 			}
+			Permission perm = new Permission("zephyrus.cast." + spell.name().toLowerCase(), PermissionDefault.FALSE);
+			try {
+				Bukkit.getPluginManager().addPermission(perm);
+			} catch (Exception e) {}
+			
 		} else {
-			if (spell.name() != null
-					&& !Zephyrus.spellMap.containsKey(spell.name()
+			spellCfg(spell);
+			if (!Zephyrus.spellMap.containsKey(spell.getDisplayName()
 							.toLowerCase())) {
-				Zephyrus.spellMap.put(spell.name().toLowerCase(), spell);
+				Zephyrus.spellMap.put(spell.getDisplayName().toLowerCase(), spell);
 			}
 			if (spell.spellItems() != null
 					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
 				Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
 			}
+			Permission perm = new Permission("zephyrus.cast." + spell.name().toLowerCase(), PermissionDefault.FALSE);
+			try {
+				Bukkit.getPluginManager().addPermission(perm);
+			} catch (Exception e) {}
 		}
 	}
 
+	private void spellCfg(Spell spell) {
+		if (!config.getConfig().contains(spell.name() + ".enabled")) {
+			config.getConfig().set(spell.name() + ".enabled", true);
+		}
+		if (!config.getConfig().contains(spell.name() + ".desc")) {
+			config.getConfig().set(spell.name() + ".desc", spell.bookText());
+		}
+		if (!config.getConfig().contains(spell.name() + ".mana")) {
+			config.getConfig().set(spell.name() + ".mana",
+					spell.manaCost());
+		}
+		if (!config.getConfig().contains(spell.name() + ".level")) {
+			config.getConfig().set(spell.name() + ".level",
+					spell.reqLevel());
+		}
+		if (!config.getConfig().contains(spell.name() + ".displayname")) {
+			config.getConfig().set(spell.name() + ".displayname", spell.name());
+		}
+		if (spell.failMessage() != "" && langCfg.getConfig().contains("spells." + spell.name() + ".fail")) {
+			Lang.add("spells." + spell.name() + ".fail", spell.failMessage().replace(ChatColor.COLOR_CHAR + "", "$"));
+		}
+		if (spell.getConfigurations() != null) {
+			Map<String, Object> cfg = spell.getConfigurations();
+			for (String str : cfg.keySet()) {
+				if (!config.getConfig().contains(
+						spell.name() + "." + str)) {
+					config.getConfig().set(spell.name() + "." + str,
+							cfg.get(str));
+				}
+			}
+		}
+		config.saveConfig();
+	}
+	
 	private boolean isListener(Spell spell) {
 		for (Method m : spell.getClass().getMethods()) {
 			if (m.isAnnotationPresent(EventHandler.class)) {
@@ -379,34 +427,6 @@ public class Zephyrus extends JavaPlugin {
 				getLogger().warning(e.getMessage());
 			}
 
-			for (Spell spell : spellMap.values()) {
-				if (!config.getConfig().contains(spell.name() + ".enabled")) {
-					config.getConfig().set(spell.name() + ".enabled", true);
-				}
-				if (!config.getConfig().contains(spell.name() + ".desc")) {
-					config.getConfig().set(spell.name() + ".desc", spell.bookText());
-				}
-				if (!config.getConfig().contains(spell.name() + ".mana")) {
-					config.getConfig().set(spell.name() + ".mana",
-							spell.manaCost());
-				}
-				if (!config.getConfig().contains("level")) {
-					config.getConfig().set(spell.name() + ".level",
-							spell.reqLevel());
-				}
-				if (spell.getConfigurations() != null) {
-					Map<String, Object> cfg = spell.getConfigurations();
-					for (String str : cfg.keySet()) {
-						if (!config.getConfig().contains(
-								spell.name() + "." + str)) {
-							config.getConfig().set(spell.name() + "." + str,
-									cfg.get(str));
-						}
-					}
-				}
-				config.saveConfig();
-			}
-
 			lang = langCfg.getConfig();
 			spells = config.getConfig();
 			
@@ -421,8 +441,8 @@ public class Zephyrus extends JavaPlugin {
 			}
 			String added = "";
 			if (!(spellMap.size() == builtInSpells)) {
-				int a = spellMap.size() - builtInSpells;
-				added = " " + a + " external spells registered. ";
+				int external = spellMap.size() - builtInSpells;
+				added = " " + external + " external spells registered. ";
 			}
 
 			getLogger().info("Loaded " + spellMap.size() + " spells." + added);

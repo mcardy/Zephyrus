@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +24,8 @@ public class Feed extends Spell {
 
 	public Feed(Zephyrus plugin) {
 		super(plugin);
+		Lang.add("spells.feed.applied", "You feel slightly less hungry");
+		Lang.add("spells.feed.side", "You feel slightly more hungry...");
 	}
 
 	@Override
@@ -43,7 +45,7 @@ public class Feed extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 1;
+		return 5;
 	}
 
 	@Override
@@ -54,7 +56,7 @@ public class Feed extends Spell {
 		} else {
 			player.setFoodLevel(player.getFoodLevel() + a);
 		}
-		player.sendMessage(ChatColor.GRAY + "You feel slightly less hungry");
+		Lang.msg("spells.feed.applied", player);
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class Feed extends Spell {
 	@Override
 	public Map<String, Object> getConfigurations() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("amount", 1);
+		map.put("amount", 4);
 		return map;
 	}
 
@@ -93,13 +95,12 @@ public class Feed extends Spell {
 	
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
-		int a = getConfig().getInt(this.name() + ".amount");
-		if (player.getFoodLevel() - a < 0) {
+		if (player.getFoodLevel() - 2 < 0) {
 			player.setFoodLevel(0);
 		} else {
-			player.setFoodLevel(player.getFoodLevel() - a);
+			player.setFoodLevel(player.getFoodLevel() - 2);
 		}
-		player.sendMessage(ChatColor.GRAY + "You feel slightly more hungry...");
+		Lang.msg("spells.feed.side", player);
 		return true;
 	}
 

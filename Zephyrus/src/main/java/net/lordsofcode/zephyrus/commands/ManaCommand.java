@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
  * 
  */
 
-public class ManaCommand extends ZephyrusCommand implements CommandExecutor {
+public class ManaCommand implements CommandExecutor {
 
 	LevelManager lvl;
 	Zephyrus plugin;
@@ -35,7 +35,7 @@ public class ManaCommand extends ZephyrusCommand implements CommandExecutor {
 			String label, String[] args) {
 		if (sender instanceof Player) {
 			if (args.length == 0) {
-				if (hasPerm(sender, "zephyrus.mana")) {
+				if (sender.hasPermission("zephyrus.mana") || sender.isOp()) {
 					Player player = (Player) sender;
 					lvl.displayMana(player);
 				} else {
@@ -44,7 +44,7 @@ public class ManaCommand extends ZephyrusCommand implements CommandExecutor {
 			} else {
 				if (args[0].equalsIgnoreCase("restore")) {
 					if (args.length < 2) {
-						if (hasPerm(sender, "zephyrus.mana.restore")) {
+						if (sender.hasPermission("zephyrus.mana.restore") || sender.isOp()) {
 							Player player = (Player) sender;
 							LevelManager.resetMana(player);
 							player.sendMessage(ChatColor.DARK_AQUA + Lang.get("mana.restored"));
@@ -58,7 +58,7 @@ public class ManaCommand extends ZephyrusCommand implements CommandExecutor {
 							Lang.errMsg("notonline", sender);
 						}
 					}
-				} else if (hasPerm(sender, "zephyrus.mana.other")) {
+				} else if (sender.hasPermission("zephyrus.mana.other") || sender.isOp()) {
 					if (isOnline(args[0])) {
 						Player target = Bukkit.getServer().getPlayer(args[0]);
 						lvl.displayMana(target);
@@ -74,6 +74,14 @@ public class ManaCommand extends ZephyrusCommand implements CommandExecutor {
 			Lang.errMsg("ingameonly", sender);
 		}
 		return false;
+	}
+	
+	public boolean isOnline(String player) {
+		Player target = (Bukkit.getServer().getPlayer(player));
+		if (target == null) {
+			return false;
+		}
+		return true;
 	}
 
 }

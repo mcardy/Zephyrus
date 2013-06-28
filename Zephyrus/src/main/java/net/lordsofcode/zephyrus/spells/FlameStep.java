@@ -7,8 +7,8 @@ import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.hooks.PluginHook;
+import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Creature;
@@ -40,6 +40,9 @@ public class FlameStep extends Spell implements Listener {
 		super(plugin);
 		list = new HashMap<String, Integer>();
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		Lang.add("spells.flamestep.applied", "You will now burn everything in your path for [TIME] seconds");
+		Lang.add("spells.flamestep.warning", "$7You start to cool down...");
+		Lang.add("spells.flamestep.end", "$7You are cold again...");
 	}
 
 	@Override
@@ -49,7 +52,7 @@ public class FlameStep extends Spell implements Listener {
 
 	@Override
 	public String bookText() {
-		return "Once cast, everything around you will ignite. This includes players, animals, and blocks!";
+		return "Once cast, everything around you will burn!";
 	}
 
 	@Override
@@ -68,14 +71,11 @@ public class FlameStep extends Spell implements Listener {
 		duration = getConfig().getInt("flamestep.duration");
 		if (list.containsKey(player.getName())) {
 			list.put(player.getName(), list.get(player.getName()) + duration);
-			player.sendMessage(ChatColor.RED + "You will now burn everything in your path for "
-					+ list.get(player.getName()) + " seconds");
-			new FlameRunnable(player).runTaskLater(plugin, 20);
-			player.setFireTicks(25);
+			player.sendMessage(Lang.get("spells.flamestep.applied").replace("[TIME]", list.get(player.getName()) + ""));
+			player.setFireTicks(21);
 		} else {
 			list.put(player.getName(), duration);
-			player.sendMessage(ChatColor.RED + "You will now burn everything in your path for "
-					+ list.get(player.getName()) + " seconds");
+			player.sendMessage(Lang.get("spells.flamestep.applied").replace("[TIME]", list.get(player.getName()) + ""));
 			new FlameRunnable(player).runTaskLater(plugin, 20);
 		}
 	}
@@ -143,15 +143,14 @@ public class FlameStep extends Spell implements Listener {
 		public void run() {
 			if (list.get(player.getName()) > 0) {
 				if (list.get(player.getName()) == 5) {
-					player.sendMessage(ChatColor.GRAY
-							+ "You start to cool down...");
+					Lang.msg("spells.feather.warning", player);
 				}
 				list.put(player.getName(), list.get(player.getName()) - 1);
-				player.setFireTicks(25);
+				player.setFireTicks(21);
 				new FlameRunnable(player).runTaskLater(plugin, 20);
 			} else {
 				list.remove(player.getName());
-				player.sendMessage(ChatColor.GRAY + "You feel cold again...");
+				Lang.msg("spells.flamestep.end", player);
 			}
 		}
 

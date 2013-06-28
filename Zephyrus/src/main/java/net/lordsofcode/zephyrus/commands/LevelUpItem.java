@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
  * 
  */
 
-public class LevelUpItem extends ZephyrusCommand implements CommandExecutor {
+public class LevelUpItem implements CommandExecutor {
 
 	ItemUtil item;
 	Zephyrus plugin;

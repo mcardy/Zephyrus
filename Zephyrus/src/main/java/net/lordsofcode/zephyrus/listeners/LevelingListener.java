@@ -9,6 +9,7 @@ import net.lordsofcode.zephyrus.events.PlayerCastSpellEvent;
 import net.lordsofcode.zephyrus.events.PlayerLevelUpEvent;
 import net.lordsofcode.zephyrus.player.LevelManager;
 import net.lordsofcode.zephyrus.spells.Spell;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.ChatColor;
@@ -36,6 +37,8 @@ public class LevelingListener implements Listener {
 	public LevelingListener(Zephyrus plugin) {
 		this.plugin = plugin;
 		lvl = new LevelManager(plugin);
+		Lang.add("levelling.nonew", "You have not learned any new spells");
+		Lang.add("levelling.newspells", "You have learned");
 	}
 
 	@EventHandler
@@ -66,8 +69,8 @@ public class LevelingListener implements Listener {
 					.getConfig(plugin, player).getStringList("learned");
 			for (Spell spell : Zephyrus.spellMap.values()) {
 				if (spell.getLevel() == e.getLevel()) {
-					learned.add(spell.name());
-					l.add(spell.name());
+					learned.add(spell.getDisplayName().toLowerCase());
+					l.add(spell.getDisplayName().toLowerCase());
 				}
 			}
 			FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin,
@@ -88,10 +91,9 @@ public class LevelingListener implements Listener {
 			}
 			String str = sb.toString();
 			if (str.equals("") || sb.length() == 0) {
-				player.sendMessage(ChatColor.AQUA
-						+ "You have learned no new spells");
+				player.sendMessage(ChatColor.AQUA + Lang.get("levelling.nonew"));
 			} else {
-				player.sendMessage(ChatColor.AQUA + "You have learned"
+				player.sendMessage(ChatColor.AQUA + Lang.get("levelling.newspells")
 						+ ChatColor.DARK_AQUA + str.replaceFirst(",", ""));
 			}
 		}

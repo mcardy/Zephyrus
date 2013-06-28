@@ -19,6 +19,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
  * 
  */
 
+//TODO Hook into Lockette
 public class PluginHook {
 
 	private static WorldGuardPlugin wg;

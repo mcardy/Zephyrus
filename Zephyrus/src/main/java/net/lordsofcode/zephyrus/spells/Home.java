@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
@@ -28,6 +29,8 @@ public class Home extends Spell {
 
 	public Home(Zephyrus plugin) {
 		super(plugin);
+		Lang.add("spell.home.set", "Your home has been set!");
+		Lang.add("spell.home.applied", "Welcome home!");
 	}
 
 	@Override
@@ -56,10 +59,10 @@ public class Home extends Spell {
 	public void run(Player player, String[] args) {
 		if (args.length == 2 && args[1].equalsIgnoreCase("set")) {
 			setHome(player);
-			player.sendMessage(ChatColor.GRAY + "Your home has been set!");
+			Lang.msg("spell.home.set", player);
 		} else {
 			goHome(player);
-			player.sendMessage(ChatColor.GRAY + "Welcome home!");
+			Lang.msg("spell.home.applied", player);
 		}
 	}
 

@@ -7,7 +7,6 @@ import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -54,7 +53,6 @@ public class Vision extends Spell {
 		player.removePotionEffect(PotionEffectType.NIGHT_VISION);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION,
 				t * 20, 1));
-		player.sendMessage(ChatColor.GRAY + "You can now see in the dark!");
 	}
 
 	@Override

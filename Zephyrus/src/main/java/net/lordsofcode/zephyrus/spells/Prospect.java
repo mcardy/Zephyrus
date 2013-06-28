@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,6 +26,8 @@ public class Prospect extends Spell {
 
 	public Prospect(Zephyrus plugin) {
 		super(plugin);
+		Lang.add("spells.prospect.found", "Found ores: ");
+		Lang.add("spells.prospect.none", "none...");
 	}
 
 	@Override
@@ -77,12 +80,12 @@ public class Prospect extends Spell {
 			}
 		}
 		StringBuilder msg = new StringBuilder();
-		msg.append("Found ores: ");
+		msg.append(Lang.get("spells.prospect.found"));
 		for (String str : s) {
 			msg.append(str + " ");
 		}
 		if (s.size() == 0) {
-			msg.append("None...");
+			msg.append(Lang.get("spells.prospect.none"));
 		}
 		player.sendMessage(msg.toString());
 	}

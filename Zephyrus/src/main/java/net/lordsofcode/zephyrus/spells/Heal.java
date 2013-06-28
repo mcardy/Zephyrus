@@ -7,7 +7,6 @@ import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -43,7 +42,7 @@ public class Heal extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 2;
+		return 5;
 	}
 
 	@Override
@@ -54,13 +53,12 @@ public class Heal extends Spell {
 		} else {
 			player.setHealth(player.getFoodLevel() + a);
 		}
-		player.sendMessage(ChatColor.GRAY + "You feel a bit stronger");
 	}
 	
 	@Override
 	public Map<String, Object> getConfigurations() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("amount", 1);
+		map.put("amount", 4);
 		return map;
 	}
 

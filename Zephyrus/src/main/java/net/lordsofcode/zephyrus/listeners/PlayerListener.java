@@ -140,7 +140,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 				for (Spell spell : Zephyrus.spellMap.values()) {
 					if (spell.getLevel() == 1 && spell.isEnabled()) {
 						List<String> learned = cfg.getStringList("learned");
-						learned.add(spell.name());
+						learned.add(spell.getDisplayName().toLowerCase());
 						cfg.set("learned", learned);
 					}
 				}

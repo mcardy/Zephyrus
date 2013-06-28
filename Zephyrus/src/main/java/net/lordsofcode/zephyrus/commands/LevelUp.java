@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
  * 
  */
 
-public class LevelUp extends ZephyrusCommand implements CommandExecutor {
+public class LevelUp implements CommandExecutor {
 
 	Zephyrus plugin;
 	LevelManager lvl;
@@ -54,6 +54,14 @@ public class LevelUp extends ZephyrusCommand implements CommandExecutor {
 			Lang.errMsg("ingameonly", sender);
 		}
 		return false;
+	}
+	
+	public boolean isOnline(String player) {
+		Player target = (Bukkit.getServer().getPlayer(player));
+		if (target == null) {
+			return false;
+		}
+		return true;
 	}
 
 }

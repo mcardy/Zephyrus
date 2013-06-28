@@ -69,16 +69,16 @@ public class EconListener implements Listener {
 									if (!(LevelManager.getLevel(e.getPlayer()) < spell
 											.getLevel())) {
 										SpellTome tome = new SpellTome(plugin,
-												spell.name(), spell.getDesc());
+												spell.getDisplayName().toLowerCase(), spell.getDesc());
 										PluginHook.econ.withdrawPlayer(e
 												.getPlayer().getName(), cost);
 										e.getPlayer().getInventory()
 												.addItem(tome.item());
 										e.getPlayer().updateInventory();
-										e.getPlayer().sendMessage(Lang.get("econ.spell.success").replace("[SPELL]", spell.name()));
+										e.getPlayer().sendMessage(Lang.get("econ.spell.success").replace("[SPELL]", spell.getDisplayName()));
 									} else {
 										e.getPlayer()
-												.sendMessage(Lang.get("econ.spell.nolevel").replace("[SPELL]", spell.name()));
+												.sendMessage(Lang.get("econ.spell.nolevel").replace("[SPELL]", spell.getDisplayName()));
 									}
 								} else {
 									Lang.errMsg("noperm", e.getPlayer());

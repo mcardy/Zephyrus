@@ -26,7 +26,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * 
  */
 
-public class Bind extends ZephyrusCommand implements CommandExecutor,
+public class Bind implements CommandExecutor,
 		TabCompleter {
 
 	Zephyrus plugin;
@@ -44,14 +44,14 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 			String label, String[] args) {
 
 		if (sender instanceof Player) {
-			if (hasPerm(sender, "zephyrus.bind")) {
+			if (sender.hasPermission("zephyrus.bind") || sender.isOp()) {
 				if (args.length == 0) {
 					Lang.errMsg("bind.nospell", sender);
 				} else {
 					if (Zephyrus.spellMap.containsKey(args[0])) {
 						Spell spell = Zephyrus.spellMap.get(args[0]);
 						Player player = (Player) sender;
-						if (spell.isLearned(player, spell.name())
+						if (spell.isLearned(player, spell.getDisplayName().toLowerCase())
 								|| spell.hasPermission(player, spell)) {
 							if (player.getItemInHand() != null
 									&& player.getItemInHand().hasItemMeta()
@@ -65,27 +65,26 @@ public class Bind extends ZephyrusCommand implements CommandExecutor,
 									List<String> list = new ArrayList<String>();
 									list.add(ChatColor.GRAY + "Bound spell: "
 											+ ChatColor.DARK_GRAY
-											+ spell.name());
+											+ spell.getDisplayName().toLowerCase());
 									ItemMeta m = i.getItemMeta();
 									m.setDisplayName(ChatColor.GOLD
 											+ "Wand"
 											+ ChatColor.DARK_GRAY
 											+ " | "
-											+ ChatColor.GRAY
-											+ WordUtils.capitalizeFully(spell
-													.name()));
+											+ ChatColor.GOLD
+											+ WordUtils.capitalizeFully(spell.getDisplayName()));
 									m.setLore(list);
 									i.setItemMeta(m);
 									player.sendMessage(ChatColor.GRAY
 											+ Lang.get("bind.finish").replace("[SPELL]",
 													WordUtils.capitalizeFully(ChatColor.GOLD
-															+ spell.name() + ChatColor.GRAY)));
+															+ spell.getDisplayName() + ChatColor.GRAY)));
 								} else {
 									sender.sendMessage(ChatColor.DARK_RED
 											+ Lang.get("bind.cantbind")
 													.replace("[SPELL]",
 															ChatColor.GOLD + WordUtils.capitalizeFully(
-																			spell.name()) + ChatColor.RED));
+																			spell.getDisplayName()) + ChatColor.RED));
 								}
 							} else {
 								Lang.errMsg("bind.needwand", player);

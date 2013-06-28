@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -26,6 +26,7 @@ public class Vanish extends Spell {
 
 	public Vanish(Zephyrus plugin) {
 		super(plugin);
+		Lang.add("spells.vanish.applied", "$7You have dissappeared");
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class Vanish extends Spell {
 		player.removePotionEffect(PotionEffectType.INVISIBILITY);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,
 				t * 20, 1));
-		player.sendMessage(ChatColor.GRAY + "You have dissappeared!");
+		Lang.msg("spells.vanish.applied", player);
 	}
 
 	@Override

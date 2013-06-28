@@ -1,1 +1,8 @@
 # Spells - Zephyrus
+# -----------------
+# enabled: Whether or not the spell should be enabled
+# level: The level required to learn and cast the spell
+# mana: The mana cost of the spell
+# desc: The text that appears in the spelltome
+# failmessage: The message that displays when that spell can't be cast
+# displayname: The name that the spell displays as

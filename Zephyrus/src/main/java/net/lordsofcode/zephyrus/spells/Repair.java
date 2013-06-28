@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,6 +25,7 @@ public class Repair extends Spell {
 
 	public Repair(Zephyrus plugin) {
 		super(plugin);
+		Lang.add("spells.repair.side", "$7Your tool feels a bit weaker...");
 	}
 
 	@Override
@@ -97,7 +99,7 @@ public class Repair extends Spell {
 	public boolean sideEffect(Player player, String[] args) {
 		int amount = getConfig().getInt(this.name() + ".amount");
 		player.getItemInHand().setDurability((short) (player.getItemInHand().getDurability() + amount));
-		player.sendMessage(ChatColor.GRAY + "Your tool feels a bit weaker...");
+		Lang.msg("spells.repair.side", player);
 		return true;
 	}
 

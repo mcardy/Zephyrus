@@ -57,8 +57,8 @@ public class SpellTome extends ItemUtil implements Listener {
 		List<String> l = new ArrayList<String>();
 		l.add(ChatColor.GRAY + "" + spell);
 		m.setLore(l);
-		m.setTitle(spell.name());
-		m.addPage(spell.getDesc() + "\n\n" + Lang.get("spelltome.cast").replace("[SPELL]", spell.name())
+		m.setTitle(spell.getDisplayName());
+		m.addPage(spell.getDesc() + "\n\n" + Lang.get("spelltome.cast").replace("[SPELL]", spell.getDisplayName())
 				+ "\n\n" + Lang.get("spelltome.learn"));
 		i.setItemMeta(m);
 		i.addEnchantment(Zephyrus.getInstance().glow, 1);
@@ -91,7 +91,7 @@ public class SpellTome extends ItemUtil implements Listener {
 					Player player = e.getPlayer();
 					FileConfiguration cfg = PlayerConfigHandler.getConfig(
 							plugin, player);
-					if (!cfg.getStringList("learned").contains(spell.name())) {
+					if (!cfg.getStringList("learned").contains(spell.getDisplayName().toLowerCase())) {
 						PlayerLearnSpellEvent event = new PlayerLearnSpellEvent(
 								player, spell);
 						Bukkit.getServer().getPluginManager().callEvent(event);
@@ -99,9 +99,9 @@ public class SpellTome extends ItemUtil implements Listener {
 							List<String> learned = PlayerConfigHandler
 									.getConfig(plugin, player).getStringList(
 											"learned");
-							learned.add(spell.name());
+							learned.add(spell.getDisplayName().toLowerCase());
 							cfg.set("learned", learned);
-							e.getPlayer().sendMessage(Lang.get("spelltome.success").replace("[SPELL]", spell.name()));
+							e.getPlayer().sendMessage(Lang.get("spelltome.success").replace("[SPELL]", spell.getDisplayName()));
 							e.getPlayer().setItemInHand(null);
 							PlayerConfigHandler.saveConfig(plugin, player, cfg);
 						}

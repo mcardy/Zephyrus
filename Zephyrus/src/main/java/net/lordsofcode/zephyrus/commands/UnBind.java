@@ -21,7 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * 
  */
 
-public class UnBind extends ZephyrusCommand implements CommandExecutor {
+public class UnBind implements CommandExecutor {
 
 	public UnBind() {
 		Lang.add("unbind.unbound", "Spell unbound from your wand!");
@@ -34,7 +34,7 @@ public class UnBind extends ZephyrusCommand implements CommandExecutor {
 
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			if (hasPerm(sender, "zephyrus.bind")) {
+			if (sender.hasPermission("zephyrus.bind")) {
 				if (player.getItemInHand() != null
 						&& player.getItemInHand().hasItemMeta()
 						&& player.getItemInHand().getItemMeta()

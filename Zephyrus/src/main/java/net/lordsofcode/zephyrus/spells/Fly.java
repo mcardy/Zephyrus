@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -28,6 +28,9 @@ public class Fly extends Spell {
 	public Fly(Zephyrus plugin) {
 		super(plugin);
 		list = new HashMap<String, Integer>();
+		Lang.add("spells.fly.applied", "You can now fly for [TIME] seconds");
+		Lang.add("spells.fly.warning", "$7Your wings start to dissappear!");
+		Lang.add("spells.fly.end", "$7Your wings were taken!");
 	}
 
 	@Override
@@ -55,12 +58,12 @@ public class Fly extends Spell {
 		int t = getConfig().getInt(this.name() + ".duration");
 		if (list.containsKey(player.getName())) {
 			list.put(player.getName(), list.get(player.getName()) + t);
-			player.sendMessage(ChatColor.GRAY + "You can now float for " + list.get(player.getName()) + "seconds");
+			player.sendMessage(Lang.get("spells.fly.applied").replace("[TIME]", list.get(player.getName()) + ""));
 			player.setAllowFlight(true);
 			new FeatherRunnable(player).runTaskLater(plugin, 20);
 		} else {
 			list.put(player.getName(), t);
-			player.sendMessage(ChatColor.GRAY + "You can now float for " + list.get(player.getName()) + " seconds");
+			player.sendMessage(Lang.get("spells.fly.applied").replace("[TIME]", list.get(player.getName()) + ""));
 			player.setAllowFlight(true);
 			new FeatherRunnable(player).runTaskLater(plugin, 20);
 		}
@@ -99,14 +102,14 @@ public class Fly extends Spell {
 		public void run() {
 			if (list.containsKey(player.getName()) && list.get(player.getName()) > 0) {
 				if (list.get(player.getName()) == 5) {
-					player.sendMessage(ChatColor.GRAY + "5 seconds left of flight!");
+					Lang.msg("spells.fly.warning", player);
 				}
 				list.put(player.getName(), list.get(player.getName()) - 1);
 				new FeatherRunnable(player).runTaskLater(plugin, 20);
 			} else {
 				list.remove(player.getName());
 				player.setAllowFlight(false);
-				player.sendMessage(ChatColor.GRAY + "Your wings dissappeared!");
+				Lang.msg("spells.fly.end", player);
 			}
 		}
 		

@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
  * 
  */
 
-public class Level extends ZephyrusCommand implements CommandExecutor {
+public class Level implements CommandExecutor {
 
 	LevelManager lvl;
 	Zephyrus plugin;
@@ -33,14 +33,14 @@ public class Level extends ZephyrusCommand implements CommandExecutor {
 			String label, String[] args) {
 		if (sender instanceof Player) {
 			if (args.length == 0) {
-				if (hasPerm(sender, "zephyrus.level")) {
+				if (sender.hasPermission("zephyrus.level") || sender.isOp()) {
 					Player player = (Player) sender;
 					lvl.displayLevel(player);
 				} else {
 					Lang.errMsg("noperm", sender);
 				}
 			} else {
-				if (hasPerm(sender, "zephyrus.level.other")) {
+				if (sender.hasPermission("zephyrus.level.other") || sender.isOp()) {
 					if (isOnline(args[0])) {
 						Player target = Bukkit.getServer().getPlayer(args[0]);
 						lvl.displayLevel(target);
@@ -56,6 +56,14 @@ public class Level extends ZephyrusCommand implements CommandExecutor {
 			Lang.errMsg("ingameonly", sender);
 		}
 		return false;
+	}
+	
+	public boolean isOnline(String player) {
+		Player target = (Bukkit.getServer().getPlayer(player));
+		if (target == null) {
+			return false;
+		}
+		return true;
 	}
 
 }

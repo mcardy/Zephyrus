@@ -24,7 +24,7 @@ import org.bukkit.entity.Player;
  * 
  */
 
-public class Cast extends ZephyrusCommand implements CommandExecutor,
+public class Cast implements CommandExecutor,
 		TabCompleter {
 
 	Zephyrus plugin;
@@ -44,7 +44,7 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 				if (Zephyrus.spellMap.containsKey(args[0])) {
 					Player player = (Player) sender;
 					Spell spell = Zephyrus.spellMap.get(args[0].toLowerCase());
-					if (spell.isLearned(player, spell.name())
+					if (spell.isLearned(player, spell.getDisplayName().toLowerCase())
 							|| spell.hasPermission(player, spell)) {
 						if (spell.isEnabled()) {
 							if (!(LevelManager.getMana(player) < spell
@@ -66,8 +66,8 @@ public class Cast extends ZephyrusCommand implements CommandExecutor,
 																		.getInt("ManaMultiplier"));
 									}
 								} else {
-									if (spell.failMessage() != "") {
-										player.sendMessage(spell.failMessage());
+									if (spell.getFailMessage() != "") {
+										player.sendMessage(spell.getFailMessage());
 									}
 								}
 							} else {

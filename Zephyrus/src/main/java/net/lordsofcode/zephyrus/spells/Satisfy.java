@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,6 +23,7 @@ public class Satisfy extends Spell {
 
 	public Satisfy(Zephyrus plugin) {
 		super(plugin);
+		Lang.add("spells.satisfy.applied", "$aYou feel completely satisfied");
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class Satisfy extends Spell {
 		player.setFoodLevel(20);
 		player.setHealth(20);
 		player.setSaturation(20);
-		player.sendMessage("You feel completely satisfied!");
+		Lang.msg("spells.satisfy.applied", player);
 	}
 
 	@Override

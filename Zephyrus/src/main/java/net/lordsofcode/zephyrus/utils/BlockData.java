@@ -6,11 +6,11 @@ import org.bukkit.Material;
  * Zephyrus
  * 
  * @author minnymin3
- * @version 1.0.0
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
 
+//TODO store more data like chest, brewing stand and furnace contents
 public class BlockData {
 
 	private Material mat;

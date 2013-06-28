@@ -8,6 +8,8 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.player.LevelManager;
+import net.lordsofcode.zephyrus.utils.ConfigHandler;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
@@ -177,9 +179,29 @@ public abstract class Spell implements Listener {
 		return getConfig().getBoolean(this.name() + ".enabled");
 	}
 	
+	/**
+	 * Gets the description (booktext) of the spell from the spells.yml config
+	 * @return A string from the spells.yml config
+	 */
 	public String getDesc() {
 		String desc = getConfig().getString(this.name() + ".desc").replace("$", ChatColor.COLOR_CHAR + "");
 		return desc;
+	}
+	
+	public String getDisplayName() {
+		FileConfiguration cfg = new ConfigHandler(Zephyrus.getInstance(), "spells.yml").getConfig();
+		if (cfg.contains(this.name() + ".displayname")) {
+			String displayName = cfg.getString(this.name() + ".displayname");
+			return displayName;
+		} else {
+			return this.name();
+		}
+		
+	}
+	
+	public String getFailMessage() {
+		String failMessage = Lang.get("spells." + name() + ".fail");
+		return failMessage;
 	}
 	
 	/**

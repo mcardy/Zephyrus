@@ -5,8 +5,8 @@ import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.hooks.PluginHook;
+import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -60,16 +60,11 @@ public class Dig extends Spell {
 					&& player.getTargetBlock(null, 12).getType() != Material.AIR) {
 				return true;
 			} else if (player.getTargetBlock(null, 12).getType() != Material.AIR) {
-				player.sendMessage(ChatColor.DARK_RED
-						+ "You don't have permission for this area");
+				Lang.errMsg("worldguard", player);
 				return false;
 			}
-			player.sendMessage(ChatColor.GRAY + "That block is out of range!");
-			return false;
-		} else {
-			player.sendMessage(ChatColor.GRAY + "You can't break bedrock!");
-			return false;
 		}
+		return false;
 	}
 
 	@Override

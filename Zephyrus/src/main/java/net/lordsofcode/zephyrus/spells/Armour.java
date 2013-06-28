@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,22 +34,22 @@ public class Armour extends Spell {
 
 	public static ItemStack[] armor;
 	
-	static {
+	public Armour(Zephyrus plugin) {
+		super(plugin);
+		Lang.add("spells.armour.applied", "$6Your skin feels hard with magic and gold!");
+		Lang.add("spells.armour.name", "$6Magic Armour");
+		
 		ItemStack helm = new ItemStack(Material.GOLD_HELMET);
 		ItemStack chest = new ItemStack(Material.GOLD_CHESTPLATE);
 		ItemStack legs = new ItemStack(Material.GOLD_LEGGINGS);
 		ItemStack boots = new ItemStack(Material.GOLD_BOOTS);
 		ItemMeta meta = helm.getItemMeta();
-		meta.setDisplayName(ChatColor.GOLD + "Magic Armour");
+		meta.setDisplayName(Lang.get("spells.armour.name"));
 		helm.setItemMeta(meta);
 		chest.setItemMeta(meta);
 		legs.setItemMeta(meta);
 		boots.setItemMeta(meta);
 		armor = new ItemStack[] { boots, legs, chest, helm };
-	}
-	
-	public Armour(Zephyrus plugin) {
-		super(plugin);
 	}
 
 	@Override
@@ -79,8 +79,7 @@ public class Armour extends Spell {
 		startDelay(player, time * 20);
 		playerMap.add(player.getName());
 		player.sendMessage("" + time);
-		player.sendMessage(ChatColor.GOLD
-				+ "Your skin feels hardened with magic and gold!");
+		Lang.msg("spells.armour.applied", player);
 	}
 
 	@Override
@@ -168,7 +167,7 @@ public class Armour extends Spell {
 			if (i.hasItemMeta()
 					&& i.getItemMeta().hasDisplayName()
 					&& i.getItemMeta().getDisplayName()
-							.equalsIgnoreCase(ChatColor.GOLD + "Magic Armour")) {
+							.equalsIgnoreCase(Lang.get("spells.armour.name"))) {
 				e.getDrops().remove(i);
 			}
 		}
@@ -183,7 +182,7 @@ public class Armour extends Spell {
 					&& player.getInventory().getBoots().getItemMeta()
 							.hasDisplayName()
 					&& player.getInventory().getBoots().getItemMeta()
-							.getDisplayName().equals(ChatColor.GOLD + "Magic Armour")) {
+							.getDisplayName().equals(Lang.get("spells.armour.name"))) {
 				e.setCancelled(true);
 			}
 		}

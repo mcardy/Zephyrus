@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -38,6 +38,9 @@ public class Feather extends Spell implements Listener {
 		super(plugin);
 		list = new HashMap<String, Integer>();
 		Bukkit.getPluginManager().registerEvents(this, plugin);
+		Lang.add("spells.feather.applied", "You'll be light as a feather for [TIME] seconds!");
+		Lang.add("spells.feather.warning", "$7You start to feel heavier");
+		Lang.add("spells.feather.end", "$7You feel much heavier");
 	}
 
 	@Override
@@ -65,13 +68,10 @@ public class Feather extends Spell implements Listener {
 		int t = getConfig().getInt(this.name() + ".duration");
 		if (list.containsKey(player.getName())) {
 			list.put(player.getName(), list.get(player.getName()) + t);
-			player.sendMessage("You can now float for "
-					+ list.get(player.getName()) + " seconds");
-			new FeatherRunnable(player).runTaskLater(plugin, 20);
+			player.sendMessage(Lang.get("spells.feather.applied").replace("[TIME]", list.get(player.getName()) + ""));
 		} else {
 			list.put(player.getName(), t);
-			player.sendMessage("You can now float for "
-					+ list.get(player.getName()) + " seconds");
+			player.sendMessage(Lang.get("spells.feather.applied").replace("[TIME]", list.get(player.getName()) + ""));
 			new FeatherRunnable(player).runTaskLater(plugin, 20);
 		}
 	}
@@ -129,14 +129,13 @@ public class Feather extends Spell implements Listener {
 		public void run() {
 			if (list.get(player.getName()) > 0) {
 				if (list.get(player.getName()) == 5) {
-					player.sendMessage(ChatColor.GRAY
-							+ "You start to feel heavier...");
+					Lang.msg("spells.feather.warning", player);
 				}
 				list.put(player.getName(), list.get(player.getName()) - 1);
 				new FeatherRunnable(player).runTaskLater(plugin, 20);
 			} else {
 				list.remove(player.getName());
-				player.sendMessage(ChatColor.GRAY + "You feel much heavier");
+				Lang.msg("spells.feather.end", player);
 			}
 		}
 

@@ -46,7 +46,7 @@ public class Lang {
 	 */
 	public static void errMsg(String key, CommandSender sender) {
 		String txt = get(key);
-		sender.sendMessage(ChatColor.RED + txt.replace("$", ChatColor.COLOR_CHAR + ""));
+		sender.sendMessage(ChatColor.DARK_RED + txt.replace("$", ChatColor.COLOR_CHAR + ""));
 	}
 	
 	/**

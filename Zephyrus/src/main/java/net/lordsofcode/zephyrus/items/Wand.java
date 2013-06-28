@@ -43,6 +43,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Wand extends CustomItem {
 
 	public Wand(Zephyrus plugin) {
+		//TODO get spell name from config
 		super(plugin);
 		Lang.add("wand.enchanter",
 				"You have successfully created an #6#lArcane Leveller");
@@ -152,12 +153,12 @@ public class Wand extends CustomItem {
 					Spell s = Zephyrus.spellCraftMap.get(i);
 					if (s.isEnabled()) {
 						if (e.getPlayer().hasPermission(
-								"zephyrus.spell." + s.name())
+								"zephyrus.spell." + s.name().toLowerCase())
 								|| e.getPlayer().hasPermission(
 										"zephyrus.spell.*")) {
 							if (s.reqSpell() != null) {
 								if (s.isLearned(e.getPlayer(), s.reqSpell()
-										.name())) {
+										.name().toLowerCase())) {
 									if (!(LevelManager.getLevel(e.getPlayer()) < s
 											.getLevel())) {
 										PlayerCraftSpellEvent event = new PlayerCraftSpellEvent(
@@ -169,7 +170,7 @@ public class Wand extends CustomItem {
 												item.remove();
 											}
 											s.dropSpell(e.getClickedBlock(),
-													s.name(), s.getDesc(),
+													s.getDisplayName().toLowerCase(), s.getDesc(),
 													e.getPlayer());
 										}
 									} else {
@@ -177,7 +178,7 @@ public class Wand extends CustomItem {
 									}
 								} else {
 									e.getPlayer().sendMessage(
-											Lang.get("wand.reqspell").replace("[SPELL]", s.reqSpell().name()));
+											Lang.get("wand.reqspell").replace("[SPELL]", s.reqSpell().getDisplayName()));
 								}
 							} else {
 								if (!(LevelManager.getLevel(e.getPlayer()) < s
@@ -185,14 +186,14 @@ public class Wand extends CustomItem {
 									for (Item item : getItemEntity(entitys)) {
 										item.remove();
 									}
-									s.dropSpell(e.getClickedBlock(), s.name(),
+									s.dropSpell(e.getClickedBlock(), s.getDisplayName().toLowerCase(),
 											s.getDesc(), e.getPlayer());
 								} else {
 									e.getPlayer().sendMessage(ChatColor.RED + Lang.get("wand.reqlevel").replace("[LEVEL]", s.reqLevel() + ""));
 								}
 							}
 						} else {
-							e.getPlayer().sendMessage(ChatColor.RED + Lang.get("wand.noperm").replace("[WAND]", s.name()));
+							e.getPlayer().sendMessage(ChatColor.RED + Lang.get("wand.noperm").replace("[WAND]", s.getDisplayName()));
 						}
 					} else {
 						Lang.errMsg("disabled", e.getPlayer());
@@ -271,7 +272,7 @@ public class Wand extends CustomItem {
 				if (Zephyrus.spellMap.containsKey(s)) {
 					Spell spell = Zephyrus.spellMap.get(s);
 					Player player = e.getPlayer();
-					if (spell.isLearned(player, spell.name())) {
+					if (spell.isLearned(player, spell.getDisplayName().toLowerCase())) {
 						if (spell.isEnabled()) {
 							if (!(LevelManager.getMana(player) < spell
 									.getManaCost()
@@ -292,8 +293,8 @@ public class Wand extends CustomItem {
 																		.getInt("ManaMultiplier"));
 									}
 								} else {
-									if (spell.failMessage() != "") {
-										player.sendMessage(spell.failMessage());
+									if (spell.getFailMessage() != "") {
+										player.sendMessage(spell.getFailMessage());
 									}
 								}
 							} else {

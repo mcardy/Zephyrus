@@ -14,6 +14,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class LifeSuck extends Enchantment {
 
+	//TODO transfer enchantment over to new enchantment system
+	
 	public LifeSuck(int id) {
 		super(id);
 	}

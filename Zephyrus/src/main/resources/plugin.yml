@@ -65,4 +65,6 @@ permissions:
          zephyrus.craft.wand: true
    zephyrus.spell.*:
       default: true
+   zephyrus.cast.*:
+      default: false
 load: STARTUP

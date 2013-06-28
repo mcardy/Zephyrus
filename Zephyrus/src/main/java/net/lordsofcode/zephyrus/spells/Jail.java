@@ -9,8 +9,8 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.hooks.PluginHook;
 import net.lordsofcode.zephyrus.utils.BlockData;
+import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -29,6 +29,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * 
  */
 
+//TODO fix chests
 public class Jail extends Spell {
 
 	Set<Map<Location, BlockData>> lmap;
@@ -36,6 +37,7 @@ public class Jail extends Spell {
 	public Jail(Zephyrus plugin) {
 		super(plugin);
 		lmap = new HashSet<Map<Location, BlockData>>();
+		Lang.add("spells.jail.break", "$7You cannot break jail blocks!");
 	}
 
 	@Override
@@ -94,7 +96,6 @@ public class Jail extends Spell {
 		}
 		this.lmap.add(map);
 		new Reset(map).runTaskLater(plugin, i * 20);
-		player.sendMessage("Your target has now been locked up");
 	}
 
 	@Override
@@ -167,8 +168,7 @@ public class Jail extends Spell {
 					|| b.getType() == Material.IRON_BLOCK) {
 				if (b.getData() == 12) {
 					e.setCancelled(true);
-					e.getPlayer().sendMessage(
-							ChatColor.GRAY + "You cannot break jail blocks!");
+					Lang.msg("spells.jail.break", e.getPlayer());
 				}
 			}
 		}

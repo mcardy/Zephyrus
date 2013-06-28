@@ -6,6 +6,7 @@ import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.player.LevelManager;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
@@ -25,6 +26,12 @@ public class Conjure extends Spell {
 
 	public Conjure(Zephyrus plugin) {
 		super(plugin);
+		Lang.add("spells.conjure.invfull", "Your inventory is full!");
+		Lang.add("spells.conjure.conplete", "You have conjured [AMOUNT] [ITEM]");
+		Lang.add("spells.conjure.badid", "Invalid ID");
+		Lang.add("spells.conjure.badamount", "Invalid amount");
+		Lang.add("spells.conjure.cannot", "That item cannot be conjured");
+		Lang.add("spells.conjure.noitem", "Specify an item to conjure");
 	}
 
 	@Override
@@ -65,9 +72,14 @@ public class Conjure extends Spell {
 		ItemStack item = new ItemStack(Material.getMaterial(id), amount, data);
 		HashMap<Integer, ItemStack> map = player.getInventory().addItem(item);
 		if (!map.isEmpty()) {
-			player.sendMessage(ChatColor.GRAY + "Your inventory is full!");
+			Lang.errMsg("spells.conjure.invfull", player);
 		} else {
-			player.sendMessage(ChatColor.GRAY + "You have conjured " + ChatColor.GOLD + amount + " " + WordUtils.capitalizeFully(item.getType().toString().replace("_", " ")));
+			String itemName = WordUtils.capitalizeFully(item.getType()
+					.toString().replace("_", " "));
+			player.sendMessage(
+					Lang.get("spells.conjure.complete").replace("[AMOUNT]",
+							ChatColor.GOLD + "" + amount).replace("[ITEM]",
+					itemName));
 			LevelManager.drainMana(player, getValue(id) * amount);
 		}
 	}
@@ -83,18 +95,18 @@ public class Conjure extends Spell {
 						id = Integer.parseInt(ids[0]);
 						Byte.parseByte(ids[1]);
 					} catch (Exception e) {
-						player.sendMessage(ChatColor.GRAY + "Invalid id!");
+						Lang.errMsg("spells.conjure.badid", player);
 						return false;
 					}
 				} else {
-					player.sendMessage(ChatColor.GRAY + "Invalid id!");
+					Lang.errMsg("spells.conjure.badid", player);
 					return false;
 				}
 			} else {
 				try {
 					id = Integer.parseInt(args[1]);
 				} catch (Exception e) {
-					player.sendMessage(ChatColor.GRAY + "Invalid id!");
+					Lang.errMsg("spells.conjure.badid", player);
 					return false;
 				}
 			}
@@ -103,24 +115,22 @@ public class Conjure extends Spell {
 				try {
 					amount = Integer.parseInt(args[2]);
 				} catch (Exception e) {
-					player.sendMessage(ChatColor.GRAY
-							+ "Amount must be a number!");
+					Lang.errMsg("spells.conjure.badamount", player);
 					return false;
 				}
 			}
 			if (getValue(id) == -1) {
-				player.sendMessage(ChatColor.GRAY
-						+ "That item cannot be conjured!");
+				Lang.errMsg("spells.conjure.cannot", player);
 				return false;
 			}
 			if (LevelManager.getMana(player) < getValue(id) * amount) {
-				player.sendMessage(ChatColor.GRAY + "You do not have enough mana to conjure that item!");
+				Lang.errMsg("nomana", player);
 				return false;
 			} else {
 				return true;
 			}
 		} else {
-			player.sendMessage(ChatColor.GRAY + "You must specify an item!");
+			Lang.errMsg("spells.conjure.noitem", player);
 		}
 		return false;
 	}
@@ -138,7 +148,7 @@ public class Conjure extends Spell {
 	public SpellType type() {
 		return SpellType.CONJURE;
 	}
-	
+
 	@Override
 	public boolean canBind() {
 		return false;

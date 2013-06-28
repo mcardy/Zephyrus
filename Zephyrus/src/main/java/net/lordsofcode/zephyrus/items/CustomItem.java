@@ -15,6 +15,7 @@ import org.bukkit.inventory.Recipe;
  * 
  */
 
+//TODO get names from config
 public abstract class CustomItem extends ItemUtil implements Listener {
 
 	public CustomItem(Zephyrus plugin) {
