@@ -32,12 +32,12 @@ public class InstaMine extends CustomEnchantment {
 
 	@Override
 	public int chance() {
-		return 10;
+		return 7;
 	}
 
 	@Override
 	public boolean canEnchantItem(ItemStack item) {
-		return true;
+		return tool(item);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class InstaMine extends CustomEnchantment {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public EnchantmentTarget getItemTarget() {
 		return EnchantmentTarget.TOOL;
@@ -84,15 +84,19 @@ public class InstaMine extends CustomEnchantment {
 
 	@EventHandler
 	public void onUse(PlayerInteractEvent e) {
-		if (e.getAction() == Action.LEFT_CLICK_BLOCK && e.getClickedBlock().getType() != Material.BEDROCK && e.getItem() != null
-				&& e.getItem().hasItemMeta()
+		if (e.getAction() == Action.LEFT_CLICK_BLOCK
+				&& e.getClickedBlock().getType() != Material.BEDROCK
+				&& e.getItem() != null && e.getItem().hasItemMeta()
 				&& e.getItem().getItemMeta().hasEnchant(this)) {
 			e.getClickedBlock().breakNaturally(e.getItem());
 			if (e.getItem().containsEnchantment(DURABILITY)) {
-				if (new Random().nextInt(e.getItem().getEnchantmentLevel(DURABILITY)) == 0)
-				e.getItem().setDurability((short) (e.getItem().getDurability() +1));
+				if (new Random().nextInt(e.getItem().getEnchantmentLevel(
+						DURABILITY)) == 0)
+					e.getItem().setDurability(
+							(short) (e.getItem().getDurability() + 1));
 			} else {
-				e.getItem().setDurability((short) (e.getItem().getDurability() +1));
+				e.getItem().setDurability(
+						(short) (e.getItem().getDurability() + 1));
 			}
 		}
 	}

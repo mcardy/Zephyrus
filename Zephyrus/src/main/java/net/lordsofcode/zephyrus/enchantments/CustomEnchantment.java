@@ -15,6 +15,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**
@@ -29,7 +30,9 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 
 	/**
 	 * Creates a new Custom Enchantment
-	 * @param id The id of the enchantment. Should be unique
+	 * 
+	 * @param id
+	 *            The id of the enchantment. Should be unique
 	 */
 	public CustomEnchantment(int id) {
 		super(id);
@@ -52,25 +55,34 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 	public abstract int enchantLevelCost();
 
 	/**
-	 * The chance of the enchantment being applied to the item when it is enchanted
+	 * The chance of the enchantment being applied to the item when it is
+	 * enchanted
 	 */
 	public abstract int chance();
-	
+
 	/**
 	 * Whether or not the enchantment should be applied
-	 * @param map The map of enchantments to be applied
+	 * 
+	 * @param map
+	 *            The map of enchantments to be applied
 	 * @return True if the enchantment is incompatible and should not be applied
 	 */
 	public abstract boolean incompatible(Map<Enchantment, Integer> map);
-	
+
 	@EventHandler
 	public void onEnchant(EnchantItemEvent e) {
 		int level = e.getExpLevelCost() / enchantLevelCost();
 		int chance = new Random().nextInt(chance());
 		if (chance == 0 && level != 0) {
-			if (e.getItem().getType() != Material.BOOK && !incompatible(e.getEnchantsToAdd())) {
+			if (e.getItem().getType() != Material.BOOK
+					&& !incompatible(e.getEnchantsToAdd())
+					&& canEnchantItem(e.getItem())) {
 				if (level > this.getMaxLevel()) {
 					level = this.getMaxLevel();
+				}
+				Random rand = new Random();
+				if (rand.nextInt(2) == 0 && level > 1) {
+					level = level-1;
 				}
 				e.getEnchantsToAdd().put(this, level);
 				ItemMeta m = e.getItem().getItemMeta();
@@ -89,7 +101,9 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 
 	/**
 	 * Gets the Roman Numeral from the integer
-	 * @param i The int to change
+	 * 
+	 * @param i
+	 *            The int to change
 	 * @return The roman numeral versino of that integer
 	 */
 	public String numeral(int i) {
@@ -117,6 +131,26 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 		default:
 			return "";
 		}
+	}
+
+	public boolean tool(ItemStack item) {
+		if (item.getType() == Material.STONE_PICKAXE
+				|| item.getType() == Material.IRON_PICKAXE
+				|| item.getType() == Material.GOLD_PICKAXE
+				|| item.getType() == Material.DIAMOND_PICKAXE) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean sword(ItemStack item) {
+		if (item.getType() == Material.STONE_SWORD
+				|| item.getType() == Material.IRON_SWORD
+				|| item.getType() == Material.GOLD_SWORD
+				|| item.getType() == Material.DIAMOND_SWORD) {
+			return true;
+		}
+		return false;
 	}
 
 }

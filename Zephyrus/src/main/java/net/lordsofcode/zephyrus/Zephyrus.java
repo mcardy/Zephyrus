@@ -15,15 +15,13 @@ import net.lordsofcode.zephyrus.commands.ManaCommand;
 import net.lordsofcode.zephyrus.commands.SpellTomeCmd;
 import net.lordsofcode.zephyrus.commands.UnBind;
 import net.lordsofcode.zephyrus.enchantments.GlowEffect;
+import net.lordsofcode.zephyrus.enchantments.InstaMine;
 import net.lordsofcode.zephyrus.enchantments.LifeSuck;
 import net.lordsofcode.zephyrus.hooks.PluginHook;
 import net.lordsofcode.zephyrus.items.BlinkPearl;
 import net.lordsofcode.zephyrus.items.CustomItem;
 import net.lordsofcode.zephyrus.items.GemOfLightning;
 import net.lordsofcode.zephyrus.items.HoeOfGrowth;
-import net.lordsofcode.zephyrus.items.LifeSuckDiamond;
-import net.lordsofcode.zephyrus.items.LifeSuckGold;
-import net.lordsofcode.zephyrus.items.LifeSuckIron;
 import net.lordsofcode.zephyrus.items.ManaPotion;
 import net.lordsofcode.zephyrus.items.RodOfFire;
 import net.lordsofcode.zephyrus.items.SpellTome;
@@ -108,7 +106,6 @@ public class Zephyrus extends JavaPlugin {
 	public FileConfiguration spells;
 	
 	public GlowEffect glow = new GlowEffect(120);
-	public LifeSuck suck = new LifeSuck(121);
 
 	public String[] update;
 
@@ -224,9 +221,6 @@ public class Zephyrus extends JavaPlugin {
 			new BlinkPearl(this);
 			new GemOfLightning(this);
 			new HoeOfGrowth(this);
-			new LifeSuckDiamond(this);
-			new LifeSuckGold(this);
-			new LifeSuckIron(this);
 			new ManaPotion(this);
 			new RodOfFire(this);
 		}
@@ -281,7 +275,8 @@ public class Zephyrus extends JavaPlugin {
 	}
 
 	private void addEnchants() {
-		//new InstaMine(123);
+		new InstaMine(123);
+		new LifeSuck(124);
 		try {
 			Field f = Enchantment.class.getDeclaredField("acceptingNew");
 			f.setAccessible(true);
@@ -290,7 +285,6 @@ public class Zephyrus extends JavaPlugin {
 		}
 		try {
 			Enchantment.registerEnchantment(glow);
-			Enchantment.registerEnchantment(suck);
 		} catch (IllegalArgumentException e) {
 
 		}
