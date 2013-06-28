@@ -43,7 +43,7 @@ public class Level implements CommandExecutor {
 				if (sender.hasPermission("zephyrus.level.other") || sender.isOp()) {
 					if (isOnline(args[0])) {
 						Player target = Bukkit.getServer().getPlayer(args[0]);
-						lvl.displayLevel(target);
+						lvl.displayLevel(target, sender);
 					} else {
 						Lang.errMsg("notonline", sender);
 					}
@@ -52,8 +52,16 @@ public class Level implements CommandExecutor {
 				}
 			}
 		} else {
-			//TODO view player's level from console
-			Lang.errMsg("ingameonly", sender);
+			if (args.length == 0) {
+				sender.sendMessage("Specify a target player!");
+				return true;
+			}
+			if (isOnline(args[0])) {
+				Player target = Bukkit.getServer().getPlayer(args[0]);
+				lvl.displayLevel(target, sender);
+			} else {
+				Lang.errMsg("notonline", sender);
+			}
 		}
 		return false;
 	}

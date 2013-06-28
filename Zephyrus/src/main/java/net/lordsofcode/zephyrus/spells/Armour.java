@@ -44,7 +44,7 @@ public class Armour extends Spell {
 		ItemStack legs = new ItemStack(Material.GOLD_LEGGINGS);
 		ItemStack boots = new ItemStack(Material.GOLD_BOOTS);
 		ItemMeta meta = helm.getItemMeta();
-		meta.setDisplayName(Lang.get("spells.armour.name"));
+		meta.setDisplayName(Zephyrus.getInstance().langCfg.getConfig().getString("spells.armour.name"));
 		helm.setItemMeta(meta);
 		chest.setItemMeta(meta);
 		legs.setItemMeta(meta);

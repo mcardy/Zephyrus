@@ -50,8 +50,17 @@ public class LevelUp implements CommandExecutor {
 				Lang.errMsg("noperm", sender);
 			}
 		} else {
-			//TODO level up in-game players from console
-			Lang.errMsg("ingameonly", sender);
+			if (args.length == 0) {
+				sender.sendMessage("Specify a target player!");
+				return true;
+			}
+			if (isOnline(args[0])) {
+				Player player = Bukkit.getPlayer(args[0]);
+				lvl.levelUp(player);
+				sender.sendMessage(Lang.get("levelupcmd").replace("[PLAYER]", player.getName()));
+			} else {
+				Lang.errMsg("notonline", sender);
+			}
 		}
 		return false;
 	}

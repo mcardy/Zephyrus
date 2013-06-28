@@ -53,7 +53,13 @@ public class ManaCommand implements CommandExecutor {
 						}
 					} else {
 						if (isOnline(args[1])) {
-							//TODO restore mana to other players
+							if (isOnline(args[1])) {
+								Player player = Bukkit.getServer().getPlayer(args[1]);
+								LevelManager.resetMana(player);
+								player.sendMessage(ChatColor.DARK_AQUA + Lang.get("mana.restored"));
+							} else {
+								Lang.errMsg("notonline", sender);
+							}
 						} else {
 							Lang.errMsg("notonline", sender);
 						}
@@ -61,7 +67,7 @@ public class ManaCommand implements CommandExecutor {
 				} else if (sender.hasPermission("zephyrus.mana.other") || sender.isOp()) {
 					if (isOnline(args[0])) {
 						Player target = Bukkit.getServer().getPlayer(args[0]);
-						lvl.displayMana(target);
+						lvl.displayMana(target, sender);
 					} else {
 						Lang.errMsg("notonline", sender);
 					}
@@ -70,8 +76,32 @@ public class ManaCommand implements CommandExecutor {
 				}
 			}
 		} else {
-			//TODO restore and view player's mana from console
-			Lang.errMsg("ingameonly", sender);
+			if (args.length == 0) {
+				sender.sendMessage("Specify a target player!");
+				return true;
+			}
+			if (args[0].equalsIgnoreCase("restore")) {
+				if (args.length < 2) {
+					sender.sendMessage("Specify a target player!");
+				} else {
+					if (isOnline(args[1])) {
+						Player player = Bukkit.getServer().getPlayer(args[1]);
+						LevelManager.resetMana(player);
+						player.sendMessage(ChatColor.DARK_AQUA + Lang.get("mana.restored"));
+					} else {
+						Lang.errMsg("notonline", sender);
+					}
+				}
+			} else if (sender.hasPermission("zephyrus.mana.other") || sender.isOp()) {
+				if (isOnline(args[0])) {
+					Player target = Bukkit.getServer().getPlayer(args[0]);
+					lvl.displayMana(target, sender);
+				} else {
+					Lang.errMsg("notonline", sender);
+				}
+			} else {
+				Lang.errMsg("noperm", sender);
+			}
 		}
 		return false;
 	}

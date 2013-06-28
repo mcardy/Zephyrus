@@ -7,6 +7,7 @@ import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -181,24 +182,38 @@ public class LevelManager {
 	public void displayMana(Player player) {
 		new DisplayMana(player).run();
 	}
+	
+	public void displayMana(Player player, CommandSender sender) {
+		new DisplayMana(player, sender).run();
+	}
 
 	/**
 	 * Sends the level and levelprogress to the player (in an awesome display
 	 * way)
-	 * 
 	 * @param player
 	 *            The player
 	 */
 	public void displayLevel(Player player) {
 		new DisplayLevel(player).run();
 	}
+	
+	public void displayLevel(Player player, CommandSender sender) {
+		new DisplayLevel(player, sender).run();
+	}
 
 	private class DisplayMana extends BukkitRunnable {
 
 		Player player;
+		CommandSender sender;
 
 		DisplayMana(Player player) {
 			this.player = player;
+			this.sender = player;
+		}
+		
+		DisplayMana(Player player, CommandSender sender) {
+			this.player = player;
+			this.sender = sender;
 		}
 
 		@Override
@@ -220,25 +235,25 @@ public class LevelManager {
 						break;
 					}
 				}
-				player.sendMessage(ChatColor.GOLD + "        ---===["
+				sender.sendMessage(ChatColor.GOLD + "        ---===["
 						+ ChatColor.RED + "Mana: " + currentMana + " / "
 						+ maxMana + ChatColor.GOLD + "]===---");
-				player.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.AQUA
+				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.AQUA
 						+ full + ChatColor.GRAY + empty + ChatColor.DARK_AQUA
 						+ "}");
-				player.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.AQUA
+				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.AQUA
 						+ full + ChatColor.GRAY + empty + ChatColor.DARK_AQUA
 						+ "}");
 			} else {
 				for (int i = 120; i > 0; i = i - 1) {
 					empty.append("|");
 				}
-				player.sendMessage(ChatColor.GOLD + "              ---===["
+				sender.sendMessage(ChatColor.GOLD + "              ---===["
 						+ ChatColor.RED + "Mana: " + currentMana + " / "
 						+ maxMana + ChatColor.GOLD + "]===---");
-				player.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY
+				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY
 						+ empty + ChatColor.DARK_AQUA + "}");
-				player.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY
+				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY
 						+ empty + ChatColor.DARK_AQUA + "}");
 			}
 		}
@@ -247,9 +262,16 @@ public class LevelManager {
 	private class DisplayLevel extends BukkitRunnable {
 
 		Player player;
+		CommandSender sender;
 
 		DisplayLevel(Player player) {
 			this.player = player;
+			this.sender = player;
+		}
+		
+		DisplayLevel(Player player, CommandSender sender) {
+			this.player = player;
+			this.sender = sender;
 		}
 
 		@Override
@@ -276,25 +298,25 @@ public class LevelManager {
 							break;
 						}
 					}
-					player.sendMessage(ChatColor.DARK_BLUE + "  ---===["
+					sender.sendMessage(ChatColor.DARK_BLUE + "  ---===["
 							+ ChatColor.BLUE + "Level: " + level
 							+ ChatColor.BOLD + "" + ChatColor.DARK_BLUE
 							+ " -=- " + ChatColor.BLUE + "Progress: "
 							+ currentLevelProg + "/" + maxLevelProg
 							+ ChatColor.DARK_BLUE + "]===---");
-					player.sendMessage(ChatColor.DARK_GRAY + "{"
+					sender.sendMessage(ChatColor.DARK_GRAY + "{"
 							+ ChatColor.LIGHT_PURPLE + full + ChatColor.GRAY
 							+ empty + ChatColor.DARK_GRAY + "}");
 				} else {
 					for (int i = 120; i > 0; i = i - 1) {
 						empty.append("|");
 					}
-					player.sendMessage(ChatColor.DARK_BLUE + "  ---===["
+					sender.sendMessage(ChatColor.DARK_BLUE + "  ---===["
 							+ ChatColor.BLUE + "Level: " + level
 							+ ChatColor.DARK_BLUE + " -=- " + ChatColor.BLUE
 							+ "Progress: " + currentLevelProg + "/"
 							+ maxLevelProg + ChatColor.DARK_BLUE + "]===---");
-					player.sendMessage(ChatColor.DARK_AQUA + "{"
+					sender.sendMessage(ChatColor.DARK_AQUA + "{"
 							+ ChatColor.GRAY + empty + ChatColor.DARK_AQUA
 							+ "}");
 				}

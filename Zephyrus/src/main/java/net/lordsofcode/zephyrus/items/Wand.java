@@ -43,7 +43,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Wand extends CustomItem {
 
 	public Wand(Zephyrus plugin) {
-		//TODO get spell name from config
 		super(plugin);
 		Lang.add("wand.enchanter",
 				"You have successfully created an #6#lArcane Leveller");
