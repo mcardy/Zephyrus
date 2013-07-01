@@ -19,13 +19,11 @@ import net.lordsofcode.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -88,29 +86,6 @@ public class PlayerListener extends ItemUtil implements Listener {
 				if (!en.hasPermission("zephyrus.craft." + item.perm())
 						&& !en.hasPermission("zephyrus.craft.*")) {
 					e.getInventory().setResult(null);
-				}
-			}
-		}
-	}
-
-	@EventHandler
-	public void onSuckHealthEnchant(EntityDamageByEntityEvent e) {
-		if (e.getDamager() instanceof Player) {
-			Player player = (Player) e.getDamager();
-			if (player.getItemInHand().getType() != Material.AIR
-					&& checkName(player.getItemInHand(),
-							ChatColor.getByChar("a") + "Diamond Sword of Life")
-					&& player.getHealth() != 20) {
-				String level = player.getItemInHand().getItemMeta().getLore()
-						.get(0);
-				if (level.contains("I") && player.getHealth() < 20) {
-					player.setHealth(player.getHealth() + 1);
-				} else if (level.contains("II") && player.getHealth() < 19) {
-					player.setHealth(player.getHealth() + 2);
-				} else if (level.contains("III") && player.getHealth() < 17) {
-					player.setHealth(player.getHealth() + 4);
-				} else {
-					player.setHealth(20);
 				}
 			}
 		}

@@ -12,6 +12,7 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -69,7 +70,14 @@ public class Summon extends Spell {
 		zombie.setMetadata("owner", new FixedMetadataValue(Zephyrus.getInstance(), player.getName()));
 		en.add(zombie);
 		new End(zombie).runTaskLater(Zephyrus.getInstance(), getConfig().getInt(this.name() + ".duration") * 20);
-		//TODO Zombie target other entities
+		for (Entity e : zombie.getNearbyEntities(20, 20, 20)) {
+			if (e instanceof LivingEntity && e != player) {
+				CraftLivingEntity m = (CraftLivingEntity) zombie;
+				CraftLivingEntity tar = (CraftLivingEntity) e;
+				m.getHandle().setGoalTarget(tar.getHandle());
+				break;
+			}
+		}
 	}
 
 	@Override

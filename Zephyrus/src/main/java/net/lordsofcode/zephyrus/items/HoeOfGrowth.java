@@ -74,6 +74,7 @@ public class HoeOfGrowth extends CustomItem {
 			loc.setY(loc.getY() + 0.3);
 			ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER, loc,
 					1, 0, 1, 100, 20);
+			e.getItem().setDurability((short) (e.getItem().getDurability() + 1));
 		}
 		if (e.getClickedBlock() != null
 				&& e.getClickedBlock().getType() == Material.SAPLING

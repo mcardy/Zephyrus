@@ -87,7 +87,7 @@ public class UpdateChecker implements Runnable {
 					}
 				}
 				br.close();
-				plugin.update = result;
+				plugin.updateMsg = result;
 			} catch (IOException e) {
 				log.severe("Unable to check for updates!");
 			}

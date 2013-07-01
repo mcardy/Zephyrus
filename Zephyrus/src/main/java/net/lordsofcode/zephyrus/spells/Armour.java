@@ -72,13 +72,14 @@ public class Armour extends Spell {
 		return 60;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void run(Player player, String[] args) {
 		int time = getConfig().getInt(this.name() + ".delay");
 		player.getInventory().setArmorContents(armor);
+		player.updateInventory();
 		startDelay(player, time * 20);
 		playerMap.add(player.getName());
-		player.sendMessage("" + time);
 		Lang.msg("spells.armour.applied", player);
 	}
 

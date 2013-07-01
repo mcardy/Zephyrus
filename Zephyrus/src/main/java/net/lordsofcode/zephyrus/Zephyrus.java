@@ -98,8 +98,7 @@ public class Zephyrus extends JavaPlugin {
 
 	private static Zephyrus instance;
 
-	ConfigHandler config = new ConfigHandler(this, "spells.yml");
-	
+	public ConfigHandler config = new ConfigHandler(this, "spells.yml");
 	public ConfigHandler langCfg = new ConfigHandler(this, "lang.yml");
 	
 	public FileConfiguration lang;
@@ -107,14 +106,12 @@ public class Zephyrus extends JavaPlugin {
 	
 	public GlowEffect glow = new GlowEffect(120);
 
-	public String[] update;
+	public String[] updateMsg;
 
 	public Map<String, Map<String, Integer>> itemDelay;
-
 	public Map<String, Merchant> invPlayers;
 
 	public static Map<String, Object> mana;
-
 	public static Map<String, Spell> spellMap;
 	public static Map<Set<ItemStack>, Spell> spellCraftMap;
 	public static Map<String, CustomItem> itemMap;
@@ -138,7 +135,7 @@ public class Zephyrus extends JavaPlugin {
 		invPlayers = new HashMap<String, Merchant>();
 		itemDelay = new HashMap<String, Map<String, Integer>>();
 		mana = new HashMap<String, Object>();
-
+		
 		Lang.add("noperm", "You do not have permission to do that!");
 		Lang.add("ingameonly", "You must be an in-game player to perform this command!");
 		Lang.add("notonline", "That player is not online!");
@@ -154,6 +151,8 @@ public class Zephyrus extends JavaPlugin {
 		Lang.add("spelltome.nospell", "That spell was not found!");
 		Lang.add("spelltome.known", "You already know that spell!");
 		Lang.add("spelltome.success", "You have successfully learned $6[SPELL]");
+		
+		Lang.add("customitem.level", "Level");
 		
 		try {
 			new CraftLivingEntity(null, null);
@@ -425,7 +424,7 @@ public class Zephyrus extends JavaPlugin {
 			spells = config.getConfig();
 			
 			try {
-				for (String s : update) {
+				for (String s : updateMsg) {
 					if (s != null) {
 						getLogger().info(s);
 					}

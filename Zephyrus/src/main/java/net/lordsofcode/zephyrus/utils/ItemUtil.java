@@ -104,13 +104,14 @@ public class ItemUtil {
 	 * @return An ItemStack with the custom level
 	 */
 	public ItemStack setItemLevel(ItemStack i, int level) {
+		String sLevel =	Zephyrus.getInstance().langCfg.getConfig().getString("customitem.level");
 		ItemMeta m = i.getItemMeta();
 		List<String> l = m.getLore();
 		try {
-			l.set(0, ChatColor.GRAY + "Level: " + level);
+			l.set(0, ChatColor.GRAY + sLevel + " " + level);
 		} catch (NullPointerException e) {
 			l = new ArrayList<String>();
-			l.add(0, ChatColor.GRAY + "Level: " + level);
+			l.add(0, ChatColor.GRAY + sLevel + " " + level);
 		}
 
 		m.setLore(l);
@@ -140,8 +141,9 @@ public class ItemUtil {
 	 * @return The level of the item
 	 */
 	public int getItemLevel(ItemStack i) {
+		String sLevel = Lang.get("customitem.level");
 		ItemMeta m = i.getItemMeta();
-		String data = m.getLore().get(0).replace(ChatColor.GRAY + "Level: ", "");
+		String data = m.getLore().get(0).replace(ChatColor.GRAY + sLevel + " ", "");
 		return Integer.parseInt(data);
 	}
 

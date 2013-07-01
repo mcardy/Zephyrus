@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -80,7 +81,7 @@ public class Jail extends Spell {
 							map.put(bloc,
 									new BlockData(b.getType(), b.getData()));
 							b.setType(Material.IRON_BLOCK);
-							b.setData((byte) 12);
+							b.setMetadata("jailblock", new FixedMetadataValue(Zephyrus.getInstance(), true));
 						} else {
 							Location bloc = new Location(loc.getWorld(), x, y,
 									z);
@@ -88,7 +89,7 @@ public class Jail extends Spell {
 							map.put(bloc,
 									new BlockData(b.getType(), b.getData()));
 							b.setType(Material.IRON_FENCE);
-							b.setData((byte) 12);
+							b.setMetadata("jailblock", new FixedMetadataValue(Zephyrus.getInstance(), true));
 						}
 					}
 				}
@@ -166,7 +167,7 @@ public class Jail extends Spell {
 			Block b = e.getBlock();
 			if (b.getType() == Material.IRON_FENCE
 					|| b.getType() == Material.IRON_BLOCK) {
-				if (b.getData() == 12) {
+				if (b.hasMetadata("jailblock")) {
 					e.setCancelled(true);
 					Lang.msg("spells.jail.break", e.getPlayer());
 				}

@@ -65,6 +65,7 @@ public class BlinkPearl extends CustomItem {
 		return 5;
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void blink(PlayerInteractEvent e) throws Exception {
 		if (checkName(e.getPlayer().getItemInHand(), this.name())) {
@@ -124,6 +125,7 @@ public class BlinkPearl extends CustomItem {
 											"[TIME]", time + ""));
 				}
 			}
+			e.getPlayer().updateInventory();
 		}
 	}
 

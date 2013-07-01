@@ -35,7 +35,7 @@ public class Lang {
 	 * @return The String found at that location
 	 */
 	public static String get(String key) {
-		FileConfiguration cfg = Zephyrus.getInstance().lang;
+		FileConfiguration cfg = Zephyrus.getInstance().langCfg.getConfig();
 		return cfg.getString(key).replace("$", ChatColor.COLOR_CHAR + "");
 	}
 	

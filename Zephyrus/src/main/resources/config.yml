@@ -14,6 +14,8 @@ UpdateChecker: true
 #Enables giving players spells via permissions. Ops will automatically have access to all spells.
 OpKnowledge: false
 
+#The colour code of the error messages
+ErrorColour: 4
 
 ###########
 #Balancing#

@@ -9,7 +9,6 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.player.LevelManager;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
-import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
@@ -143,10 +142,7 @@ public abstract class Spell implements Listener {
 	 */
 	public boolean hasPermission(Player player, Spell spell) {
 		if (plugin.getConfig().getBoolean("OpKnowledge")) {
-			if (player.hasPermission("zephyrus.cast." + spell.name())) {
-				return true;
-			}
-			if (player.isOp()) {
+			if (player.hasPermission("zephyrus.cast." + spell.name().toLowerCase())) {
 				return true;
 			}
 		}
@@ -200,7 +196,7 @@ public abstract class Spell implements Listener {
 	}
 	
 	public String getFailMessage() {
-		String failMessage = Lang.get("spells." + name() + ".fail");
+		String failMessage = getConfig().getString(name() + ".failmessage");
 		return failMessage;
 	}
 	
