@@ -9,6 +9,7 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,18 +34,21 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Armour extends Spell {
 
 	public static ItemStack[] armor;
-	
+
 	public Armour(Zephyrus plugin) {
 		super(plugin);
-		Lang.add("spells.armour.applied", "$6Your skin feels hard with magic and gold!");
+		Lang.add("spells.armour.applied",
+				"$6Your skin feels hard with magic and gold!");
 		Lang.add("spells.armour.name", "$6Magic Armour");
-		
+
 		ItemStack helm = new ItemStack(Material.GOLD_HELMET);
 		ItemStack chest = new ItemStack(Material.GOLD_CHESTPLATE);
 		ItemStack legs = new ItemStack(Material.GOLD_LEGGINGS);
 		ItemStack boots = new ItemStack(Material.GOLD_BOOTS);
 		ItemMeta meta = helm.getItemMeta();
-		meta.setDisplayName(Zephyrus.getInstance().langCfg.getConfig().getString("spells.armour.name"));
+		meta.setDisplayName(Zephyrus.getInstance().langCfg.getConfig()
+				.getString("spells.armour.name")
+				.replace("$", ChatColor.COLOR_CHAR + ""));
 		helm.setItemMeta(meta);
 		chest.setItemMeta(meta);
 		legs.setItemMeta(meta);
@@ -101,7 +105,7 @@ public class Armour extends Spell {
 			delayedAction(player);
 		}
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfigurations() {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -154,7 +158,7 @@ public class Armour extends Spell {
 			delayedAction(e.getPlayer());
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerKick(PlayerKickEvent e) {
 		if (playerMap.contains(e.getPlayer().getName())) {
@@ -173,7 +177,7 @@ public class Armour extends Spell {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player && e.getCause() != DamageCause.VOID) {
@@ -183,7 +187,8 @@ public class Armour extends Spell {
 					&& player.getInventory().getBoots().getItemMeta()
 							.hasDisplayName()
 					&& player.getInventory().getBoots().getItemMeta()
-							.getDisplayName().equals(Lang.get("spells.armour.name"))) {
+							.getDisplayName()
+							.equals(Lang.get("spells.armour.name"))) {
 				e.setCancelled(true);
 			}
 		}

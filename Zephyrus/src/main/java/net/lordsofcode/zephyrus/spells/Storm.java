@@ -4,12 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.hooks.PluginHook;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.WitherSkull;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -20,57 +17,45 @@ import org.bukkit.inventory.ItemStack;
  * 
  */
 
-public class Grenade extends Spell {
+public class Storm extends Spell {
 
-	public Grenade(Zephyrus plugin) {
+	public Storm(Zephyrus plugin) {
 		super(plugin);
 	}
 
 	@Override
 	public String name() {
-		return "grenade";
+		return "storm";
 	}
 
 	@Override
 	public String bookText() {
-		return "Shoots a big explody thing :D";
+		return "Collect the power of the elements to conjure a storm!";
 	}
 
 	@Override
 	public int reqLevel() {
-		return 8;
+		return 9;
 	}
 
 	@Override
 	public int manaCost() {
-		return 80;
+		return 120;
 	}
 
 	@Override
 	public void run(Player player, String[] args) {
-		player.launchProjectile(WitherSkull.class);
-	}
-	
-	@Override
-	public boolean canRun(Player player, String[] args) {
-		if (PluginHook.canBuild(player, player.getTargetBlock(null, 1000))) {
-			return true;
-		}
-		return false;
-	}
-	
-	@Override
-	public String failMessage() {
-		return ChatColor.DARK_RED + "You can't shoot there!";
+		player.getWorld().setStorm(true);
+		player.getWorld().setThundering(true);
 	}
 
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
-		s.add(new ItemStack(Material.getMaterial(1), 3, (short) 1));
+		s.add(new ItemStack(Material.WATER_BUCKET, 3));
 		return s;
 	}
-	
+
 	@Override
 	public SpellType type() {
 		return SpellType.ELEMENTAL;

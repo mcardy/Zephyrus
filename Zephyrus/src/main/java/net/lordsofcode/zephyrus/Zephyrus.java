@@ -33,11 +33,13 @@ import net.lordsofcode.zephyrus.listeners.PlayerListener;
 import net.lordsofcode.zephyrus.player.LevelManager;
 import net.lordsofcode.zephyrus.player.ManaRecharge;
 import net.lordsofcode.zephyrus.spells.Armour;
+import net.lordsofcode.zephyrus.spells.Arrow;
 import net.lordsofcode.zephyrus.spells.Blink;
 import net.lordsofcode.zephyrus.spells.Bolt;
 import net.lordsofcode.zephyrus.spells.Butcher;
 import net.lordsofcode.zephyrus.spells.Confuse;
 import net.lordsofcode.zephyrus.spells.Conjure;
+import net.lordsofcode.zephyrus.spells.Detect;
 import net.lordsofcode.zephyrus.spells.Dig;
 import net.lordsofcode.zephyrus.spells.Dispel;
 import net.lordsofcode.zephyrus.spells.Enderchest;
@@ -50,12 +52,16 @@ import net.lordsofcode.zephyrus.spells.FlameStep;
 import net.lordsofcode.zephyrus.spells.Flare;
 import net.lordsofcode.zephyrus.spells.Fly;
 import net.lordsofcode.zephyrus.spells.Frenzy;
+import net.lordsofcode.zephyrus.spells.Grenade;
 import net.lordsofcode.zephyrus.spells.Grow;
 import net.lordsofcode.zephyrus.spells.Heal;
 import net.lordsofcode.zephyrus.spells.Home;
 import net.lordsofcode.zephyrus.spells.Jail;
 import net.lordsofcode.zephyrus.spells.LifeSteal;
+import net.lordsofcode.zephyrus.spells.MageLight;
 import net.lordsofcode.zephyrus.spells.Mana;
+import net.lordsofcode.zephyrus.spells.MassParalyze;
+import net.lordsofcode.zephyrus.spells.Paralyze;
 import net.lordsofcode.zephyrus.spells.Phase;
 import net.lordsofcode.zephyrus.spells.Prospect;
 import net.lordsofcode.zephyrus.spells.Punch;
@@ -63,6 +69,7 @@ import net.lordsofcode.zephyrus.spells.Repair;
 import net.lordsofcode.zephyrus.spells.Satisfy;
 import net.lordsofcode.zephyrus.spells.Smite;
 import net.lordsofcode.zephyrus.spells.Spell;
+import net.lordsofcode.zephyrus.spells.Storm;
 import net.lordsofcode.zephyrus.spells.Summon;
 import net.lordsofcode.zephyrus.spells.SuperHeat;
 import net.lordsofcode.zephyrus.spells.Vanish;
@@ -235,16 +242,24 @@ public class Zephyrus extends JavaPlugin {
 	}
 
 	private void addSpells() {
+		//A
 		new Armour(this);
+		new Arrow(this);
+		//B
 		new Blink(this);
 		new Bolt(this);
 		new Butcher(this);
+		//C
 		new Confuse(this);
 		new Conjure(this);
+		//D
+		new Detect(this);
 		new Dig(this);
 		new Dispel(this);
+		//E
 		new Enderchest(this);
 		new Explode(this);
+		//F
 		new Feather(this);
 		new Feed(this);
 		new Fireball(this);
@@ -254,20 +269,34 @@ public class Zephyrus extends JavaPlugin {
 		new Fly(this);
 		new Frenzy(this);
 		new Feed(this);
+		//G
 		new Grow(this);
+		new Grenade(this);
+		//H
 		new Heal(this);
 		new Home(this);
+		//J
 		new Jail(this);
+		//L
 		new LifeSteal(this);
+		//M
+		new MageLight(this);
 		new Mana(this);
+		new MassParalyze(this);
+		//P
+		new Paralyze(this);
 		new Phase(this);
 		new Prospect(this);
 		new Punch(this);
+		//R
 		new Repair(this);
+		//S
 		new Satisfy(this);
 		new Smite(this);
+		new Storm(this);
 		new Summon(this);
 		new SuperHeat(this);
+		//V
 		new Vanish(this);
 
 		builtInSpells = spellMap.size();
