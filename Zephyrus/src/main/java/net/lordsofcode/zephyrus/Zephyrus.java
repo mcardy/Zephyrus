@@ -33,6 +33,8 @@ import net.lordsofcode.zephyrus.player.LevelManager;
 import net.lordsofcode.zephyrus.player.ManaRecharge;
 import net.lordsofcode.zephyrus.spells.Armour;
 import net.lordsofcode.zephyrus.spells.Arrow;
+import net.lordsofcode.zephyrus.spells.ArrowStorm;
+import net.lordsofcode.zephyrus.spells.Bang;
 import net.lordsofcode.zephyrus.spells.Blink;
 import net.lordsofcode.zephyrus.spells.Bolt;
 import net.lordsofcode.zephyrus.spells.Butcher;
@@ -231,10 +233,10 @@ public class Zephyrus extends JavaPlugin {
 	}
 
 	private void hook() {
-		if (PluginHook.worldGuard()) {
+		if (PluginHook.isWorldGuard()) {
 			getLogger().info("WorldGuard found. Protections integrated");
 		}
-		if (PluginHook.economy()) {
+		if (PluginHook.isEconomy()) {
 			getLogger().info("Vault found. Integrating economy!");
 			PluginManager pm = getServer().getPluginManager();
 			pm.registerEvents(new EconListener(this), this);
@@ -264,7 +266,9 @@ public class Zephyrus extends JavaPlugin {
 		// A
 		new Armour(this);
 		new Arrow(this);
+		new ArrowStorm(this);
 		// B
+		new Bang(this);
 		new Blink(this);
 		new Bolt(this);
 		new Butcher(this);

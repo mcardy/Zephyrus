@@ -55,6 +55,10 @@ public class Dig extends Spell {
 
 	@Override
 	public boolean canRun(Player player, String[] args) {
+		if (player.getTargetBlock(null, 12).hasMetadata("jailblock")) {
+			Lang.errMsg("spells.jail.break", player);
+			return false;
+		}
 		if (player.getTargetBlock(null, 12).getType() != Material.BEDROCK) {
 			if (PluginHook.canBuild(player, player.getTargetBlock(null, 12))
 					&& player.getTargetBlock(null, 12).getType() != Material.AIR) {

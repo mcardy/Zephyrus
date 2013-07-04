@@ -206,7 +206,7 @@ public class Wand extends CustomItem {
 		}
 	}
 
-	public static Entity[] getNearbyEntities(Location l, int radius) {
+	public Entity[] getNearbyEntities(Location l, int radius) {
 		int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
 		HashSet<Entity> radiusEntities = new HashSet<Entity>();
 		for (int chX = 0 - chunkRadius; chX <= chunkRadius; chX++) {
@@ -224,7 +224,7 @@ public class Wand extends CustomItem {
 		return radiusEntities.toArray(new Entity[radiusEntities.size()]);
 	}
 
-	public static Set<ItemStack> getItems(Entity[] entitys) {
+	public Set<ItemStack> getItems(Entity[] entitys) {
 		Set<ItemStack> items = new HashSet<ItemStack>();
 		for (Entity e : entitys) {
 			if (e.getType() == EntityType.DROPPED_ITEM) {

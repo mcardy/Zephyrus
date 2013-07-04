@@ -56,8 +56,9 @@ public class Zephyr extends Spell {
 	public void run(Player player, String[] args) {
 		int time = getConfig().getInt(name() + ".duration");
 		boolean b = getConfig().getBoolean(name() + ".block-all");
+		int p = getConfig().getInt(name() + ".power");
 		playerMap.add(player.getName());
-		new Run(player, b).runTaskTimer(Zephyrus.getInstance(), (long) 0.1,
+		new Run(player, b, p).runTaskTimer(Zephyrus.getInstance(), (long) 0.1,
 				(long) 0.1);
 		startDelay(player, time * 20);
 	}
@@ -85,6 +86,7 @@ public class Zephyr extends Spell {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("duration", 60);
 		map.put("block-all", true);
+		map.put("power", 3);
 		return map;
 	}
 
@@ -92,10 +94,12 @@ public class Zephyr extends Spell {
 
 		Player player;
 		boolean b;
+		int power;
 
-		Run(Player player, boolean b) {
+		Run(Player player, boolean b, int power) {
 			this.player = player;
 			this.b = b;
+			this.power = power;
 		}
 
 		public void run() {
@@ -112,13 +116,13 @@ public class Zephyr extends Spell {
 								.subtract(p.getLocation().toVector())
 								.normalize();
 						unitVector.setY(0.4);
-						e.setVelocity(unitVector.multiply(0.8));
+						e.setVelocity(unitVector.multiply(power*0.4));
 					} else if (e instanceof LivingEntity) {
 						Vector unitVector = e.getLocation().toVector()
 								.subtract(p.getLocation().toVector())
 								.normalize();
 						unitVector.setY(0.4);
-						e.setVelocity(unitVector.multiply(0.8));
+						e.setVelocity(unitVector.multiply(power*0.4));
 					}
 				}
 			} else {

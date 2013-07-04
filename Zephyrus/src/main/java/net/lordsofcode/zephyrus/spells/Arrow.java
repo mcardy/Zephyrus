@@ -7,7 +7,10 @@ import net.lordsofcode.zephyrus.Zephyrus;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 /**
  * Zephyrus
@@ -40,24 +43,32 @@ public class Arrow extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 2;
+		return 4;
 	}
 
 	@Override
 	public void run(Player player, String[] args) {
-		player.launchProjectile(org.bukkit.entity.Arrow.class);
+		org.bukkit.entity.Arrow arrow = player.launchProjectile(org.bukkit.entity.Arrow.class);
+		arrow.setMetadata("no_pickup", new FixedMetadataValue(plugin, true));
 	}
 
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
-		s.add(new ItemStack(Material.ARROW, 64));
+		s.add(new ItemStack(Material.ARROW, 16));
 		return s;
 	}
 
 	@Override
 	public SpellType type() {
 		return SpellType.DAMAGE;
+	}
+	
+	@EventHandler
+	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
+	    if(event.getItem().hasMetadata("no_pickup")) {
+	        event.setCancelled(true);
+	    }
 	}
 
 }

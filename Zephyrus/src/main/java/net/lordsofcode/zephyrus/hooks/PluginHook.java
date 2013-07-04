@@ -20,6 +20,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
  */
 
 //TODO Hook into Lockette
+//TODO Make worldguard flag for spells
 public class PluginHook {
 
 	private static WorldGuardPlugin wg;
@@ -30,7 +31,7 @@ public class PluginHook {
 	 * Determines if WorldGuard is installed
 	 * @return True if WorldGuard is installed, false otherwise
 	 */
-	public static boolean worldGuard() {
+	public static boolean isWorldGuard() {
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
 		if (plugin != null) {
 			return true;
@@ -42,7 +43,7 @@ public class PluginHook {
 	 * Determines if Vault is installed
 	 * @return True if Vault is installed, false otherwise
 	 */	
-	public static boolean economy() {
+	public static boolean isEconomy() {
 		if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
 			return false;
 		}
@@ -79,7 +80,7 @@ public class PluginHook {
 	 * @return True if the player can build, false otherwise
 	 */
 	public static boolean canBuild(Player player, Block block) {
-		if (PluginHook.worldGuard()) {
+		if (PluginHook.isWorldGuard()) {
 			PluginHook.hookWG();
 			if (PluginHook.wg.canBuild(player, block)) {
 				return true;
@@ -96,7 +97,7 @@ public class PluginHook {
 	 * @return True if the player can build, false otherwise
 	 */
 	public static boolean canBuild(Player player, Location loc) {
-		if (PluginHook.worldGuard()) {
+		if (PluginHook.isWorldGuard()) {
 			PluginHook.hookWG();
 			return PluginHook.wg.canBuild(player, loc);
 		}
@@ -104,7 +105,7 @@ public class PluginHook {
 	}
 	
 	public static boolean allowExplosion() {
-		if (worldGuard()) {
+		if (isWorldGuard()) {
 			hookWG();
 			return !wg.getConfig().getBoolean("ignition.block-tnt");
 		}
