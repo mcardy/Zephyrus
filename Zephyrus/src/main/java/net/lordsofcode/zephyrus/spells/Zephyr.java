@@ -1,6 +1,7 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -67,12 +69,15 @@ public class Zephyr extends Spell {
 
 	@Override
 	public Set<ItemStack> spellItems() {
-		return null;
+		Set<ItemStack> i = new HashSet<ItemStack>();
+		i.add(new ItemStack(Material.FEATHER, 8));
+		i.add(new ItemStack(Material.DIAMOND_CHESTPLATE));
+		return i;
 	}
 
 	@Override
 	public SpellType type() {
-		return null;
+		return SpellType.AIR;
 	}
 
 	@Override

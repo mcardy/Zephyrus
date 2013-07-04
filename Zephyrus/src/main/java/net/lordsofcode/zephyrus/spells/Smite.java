@@ -26,10 +26,6 @@ public class Smite extends Spell {
 	public Smite(Zephyrus plugin) {
 		super(plugin);
 	}
-	
-	public Smite() {
-		
-	}
 
 	@Override
 	public String name() {
