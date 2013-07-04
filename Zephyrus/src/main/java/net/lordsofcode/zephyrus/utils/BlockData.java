@@ -1,6 +1,9 @@
 package net.lordsofcode.zephyrus.utils;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 
 /**
  * Zephyrus
@@ -15,15 +18,19 @@ public class BlockData {
 
 	private Material mat;
 	private byte b;
+	private Location loc;
+	private BlockState state;
 	
 	/**
 	 * Stores the material and data of a block
 	 * @param mat The material of the block
 	 * @param b The data of the block
 	 */
-	public BlockData(Material mat, byte b) {
-		this.mat = mat;
-		this.b = b;
+	public BlockData(Block b) {
+		this.mat = b.getType();
+		this.b = b.getData();
+		this.loc = b.getLocation();
+		this.state = b.getState();
 	}
 	
 	/**
@@ -40,6 +47,14 @@ public class BlockData {
 	 */
 	public byte getData() {
 		return b;
+	}
+	
+	public Location getLoc() {
+		return loc;
+	}
+	
+	public BlockState getState() {
+		return state;
 	}
 	
 }

@@ -26,6 +26,10 @@ public class Smite extends Spell {
 	public Smite(Zephyrus plugin) {
 		super(plugin);
 	}
+	
+	public Smite() {
+		
+	}
 
 	@Override
 	public String name() {
@@ -69,8 +73,8 @@ public class Smite extends Spell {
 	}
 	
 	@Override
-	public Spell reqSpell() {
-		return Zephyrus.spellMap.get("bolt");
+	public String reqSpell() {
+		return "bolt";
 	}
 	
 	private class Strike extends BukkitRunnable {

@@ -102,5 +102,10 @@ public class Repair extends Spell {
 		Lang.msg("spells.repair.side", player);
 		return true;
 	}
+	
+	@Override
+	public boolean canBind() {
+		return false;
+	}
 
 }

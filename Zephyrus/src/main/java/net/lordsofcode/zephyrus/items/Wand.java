@@ -155,9 +155,8 @@ public class Wand extends CustomItem {
 								"zephyrus.spell." + s.name().toLowerCase())
 								|| e.getPlayer().hasPermission(
 										"zephyrus.spell.*")) {
-							if (s.reqSpell() != null) {
-								if (s.isLearned(e.getPlayer(), s.reqSpell()
-										.name().toLowerCase())) {
+							if (s.reqSpell() != "") {
+								if (s.isLearned(e.getPlayer(), Zephyrus.spellMap.get(s.reqSpell().toLowerCase()).getDisplayName())) {
 									if (!(LevelManager.getLevel(e.getPlayer()) < s
 											.getLevel())) {
 										PlayerCraftSpellEvent event = new PlayerCraftSpellEvent(
@@ -177,7 +176,7 @@ public class Wand extends CustomItem {
 									}
 								} else {
 									e.getPlayer().sendMessage(
-											Lang.get("wand.reqspell").replace("[SPELL]", s.reqSpell().getDisplayName()));
+											Lang.get("wand.reqspell").replace("[SPELL]", Zephyrus.spellMap.get(s.reqSpell().toLowerCase()).getDisplayName()));
 								}
 							} else {
 								if (!(LevelManager.getLevel(e.getPlayer()) < s

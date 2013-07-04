@@ -84,8 +84,8 @@ public class Phase extends Spell {
 	}
 
 	@Override
-	public Spell reqSpell() {
-		return new Blink(plugin);
+	public String reqSpell() {
+		return "blink";
 	}
 
 	@Override

@@ -79,7 +79,7 @@ public class Jail extends Spell {
 									y, z);
 							Block b = bloc.getBlock();
 							map.put(bloc,
-									new BlockData(b.getType(), b.getData()));
+									new BlockData(b));
 							b.setType(Material.IRON_BLOCK);
 							b.setMetadata("jailblock", new FixedMetadataValue(Zephyrus.getInstance(), true));
 						} else {
@@ -87,7 +87,7 @@ public class Jail extends Spell {
 									z);
 							Block b = bloc.getBlock();
 							map.put(bloc,
-									new BlockData(b.getType(), b.getData()));
+									new BlockData(b));
 							b.setType(Material.IRON_FENCE);
 							b.setMetadata("jailblock", new FixedMetadataValue(Zephyrus.getInstance(), true));
 						}

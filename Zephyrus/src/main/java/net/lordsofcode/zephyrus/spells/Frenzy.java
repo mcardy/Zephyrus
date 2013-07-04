@@ -107,8 +107,8 @@ public class Frenzy extends Spell {
 	}
 
 	@Override
-	public Spell reqSpell() {
-		return new Confuse(plugin);
+	public String reqSpell() {
+		return "confuse";
 	}
 
 	private static Monster[] getNearbyEntities(Location l, int radius) {

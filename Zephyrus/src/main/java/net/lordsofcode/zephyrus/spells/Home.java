@@ -29,8 +29,8 @@ public class Home extends Spell {
 
 	public Home(Zephyrus plugin) {
 		super(plugin);
-		Lang.add("spell.home.set", "Your home has been set!");
-		Lang.add("spell.home.applied", "Welcome home!");
+		Lang.add("spells.home.set", "Your home has been set!");
+		Lang.add("spells.home.applied", "Welcome home!");
 	}
 
 	@Override

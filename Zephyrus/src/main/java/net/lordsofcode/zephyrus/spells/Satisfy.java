@@ -43,17 +43,21 @@ public class Satisfy extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 20;
+		return 10;
 	}
 
 	@Override
 	public void run(Player player, String[] args) {
 		player.setFoodLevel(20);
-		player.setHealth(20);
 		player.setSaturation(20);
 		Lang.msg("spells.satisfy.applied", player);
 	}
 
+	@Override
+	public String reqSpell() {
+		return "feed";
+	}
+	
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> s = new HashSet<ItemStack>();

@@ -67,9 +67,10 @@ public class BlinkPearl extends CustomItem {
 
 	@SuppressWarnings("deprecation")
 	@EventHandler
-	public void blink(PlayerInteractEvent e) throws Exception {
+	public void blink(PlayerInteractEvent e) {
 		if (checkName(e.getPlayer().getItemInHand(), this.name())) {
 			e.setCancelled(true);
+			e.getPlayer().updateInventory();
 			if (e.getAction() == Action.RIGHT_CLICK_AIR
 					|| e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				if (e.getAction() == Action.RIGHT_CLICK_BLOCK
@@ -115,7 +116,7 @@ public class BlinkPearl extends CustomItem {
 							Lang.errMsg("blinkpearl.noblink", e.getPlayer());
 						}
 					} else {
-						Lang.errMsg("outofrange", e.getPlayer());
+						Lang.errMsg("blinkpearl.outofrange", e.getPlayer());
 					}
 				} else {
 					int time = ItemDelay.getDelay(plugin, e.getPlayer(), this);
@@ -125,7 +126,6 @@ public class BlinkPearl extends CustomItem {
 											"[TIME]", time + ""));
 				}
 			}
-			e.getPlayer().updateInventory();
 		}
 	}
 

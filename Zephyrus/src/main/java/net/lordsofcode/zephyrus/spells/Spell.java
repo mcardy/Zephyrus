@@ -9,6 +9,7 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.player.LevelManager;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
@@ -37,7 +38,6 @@ import org.bukkit.util.Vector;
 public abstract class Spell implements Listener {
 
 	public Zephyrus plugin;
-	public boolean listenerEnabled;
 	public Set<String> playerMap;
 	
 	public Spell(Zephyrus plugin) {
@@ -99,8 +99,8 @@ public abstract class Spell implements Listener {
 	 * A spell that is required for crafting this spell
 	 * @return The required spell
 	 */
-	public Spell reqSpell() {
-		return null;
+	public String reqSpell() {
+		return "";
 	}
 
 	/**
@@ -172,7 +172,11 @@ public abstract class Spell implements Listener {
 	 * @return Whether or not the spell is enabled.
 	 */
 	public boolean isEnabled() {
-		return getConfig().getBoolean(this.name() + ".enabled");
+		if (Zephyrus.getInstance().config.getConfig().contains(name() + ".enabled")) {
+			return Zephyrus.getInstance().config.getConfig().getBoolean(this.name() + ".enabled");
+		} else {
+			return true;
+		}
 	}
 	
 	/**
@@ -196,7 +200,7 @@ public abstract class Spell implements Listener {
 	}
 	
 	public String getFailMessage() {
-		String failMessage = getConfig().getString(name() + ".failmessage");
+		String failMessage = Lang.get("spells." + name() + ".fail");
 		return failMessage;
 	}
 	

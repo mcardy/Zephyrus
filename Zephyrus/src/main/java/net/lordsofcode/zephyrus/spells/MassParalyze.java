@@ -31,7 +31,7 @@ public class MassParalyze extends Spell {
 
 	@Override
 	public String name() {
-		return "massparalyse";
+		return "massparalyze";
 	}
 
 	@Override
@@ -80,6 +80,11 @@ public class MassParalyze extends Spell {
 	@Override
 	public SpellType type() {
 		return SpellType.OTHER;
+	}
+	
+	@Override
+	public String reqSpell() {
+		return "paralyze";
 	}
 
 }

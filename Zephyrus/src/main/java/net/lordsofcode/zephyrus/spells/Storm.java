@@ -60,5 +60,11 @@ public class Storm extends Spell {
 	public SpellType type() {
 		return SpellType.ELEMENTAL;
 	}
+	
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		player.getWorld().strikeLightning(player.getLocation());
+		return false;
+	}
 
 }

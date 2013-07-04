@@ -86,8 +86,8 @@ public class Fly extends Spell {
 	}
 	
 	@Override
-	public Spell reqSpell() {
-		return Zephyrus.spellMap.get("feather");
+	public String reqSpell() {
+		return "feather";
 	}
 
 	private class FeatherRunnable extends BukkitRunnable {

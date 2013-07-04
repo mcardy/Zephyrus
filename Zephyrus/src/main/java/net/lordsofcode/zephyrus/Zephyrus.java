@@ -1,7 +1,6 @@
 package net.lordsofcode.zephyrus;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -47,6 +46,7 @@ import net.lordsofcode.zephyrus.spells.Explode;
 import net.lordsofcode.zephyrus.spells.Feather;
 import net.lordsofcode.zephyrus.spells.Feed;
 import net.lordsofcode.zephyrus.spells.FireRing;
+import net.lordsofcode.zephyrus.spells.FireShield;
 import net.lordsofcode.zephyrus.spells.Fireball;
 import net.lordsofcode.zephyrus.spells.FlameStep;
 import net.lordsofcode.zephyrus.spells.Flare;
@@ -67,12 +67,15 @@ import net.lordsofcode.zephyrus.spells.Prospect;
 import net.lordsofcode.zephyrus.spells.Punch;
 import net.lordsofcode.zephyrus.spells.Repair;
 import net.lordsofcode.zephyrus.spells.Satisfy;
+import net.lordsofcode.zephyrus.spells.Shield;
 import net.lordsofcode.zephyrus.spells.Smite;
 import net.lordsofcode.zephyrus.spells.Spell;
 import net.lordsofcode.zephyrus.spells.Storm;
 import net.lordsofcode.zephyrus.spells.Summon;
 import net.lordsofcode.zephyrus.spells.SuperHeat;
 import net.lordsofcode.zephyrus.spells.Vanish;
+import net.lordsofcode.zephyrus.spells.Zap;
+import net.lordsofcode.zephyrus.spells.Zephyr;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.Merchant;
@@ -85,7 +88,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -107,10 +109,10 @@ public class Zephyrus extends JavaPlugin {
 
 	public ConfigHandler config = new ConfigHandler(this, "spells.yml");
 	public ConfigHandler langCfg = new ConfigHandler(this, "lang.yml");
-	
+
 	public FileConfiguration lang;
 	public FileConfiguration spells;
-	
+
 	public GlowEffect glow = new GlowEffect(120);
 
 	public String[] updateMsg;
@@ -125,12 +127,13 @@ public class Zephyrus extends JavaPlugin {
 	public static Map<ItemStack, Merchant> merchantMap;
 
 	private int builtInSpells = 0;
+	private boolean finished = false;
 
 	@Override
 	public void onEnable() {
 		instance = this;
 		new UpdateChecker(this);
-		
+
 		saveDefaultConfig();
 		config.saveDefaultConfig();
 		langCfg.saveDefaultConfig();
@@ -142,25 +145,28 @@ public class Zephyrus extends JavaPlugin {
 		invPlayers = new HashMap<String, Merchant>();
 		itemDelay = new HashMap<String, Map<String, Integer>>();
 		mana = new HashMap<String, Object>();
-		
+
 		Lang.add("noperm", "You do not have permission to do that!");
-		Lang.add("ingameonly", "You must be an in-game player to perform this command!");
+		Lang.add("ingameonly",
+				"You must be an in-game player to perform this command!");
 		Lang.add("notonline", "That player is not online!");
-		Lang.add("outofdatebukkit", "Sadly, the version of Craftbukkit that you are using is out of date...");
-		
+		Lang.add("outofdatebukkit",
+				"Sadly, the version of Craftbukkit that you are using is out of date...");
+
 		Lang.add("nomana", "Not enough mana!");
 		Lang.add("disabled", "That spell has been disabled...");
 		Lang.add("notlearned", "You do not know that spell!");
 		Lang.add("worldguard", "You do not have permission for this area!");
-		
-		Lang.add("spelltome.learn", "Learn this spell by left clicking this book");
-		Lang.add("spelltome.cast", "Cast this spell with $b/cast [SPELL]$f");
+
+		Lang.add("spelltome.learn",
+				"Learn this spell by left clicking this book");
+		Lang.add("spelltome.cast", "Cast this spell with $b/cast [SPELL]$0");
 		Lang.add("spelltome.nospell", "That spell was not found!");
 		Lang.add("spelltome.known", "You already know that spell!");
 		Lang.add("spelltome.success", "You have successfully learned $6[SPELL]");
-		
+
 		Lang.add("customitem.level", "Level");
-		
+
 		try {
 			new CraftLivingEntity(null, null);
 		} catch (NoClassDefFoundError err) {
@@ -174,14 +180,25 @@ public class Zephyrus extends JavaPlugin {
 		addCommands();
 		addEnchants();
 		addItems();
-		addSpells();
+		if (getConfig().getBoolean("Fast-Mode")) {
+			getServer().getScheduler().runTask(this, new Runnable() {
+				public void run() {
+					addSpells();
+					finished = true;
+				}
+			});
+		} else {
+			getLogger().info("Loading spells...");
+			addSpells();
+			finished = true;
+		}
 		addListeners();
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			Zephyrus.mana.put(p.getName(), LevelManager.loadMana(p));
 			new ManaRecharge(this, p).runTaskLater(this, 30);
 		}
-		
+
 		getLogger().info(
 				"Zephyrus v"
 						+ getDescription().getVersion()
@@ -189,8 +206,10 @@ public class Zephyrus extends JavaPlugin {
 						+ getDescription().getAuthors().toString()
 								.replace("[", "").replace("]", "")
 						+ " enabled!");
-		
+
 		new PostInit().runTaskAsynchronously(this);
+
+		instance = this;
 	}
 
 	@Override
@@ -242,64 +261,66 @@ public class Zephyrus extends JavaPlugin {
 	}
 
 	private void addSpells() {
-		//A
+		// A
 		new Armour(this);
 		new Arrow(this);
-		//B
+		// B
 		new Blink(this);
 		new Bolt(this);
 		new Butcher(this);
-		//C
+		// C
 		new Confuse(this);
 		new Conjure(this);
-		//D
+		// D
 		new Detect(this);
 		new Dig(this);
 		new Dispel(this);
-		//E
+		// E
 		new Enderchest(this);
 		new Explode(this);
-		//F
+		// F
 		new Feather(this);
 		new Feed(this);
 		new Fireball(this);
 		new FireRing(this);
+		new FireShield(this);
 		new FlameStep(this);
 		new Flare(this);
 		new Fly(this);
 		new Frenzy(this);
-		new Feed(this);
-		//G
+		// G
 		new Grow(this);
 		new Grenade(this);
-		//H
+		// H
 		new Heal(this);
 		new Home(this);
-		//J
+		// J
 		new Jail(this);
-		//L
+		// L
 		new LifeSteal(this);
-		//M
+		// M
 		new MageLight(this);
 		new Mana(this);
 		new MassParalyze(this);
-		//P
+		// P
 		new Paralyze(this);
 		new Phase(this);
 		new Prospect(this);
 		new Punch(this);
-		//R
+		// R
 		new Repair(this);
-		//S
+		// S
 		new Satisfy(this);
+		new Shield(this);
 		new Smite(this);
 		new Storm(this);
 		new Summon(this);
 		new SuperHeat(this);
-		//V
+		// V
 		new Vanish(this);
-
-		builtInSpells = spellMap.size();
+		// Z
+		new Zap(this);
+		new Zephyr(this);
 	}
 
 	private void addEnchants() {
@@ -348,38 +369,33 @@ public class Zephyrus extends JavaPlugin {
 	 */
 	public void addSpell(Spell spell) {
 		if ((spell.getClass().getPackage() == Spell.class.getPackage())) {
-			spellCfg(spell);
-			if (!Zephyrus.spellMap.containsKey(spell.getDisplayName()
-							.toLowerCase())) {
-				Zephyrus.spellMap.put(spell.getDisplayName().toLowerCase(), spell);
-			}
-			if (spell.spellItems() != null
-					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
-				Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
-			}
-			if (isListener(spell) && !spell.listenerEnabled) {
+			if (spell.isEnabled()) {
+				spellCfg(spell);
+				Zephyrus.spellMap.put(spell.getDisplayName().toLowerCase(),
+						spell);
+				if (spell.spellItems() != null) {
+					Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
+				}
 				getServer().getPluginManager().registerEvents(spell, this);
-				spell.listenerEnabled = true;
-			}
-			Permission perm = new Permission("zephyrus.cast." + spell.name().toLowerCase(), PermissionDefault.FALSE);
-			try {
+				Permission perm = new Permission("zephyrus.cast."
+						+ spell.name().toLowerCase(), PermissionDefault.FALSE);
 				Bukkit.getPluginManager().addPermission(perm);
-			} catch (Exception e) {}
-			
+				builtInSpells++;
+			}
 		} else {
-			spellCfg(spell);
-			if (!Zephyrus.spellMap.containsKey(spell.getDisplayName()
-							.toLowerCase())) {
-				Zephyrus.spellMap.put(spell.getDisplayName().toLowerCase(), spell);
-			}
-			if (spell.spellItems() != null
-					&& !Zephyrus.spellCraftMap.containsKey(spell.spellItems())) {
-				Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
-			}
-			Permission perm = new Permission("zephyrus.cast." + spell.name().toLowerCase(), PermissionDefault.FALSE);
-			try {
+			if (spell.isEnabled()) {
+				spellCfg(spell);
+				Zephyrus.spellMap.put(spell.getDisplayName().toLowerCase(),
+						spell);
+				if (spell.spellItems() != null
+						&& !Zephyrus.spellCraftMap.containsKey(spell
+								.spellItems())) {
+					Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
+				}
+				Permission perm = new Permission("zephyrus.cast."
+						+ spell.name().toLowerCase(), PermissionDefault.FALSE);
 				Bukkit.getPluginManager().addPermission(perm);
-			} catch (Exception e) {}
+			}
 		}
 	}
 
@@ -391,24 +407,24 @@ public class Zephyrus extends JavaPlugin {
 			config.getConfig().set(spell.name() + ".desc", spell.bookText());
 		}
 		if (!config.getConfig().contains(spell.name() + ".mana")) {
-			config.getConfig().set(spell.name() + ".mana",
-					spell.manaCost());
+			config.getConfig().set(spell.name() + ".mana", spell.manaCost());
 		}
 		if (!config.getConfig().contains(spell.name() + ".level")) {
-			config.getConfig().set(spell.name() + ".level",
-					spell.reqLevel());
+			config.getConfig().set(spell.name() + ".level", spell.reqLevel());
 		}
 		if (!config.getConfig().contains(spell.name() + ".displayname")) {
 			config.getConfig().set(spell.name() + ".displayname", spell.name());
 		}
-		if (spell.failMessage() != "" && langCfg.getConfig().contains("spells." + spell.name() + ".fail")) {
-			Lang.add("spells." + spell.name() + ".fail", spell.failMessage().replace(ChatColor.COLOR_CHAR + "", "$"));
+		if (spell.failMessage() != ""
+				&& !langCfg.getConfig().contains(
+						"spells." + spell.name() + ".fail")) {
+			Lang.add("spells." + spell.name() + ".fail", spell.failMessage()
+					.replace(ChatColor.COLOR_CHAR + "", "$"));
 		}
 		if (spell.getConfigurations() != null) {
 			Map<String, Object> cfg = spell.getConfigurations();
 			for (String str : cfg.keySet()) {
-				if (!config.getConfig().contains(
-						spell.name() + "." + str)) {
+				if (!config.getConfig().contains(spell.name() + "." + str)) {
 					config.getConfig().set(spell.name() + "." + str,
 							cfg.get(str));
 				}
@@ -416,42 +432,32 @@ public class Zephyrus extends JavaPlugin {
 		}
 		config.saveConfig();
 	}
-	
-	private boolean isListener(Spell spell) {
-		for (Method m : spell.getClass().getMethods()) {
-			if (m.isAnnotationPresent(EventHandler.class)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	private class PostInit extends BukkitRunnable {
 		@Override
 		public void run() {
-			try {
-				for (CustomItem ci : Zephyrus.itemMap.values()) {
-					if (ci.hasLevel()) {
-						for (int i = 1; i < ci.maxLevel(); i++) {
-							ItemStack item = ci.item();
-							ci.setItemLevel(item, i);
-							ItemStack item2 = ci.item();
-							int i2 = i;
-							ci.setItemLevel(item2, i2 + 1);
-							Merchant m = new Merchant();
-							m.addOffer(item,
-									new ItemStack(Material.EMERALD, i), item2);
-							Zephyrus.merchantMap.put(item, m);
-						}
+			for (CustomItem ci : Zephyrus.itemMap.values()) {
+				if (ci.hasLevel()) {
+					for (int i = 1; i < ci.maxLevel(); i++) {
+						ItemStack item = ci.item();
+						ci.setItemLevel(item, i);
+						ItemStack item2 = ci.item();
+						int i2 = i;
+						ci.setItemLevel(item2, i2 + 1);
+						Merchant m = new Merchant();
+						m.addOffer(item, new ItemStack(Material.EMERALD, i),
+								item2);
+						Zephyrus.merchantMap.put(item, m);
 					}
 				}
-			} catch (Exception e) {
-				getLogger().warning(e.getMessage());
 			}
 
 			lang = langCfg.getConfig();
 			spells = config.getConfig();
-			
+
+			while (!finished) {
+			}
+
 			try {
 				for (String s : updateMsg) {
 					if (s != null) {
@@ -462,10 +468,8 @@ public class Zephyrus extends JavaPlugin {
 				getLogger().info("Could not check for updates...");
 			}
 			String added = "";
-			if (!(spellMap.size() == builtInSpells)) {
-				int external = spellMap.size() - builtInSpells;
-				added = " " + external + " external spells registered. ";
-			}
+			int external = spellMap.size() - builtInSpells;
+			added = " " + external + " external spells registered. ";
 
 			getLogger().info("Loaded " + spellMap.size() + " spells." + added);
 		}
