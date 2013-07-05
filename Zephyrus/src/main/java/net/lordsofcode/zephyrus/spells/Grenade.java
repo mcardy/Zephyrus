@@ -43,7 +43,7 @@ public class Grenade extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 80;
+		return 40;
 	}
 
 	@Override

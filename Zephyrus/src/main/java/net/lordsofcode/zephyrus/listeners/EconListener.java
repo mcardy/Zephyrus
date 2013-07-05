@@ -48,7 +48,7 @@ public class EconListener implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onClickSign(PlayerInteractEvent e) {
-		if (PluginHook.economy()) {
+		if (PluginHook.isEconomy()) {
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Material type = e.getClickedBlock().getType();
 				if (type == Material.SIGN || type == Material.SIGN_POST
@@ -113,7 +113,7 @@ public class EconListener implements Listener {
 	public void onCreateSign(SignChangeEvent e) {
 		if (e.getLine(0).equals("[BuySpell]")) {
 			if (e.getPlayer().hasPermission("zephyrus.buy.create")) {
-				if (PluginHook.economy()) {
+				if (PluginHook.isEconomy()) {
 					Player player = e.getPlayer();
 					try {
 						if (e.getLine(1).startsWith("$")) {
@@ -147,7 +147,7 @@ public class EconListener implements Listener {
 			}
 		} else if (e.getLine(0).equals("[BuyWand]")) {
 			if (e.getPlayer().hasPermission("zephyrus.buy.create")) {
-				if (PluginHook.economy()) {
+				if (PluginHook.isEconomy()) {
 					Player player = e.getPlayer();
 					try {
 						if (e.getLine(1).startsWith("$")) {
