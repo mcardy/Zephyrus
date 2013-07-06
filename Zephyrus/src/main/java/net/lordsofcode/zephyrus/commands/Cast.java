@@ -1,5 +1,6 @@
 package net.lordsofcode.zephyrus.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.lordsofcode.zephyrus.Zephyrus;
@@ -24,8 +25,7 @@ import org.bukkit.entity.Player;
  * 
  */
 
-public class Cast implements CommandExecutor,
-		TabCompleter {
+public class Cast implements CommandExecutor, TabCompleter {
 
 	Zephyrus plugin;
 
@@ -62,12 +62,9 @@ public class Cast implements CommandExecutor,
 											.callEvent(event);
 									if (!event.isCancelled()) {
 										spell.run(player, args);
-										LevelManager
-												.drainMana(
-														player,
-														spell.getManaCost()
-																* plugin.getConfig()
-																		.getInt("ManaMultiplier"));
+										LevelManager.drainMana(
+													player, spell.getManaCost()
+														* plugin.getConfig().getInt("ManaMultiplier"));
 									}
 								} else {
 									if (spell.failMessage() != "") {
@@ -97,7 +94,18 @@ public class Cast implements CommandExecutor,
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command,
 			String alias, String[] args) {
-		return learned(sender);
+		List<String> list = learned(sender);
+		if (args.length == 0) {
+			return list;
+		}
+		String cmd = args[0];
+		List<String> newList = new ArrayList<String>();
+		for (String s : list) {
+			if (s.startsWith(cmd.toLowerCase())) {
+				newList.add(s);
+			}
+		}
+		return newList;
 	}
 
 	public List<String> learned(CommandSender p) {

@@ -110,7 +110,18 @@ public class Bind implements CommandExecutor,
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command,
 			String alias, String[] args) {
-		return learned(sender);
+		List<String> list = learned(sender);
+		if (args.length == 0) {
+			return list;
+		}
+		String cmd = args[0];
+		List<String> newList = new ArrayList<String>();
+		for (String s : list) {
+			if (s.startsWith(cmd.toLowerCase())) {
+				newList.add(s);
+			}
+		}
+		return newList;
 	}
 
 	public List<String> learned(CommandSender p) {

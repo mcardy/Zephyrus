@@ -1,5 +1,9 @@
 package net.lordsofcode.zephyrus.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.player.LevelManager;
@@ -10,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 /**
@@ -20,7 +25,7 @@ import org.bukkit.entity.Player;
  * 
  */
 
-public class SpellTomeCmd implements CommandExecutor {
+public class SpellTomeCmd implements CommandExecutor, TabCompleter {
 
 	Zephyrus plugin;
 	LevelManager lvl;
@@ -99,6 +104,27 @@ public class SpellTomeCmd implements CommandExecutor {
 			Lang.errMsg("noperm", sender);
 		}
 		return false;
+	}
+	
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command,
+			String alias, String[] args) {
+		Set<String> set = Zephyrus.spellMap.keySet();
+		List<String> list = new ArrayList<String>();
+		for (String s : set) {
+			list.add(s);
+		}
+		if (args.length == 0) {
+			return list;
+		}
+		String cmd = args[0];
+		List<String> newList = new ArrayList<String>();
+		for (String s : list) {
+			if (s.startsWith(cmd.toLowerCase())) {
+				newList.add(s);
+			}
+		}
+		return newList;
 	}
 	
 	public boolean isOnline(String player) {
