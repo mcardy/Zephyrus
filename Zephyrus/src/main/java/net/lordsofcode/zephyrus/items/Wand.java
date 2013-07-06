@@ -152,9 +152,7 @@ public class Wand extends CustomItem {
 					Spell s = Zephyrus.spellCraftMap.get(i);
 					if (s.isEnabled()) {
 						if (e.getPlayer().hasPermission(
-								"zephyrus.spell." + s.name().toLowerCase())
-								|| e.getPlayer().hasPermission(
-										"zephyrus.spell.*")) {
+								"zephyrus.spell." + s.name().toLowerCase())) {
 							if (s.reqSpell() != "") {
 								if (s.isLearned(e.getPlayer(), Zephyrus.spellMap.get(s.reqSpell().toLowerCase()).getDisplayName())) {
 									if (!(LevelManager.getLevel(e.getPlayer()) < s
@@ -291,7 +289,7 @@ public class Wand extends CustomItem {
 																		.getInt("ManaMultiplier"));
 									}
 								} else {
-									if (spell.getFailMessage() != "") {
+									if (spell.failMessage() != "") {
 										player.sendMessage(spell.getFailMessage());
 									}
 								}

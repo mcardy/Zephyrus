@@ -19,7 +19,6 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
  * 
  */
 
-//TODO Hook into Lockette
 //TODO Make worldguard flag for spells
 public class PluginHook {
 

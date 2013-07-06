@@ -53,18 +53,16 @@ permissions:
    zephyrus.buy.create:
       default: op
       description: Allows the player to create buyspell signs.
+   zephyrus.spelltome:
+      default: true
+      description: Allows players to learn spells from a spelltome.
    zephyrus.craft.*:
       default: true
       children:
          zephyrus.craft.blinkpearl: true
          zephyrus.craft.lightninggem: true
          zephyrus.craft.growhoe: true
-         zephyrus.craft.lifesuck: true
          zephyrus.craft.mana: true
          zephyrus.craft.firerod: true
          zephyrus.craft.wand: true
-   zephyrus.spell.*:
-      default: true
-   zephyrus.cast.*:
-      default: false
 load: STARTUP

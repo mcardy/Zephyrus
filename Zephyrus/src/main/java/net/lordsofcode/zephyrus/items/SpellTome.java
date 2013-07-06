@@ -83,6 +83,10 @@ public class SpellTome extends ItemUtil implements Listener {
 		if (e.getAction() == Action.LEFT_CLICK_AIR
 				|| e.getAction() == Action.LEFT_CLICK_BLOCK) {
 			if (checkName(e.getPlayer().getItemInHand(), this.name())) {
+				if (!e.getPlayer().hasPermission("zephyrus.spelltome")) {
+					e.getPlayer().sendMessage(Lang.get("spelltome.noperm"));
+					return;
+				}
 				ItemStack i = e.getPlayer().getItemInHand();
 				List<String> l = i.getItemMeta().getLore();
 				String s = l.get(0).replace(ChatColor.GRAY + "", "");
@@ -91,6 +95,10 @@ public class SpellTome extends ItemUtil implements Listener {
 					Player player = e.getPlayer();
 					FileConfiguration cfg = PlayerConfigHandler.getConfig(
 							plugin, player);
+					if (!player.hasPermission("zephyrus.spell." + spell.name())) {
+						e.getPlayer().sendMessage(Lang.get("spelltome.cantlearn").replace("[SPELL]", spell.getDisplayName()));
+						return;
+					}
 					if (!cfg.getStringList("learned").contains(spell.getDisplayName().toLowerCase())) {
 						PlayerLearnSpellEvent event = new PlayerLearnSpellEvent(
 								player, spell);

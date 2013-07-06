@@ -24,7 +24,7 @@ public class Lang {
 	 */
 	public static void add(String key, String desc) {
 		if (!Zephyrus.getInstance().langCfg.getConfig().contains(key)) { 
-			Zephyrus.getInstance().langCfg.getConfig().set(key, desc);
+			Zephyrus.getInstance().langCfg.getConfig().set(key.replace(ChatColor.COLOR_CHAR + "", "$"), desc);
 			Zephyrus.getInstance().langCfg.saveConfig();
 		}
 	}

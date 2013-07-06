@@ -38,6 +38,10 @@ public class Cast implements CommandExecutor,
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
 		if (sender instanceof Player) {
+			if (!sender.hasPermission("zephyrus.cast")) {
+				Lang.errMsg("noperm", sender);
+				return true;
+			}
 			if (args.length < 1) {
 				Lang.errMsg("cast.nospell", sender);
 			} else {
@@ -66,7 +70,7 @@ public class Cast implements CommandExecutor,
 																		.getInt("ManaMultiplier"));
 									}
 								} else {
-									if (spell.getFailMessage() != "") {
+									if (spell.failMessage() != "") {
 										player.sendMessage(spell.getFailMessage());
 									}
 								}

@@ -4,13 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.hooks.PluginHook;
-import net.lordsofcode.zephyrus.utils.Lang;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -55,20 +55,9 @@ public class Dig extends Spell {
 
 	@Override
 	public boolean canRun(Player player, String[] args) {
-		if (player.getTargetBlock(null, 12).hasMetadata("jailblock")) {
-			Lang.errMsg("spells.jail.break", player);
-			return false;
-		}
-		if (player.getTargetBlock(null, 12).getType() != Material.BEDROCK) {
-			if (PluginHook.canBuild(player, player.getTargetBlock(null, 12))
-					&& player.getTargetBlock(null, 12).getType() != Material.AIR) {
-				return true;
-			} else if (player.getTargetBlock(null, 12).getType() != Material.AIR) {
-				Lang.errMsg("worldguard", player);
-				return false;
-			}
-		}
-		return false;
+		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 12), player);
+		Bukkit.getPluginManager().callEvent(e);
+		return !e.isCancelled();
 	}
 
 	@Override

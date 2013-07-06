@@ -166,6 +166,8 @@ public class Zephyrus extends JavaPlugin {
 		Lang.add("spelltome.nospell", "That spell was not found!");
 		Lang.add("spelltome.known", "You already know that spell!");
 		Lang.add("spelltome.success", "You have successfully learned $6[SPELL]");
+		Lang.add("spelltome.cantlearn", ChatColor.RED + "You don't have permission to learn [SPELL]");
+		Lang.add("spelltome.noperm", ChatColor.RED + "You don't have permission to use the spelltome!");
 
 		Lang.add("customitem.level", "Level");
 
@@ -380,10 +382,17 @@ public class Zephyrus extends JavaPlugin {
 				if (spell.spellItems() != null) {
 					Zephyrus.spellCraftMap.put(spell.spellItems(), spell);
 				}
+				
 				getServer().getPluginManager().registerEvents(spell, this);
-				Permission perm = new Permission("zephyrus.cast."
+				
+				Permission castPerm = new Permission("zephyrus.cast."
 						+ spell.name().toLowerCase(), PermissionDefault.FALSE);
-				Bukkit.getPluginManager().addPermission(perm);
+				Bukkit.getPluginManager().addPermission(castPerm);
+				
+				Permission spellPerm = new Permission("zephyrus.spell."
+						+ spell.name().toLowerCase(), PermissionDefault.TRUE);
+				Bukkit.getPluginManager().addPermission(spellPerm);
+				
 				builtInSpells++;
 			}
 		} else {
