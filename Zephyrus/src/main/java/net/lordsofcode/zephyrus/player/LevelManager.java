@@ -69,7 +69,7 @@ public class LevelManager {
 		current = current + amount;
 		int level = getLevel(player);
 		while (current > (level * levelBalance) + (level * level + 100)) {
-			current = current - (level * levelBalance) + (level * level + 100);
+			current = current - ((level * levelBalance) + (level * level + 100));
 			levelUp(player);
 			level++;
 		}
