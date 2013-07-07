@@ -52,10 +52,10 @@ public class Mana extends Spell {
 		int d = getConfig().getInt(this.name() + ".damage");
 		if (LevelManager.getMana(player) + a < LevelManager.getLevel(player) * 100) {
 			LevelManager.drainMana(player, -a);
-			player.damage((double)d);
+			player.damage(d);
 		} else {
 			LevelManager.resetMana(player);
-			player.damage((double)d);
+			player.damage(d);
 		}
 	}
 

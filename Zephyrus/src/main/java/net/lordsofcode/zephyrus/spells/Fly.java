@@ -137,7 +137,7 @@ public class Fly extends Spell {
 				if (player.isFlying()) {
 					ParticleEffects.sendToLocation(ParticleEffects.CLOUD,
 							player.getLocation(), (float) 0.5, 0, (float) 0.5,
-							(float) 0, 10);
+							0, 10);
 				}
 				new FeatherRunnable(player).runTaskLater(plugin, 2);
 			} else {

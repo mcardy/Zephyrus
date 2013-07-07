@@ -407,6 +407,7 @@ public class Zephyrus extends JavaPlugin {
 	private void spellCfg(final Spell spell) {
 		getServer().getScheduler().runTask(this, new BukkitRunnable() {
 
+			@Override
 			public void run() {
 				if (!config.getConfig().contains(spell.name() + ".enabled")) {
 					config.getConfig().set(spell.name() + ".enabled", true);

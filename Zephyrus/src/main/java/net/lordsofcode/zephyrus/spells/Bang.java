@@ -59,7 +59,7 @@ public class Bang extends Spell {
 		Location ploc = loc;
 		ploc.setY(ploc.getY() + 2);
 		ParticleEffects.sendToLocation(ParticleEffects.MOB_SPELL_AMBIENT, loc,
-				(float) 1, (float) 2, (float) 1, (float) 0, 200);
+				1, 2, 1, 0, 200);
 		for (Entity e : getNearbyEntities(loc, r)) {
 			if (e != player) {
 				Vector unitVector = e.getLocation().toVector()

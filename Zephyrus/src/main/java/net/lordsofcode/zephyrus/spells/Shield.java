@@ -97,6 +97,7 @@ public class Shield extends Spell {
 			this.damage = damage;
 		}
 
+		@Override
 		public void run() {
 			Player p = Bukkit.getPlayer(player.getName());
 			if (p != null && playerMap.contains(player.getName())) {
@@ -106,7 +107,7 @@ public class Shield extends Spell {
 						loc, 0.5F, 1, 0.5F, 100, 10);
 				for (Entity e : p.getNearbyEntities(2, 2, 2)) {
 					if (e instanceof LivingEntity) {
-						((LivingEntity) e).damage((double)damage);
+						((LivingEntity) e).damage(damage);
 					}
 				}
 			} else {

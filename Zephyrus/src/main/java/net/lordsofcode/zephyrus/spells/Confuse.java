@@ -68,7 +68,7 @@ public class Confuse extends Spell {
 			Location loc = m.getLocation();
 			loc.setY(loc.getY() + 1);
 			ParticleEffects.sendToLocation(ParticleEffects.ANGRY_VILLAGER, loc,
-					0.25F, 0.25F, 0.25F, 5, 10);
+					0.25F, 0.25F, 0.25F, 5, 5);
 		}
 	}
 
@@ -82,8 +82,7 @@ public class Confuse extends Spell {
 	@Override
 	public boolean canRun(Player player, String[] args) {
 		try {
-			@SuppressWarnings("unused")
-			CraftLivingEntity test = new CraftLivingEntity(null, null);
+			new CraftLivingEntity(null, null);
 			return true;
 		} catch (NoClassDefFoundError err) {
 			return false;

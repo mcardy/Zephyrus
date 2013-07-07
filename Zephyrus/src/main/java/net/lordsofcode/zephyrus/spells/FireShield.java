@@ -93,6 +93,7 @@ public class FireShield extends Spell {
 			this.player = player;
 		}
 
+		@Override
 		public void run() {
 			Player p = Bukkit.getPlayer(player.getName());
 			if (p != null && playerMap.contains(player.getName())) {

@@ -145,6 +145,7 @@ public class SuperHeat extends Spell {
 		return "You can't superheat that!";
 	}
 
+	@Override
 	public Entity getTarget(Player player) {
 
 		BlockIterator iterator = new BlockIterator(player.getWorld(), player

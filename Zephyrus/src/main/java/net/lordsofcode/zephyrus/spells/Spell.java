@@ -353,6 +353,7 @@ public abstract class Spell implements Listener {
 			this.runTaskLater(Zephyrus.getInstance(), time);
 		}
 		
+		@Override
 		public void run() {
 			spell.delayedAction(player);
 		}

@@ -102,6 +102,7 @@ public class Zephyr extends Spell {
 			this.power = power;
 		}
 
+		@Override
 		public void run() {
 			Player p = Bukkit.getPlayer(player.getName());
 			if (p != null && playerMap.contains(player.getName())) {
@@ -109,7 +110,7 @@ public class Zephyr extends Spell {
 				loc.setY(player.getLocation().getY() + 1);
 				ParticleEffects.sendToLocation(
 						ParticleEffects.CLOUD, loc, (float) 0.5,
-						(float) 0.5, (float) 0.5, (float) 0, 10);
+						(float) 0.5, (float) 0.5, 0, 10);
 				for (Entity e : p.getNearbyEntities(3, 3, 3)) {
 					if (b) {
 						Vector unitVector = e.getLocation().toVector()

@@ -146,6 +146,7 @@ public class Jail extends Spell {
 			this.map = map2;
 		}
 
+		@Override
 		public void run() {
 			for (Location loc : map.keySet()) {
 				Block b = loc.getWorld().getBlockAt(loc);

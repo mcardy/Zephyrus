@@ -67,7 +67,7 @@ public class Summon extends Spell {
 		Block block = player.getTargetBlock(null, 100);
 		Location loc = block.getLocation();
 		loc.setY(loc.getY() + 1);
-		Skeleton skel = (Skeleton) loc.getWorld().spawn(loc, Skeleton.class);
+		Skeleton skel = loc.getWorld().spawn(loc, Skeleton.class);
 		skel.setMetadata("owner", new FixedMetadataValue(Zephyrus.getInstance(), player.getName()));
 		en.add(skel);
 		new End(skel).runTaskLater(Zephyrus.getInstance(), getConfig().getInt(this.name() + ".duration") * 20);
@@ -142,8 +142,9 @@ public class Summon extends Spell {
 			entity = e;
 		}
 		
+		@Override
 		public void run() {
-			entity.damage((double) 1000);
+			entity.damage(1000);
 		}
 	}
 	
