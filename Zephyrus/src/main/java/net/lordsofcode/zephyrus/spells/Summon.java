@@ -18,7 +18,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.inventory.ItemStack;
@@ -49,7 +49,7 @@ public class Summon extends Spell {
 
 	@Override
 	public String bookText() {
-		return "Summons the undead to fight with you";
+		return "Summon the dead to fight with you";
 	}
 
 	@Override
@@ -67,13 +67,13 @@ public class Summon extends Spell {
 		Block block = player.getTargetBlock(null, 100);
 		Location loc = block.getLocation();
 		loc.setY(loc.getY() + 1);
-		Zombie zombie = (Zombie) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
-		zombie.setMetadata("owner", new FixedMetadataValue(Zephyrus.getInstance(), player.getName()));
-		en.add(zombie);
-		new End(zombie).runTaskLater(Zephyrus.getInstance(), getConfig().getInt(this.name() + ".duration") * 20);
-		for (Entity e : zombie.getNearbyEntities(20, 20, 20)) {
+		Skeleton skel = (Skeleton) loc.getWorld().spawn(loc, Skeleton.class);
+		skel.setMetadata("owner", new FixedMetadataValue(Zephyrus.getInstance(), player.getName()));
+		en.add(skel);
+		new End(skel).runTaskLater(Zephyrus.getInstance(), getConfig().getInt(this.name() + ".duration") * 20);
+		for (Entity e : skel.getNearbyEntities(20, 20, 20)) {
 			if (e instanceof LivingEntity && e != player) {
-				CraftCreature m = (CraftCreature) zombie;
+				CraftCreature m = (CraftCreature) skel;
 				CraftLivingEntity tar = (CraftLivingEntity) e;
 				m.getHandle().setGoalTarget(tar.getHandle());
 				break;
@@ -126,7 +126,7 @@ public class Summon extends Spell {
 	
 	@EventHandler
 	public void onTarget(EntityTargetEvent e) {
-		if (e.getEntityType() == EntityType.ZOMBIE && e.getTarget() instanceof Player && e.getEntity().hasMetadata("owner")) {
+		if (e.getEntityType() == EntityType.SKELETON && e.getTarget() instanceof Player && e.getEntity().hasMetadata("owner")) {
 			String s = e.getEntity().getMetadata("owner").get(0).asString();
 			if (((Player)e.getTarget()).getName().equals(s)) {
 				e.setCancelled(true);
