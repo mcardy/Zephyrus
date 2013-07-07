@@ -1,13 +1,17 @@
 package net.lordsofcode.zephyrus.enchantments;
 
 import java.util.Map;
+import java.util.Random;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Zephyrus
@@ -17,9 +21,9 @@ import org.bukkit.inventory.ItemStack;
  * 
  */
 
-public class LifeSuck extends CustomEnchantment {
+public class ToxicStrike extends CustomEnchantment {
 
-	public LifeSuck(int id) {
+	public ToxicStrike(int id) {
 		super(id);
 	}
 
@@ -30,7 +34,7 @@ public class LifeSuck extends CustomEnchantment {
 
 	@Override
 	public int chance() {
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -55,12 +59,12 @@ public class LifeSuck extends CustomEnchantment {
 
 	@Override
 	public int getMaxLevel() {
-		return 4;
+		return 3;
 	}
 
 	@Override
 	public String getName() {
-		return "LifeSuck";
+		return "ToxicStrike";
 	}
 
 	@Override
@@ -72,19 +76,13 @@ public class LifeSuck extends CustomEnchantment {
 	public void onAttack(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Player) {
 			Player player = (Player) e.getDamager();
-			ItemStack i = player.getItemInHand();
-			if (i != null && i.hasItemMeta() && i.getItemMeta().hasEnchant(this)) {
-				int level = i.getItemMeta().getEnchantLevel(this);
-				addHealth(player, level);
+			if (hasEnchantment(player.getItemInHand())) {
+				int i = getEnchantment(player.getItemInHand());
+				int chance = new Random().nextInt(5-i);
+				if (chance == 1) {
+					((LivingEntity)e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 2));
+				}
 			}
-		}
-	}
-	
-	public void addHealth(Player player, int amount) {
-		if (player.getHealth() + amount > player.getMaxHealth()) {
-			player.setHealth(player.getMaxHealth());
-		} else {
-			player.setHealth(player.getHealth() + amount);
 		}
 	}
 

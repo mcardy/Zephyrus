@@ -2,6 +2,7 @@ package net.lordsofcode.zephyrus.enchantments;
 
 import java.util.Map;
 
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
@@ -17,20 +18,20 @@ import org.bukkit.inventory.ItemStack;
  * 
  */
 
-public class LifeSuck extends CustomEnchantment {
+public class BattleAxe extends CustomEnchantment {
 
-	public LifeSuck(int id) {
+	public BattleAxe(int id) {
 		super(id);
 	}
 
 	@Override
 	public int enchantLevelCost() {
-		return 10;
+		return 5;
 	}
 
 	@Override
 	public int chance() {
-		return 4;
+		return 3;
 	}
 
 	@Override
@@ -39,8 +40,14 @@ public class LifeSuck extends CustomEnchantment {
 	}
 
 	@Override
-	public boolean canEnchantItem(ItemStack arg0) {
-		return sword(arg0);
+	public boolean canEnchantItem(ItemStack item) {
+		if (item.getType() == Material.DIAMOND_AXE
+				|| item.getType() == Material.GOLD_AXE
+				|| item.getType() == Material.IRON_AXE
+				|| item.getType() == Material.STONE_AXE) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -50,41 +57,32 @@ public class LifeSuck extends CustomEnchantment {
 
 	@Override
 	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.WEAPON;
+		return EnchantmentTarget.TOOL;
 	}
 
 	@Override
 	public int getMaxLevel() {
-		return 4;
+		return 5;
 	}
 
 	@Override
 	public String getName() {
-		return "LifeSuck";
+		return "BattleAxe";
 	}
 
 	@Override
 	public int getStartLevel() {
 		return 1;
 	}
-	
+
 	@EventHandler
 	public void onAttack(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Player) {
 			Player player = (Player) e.getDamager();
-			ItemStack i = player.getItemInHand();
-			if (i != null && i.hasItemMeta() && i.getItemMeta().hasEnchant(this)) {
-				int level = i.getItemMeta().getEnchantLevel(this);
-				addHealth(player, level);
+			if (hasEnchantment(player.getItemInHand())) {
+				int i = getEnchantment(player.getItemInHand());
+				e.setDamage(e.getDamage() + i);
 			}
-		}
-	}
-	
-	public void addHealth(Player player, int amount) {
-		if (player.getHealth() + amount > player.getMaxHealth()) {
-			player.setHealth(player.getMaxHealth());
-		} else {
-			player.setHealth(player.getHealth() + amount);
 		}
 	}
 

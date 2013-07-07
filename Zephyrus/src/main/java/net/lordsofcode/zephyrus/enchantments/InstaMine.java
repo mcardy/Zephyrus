@@ -37,7 +37,7 @@ public class InstaMine extends CustomEnchantment {
 
 	@Override
 	public boolean canEnchantItem(ItemStack item) {
-		return tool(item);
+		return pick(item);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class InstaMine extends CustomEnchantment {
 
 	@Override
 	public int getStartLevel() {
-		return 0;
+		return 1;
 	}
 
 	@EventHandler

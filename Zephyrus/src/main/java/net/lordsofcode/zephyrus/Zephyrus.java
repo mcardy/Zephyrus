@@ -13,9 +13,11 @@ import net.lordsofcode.zephyrus.commands.LevelUpItem;
 import net.lordsofcode.zephyrus.commands.ManaCommand;
 import net.lordsofcode.zephyrus.commands.SpellTomeCmd;
 import net.lordsofcode.zephyrus.commands.UnBind;
+import net.lordsofcode.zephyrus.enchantments.BattleAxe;
 import net.lordsofcode.zephyrus.enchantments.GlowEffect;
 import net.lordsofcode.zephyrus.enchantments.InstaMine;
 import net.lordsofcode.zephyrus.enchantments.LifeSuck;
+import net.lordsofcode.zephyrus.enchantments.ToxicStrike;
 import net.lordsofcode.zephyrus.hooks.PluginHook;
 import net.lordsofcode.zephyrus.items.BlinkPearl;
 import net.lordsofcode.zephyrus.items.CustomItem;
@@ -324,6 +326,8 @@ public class Zephyrus extends JavaPlugin {
 	private void addEnchants() {
 		new InstaMine(123);
 		new LifeSuck(124);
+		new ToxicStrike(125);
+		new BattleAxe(126);
 		try {
 			Field f = Enchantment.class.getDeclaredField("acceptingNew");
 			f.setAccessible(true);

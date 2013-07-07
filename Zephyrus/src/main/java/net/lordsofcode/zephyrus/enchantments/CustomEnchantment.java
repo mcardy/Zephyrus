@@ -133,7 +133,7 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 		}
 	}
 
-	public boolean tool(ItemStack item) {
+	public boolean pick(ItemStack item) {
 		if (item.getType() == Material.STONE_PICKAXE
 				|| item.getType() == Material.IRON_PICKAXE
 				|| item.getType() == Material.GOLD_PICKAXE
@@ -151,6 +151,20 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean hasEnchantment(ItemStack i) {
+		if (i != null && i.hasItemMeta() && i.getItemMeta().hasEnchant(this)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public int getEnchantment(ItemStack i) {
+		if (hasEnchantment(i)) {
+			return i.getItemMeta().getEnchantLevel(this);
+		}
+		return 0;
 	}
 
 }
