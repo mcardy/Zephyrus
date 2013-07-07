@@ -55,10 +55,12 @@ public class ArrowStorm extends Spell {
 			int count = 0;
 			@Override
 			public void run() {
-				if (count < amount) {
+				if (count < amount && player.isOnline()) {
 					org.bukkit.entity.Arrow arrow = player.launchProjectile(org.bukkit.entity.Arrow.class);
 					arrow.setMetadata("no_pickup", new FixedMetadataValue(plugin, true));
+					count++;
 				} else {
+					//TODO Fix crash bug!
 					this.cancel();
 				}
 			}
@@ -82,7 +84,7 @@ public class ArrowStorm extends Spell {
 	@Override
 	public Map<String, Object> getConfigurations() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("count", 10);
+		map.put("count", 30);
 		return map;
 	}
 

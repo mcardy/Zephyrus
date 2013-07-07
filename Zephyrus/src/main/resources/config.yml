@@ -16,10 +16,6 @@ OpKnowledge: false
 # The colour code of the error messages
 ErrorColour: 4
 
-# Whether or not the server should start in 'fast mode'
-# This makes it so that the server can start faster but it may cause problems with people attempting to cast spells immediately after the server restarts or the reload command is executed.
-Fast-Mode: false
-
 # ######### #
 # Balancing #
 # ######### #
