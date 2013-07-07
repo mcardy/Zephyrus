@@ -59,10 +59,10 @@ public class Home extends Spell {
 	public void run(Player player, String[] args) {
 		if (args.length == 2 && args[1].equalsIgnoreCase("set")) {
 			setHome(player);
-			Lang.msg("spell.home.set", player);
+			Lang.msg("spells.home.set", player);
 		} else {
 			goHome(player);
-			Lang.msg("spell.home.applied", player);
+			Lang.msg("spells.home.applied", player);
 		}
 	}
 

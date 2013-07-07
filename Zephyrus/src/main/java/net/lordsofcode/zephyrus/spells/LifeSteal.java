@@ -49,9 +49,9 @@ public class LifeSteal extends Spell {
 	@Override
 	public void run(Player player, String[] args) {
 		Creature en = (Creature) getTarget(player);
-		en.damage(2);
+		en.damage((double)2);
 		try {
-			player.setHealth(player.getHealth() + 2);
+			player.setHealth(player.getMaxHealth() + 2);
 		} catch (Exception e) {
 			player.setHealth(player.getMaxHealth());
 		}

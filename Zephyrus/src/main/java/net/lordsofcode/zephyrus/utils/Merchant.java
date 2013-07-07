@@ -1,12 +1,12 @@
 package net.lordsofcode.zephyrus.utils;
 
-import net.minecraft.server.v1_5_R3.EntityHuman;
-import net.minecraft.server.v1_5_R3.IMerchant;
-import net.minecraft.server.v1_5_R3.MerchantRecipe;
-import net.minecraft.server.v1_5_R3.MerchantRecipeList;
+import net.minecraft.server.v1_6_R1.EntityHuman;
+import net.minecraft.server.v1_6_R1.IMerchant;
+import net.minecraft.server.v1_6_R1.MerchantRecipe;
+import net.minecraft.server.v1_6_R1.MerchantRecipeList;
 
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_5_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_6_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,15 +37,7 @@ public class Merchant implements IMerchant {
 		a(new MerchantRecipe(CraftItemStack.asNMSCopy(i1),
 				CraftItemStack.asNMSCopy(i2), CraftItemStack.asNMSCopy(i3)));
 	}
-
-	/**
-	 * Sets the human entity for the Merchant
-	 */
-	@Override
-	public void a(EntityHuman h) {
-		this.human = h;
-	}
-
+	
 	/**
 	 * Adds a trade to the merchant
 	 * 
@@ -140,6 +132,15 @@ public class Merchant implements IMerchant {
 		Merchant mer = new Merchant();
 		mer.addOffer(getInput1(), getInput2(), getOutput());
 		return mer;
+	}
+
+	@Override
+	public void a_(EntityHuman arg0) {
+		this.human = arg0;
+	}
+
+	@Override
+	public void a_(net.minecraft.server.v1_6_R1.ItemStack arg0) {
 	}
 
 }

@@ -10,7 +10,8 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -65,7 +66,7 @@ public class Frenzy extends Spell {
 				index = 0;
 			}
 			e[i].setTarget(e[index]);
-			CraftLivingEntity m = (CraftLivingEntity) e[i];
+			CraftCreature m = (CraftCreature) e[i];
 			CraftLivingEntity tar = (CraftLivingEntity) e[index];
 			m.getHandle().setGoalTarget(tar.getHandle());
 		}

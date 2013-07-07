@@ -50,7 +50,7 @@ public class Punch extends Spell {
 	public void run(Player player, String[] args) {
 		int damage = getConfig().getInt(this.name() + ".damage");
 		LivingEntity c = (LivingEntity) getTarget(player);
-		c.damage(damage);
+		c.damage((double)damage);
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class Punch extends Spell {
 	
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
-		player.damage(1, player);
+		player.damage((double)1, player);
 		return false;
 	}
 

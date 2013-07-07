@@ -87,7 +87,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftLivingEntity;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -165,9 +165,9 @@ public class Zephyrus extends JavaPlugin {
 		Lang.add("spelltome.nospell", "That spell was not found!");
 		Lang.add("spelltome.known", "You already know that spell!");
 		Lang.add("spelltome.success", "You have successfully learned $6[SPELL]");
-		Lang.add("spelltome.cantlearn", ChatColor.RED
+		Lang.add("spelltome.cantlearn", ChatColor.DARK_RED
 				+ "You don't have permission to learn [SPELL]");
-		Lang.add("spelltome.noperm", ChatColor.RED
+		Lang.add("spelltome.noperm", ChatColor.DARK_RED
 				+ "You don't have permission to use the spelltome!");
 
 		Lang.add("customitem.level", "Level");

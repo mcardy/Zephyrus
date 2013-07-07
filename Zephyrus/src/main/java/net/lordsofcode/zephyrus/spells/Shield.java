@@ -106,7 +106,7 @@ public class Shield extends Spell {
 						loc, 1, 1, 1, (float) 0.5, 5);
 				for (Entity e : p.getNearbyEntities(2, 2, 2)) {
 					if (e instanceof LivingEntity) {
-						((LivingEntity) e).damage(damage);
+						((LivingEntity) e).damage((double)damage);
 					}
 				}
 			} else {

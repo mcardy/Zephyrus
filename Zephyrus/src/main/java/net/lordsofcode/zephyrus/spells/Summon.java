@@ -12,7 +12,8 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -72,7 +73,7 @@ public class Summon extends Spell {
 		new End(zombie).runTaskLater(Zephyrus.getInstance(), getConfig().getInt(this.name() + ".duration") * 20);
 		for (Entity e : zombie.getNearbyEntities(20, 20, 20)) {
 			if (e instanceof LivingEntity && e != player) {
-				CraftLivingEntity m = (CraftLivingEntity) zombie;
+				CraftCreature m = (CraftCreature) zombie;
 				CraftLivingEntity tar = (CraftLivingEntity) e;
 				m.getHandle().setGoalTarget(tar.getHandle());
 				break;
@@ -142,7 +143,7 @@ public class Summon extends Spell {
 		}
 		
 		public void run() {
-			entity.damage(1000);
+			entity.damage((double) 1000);
 		}
 	}
 	
