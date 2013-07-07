@@ -50,22 +50,8 @@ public class ArrowStorm extends Spell {
 
 	@Override
 	public void run(final Player player, String[] args) {
-		final int amount = getConfig().getInt(this.name() + ".count");
-		Bukkit.getServer().getScheduler().runTaskTimer(plugin, new BukkitRunnable() {
-			int count = 0;
-			@Override
-			public void run() {
-				if (count < amount && player.isOnline()) {
-					org.bukkit.entity.Arrow arrow = player.launchProjectile(org.bukkit.entity.Arrow.class);
-					arrow.setMetadata("no_pickup", new FixedMetadataValue(plugin, true));
-					count++;
-				} else {
-					//TODO Fix crash bug!
-					this.cancel();
-				}
-			}
-
-		}, (long) 0.05, (long) 0.05);
+		int amount = getConfig().getInt(this.name() + ".count");
+		new Run(player.getName(), amount).runTask(Zephyrus.getInstance());
 	}
 
 	@Override
@@ -86,6 +72,28 @@ public class ArrowStorm extends Spell {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("count", 30);
 		return map;
+	}
+
+	private class Run extends BukkitRunnable {
+		int amount;
+		String player;
+		
+		public Run(String player, int amount) {
+			this.amount = amount;
+			this.player = player;
+		}
+		
+		@Override
+		public void run() {
+			if (0 < amount && Bukkit.getPlayer(player) != null) {
+				org.bukkit.entity.Arrow arrow = Bukkit.getPlayer(player)
+						.launchProjectile(org.bukkit.entity.Arrow.class);
+				arrow.setMetadata("no_pickup", new FixedMetadataValue(plugin,
+						true));
+				new Run(player, amount-1).runTaskLater(Zephyrus.getInstance(), 1);
+			}
+		}
+
 	}
 
 }
