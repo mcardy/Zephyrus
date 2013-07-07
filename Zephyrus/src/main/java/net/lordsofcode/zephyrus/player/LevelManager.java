@@ -43,12 +43,13 @@ public class LevelManager {
 		current = current + 1;
 		cfg.set("Level", current);
 		PlayerConfigHandler.saveConfig(plugin, player, cfg);
-		Zephyrus.mana.put(player.getName(), current * 100);
 		player.sendMessage(ChatColor.AQUA + "You leveled up to level "
 				+ getLevel(player));
-		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 2, 1);
-		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 2, 8);
-		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 2, -1);
+		if (Zephyrus.getInstance().getConfig().getBoolean("Levelup-Sound")) {
+			player.playSound(player.getLocation(), Sound.ORB_PICKUP, 2, 1);
+			player.playSound(player.getLocation(), Sound.ORB_PICKUP, 2, 8);
+			player.playSound(player.getLocation(), Sound.ORB_PICKUP, 2, -1);
+		}
 		PlayerLevelUpEvent event = new PlayerLevelUpEvent(player, current);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
@@ -67,9 +68,10 @@ public class LevelManager {
 				"progress");
 		current = current + amount;
 		int level = getLevel(player);
-		if (current > (level * levelBalance) + (level * level + 100)) {
+		while (current > (level * levelBalance) + (level * level + 100)) {
 			current = current - (level * levelBalance) + (level * level + 100);
 			levelUp(player);
+			level++;
 		}
 		FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin, player);
 		cfg.set("progress", current);
@@ -182,7 +184,7 @@ public class LevelManager {
 	public void displayMana(Player player) {
 		new DisplayMana(player).run();
 	}
-	
+
 	public void displayMana(Player player, CommandSender sender) {
 		new DisplayMana(player, sender).run();
 	}
@@ -190,13 +192,14 @@ public class LevelManager {
 	/**
 	 * Sends the level and levelprogress to the player (in an awesome display
 	 * way)
+	 * 
 	 * @param player
 	 *            The player
 	 */
 	public void displayLevel(Player player) {
 		new DisplayLevel(player).run();
 	}
-	
+
 	public void displayLevel(Player player, CommandSender sender) {
 		new DisplayLevel(player, sender).run();
 	}
@@ -210,7 +213,7 @@ public class LevelManager {
 			this.player = player;
 			this.sender = player;
 		}
-		
+
 		DisplayMana(Player player, CommandSender sender) {
 			this.player = player;
 			this.sender = sender;
@@ -268,7 +271,7 @@ public class LevelManager {
 			this.player = player;
 			this.sender = player;
 		}
-		
+
 		DisplayLevel(Player player, CommandSender sender) {
 			this.player = player;
 			this.sender = sender;

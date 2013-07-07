@@ -35,6 +35,9 @@ ManaRegen: 30
 # i.e. Level 1 will require 180 xp while level 2 will require 264 xp and level 3 will require 379 xp
 LevelBalance: 80
 
+# Whether or not a sound should be played when the player levels up
+Levelup-Sound: true
+
 
 # ######## #
 # Crafting #

@@ -7,6 +7,8 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -47,6 +49,7 @@ public class Steal extends Spell {
 	public void run(Player player, String[] args) {
 		Player target = (Player) getTarget(player);
 		player.openInventory(target.getInventory());
+		playerMap.add(player.getName());
 	}
 
 	@Override
@@ -74,6 +77,15 @@ public class Steal extends Spell {
 		target.sendMessage(ChatColor.RED + player.getName() + " is attempting to pickpocket you!");
 		player.sendMessage(ChatColor.RED + "You have been caught pickpocketing!");
 		return true;
+	}
+	
+	@EventHandler
+	public void onClick(InventoryClickEvent e) {
+		if (playerMap.contains(e.getWhoClicked().getName())) {
+			if (e.getInventory().equals(e.getWhoClicked().getInventory())) {
+				e.getWhoClicked().closeInventory();
+			}
+		}
 	}
 
 }

@@ -72,7 +72,6 @@ import net.lordsofcode.zephyrus.spells.Satisfy;
 import net.lordsofcode.zephyrus.spells.Shield;
 import net.lordsofcode.zephyrus.spells.Smite;
 import net.lordsofcode.zephyrus.spells.Spell;
-import net.lordsofcode.zephyrus.spells.Steal;
 import net.lordsofcode.zephyrus.spells.Storm;
 import net.lordsofcode.zephyrus.spells.Summon;
 import net.lordsofcode.zephyrus.spells.SuperHeat;
@@ -311,7 +310,7 @@ public class Zephyrus extends JavaPlugin {
 		new Satisfy(this);
 		new Shield(this);
 		new Smite(this);
-		new Steal(this);
+		// new Steal(this);
 		new Storm(this);
 		new Summon(this);
 		new SuperHeat(this);
@@ -423,6 +422,10 @@ public class Zephyrus extends JavaPlugin {
 				if (!config.getConfig().contains(spell.name() + ".level")) {
 					config.getConfig().set(spell.name() + ".level",
 							spell.reqLevel());
+				}
+				if (!config.getConfig().contains(spell.name() + ".exp")) {
+					config.getConfig().set(spell.name() + ".exp",
+							spell.manaCost()/3 + 1);
 				}
 				if (!config.getConfig().contains(spell.name() + ".displayname")) {
 					config.getConfig().set(spell.name() + ".displayname",

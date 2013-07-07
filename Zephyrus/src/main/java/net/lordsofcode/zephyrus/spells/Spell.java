@@ -167,6 +167,11 @@ public abstract class Spell implements Listener {
 		return level;
 	}
 	
+	public int getExp() {
+		int exp = getConfig().getInt(this.name() + ".exp");
+		return exp;
+	}
+	
 	/**
 	 * Gets whether or not the spell is enabled from the config file.
 	 * @return Whether or not the spell is enabled.
@@ -188,6 +193,12 @@ public abstract class Spell implements Listener {
 		return desc;
 	}
 	
+	/**
+	 * Gets the display name (defaulted to the spell's name but configurable in spells.yml) of the spell
+	 * It will get the name that is generally used when casting, learning, etc.
+	 * Permissions and configuration nodes stay the same
+	 * @return The display name
+	 */
 	public String getDisplayName() {
 		FileConfiguration cfg = new ConfigHandler(Zephyrus.getInstance(), "spells.yml").getConfig();
 		if (cfg.contains(this.name() + ".displayname")) {
@@ -199,6 +210,10 @@ public abstract class Spell implements Listener {
 		
 	}
 	
+	/**
+	 * Gets the fail message from the spells.yml config 
+	 * @return The message displayed when the spell can't run
+	 */
 	public String getFailMessage() {
 		String failMessage = Lang.get("spells." + name() + ".fail");
 		return failMessage;
