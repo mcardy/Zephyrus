@@ -76,7 +76,7 @@ public class Phase extends Spell {
 		ploc.setZ(ploc.getZ() + 0.5);
 		ploc.setY(ploc.getY() + 2);
 		try {
-			ParticleEffects.sendToLocation(ParticleEffects.PORTAL,
+			ParticleEffects.sendToLocation(ParticleEffects.ENDER,
 					player.getLocation(), 0, 0, 0, 2, 40);
 		} catch (Exception e) {
 		}

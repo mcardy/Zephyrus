@@ -51,6 +51,7 @@ public class Grow extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
+		//TODO Add support for mushrooms and melon seeds
 		if (player.getTargetBlock(null, 4).getTypeId() == 59) {
 			player.getTargetBlock(null, 4).setData((byte) 7);
 			Location loc = player.getTargetBlock(null, 4).getLocation();
@@ -58,8 +59,8 @@ public class Grow extends Spell {
 			loc.setZ(loc.getZ() + 0.6);
 			loc.setY(loc.getY() + 0.3);
 			try {
-				ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER,
-						loc, 1, 0, 1, 100, 20);
+				ParticleEffects.sendToLocation(ParticleEffects.GREEN_SPARKLE,
+						loc, (float)0.25, (float) 0.1, (float)0.25, 100, 20);
 			} catch (Exception e) {
 			}
 		}
@@ -74,7 +75,7 @@ public class Grow extends Spell {
 			loc.setZ(loc.getZ() + 0.6);
 			loc.setY(loc.getY() + 0.3);
 			try {
-				ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER,
+				ParticleEffects.sendToLocation(ParticleEffects.GREEN_SPARKLE,
 						loc, 1, 1, 1, 100, 20);
 			} catch (Exception e) {
 			}

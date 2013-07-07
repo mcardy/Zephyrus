@@ -58,6 +58,7 @@ public class SuperHeat extends Spell {
 
 	@Override
 	public void run(Player player, String[] args) {
+		//TODO Redo spell effect
 		try {
 			Material block = player.getTargetBlock(null, 7).getType();
 			if (block == Material.COBBLESTONE) {
@@ -68,7 +69,7 @@ public class SuperHeat extends Spell {
 				loc.setX(loc.getX() + 0.5);
 				loc.setZ(loc.getZ() + 0.5);
 				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1,
+				ParticleEffects.sendToLocation(ParticleEffects.FIRE, loc, 1,
 						1, 1, 0, 10);
 			} else if (block == Material.SAND) {
 				player.getTargetBlock(null, 7).setType(Material.GLASS);
@@ -78,7 +79,7 @@ public class SuperHeat extends Spell {
 				loc.setX(loc.getX() + 0.5);
 				loc.setZ(loc.getZ() + 0.5);
 				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1,
+				ParticleEffects.sendToLocation(ParticleEffects.FIRE, loc, 1,
 						1, 1, 0, 10);
 			} else if (block == Material.IRON_ORE) {
 				Block b = player.getTargetBlock(null, 7);
@@ -91,7 +92,7 @@ public class SuperHeat extends Spell {
 				loc.setX(loc.getX() + 0.5);
 				loc.setZ(loc.getZ() + 0.5);
 				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1,
+				ParticleEffects.sendToLocation(ParticleEffects.FIRE, loc, 1,
 						1, 1, 0, 10);
 			} else if (block == Material.GOLD_ORE) {
 				Block b = player.getTargetBlock(null, 7);
@@ -104,7 +105,7 @@ public class SuperHeat extends Spell {
 				loc.setX(loc.getX() + 0.5);
 				loc.setZ(loc.getZ() + 0.5);
 				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FLAME, loc, 1,
+				ParticleEffects.sendToLocation(ParticleEffects.FIRE, loc, 1,
 						1, 1, 0, 30);
 			} else {
 				LivingEntity en = (LivingEntity) getTarget(player);

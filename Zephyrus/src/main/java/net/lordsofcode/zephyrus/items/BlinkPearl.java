@@ -6,6 +6,7 @@ import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -83,7 +84,9 @@ public class BlinkPearl extends CustomItem {
 									.getType() != Material.AIR) {
 						Location loc = e.getPlayer().getTargetBlock(null, 100)
 								.getLocation();
-						loc.setY(loc.getY() + 1);
+						loc.setX(loc.getX() + 0.5);
+						loc.setY(loc.getY() + 0.25);
+						loc.setZ(loc.getZ() + 0.5);
 						loc.setPitch(e.getPlayer().getLocation().getPitch());
 						loc.setYaw(e.getPlayer().getLocation().getYaw());
 						Location loc2 = loc;
@@ -98,13 +101,14 @@ public class BlinkPearl extends CustomItem {
 										ParticleEffects.TOWN_AURA, loc, 1, 1,
 										1, 1, 10);
 								ParticleEffects.sendToLocation(
-										ParticleEffects.PORTAL, e.getPlayer()
+										ParticleEffects.ENDER, e.getPlayer()
 												.getLocation(), 1, 1, 1, 1, 16);
 								e.getPlayer()
 										.getWorld()
 										.playSound(e.getPlayer().getLocation(),
 												Sound.ENDERMAN_TELEPORT, 10, 1);
 								e.getPlayer().teleport(loc);
+								e.getPlayer().getWorld().playEffect(e.getPlayer().getLocation(), Effect.ENDER_SIGNAL, 0);
 								int delay = delayFromLevel(getItemLevel(e
 										.getItem()));
 								ItemDelay.setDelay(plugin, e.getPlayer(), this,

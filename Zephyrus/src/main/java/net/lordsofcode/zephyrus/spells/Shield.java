@@ -102,8 +102,8 @@ public class Shield extends Spell {
 			if (p != null && playerMap.contains(player.getName())) {
 				Location loc = p.getLocation();
 				loc.setY(player.getLocation().getY() + 1);
-				ParticleEffects.sendToLocation(ParticleEffects.REDSTONE_DUST,
-						loc, 1, 1, 1, (float) 0.5, 5);
+				ParticleEffects.sendToLocation(ParticleEffects.BLUE_SPARKLE,
+						loc, 0.5F, 1, 0.5F, 100, 10);
 				for (Entity e : p.getNearbyEntities(2, 2, 2)) {
 					if (e instanceof LivingEntity) {
 						((LivingEntity) e).damage((double)damage);

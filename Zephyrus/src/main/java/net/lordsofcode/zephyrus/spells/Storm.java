@@ -1,10 +1,12 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -47,6 +49,13 @@ public class Storm extends Spell {
 	public void run(Player player, String[] args) {
 		player.getWorld().setStorm(true);
 		player.getWorld().setThundering(true);
+		Location loc = player.getLocation();
+		loc.setX(loc.getX() + new Random().nextInt(20));
+		loc.setX(loc.getX() - new Random().nextInt(20));
+		loc.setY(loc.getY() + new Random().nextInt(20));
+		loc.setY(loc.getY() - new Random().nextInt(20));
+		loc.setY(loc.getY() - 20);
+		loc.getWorld().strikeLightningEffect(loc);
 	}
 
 	@Override

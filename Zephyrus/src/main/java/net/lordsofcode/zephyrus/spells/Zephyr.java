@@ -108,8 +108,8 @@ public class Zephyr extends Spell {
 				Location loc = p.getLocation();
 				loc.setY(player.getLocation().getY() + 1);
 				ParticleEffects.sendToLocation(
-						ParticleEffects.MOB_SPELL_AMBIENT, loc, (float) 0.5,
-						(float) 0.5, (float) 0.5, (float) 0, 2);
+						ParticleEffects.CLOUD, loc, (float) 0.5,
+						(float) 0.5, (float) 0.5, (float) 0, 10);
 				for (Entity e : p.getNearbyEntities(3, 3, 3)) {
 					if (b) {
 						Vector unitVector = e.getLocation().toVector()

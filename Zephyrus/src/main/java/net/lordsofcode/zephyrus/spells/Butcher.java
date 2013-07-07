@@ -8,10 +8,10 @@ import java.util.Random;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -64,12 +64,12 @@ public class Butcher extends Spell {
 		for (Entity en : e) {
 			if (en instanceof LivingEntity) {
 				LivingEntity entity = (LivingEntity) en;
+				ParticleEffects.sendToLocation(ParticleEffects.CRITICAL_HIT,
+						entity.getLocation(), 0.25F, 0.25F, 0.25F, 5, 15);
 				if (entity instanceof Player) {
 					entity.damage(10, player);
-				} else if (entity instanceof EnderDragon) {
-					entity.damage(20, player);
 				} else {
-					entity.damage(50, player);
+					entity.damage(50);
 				}
 			}
 		}
@@ -112,7 +112,8 @@ public class Butcher extends Spell {
 	}
 
 	@Override
-	public void comboSpell(Player player, String[] args, SpellType type, int level) {
+	public void comboSpell(Player player, String[] args, SpellType type,
+			int level) {
 		int r = getConfig().getInt(this.name() + ".radius");
 		List<Entity> e = player.getNearbyEntities(r, r, r);
 		switch (type) {
@@ -122,7 +123,7 @@ public class Butcher extends Spell {
 					en.setVelocity(new Vector(0, level, 0));
 				}
 			}
-		case FIRE: 
+		case FIRE:
 			for (Entity en : e) {
 				if (en instanceof LivingEntity) {
 					en.setFireTicks(level * 8);

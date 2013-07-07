@@ -8,6 +8,7 @@ import net.lordsofcode.zephyrus.hooks.PluginHook;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -59,16 +60,18 @@ public class Blink extends Spell {
 	@Override
 	public void run(Player player, String[] args) {
 		Location loc = player.getTargetBlock(null, 100).getLocation();
-		loc.setY(loc.getY() + 1);
-		loc.setPitch(player.getLocation().getPitch());
-		loc.setYaw(player.getLocation().getYaw());
-		ParticleEffects.sendToLocation(ParticleEffects.TOWN_AURA, loc, 1, 1, 1,
-				1, 10);
-		ParticleEffects.sendToLocation(ParticleEffects.PORTAL,
-				player.getLocation(), 1, 1, 1, 1, 16);
+		Location oldLoc = player.getLocation();
+		ParticleEffects.sendToLocation(ParticleEffects.ENDER,
+				oldLoc, 1, 1, 1, 1, 16);
 		player.getWorld().playSound(player.getLocation(),
 				Sound.ENDERMAN_TELEPORT, 10, 1);
+		loc.setX(loc.getX() + 0.5);
+		loc.setY(loc.getY() + 0.25);
+		loc.setZ(loc.getZ() + 0.5);
+		loc.setPitch(player.getLocation().getPitch());
+		loc.setYaw(player.getLocation().getYaw());
 		player.teleport(loc);
+		player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 0);
 	}
 
 	@Override

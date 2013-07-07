@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -64,6 +65,10 @@ public class Confuse extends Spell {
 			CraftCreature m = (CraftCreature) e[i];
 			CraftLivingEntity tar = (CraftLivingEntity) e[index];
 			m.getHandle().setGoalTarget(tar.getHandle());
+			Location loc = m.getLocation();
+			loc.setY(loc.getY() + 1);
+			ParticleEffects.sendToLocation(ParticleEffects.ANGRY_VILLAGER, loc,
+					0.25F, 0.25F, 0.25F, 5, 10);
 		}
 	}
 
@@ -73,7 +78,7 @@ public class Confuse extends Spell {
 		map.put("radius", 8);
 		return map;
 	}
-	
+
 	@Override
 	public boolean canRun(Player player, String[] args) {
 		try {

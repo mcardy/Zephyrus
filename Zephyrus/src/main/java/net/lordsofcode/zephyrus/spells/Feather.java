@@ -17,7 +17,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -117,6 +119,20 @@ public class Feather extends Spell implements Listener {
 		}
 	}
 
+	@EventHandler
+	public void onQuit(PlayerQuitEvent e) {
+		if (list.containsKey(e.getPlayer())) {
+			list.remove(e.getPlayer().getName());
+		}
+	}
+	
+	@EventHandler
+	public void onKick(PlayerKickEvent e) {
+		if (list.containsKey(e.getPlayer())) {
+			list.remove(e.getPlayer().getName());
+		}
+	}
+	
 	private class FeatherRunnable extends BukkitRunnable {
 
 		Player player;

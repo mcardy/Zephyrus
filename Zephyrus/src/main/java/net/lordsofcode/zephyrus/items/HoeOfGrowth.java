@@ -62,6 +62,7 @@ public class HoeOfGrowth extends CustomItem {
 
 	@EventHandler
 	public void grow(PlayerInteractEvent e) throws Exception {
+		//TODO Add support for mushrooms and melon seeds
 		if (e.getClickedBlock() != null
 				&& e.getAction() == Action.RIGHT_CLICK_BLOCK
 				&& e.getClickedBlock().getTypeId() == 59
@@ -72,7 +73,7 @@ public class HoeOfGrowth extends CustomItem {
 			loc.setX(loc.getX() + 0.6);
 			loc.setZ(loc.getZ() + 0.6);
 			loc.setY(loc.getY() + 0.3);
-			ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER, loc,
+			ParticleEffects.sendToLocation(ParticleEffects.GREEN_SPARKLE, loc,
 					1, 0, 1, 100, 20);
 			e.getItem().setDurability((short) (e.getItem().getDurability() + 1));
 		}
@@ -90,7 +91,7 @@ public class HoeOfGrowth extends CustomItem {
 				loc.setX(loc.getX() + 0.6);
 				loc.setZ(loc.getZ() + 0.6);
 				loc.setY(loc.getY() + 0.3);
-				ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER,
+				ParticleEffects.sendToLocation(ParticleEffects.GREEN_SPARKLE,
 						loc, 1, 1, 1, 100, 20);
 			} else {
 				Block b = e.getClickedBlock();
@@ -102,7 +103,7 @@ public class HoeOfGrowth extends CustomItem {
 				loc.setX(loc.getX() + 0.6);
 				loc.setZ(loc.getZ() + 0.6);
 				loc.setY(loc.getY() + 0.3);
-				ParticleEffects.sendToLocation(ParticleEffects.HAPPY_VILLAGER,
+				ParticleEffects.sendToLocation(ParticleEffects.GREEN_SPARKLE,
 						loc, 1, 1, 1, 100, 20);
 			}
 		}

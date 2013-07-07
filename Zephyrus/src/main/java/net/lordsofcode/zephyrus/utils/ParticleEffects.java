@@ -2,9 +2,6 @@ package net.lordsofcode.zephyrus.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -20,19 +17,19 @@ import org.bukkit.entity.Player;
 
 public enum ParticleEffects {
 
-	HUGE_EXPLOSION("hugeexplosion", 0), LARGE_EXPLODE("largeexplode", 1), FIREWORKS_SPARK(
-			"fireworksSpark", 2), BUBBLE("bubble", 3), SUSPEND("suspend", 4), DEPTH_SUSPEND(
-			"depthSuspend", 5), TOWN_AURA("townaura", 6), CRIT("crit", 7), MAGIC_CRIT(
+	BIG_EXPLOSION("hugeexplosion", 0), LARGE_EXPLODE("largeexplode", 1), FIREWORK_SPARK(
+			"fireworksSpark", 2), AIR_BUBBLE("bubble", 3), SUSPEND("suspend", 4), DEPTH_SUSPEND(
+			"depthSuspend", 5), TOWN_AURA("townaura", 6), CRITICAL_HIT("crit", 7), MAGIC_CRITICAL_HIT(
 			"magicCrit", 8), MOB_SPELL("mobSpell", 9), MOB_SPELL_AMBIENT(
 			"mobSpellAmbient", 10), SPELL("spell", 11), INSTANT_SPELL(
-			"instantSpell", 12), WITCH_MAGIC("witchMagic", 13), NOTE("note", 14), PORTAL(
+			"instantSpell", 12), BLUE_SPARKLE("witchMagic", 13), NOTE_BLOCK("note", 14), ENDER(
 			"portal", 15), ENCHANTMENT_TABLE("enchantmenttable", 16), EXPLODE(
-			"explode", 17), FLAME("flame", 18), LAVA("lava", 19), FOOTSTEP(
+			"explode", 17), FIRE("flame", 18), LAVA_SPARK("lava", 19), FOOTSTEP(
 			"footstep", 20), SPLASH("splash", 21), LARGE_SMOKE("largesmoke", 22), CLOUD(
-			"cloud", 23), REDSTONE_DUST("reddust", 24), SNOWBALL_POOF(
+			"cloud", 23), REDSTONE_DUST("reddust", 24), SNOWBALL_HIT(
 			"snowballpoof", 25), DRIP_WATER("dripWater", 26), DRIP_LAVA(
-			"dripLava", 27), SNOW_SHOVEL("snowshovel", 28), SLIME("slime", 29), HEART(
-			"heart", 30), ANGRY_VILLAGER("angryVillager", 31), HAPPY_VILLAGER(
+			"dripLava", 27), SNOW_DIG("snowshovel", 28), SLIME("slime", 29), HEART(
+			"heart", 30), ANGRY_VILLAGER("angryVillager", 31), GREEN_SPARKLE(
 			"happyVillager", 32), ICONCRACK("iconcrack", 33), TILECRACK(
 			"tilecrack", 34);
 
@@ -60,45 +57,6 @@ public enum ParticleEffects {
 	 */
 	public int getId() {
 		return id;
-	}
-
-	private static final Map<String, ParticleEffects> NAME_MAP = new HashMap<String, ParticleEffects>();
-	private static final Map<Integer, ParticleEffects> ID_MAP = new HashMap<Integer, ParticleEffects>();
-	static {
-		for (ParticleEffects effect : values()) {
-			NAME_MAP.put(effect.name, effect);
-			ID_MAP.put(effect.id, effect);
-		}
-	}
-
-	/**
-	 * Gets the Particle Effect from its name
-	 * 
-	 * @param name
-	 *            The name of the particle effect
-	 * @return The particle effect from that name
-	 */
-	public static ParticleEffects fromName(String name) {
-		if (name == null) {
-			return null;
-		}
-		for (Entry<String, ParticleEffects> e : NAME_MAP.entrySet()) {
-			if (e.getKey().equalsIgnoreCase(name)) {
-				return e.getValue();
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Gets the Particle Effect from its id
-	 * 
-	 * @param id
-	 *            The id of the particle effect
-	 * @return The particle effect from that id
-	 */
-	public static ParticleEffects fromId(int id) {
-		return ID_MAP.get(id);
 	}
 
 	/**

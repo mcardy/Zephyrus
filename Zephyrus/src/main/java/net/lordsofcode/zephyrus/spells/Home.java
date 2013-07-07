@@ -118,7 +118,7 @@ public class Home extends Spell {
 		String world = cfg.getString("spell.home.world");
 		Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
 		player.teleport(loc);
-		ParticleEffects.sendToLocation(ParticleEffects.PORTAL, loc, 0, 0, 0, 2,
+		ParticleEffects.sendToLocation(ParticleEffects.ENDER, loc, 0, 0, 0, 2,
 				20);
 		player.getWorld().playSound(loc, Sound.ENDERMAN_TELEPORT, 10, 1);
 	}
