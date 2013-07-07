@@ -73,3 +73,15 @@ Enable-Side-Effects: true
 # This number is multiplied by the player's level and the chance is once in that number.
 # If set below 1, it will default to 1.
 Side-Effect-Chance: 3
+
+
+# ############ #
+# Enchantments #
+# ############ #
+
+
+# Disabling this will disable all enchantments
+Enable-Enchantments: true
+
+# This will change the chance for the enchantment to be applied
+Enchantment-Chance: 1

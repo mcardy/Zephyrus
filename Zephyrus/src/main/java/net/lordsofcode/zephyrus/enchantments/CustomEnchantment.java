@@ -72,7 +72,9 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 	@EventHandler
 	public void onEnchant(EnchantItemEvent e) {
 		int level = e.getExpLevelCost() / enchantLevelCost();
-		int chance = new Random().nextInt(chance());
+		int chance = new Random().nextInt(chance()
+				* Zephyrus.getInstance().getConfig()
+						.getInt("Enchantment-Chance"));
 		if (chance == 0 && level != 0) {
 			if (e.getItem().getType() != Material.BOOK
 					&& !incompatible(e.getEnchantsToAdd())
@@ -82,7 +84,7 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 				}
 				Random rand = new Random();
 				if (rand.nextInt(2) == 0 && level > 1) {
-					level = level-1;
+					level = level - 1;
 				}
 				e.getEnchantsToAdd().put(this, level);
 				ItemMeta m = e.getItem().getItemMeta();
@@ -152,14 +154,14 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 		}
 		return false;
 	}
-	
+
 	public boolean hasEnchantment(ItemStack i) {
 		if (i != null && i.hasItemMeta() && i.getItemMeta().hasEnchant(this)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public int getEnchantment(ItemStack i) {
 		if (hasEnchantment(i)) {
 			return i.getItemMeta().getEnchantLevel(this);

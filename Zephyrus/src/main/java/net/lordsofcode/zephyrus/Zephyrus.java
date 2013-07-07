@@ -324,10 +324,12 @@ public class Zephyrus extends JavaPlugin {
 	}
 
 	private void addEnchants() {
-		new InstaMine(123);
-		new LifeSuck(124);
-		new ToxicStrike(125);
-		new BattleAxe(126);
+		if (getConfig().getBoolean("Enable-Enchantments")) {
+			new InstaMine(123);
+			new LifeSuck(124);
+			new ToxicStrike(125);
+			new BattleAxe(126);
+		}
 		try {
 			Field f = Enchantment.class.getDeclaredField("acceptingNew");
 			f.setAccessible(true);
@@ -337,7 +339,6 @@ public class Zephyrus extends JavaPlugin {
 		try {
 			Enchantment.registerEnchantment(glow);
 		} catch (IllegalArgumentException e) {
-
 		}
 	}
 
@@ -430,7 +431,7 @@ public class Zephyrus extends JavaPlugin {
 				}
 				if (!config.getConfig().contains(spell.name() + ".exp")) {
 					config.getConfig().set(spell.name() + ".exp",
-							spell.manaCost()/3 + 1);
+							spell.manaCost() / 3 + 1);
 				}
 				if (!config.getConfig().contains(spell.name() + ".displayname")) {
 					config.getConfig().set(spell.name() + ".displayname",
