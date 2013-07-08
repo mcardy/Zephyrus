@@ -329,6 +329,11 @@ public class Zephyrus extends JavaPlugin {
 			new LifeSuck(124);
 			new ToxicStrike(125);
 			new BattleAxe(126);
+		} else if (getConfig().contains("Enable-Enchantments")) {
+			new InstaMine(123);
+			new LifeSuck(124);
+			new ToxicStrike(125);
+			new BattleAxe(126);
 		}
 		try {
 			Field f = Enchantment.class.getDeclaredField("acceptingNew");
