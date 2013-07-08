@@ -1,6 +1,10 @@
 package net.lordsofcode.zephyrus.spells;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
@@ -10,13 +14,11 @@ import net.lordsofcode.zephyrus.utils.ParticleEffects;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.BlockIterator;
 
 /**
  * Zephyrus
@@ -53,69 +55,52 @@ public class SuperHeat extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 1;
+		return 5;
 	}
 
 	@Override
 	public void run(Player player, String[] args) {
-		//TODO Redo spell effect
-		try {
-			Material block = player.getTargetBlock(null, 7).getType();
-			if (block == Material.COBBLESTONE) {
-				player.getTargetBlock(null, 7).setType(Material.STONE);
-				player.getWorld().playSound(player.getLocation(),
-						Sound.FIRE_IGNITE, 1, 1);
-				Location loc = player.getTargetBlock(null, 7).getLocation();
-				loc.setX(loc.getX() + 0.5);
-				loc.setZ(loc.getZ() + 0.5);
-				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FIRE, loc, 1,
-						1, 1, 0, 10);
-			} else if (block == Material.SAND) {
-				player.getTargetBlock(null, 7).setType(Material.GLASS);
-				player.getWorld().playSound(player.getLocation(),
-						Sound.FIRE_IGNITE, 1, 1);
-				Location loc = player.getTargetBlock(null, 7).getLocation();
-				loc.setX(loc.getX() + 0.5);
-				loc.setZ(loc.getZ() + 0.5);
-				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FIRE, loc, 1,
-						1, 1, 0, 10);
-			} else if (block == Material.IRON_ORE) {
-				Block b = player.getTargetBlock(null, 7);
-				b.setType(Material.AIR);
-				b.getWorld().dropItem(b.getLocation(),
-						new ItemStack(Material.IRON_INGOT));
-				player.getWorld().playSound(player.getLocation(),
-						Sound.FIRE_IGNITE, 1, 1);
-				Location loc = player.getTargetBlock(null, 7).getLocation();
-				loc.setX(loc.getX() + 0.5);
-				loc.setZ(loc.getZ() + 0.5);
-				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FIRE, loc, 1,
-						1, 1, 0, 10);
-			} else if (block == Material.GOLD_ORE) {
-				Block b = player.getTargetBlock(null, 7);
-				b.setType(Material.AIR);
-				b.getWorld().dropItem(b.getLocation(),
-						new ItemStack(Material.GOLD_INGOT));
-				player.getWorld().playSound(player.getLocation(),
-						Sound.FIRE_IGNITE, 1, 1);
-				Location loc = player.getTargetBlock(null, 7).getLocation();
-				loc.setX(loc.getX() + 0.5);
-				loc.setZ(loc.getZ() + 0.5);
-				loc.setY(loc.getY() + 0.5);
-				ParticleEffects.sendToLocation(ParticleEffects.FIRE, loc, 1,
-						1, 1, 0, 30);
-			} else {
-				LivingEntity en = (LivingEntity) getTarget(player);
-				player.getWorld().playSound(player.getLocation(),
-						Sound.FIRE_IGNITE, 1, 1);
-				en.setFireTicks(160);
-			}
-		} catch (Exception e) {
-
+		List<String> list = getConfig().getStringList(this.name() + ".ids");
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for (String s : list) {
+			String[] ids = s.split("-");
+			map.put(Integer.parseInt(ids[0]), Integer.parseInt(ids[1]));
 		}
+		Block b = player.getTargetBlock(null, 7);
+		if (map.containsKey(b.getTypeId())) {
+			int change = map.get(b.getTypeId());
+			Location loc = b.getLocation();
+			loc.setX(loc.getX() + 0.5);
+			loc.setZ(loc.getZ() + 0.5);
+			loc.setY(loc.getY() + 0.5);
+			if (change < 256) {
+				b.setType(Material.getMaterial(change));
+			} else {
+				b.setType(Material.AIR);
+				loc.getWorld().dropItem(loc,
+						new ItemStack(Material.getMaterial(change)));
+			}
+			ParticleEffects.sendToLocation(ParticleEffects.FIRE, loc, 0.6F,
+					0.6F, 0.6F, 0, 20);
+			return;
+		}
+		Entity en = getTarget(player);
+		if (en != null) {
+			en.setFireTicks(100);
+			return;
+		}
+	}
+
+	@Override
+	public Map<String, Object> getConfigurations() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<String> list = new ArrayList<String>();
+		list.add("4-1");
+		list.add("15-265");
+		list.add("14-266");
+		list.add("12-20");
+		map.put("ids", list);
+		return map;
 	}
 
 	@Override
@@ -128,12 +113,18 @@ public class SuperHeat extends Spell {
 
 	@Override
 	public boolean canRun(Player player, String[] args) {
+		List<String> list = getConfig().getStringList(this.name() + ".ids");
+		List<Integer> target = new ArrayList<Integer>();
+		for (String s : list) {
+			String[] str = s.split("-");
+			target.add(Integer.parseInt(str[0]));
+		}
 		Material block = player.getTargetBlock(null, 7).getType();
-		if (block == Material.COBBLESTONE || block == Material.SAND
-				|| block == Material.IRON_ORE || block == Material.GOLD_ORE) {
+		if (target.contains(block.getId())) {
 			return PluginHook.canBuild(player, player.getTargetBlock(null, 7));
-		} else if (getTarget(player) != null) {
-			if (getTarget(player) instanceof LivingEntity) {
+		} else {
+			Entity en = getTarget(player);
+			if (en != null && en instanceof LivingEntity) {
 				return true;
 			}
 		}
@@ -143,32 +134,6 @@ public class SuperHeat extends Spell {
 	@Override
 	public String failMessage() {
 		return "You can't superheat that!";
-	}
-
-	@Override
-	public Entity getTarget(Player player) {
-
-		BlockIterator iterator = new BlockIterator(player.getWorld(), player
-				.getLocation().toVector(), player.getEyeLocation()
-				.getDirection(), 0, 100);
-		Entity target = null;
-		while (iterator.hasNext()) {
-			Block item = iterator.next();
-			for (Entity entity : player.getNearbyEntities(100, 100, 100)) {
-				int acc = 2;
-				for (int x = -acc; x < acc; x++) {
-					for (int z = -acc; z < acc; z++) {
-						for (int y = -acc; y < acc; y++) {
-							if (entity.getLocation().getBlock()
-									.getRelative(x, y, z).equals(item)) {
-								return target = entity;
-							}
-						}
-					}
-				}
-			}
-		}
-		return target;
 	}
 
 	@Override
