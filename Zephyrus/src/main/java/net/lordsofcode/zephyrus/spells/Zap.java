@@ -104,7 +104,7 @@ public class Zap extends Spell {
 	
 	@Override
 	public String reqSpell() {
-		return "smite";
+		return Spell.getDisplayName("smite");
 	}
 
 }

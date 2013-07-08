@@ -75,7 +75,7 @@ public class Flare extends Spell {
 	
 	@Override
 	public String reqSpell() {
-		return "fireball";
+		return Spell.getDisplayName("fireball");
 	}
 
 	@Override

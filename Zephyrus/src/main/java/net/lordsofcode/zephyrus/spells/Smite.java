@@ -70,7 +70,7 @@ public class Smite extends Spell {
 	
 	@Override
 	public String reqSpell() {
-		return "bolt";
+		return Spell.getDisplayName("bolt");
 	}
 	
 	private class Strike extends BukkitRunnable {

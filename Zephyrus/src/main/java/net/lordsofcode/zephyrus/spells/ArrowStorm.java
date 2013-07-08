@@ -74,6 +74,11 @@ public class ArrowStorm extends Spell {
 		return map;
 	}
 
+	@Override
+	public String reqSpell() {
+		return Spell.getDisplayName("arrow");
+	}
+	
 	private class Run extends BukkitRunnable {
 		int amount;
 		String player;

@@ -55,7 +55,7 @@ public class Satisfy extends Spell {
 
 	@Override
 	public String reqSpell() {
-		return "feed";
+		return Spell.getDisplayName("feed");
 	}
 	
 	@Override

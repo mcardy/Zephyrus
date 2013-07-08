@@ -85,7 +85,7 @@ public class Phase extends Spell {
 
 	@Override
 	public String reqSpell() {
-		return "blink";
+		return Spell.getDisplayName("blink");
 	}
 
 	@Override

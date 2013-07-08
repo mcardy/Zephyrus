@@ -84,7 +84,7 @@ public class MassParalyze extends Spell {
 	
 	@Override
 	public String reqSpell() {
-		return "paralyze";
+		return Spell.getDisplayName("paralyze");
 	}
 
 }

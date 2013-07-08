@@ -207,7 +207,16 @@ public abstract class Spell implements Listener {
 		} else {
 			return this.name();
 		}
-		
+	}
+	
+	public static String getDisplayName(String defaultName) {
+		FileConfiguration cfg = new ConfigHandler(Zephyrus.getInstance(), "spells.yml").getConfig();
+		if (cfg.contains(defaultName + ".displayname")) {
+			String displayName = cfg.getString(defaultName + ".displayname");
+			return displayName;
+		} else {
+			return defaultName;
+		}
 	}
 	
 	/**

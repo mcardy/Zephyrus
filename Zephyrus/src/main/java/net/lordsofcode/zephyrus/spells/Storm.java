@@ -49,13 +49,15 @@ public class Storm extends Spell {
 	public void run(Player player, String[] args) {
 		player.getWorld().setStorm(true);
 		player.getWorld().setThundering(true);
-		Location loc = player.getLocation();
-		loc.setX(loc.getX() + new Random().nextInt(20));
-		loc.setX(loc.getX() - new Random().nextInt(20));
-		loc.setY(loc.getY() + new Random().nextInt(20));
-		loc.setY(loc.getY() - new Random().nextInt(20));
-		loc.setY(loc.getY() - 20);
-		loc.getWorld().strikeLightningEffect(loc);
+		for (int i = 0; i < 5; i++) {
+			Location loc = player.getLocation();
+			loc.setX(loc.getX() + new Random().nextInt(20));
+			loc.setX(loc.getX() - new Random().nextInt(20));
+			loc.setY(loc.getY() + new Random().nextInt(20));
+			loc.setY(loc.getY() - new Random().nextInt(20));
+			loc.setY(loc.getY() - 20);
+			loc.getWorld().strikeLightningEffect(loc);
+		}
 	}
 
 	@Override
@@ -69,7 +71,7 @@ public class Storm extends Spell {
 	public SpellType type() {
 		return SpellType.ELEMENTAL;
 	}
-	
+
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		player.getWorld().strikeLightning(player.getLocation());

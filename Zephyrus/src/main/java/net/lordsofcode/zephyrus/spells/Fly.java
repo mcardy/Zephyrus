@@ -101,7 +101,7 @@ public class Fly extends Spell {
 
 	@Override
 	public String reqSpell() {
-		return "feather";
+		return Spell.getDisplayName("feather");
 	}
 	
 	@EventHandler
