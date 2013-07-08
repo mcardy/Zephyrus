@@ -422,9 +422,9 @@ public class Zephyrus extends JavaPlugin {
 				if (!config.getConfig().contains(spell.name() + ".enabled")) {
 					config.getConfig().set(spell.name() + ".enabled", true);
 				}
-				if (!config.getConfig().contains(spell.name() + ".desc")) {
+				if (!config.getConfig().contains(spell.name() + ".desc") && spell.bookText() != null) {
 					config.getConfig().set(spell.name() + ".desc",
-							spell.bookText());
+							spell.bookText().replace(ChatColor.COLOR_CHAR + "", "$"));
 				}
 				if (!config.getConfig().contains(spell.name() + ".mana")) {
 					config.getConfig().set(spell.name() + ".mana",
