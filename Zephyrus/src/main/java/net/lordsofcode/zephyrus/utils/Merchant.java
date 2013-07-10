@@ -1,12 +1,12 @@
 package net.lordsofcode.zephyrus.utils;
 
-import net.minecraft.server.v1_6_R1.EntityHuman;
-import net.minecraft.server.v1_6_R1.IMerchant;
-import net.minecraft.server.v1_6_R1.MerchantRecipe;
-import net.minecraft.server.v1_6_R1.MerchantRecipeList;
+import net.minecraft.server.v1_6_R2.EntityHuman;
+import net.minecraft.server.v1_6_R2.IMerchant;
+import net.minecraft.server.v1_6_R2.MerchantRecipe;
+import net.minecraft.server.v1_6_R2.MerchantRecipeList;
 
-import org.bukkit.craftbukkit.v1_6_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_6_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -138,9 +138,9 @@ public class Merchant implements IMerchant {
 	public void a_(EntityHuman arg0) {
 		this.human = arg0;
 	}
-
+	
 	@Override
-	public void a_(net.minecraft.server.v1_6_R1.ItemStack arg0) {
+	public void a_(net.minecraft.server.v1_6_R2.ItemStack arg0) {
 	}
 
 }
