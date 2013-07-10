@@ -67,7 +67,7 @@ public class Grenade extends Spell {
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
-		s.add(new ItemStack(Material.getMaterial(1), 3, (short) 1));
+		s.add(new ItemStack(Material.getMaterial(397), 3, (short) 1));
 		return s;
 	}
 	
