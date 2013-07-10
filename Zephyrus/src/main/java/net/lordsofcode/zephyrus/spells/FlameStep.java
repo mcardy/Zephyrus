@@ -83,7 +83,7 @@ public class FlameStep extends Spell implements Listener {
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
-		s.add(new ItemStack(Material.LAVA_BUCKET, 4));
+		s.add(new ItemStack(Material.LAVA_BUCKET));
 		s.add(new ItemStack(Material.BLAZE_POWDER, 16));
 		s.add(new ItemStack(Material.TORCH, 32));
 		s.add(new ItemStack(Material.FIREBALL, 8));

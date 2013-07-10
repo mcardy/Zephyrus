@@ -58,7 +58,7 @@ public class ArrowStorm extends Spell {
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.ARROW, 64));
-		s.add(new ItemStack(Material.BOW, 4));
+		s.add(new ItemStack(Material.BOW, 1));
 		return s;
 	}
 

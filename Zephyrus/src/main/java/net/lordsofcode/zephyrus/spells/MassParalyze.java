@@ -73,7 +73,7 @@ public class MassParalyze extends Spell {
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		//Slowness extended potions
-		s.add(new ItemStack(Material.POTION, 12, (short) 8266));
+		s.add(new ItemStack(Material.POTION, 1, (short) 8266));
 		return s;
 	}
 

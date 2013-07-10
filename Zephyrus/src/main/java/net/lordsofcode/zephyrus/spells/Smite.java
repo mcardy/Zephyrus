@@ -63,8 +63,8 @@ public class Smite extends Spell {
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
-		s.add(new ItemStack(Material.DIAMOND));
-		s.add(new ItemStack(Material.FLINT_AND_STEEL, 2));
+		s.add(new ItemStack(Material.EMERALD, 3));
+		s.add(new ItemStack(Material.FLINT_AND_STEEL));
 		return s;
 	}
 	

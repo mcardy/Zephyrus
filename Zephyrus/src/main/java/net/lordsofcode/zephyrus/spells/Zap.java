@@ -92,8 +92,9 @@ public class Zap extends Spell {
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
-		i.add(new ItemStack(Material.FLINT_AND_STEEL, 8));
+		i.add(new ItemStack(Material.FLINT_AND_STEEL));
 		i.add(new ItemStack(Material.DIAMOND, 2));
+		i.add(new ItemStack(Material.EMERALD, 4));
 		return i;
 	}
 

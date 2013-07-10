@@ -54,7 +54,7 @@ public class Dispel extends Spell {
 	@Override
 	public Set<ItemStack> spellItems() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
-		s.add(new ItemStack(Material.MILK_BUCKET, 3));
+		s.add(new ItemStack(Material.MILK_BUCKET));
 		return s;
 	}
 
