@@ -343,7 +343,7 @@ public abstract class Spell implements Listener {
 		} else {
 			chance = 3;
 		}
-		loc.getWorld().dropItem(loc.add(0, +0.5, 0), new ItemStack(Material.BOOK, r.nextInt(chance)));
+		loc.getWorld().dropItemNaturally(loc.add(0, +0.5, 0), new ItemStack(Material.BOOK, r.nextInt(chance)));
 		try {
 			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE,
 					loc, 0, 0, 0, 1, 30);

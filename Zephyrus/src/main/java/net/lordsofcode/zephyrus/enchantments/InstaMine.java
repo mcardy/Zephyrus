@@ -3,11 +3,13 @@ package net.lordsofcode.zephyrus.enchantments;
 import java.util.Map;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -88,15 +90,20 @@ public class InstaMine extends CustomEnchantment {
 				&& e.getClickedBlock().getType() != Material.BEDROCK
 				&& e.getItem() != null && e.getItem().hasItemMeta()
 				&& e.getItem().getItemMeta().hasEnchant(this)) {
-			e.getClickedBlock().breakNaturally(e.getItem());
-			if (e.getItem().containsEnchantment(DURABILITY)) {
-				if (new Random().nextInt(e.getItem().getEnchantmentLevel(
-						DURABILITY)) == 0)
+			BlockBreakEvent ev = new BlockBreakEvent(e.getClickedBlock(),
+					e.getPlayer());
+			Bukkit.getPluginManager().callEvent(ev);
+			if (!ev.isCancelled()) {
+				e.getClickedBlock().breakNaturally(e.getItem());
+				if (e.getItem().containsEnchantment(DURABILITY)) {
+					if (new Random().nextInt(e.getItem().getEnchantmentLevel(
+							DURABILITY)) == 0)
+						e.getItem().setDurability(
+								(short) (e.getItem().getDurability() + 1));
+				} else {
 					e.getItem().setDurability(
 							(short) (e.getItem().getDurability() + 1));
-			} else {
-				e.getItem().setDurability(
-						(short) (e.getItem().getDurability() + 1));
+				}
 			}
 		}
 	}
