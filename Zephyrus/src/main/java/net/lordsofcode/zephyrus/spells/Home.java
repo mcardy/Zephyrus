@@ -1,15 +1,19 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -27,19 +31,19 @@ import org.bukkit.inventory.ItemStack;
 
 public class Home extends Spell {
 
-	public Home(Zephyrus plugin) {
-		super(plugin);
+	public Home() {
 		Lang.add("spells.home.set", "Your home has been set!");
 		Lang.add("spells.home.applied", "Welcome home!");
+		Lang.add("spells.home.fail", "No homes set! Set one with '/cast home set'");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "home";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Set your home with" + ChatColor.BOLD + "/cast home set!"
 				+ ChatColor.RESET + "Then go to your home with "
 				+ ChatColor.BOLD + "/cast home!";
@@ -56,34 +60,25 @@ public class Home extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
+		// TODO multiple homes?
+		if (args.length < 2 && !isHomeSet(player)) {
+			Lang.errMsg("spells.home.fail", player);
+			return false;
+		}
 		if (args.length == 2 && args[1].equalsIgnoreCase("set")) {
 			setHome(player);
 			Lang.msg("spells.home.set", player);
 		} else {
 			goHome(player);
 			Lang.msg("spells.home.applied", player);
+			player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 1);
 		}
+		return true;
 	}
 
 	@Override
-	public boolean canRun(Player player, String[] args) {
-		if (args.length == 2 && args[1].equalsIgnoreCase("set")) {
-			return true;
-		} else if (isHomeSet(player)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public String failMessage() {
-		return ChatColor.GRAY + "No home set! Set one with /cast home set";
-	}
-
-	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.WOODEN_DOOR));
 		s.add(new ItemStack(Material.BED));
@@ -92,7 +87,7 @@ public class Home extends Spell {
 	}
 
 	private void setHome(Player player) {
-		FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin, player);
+		FileConfiguration cfg = PlayerConfigHandler.getConfig( player);
 		Location loc = player.getLocation();
 		cfg.set("spell.home.x", loc.getX());
 		cfg.set("spell.home.y", loc.getY());
@@ -100,16 +95,16 @@ public class Home extends Spell {
 		cfg.set("spell.home.yaw", loc.getYaw());
 		cfg.set("spell.home.pitch", loc.getPitch());
 		cfg.set("spell.home.world", loc.getWorld().getName());
-		PlayerConfigHandler.saveConfig(plugin, player, cfg);
+		PlayerConfigHandler.saveConfig(player, cfg);
 	}
 
 	private boolean isHomeSet(Player player) {
-		FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin, player);
+		FileConfiguration cfg = PlayerConfigHandler.getConfig(player);
 		return cfg.contains("spell.home.x");
 	}
 
 	private void goHome(Player player) {
-		FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin, player);
+		FileConfiguration cfg = PlayerConfigHandler.getConfig(player);
 		int x = cfg.getInt("spell.home.x");
 		int y = cfg.getInt("spell.home.y");
 		int z = cfg.getInt("spell.home.z");
@@ -122,14 +117,29 @@ public class Home extends Spell {
 				20);
 		player.getWorld().playSound(loc, Sound.ENDERMAN_TELEPORT, 10, 1);
 	}
+	
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.TELEPORTATION;
+	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.TELEPORTATION;
+	public Element getElementType() {
+		return Element.ENDER;
 	}
 	
 	@Override
-	public boolean canBind() {
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+
+	@Override
+	public Map<String, Object> getConfiguration() {
+		return null;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
 		return false;
 	}
 

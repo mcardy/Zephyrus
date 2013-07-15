@@ -7,12 +7,10 @@ import java.util.Map;
 import java.util.Random;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ICustomItem;
+import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.events.PlayerCastSpellEvent;
 import net.lordsofcode.zephyrus.events.PlayerCraftCustomItemEvent;
-import net.lordsofcode.zephyrus.items.CustomItem;
-import net.lordsofcode.zephyrus.player.LevelManager;
-import net.lordsofcode.zephyrus.player.ManaRecharge;
-import net.lordsofcode.zephyrus.spells.Spell;
 import net.lordsofcode.zephyrus.utils.ItemUtil;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 import net.lordsofcode.zephyrus.utils.UpdateChecker;
@@ -40,17 +38,14 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener extends ItemUtil implements Listener {
 
-	LevelManager lvl;
-	Map<ItemStack, CustomItem> results;
+	Map<ItemStack, ICustomItem> results;
 
-	public PlayerListener(Zephyrus plugin) {
-		super(plugin);
-		lvl = new LevelManager(plugin);
-		results = new HashMap<ItemStack, CustomItem>();
-		for (String s : Zephyrus.itemMap.keySet()) {
-			CustomItem item = Zephyrus.itemMap.get(s);
-			if (item.recipe() != null) {
-				results.put(item.recipe().getResult(), item);
+	public PlayerListener() {
+		results = new HashMap<ItemStack, ICustomItem>();
+		for (String s : Zephyrus.getItemMap().keySet()) {
+			ICustomItem item = Zephyrus.getItemMap().get(s);
+			if (item.getRecipe() != null) {
+				results.put(item.getRecipe().getResult(), item);
 			}
 		}
 	}
@@ -74,7 +69,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 	@EventHandler
 	public void craftingHandler(PrepareItemCraftEvent e) {
 		if (results.containsKey(e.getRecipe().getResult())) {
-			CustomItem item = results.get(e.getRecipe().getResult());
+			ICustomItem item = results.get(e.getRecipe().getResult());
 			List<HumanEntity> player = e.getViewers();
 			PlayerCraftCustomItemEvent event = new PlayerCraftCustomItemEvent(
 					player, item, e);
@@ -83,7 +78,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 				e.getInventory().setResult(null);
 			}
 			for (HumanEntity en : e.getViewers()) {
-				if (!en.hasPermission("zephyrus.craft." + item.perm())
+				if (!en.hasPermission("zephyrus.craft." + item.getPerm())
 						&& !en.hasPermission("zephyrus.craft.*")) {
 					e.getInventory().setResult(null);
 				}
@@ -93,27 +88,33 @@ public class PlayerListener extends ItemUtil implements Listener {
 
 	@EventHandler
 	public void playerFile(PlayerJoinEvent e) {
-		File playerFiles = new File(plugin.getDataFolder(), "Players");
+		File playerFiles = new File(Zephyrus.getPlugin().getDataFolder(), "Players");
 		File checkPlayer = new File(playerFiles, e.getPlayer().getName()
 				+ ".yml");
 		Player player = e.getPlayer();
 		if (!checkPlayer.exists()) {
-			FileConfiguration cfg = PlayerConfigHandler.getConfig(plugin,
-					player);
-			if (cfg.contains("Level") && cfg.contains("mana")
-					&& cfg.contains("learned") && cfg.contains("progress")) {
-				return;
+			FileConfiguration cfg = PlayerConfigHandler.getConfig(player);
+			if (cfg.contains("mana") && cfg.contains("learned") && cfg.contains("progress")) {
+				if (cfg.contains("Level")) {
+					int level = cfg.getInt("Level");
+					cfg.set("Level", null);
+					cfg.set("level", level);
+					PlayerConfigHandler.saveConfig(player, cfg);
+					return;
+				} else if (cfg.contains("level")) {
+					return;
+				}
 			}
-			PlayerConfigHandler.saveDefaultConfig(plugin, player);
+			PlayerConfigHandler.saveDefaultConfig(player);
 			if (!cfg.contains("Level") || cfg == null) {
 				cfg.set("Level", 1);
 			}
 			if (!cfg.contains("mana") || cfg == null) {
 				cfg.set("mana", 100);
 			}
-			if (plugin.getConfig().getBoolean("Levelup-Spells")) {
-				for (Spell spell : Zephyrus.spellMap.values()) {
-					if (spell.getLevel() == 1 && spell.isEnabled()) {
+			if (Zephyrus.getConfig().getBoolean("Levelup-Spells")) {
+				for (ISpell spell : Zephyrus.getSpellMap().values()) {
+					if (spell.getReqLevel() == 1 && spell.isEnabled()) {
 						List<String> learned = cfg.getStringList("learned");
 						learned.add(spell.getDisplayName().toLowerCase());
 						cfg.set("learned", learned);
@@ -127,47 +128,49 @@ public class PlayerListener extends ItemUtil implements Listener {
 			if (!cfg.contains("progress") || cfg == null) {
 				cfg.set("progress", 0);
 			}
-			PlayerConfigHandler.saveConfig(plugin, player, cfg);
+			PlayerConfigHandler.saveConfig(player, cfg);
 		}
 	}
 
 	@EventHandler
 	public void setMana(PlayerJoinEvent e) {
-		Zephyrus.mana.put(e.getPlayer().getName(),
-				LevelManager.loadMana(e.getPlayer()));
-		new ManaRecharge(plugin, e.getPlayer()).runTaskLater(plugin, 30);
+		Zephyrus.getUser(e.getPlayer()).loadMana();
 	}
 
 	@EventHandler
 	public void removeMana(PlayerQuitEvent e) {
-		LevelManager.saveMana(e.getPlayer());
-		Zephyrus.mana.remove(e.getPlayer().getName());
+		Zephyrus.getUser(e.getPlayer()).unLoadMana();
 	}
 
 	@EventHandler
 	public void removeMana(PlayerKickEvent e) {
-		LevelManager.saveMana(e.getPlayer());
-		Zephyrus.mana.remove(e.getPlayer().getName());
+		Zephyrus.getUser(e.getPlayer()).unLoadMana();
 	}
 
 	@EventHandler
 	public void onSpellCast(PlayerCastSpellEvent e) {
-		if (plugin.getConfig().getBoolean("Enable-Side-Effects")
-				|| !plugin.getConfig().contains("Enable-Side-Effects")) {
-			int chanceMultiplier = plugin.getConfig().getInt(
+		if (e.isSideEffect()) {
+			return;
+		}
+		if (Zephyrus.getConfig().getBoolean("Enable-Side-Effects")
+				|| !Zephyrus.getConfig().contains("Enable-Side-Effects")) {
+			int chanceMultiplier = Zephyrus.getPlugin().getConfig().getInt(
 					"Side-Effect-Chance");
 			if (chanceMultiplier < 1) {
 				chanceMultiplier = 1;
 			}
 			Random rand = new Random();
-			int chance = LevelManager.getLevel(e.getPlayer())
+			int chance = Zephyrus.getUser(e.getPlayer()).getLevel()
 					* chanceMultiplier;
 			if (rand.nextInt(chance) == 0) {
 				boolean b = e.getSpell().sideEffect(e.getPlayer(), e.getArgs());
+				PlayerCastSpellEvent ev = new PlayerCastSpellEvent(e.getPlayer(), e.getSpell(), e.getArgs(), true);
+				Bukkit.getPluginManager().callEvent(ev);
 				if (b == true) {
 					e.setCancelled(true);
-					LevelManager.drainMana(e.getPlayer(), e.getSpell()
-							.getManaCost());
+					if (!ev.isCancelled()) {
+						Zephyrus.getUser(e.getPlayer()).drainMana(e.getSpell().getManaCost());
+					}
 				}
 			}
 		}

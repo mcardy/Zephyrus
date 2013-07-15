@@ -1,8 +1,6 @@
 package net.lordsofcode.zephyrus.items;
 
-import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.hooks.PluginHook;
-import net.lordsofcode.zephyrus.player.LevelManager;
+import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
@@ -27,29 +25,23 @@ import org.bukkit.inventory.ShapedRecipe;
 
 public class RodOfFire extends CustomItem {
 
-	LevelManager lvl;
-	PluginHook hook;
-
-	public RodOfFire(Zephyrus plugin) {
-		super(plugin);
-		lvl = new LevelManager(plugin);
-		hook = new PluginHook();
+	public RodOfFire() {
 		Lang.add("firerod.recharge", "The Rod of Fire still needs [TIME] to recharge...");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return ChatColor.getByChar("c") + "Rod of Fire";
 	}
 
 	@Override
-	public int maxLevel() {
+	public int getMaxLevel() {
 		return 9;
 	}
 
 	@Override
-	public Recipe recipe() {
-		ItemStack fire_rod = item();
+	public Recipe getRecipe() {
+		ItemStack fire_rod = getItem();
 
 		ShapedRecipe recipe = new ShapedRecipe(fire_rod);
 		recipe.shape("BCB", "BAB", "BBB");
@@ -60,24 +52,24 @@ public class RodOfFire extends CustomItem {
 	}
 
 	@Override
-	public ItemStack item() {
+	public ItemStack getItem() {
 		ItemStack i = new ItemStack(Material.BLAZE_ROD);
-		setItemName(i, this.name());
+		setItemName(i, getDisplayName());
 		setItemLevel(i, 1);
 		setGlow(i);
 		return i;
 	}
 
 	@Override
-	public int reqLevel() {
+	public int getReqLevel() {
 		return 1;
 	}
 
 	@EventHandler
 	public void fireball(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR
-				&& checkName(e.getPlayer().getItemInHand(), this.name())
-				&& !ItemDelay.hasDelay(plugin, e.getPlayer(), this)
+				&& checkName(e.getPlayer().getItemInHand(), getDisplayName())
+				&& !ItemDelay.hasDelay(e.getPlayer(), this)
 				&& getItemLevel(e.getPlayer().getItemInHand()) < 6) {
 			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
 					.getTargetBlock(null, 1000))) {
@@ -86,13 +78,13 @@ public class RodOfFire extends CustomItem {
 						.launchProjectile(SmallFireball.class);
 				fireball.setVelocity(fireball.getVelocity().multiply(10));
 				int delay = delayFromLevel(getItemLevel(e.getItem()));
-				ItemDelay.setDelay(plugin, e.getPlayer(), this, delay);
+				ItemDelay.setDelay(e.getPlayer(), this, delay);
 			} else {
 				Lang.errMsg("worldguard", e.getPlayer());
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
-				&& checkName(e.getPlayer().getItemInHand(), this.name())
-				&& !ItemDelay.hasDelay(plugin, e.getPlayer(), this)) {
+				&& checkName(e.getPlayer().getItemInHand(), getName())
+				&& !ItemDelay.hasDelay(e.getPlayer(), this)) {
 
 			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
 					.getTargetBlock(null, 1000))) {
@@ -100,20 +92,20 @@ public class RodOfFire extends CustomItem {
 				Fireball fireball = player.launchProjectile(Fireball.class);
 				fireball.setVelocity(fireball.getVelocity().multiply(10));
 				int delay = delayFromLevel(getItemLevel(e.getItem()));
-				ItemDelay.setDelay(plugin, e.getPlayer(), this, delay);
+				ItemDelay.setDelay(e.getPlayer(), this, delay);
 			} else {
 				Lang.errMsg("worldguard", e.getPlayer());
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
-				&& checkName(e.getPlayer().getItemInHand(), this.name())) {
-			int time = ItemDelay.getDelay(plugin, e.getPlayer(), this);
+				&& checkName(e.getPlayer().getItemInHand(), getName())) {
+			int time = ItemDelay.getDelay(e.getPlayer(), this);
 			e.getPlayer().sendMessage(
 					ChatColor.GRAY + Lang.get("firerod.recharge").replace("[TIME]", time + ""));
 		}
 	}
 
 	@Override
-	public String perm() {
+	public String getPerm() {
 		return "firerod";
 	}
 }

@@ -20,12 +20,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemUtil {
 
-	public Zephyrus plugin;
-
-	public ItemUtil(Zephyrus plugin) {
-		this.plugin = plugin;
-	}
-
 	/**
 	 * Set the name for the item
 	 * @param item The ItemStack to rename
@@ -104,7 +98,7 @@ public class ItemUtil {
 	 * @return An ItemStack with the custom level
 	 */
 	public ItemStack setItemLevel(ItemStack i, int level) {
-		String sLevel =	Zephyrus.getInstance().langCfg.getConfig().getString("customitem.level");
+		String sLevel =	new ConfigHandler("lang.yml").getConfig().getString("customitem.level");
 		ItemMeta m = i.getItemMeta();
 		List<String> l = m.getLore();
 		try {

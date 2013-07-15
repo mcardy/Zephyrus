@@ -2,10 +2,13 @@ package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.player.LevelManager;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.apache.commons.lang.WordUtils;
@@ -24,8 +27,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class Conjure extends Spell {
 
-	public Conjure(Zephyrus plugin) {
-		super(plugin);
+	public Conjure() {
 		Lang.add("spells.conjure.invfull", "Your inventory is full!");
 		Lang.add("spells.conjure.conplete", "You have conjured [AMOUNT] [ITEM]");
 		Lang.add("spells.conjure.badid", "Invalid ID");
@@ -35,12 +37,12 @@ public class Conjure extends Spell {
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "conjure";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Conjures the item that you specify! Only supports raw materials. /cast conjure [id] [amount]";
 	}
 
@@ -55,37 +57,7 @@ public class Conjure extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int id;
-		byte data = 0;
-		int amount = 1;
-		if (args[1].contains("\\:")) {
-			String[] ids = args[1].split("\\:");
-			id = Integer.parseInt(ids[0]);
-			data = Byte.parseByte(ids[1]);
-		} else {
-			id = Integer.parseInt(args[1]);
-		}
-		if (args.length == 3) {
-			amount = Integer.parseInt(args[2]);
-		}
-		ItemStack item = new ItemStack(Material.getMaterial(id), amount, data);
-		HashMap<Integer, ItemStack> map = player.getInventory().addItem(item);
-		if (!map.isEmpty()) {
-			Lang.errMsg("spells.conjure.invfull", player);
-		} else {
-			String itemName = WordUtils.capitalizeFully(item.getType()
-					.toString().replace("_", " "));
-			player.sendMessage(
-					Lang.get("spells.conjure.complete").replace("[AMOUNT]",
-							ChatColor.GOLD + "" + amount).replace("[ITEM]",
-					itemName));
-			LevelManager.drainMana(player, getValue(id) * amount);
-		}
-	}
-
-	@Override
-	public boolean canRun(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
 		if (!(args.length < 2)) {
 			int id = -1;
 			if (args[1].contains("\\:")) {
@@ -123,30 +95,49 @@ public class Conjure extends Spell {
 				Lang.errMsg("spells.conjure.cannot", player);
 				return false;
 			}
-			if (LevelManager.getMana(player) < getValue(id) * amount) {
+			if (Zephyrus.getUser(player).getMana() < getValue(id) * amount) {
 				Lang.errMsg("nomana", player);
 				return false;
-			} else {
-				return true;
 			}
 		} else {
 			Lang.errMsg("spells.conjure.noitem", player);
 		}
-		return false;
+		int id;
+		byte data = 0;
+		int amount = 1;
+		if (args[1].contains("\\:")) {
+			String[] ids = args[1].split("\\:");
+			id = Integer.parseInt(ids[0]);
+			data = Byte.parseByte(ids[1]);
+		} else {
+			id = Integer.parseInt(args[1]);
+		}
+		if (args.length == 3) {
+			amount = Integer.parseInt(args[2]);
+		}
+		ItemStack item = new ItemStack(Material.getMaterial(id), amount, data);
+		HashMap<Integer, ItemStack> map = player.getInventory().addItem(item);
+		if (!map.isEmpty()) {
+			Lang.errMsg("spells.conjure.invfull", player);
+		} else {
+			String itemName = WordUtils.capitalizeFully(item.getType()
+					.toString().replace("_", " "));
+			player.sendMessage(
+					Lang.get("spells.conjure.complete").replace("[AMOUNT]",
+							ChatColor.GOLD + "" + amount).replace("[ITEM]",
+					itemName));
+			Zephyrus.getUser(player).drainMana(getValue(id) * amount);
+		}
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.DIAMOND, 4));
 		s.add(new ItemStack(Material.GOLD_INGOT, 8));
 		s.add(new ItemStack(Material.IRON_INGOT, 16));
 		return s;
-	}
-
-	@Override
-	public SpellType type() {
-		return SpellType.CONJURE;
 	}
 
 	@Override
@@ -240,4 +231,29 @@ public class Conjure extends Spell {
 		return -1;
 	}
 
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.CREATION;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.MAGIC;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.HIGH;
+	}
+	
+	@Override
+	public Map<String, Object> getConfiguration() {
+		return null;
+	}
+	
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
+	}
+	
 }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ISpell;
+import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.events.PlayerCastSpellEvent;
-import net.lordsofcode.zephyrus.player.LevelManager;
-import net.lordsofcode.zephyrus.spells.Spell;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
@@ -27,10 +27,7 @@ import org.bukkit.entity.Player;
 
 public class Cast implements CommandExecutor, TabCompleter {
 
-	Zephyrus plugin;
-
-	public Cast(Zephyrus plugin) {
-		this.plugin = plugin;
+	public Cast() {
 		Lang.add("cast.nospell", "Specify a spell to cast!");
 	}
 
@@ -45,37 +42,25 @@ public class Cast implements CommandExecutor, TabCompleter {
 			if (args.length < 1) {
 				Lang.errMsg("cast.nospell", sender);
 			} else {
-				if (Zephyrus.spellMap.containsKey(args[0])) {
+				if (Zephyrus.getSpellMap().containsKey(args[0])) {
 					Player player = (Player) sender;
-					Spell spell = Zephyrus.spellMap.get(args[0].toLowerCase());
-					if (spell.isLearned(player, spell.getDisplayName().toLowerCase())
-							|| spell.hasPermission(player, spell)) {
-						if (spell.isEnabled()) {
-							if (!(LevelManager.getMana(player) < spell
-									.getManaCost()
-									* plugin.getConfig().getInt(
-											"ManaMultiplier"))) {
-								if (spell.canRun(player, args)) {
-									PlayerCastSpellEvent event = new PlayerCastSpellEvent(
-											player, spell, args);
-									Bukkit.getServer().getPluginManager()
-											.callEvent(event);
-									if (!event.isCancelled()) {
-										spell.run(player, args);
-										LevelManager.drainMana(
-													player, spell.getManaCost()
-														* plugin.getConfig().getInt("ManaMultiplier"));
-									}
-								} else {
-									if (spell.failMessage() != "") {
-										player.sendMessage(spell.getFailMessage());
-									}
+					IUser user = Zephyrus.getUser(player);
+					ISpell spell = Zephyrus.getSpellMap()
+							.get(args[0].toLowerCase());
+					if (user.isLearned(spell) || user.hasPermission(spell)) {
+						if (user.hasMana(spell.getManaCost())) {
+							PlayerCastSpellEvent event = new PlayerCastSpellEvent(
+									player, spell, args);
+							Bukkit.getServer().getPluginManager()
+									.callEvent(event);
+							if (!event.isCancelled()) {
+								boolean b = spell.run(player, args);
+								if (b) {
+									user.drainMana(spell.getManaCost());
 								}
-							} else {
-								Lang.errMsg("nomana", sender);
 							}
 						} else {
-							Lang.errMsg("disabled", sender);
+							Lang.errMsg("nomana", sender);
 						}
 					} else {
 						Lang.errMsg("notlearned", sender);
@@ -110,7 +95,6 @@ public class Cast implements CommandExecutor, TabCompleter {
 
 	public List<String> learned(CommandSender p) {
 		Player player = (Player) p;
-		return PlayerConfigHandler.getConfig(plugin, player).getStringList(
-				"learned");
+		return PlayerConfigHandler.getConfig(player).getStringList("learned");
 	}
 }

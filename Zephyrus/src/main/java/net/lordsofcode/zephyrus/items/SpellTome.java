@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.events.PlayerLearnSpellEvent;
-import net.lordsofcode.zephyrus.spells.Spell;
 import net.lordsofcode.zephyrus.utils.ItemUtil;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
@@ -35,10 +35,14 @@ public class SpellTome extends ItemUtil implements Listener {
 	String spell;
 	String desc;
 
-	public SpellTome(Zephyrus plugin, String imput, String desc) {
-		super(plugin);
-		spell = imput;
+	public SpellTome(String spell, String desc) {
+		this.spell = spell;
 		this.desc = desc;
+	}
+	
+	public SpellTome() {
+		spell = null;
+		desc = null;
 	}
 
 	public String name() {
@@ -51,7 +55,7 @@ public class SpellTome extends ItemUtil implements Listener {
 		return i;
 	}
 
-	public static ItemStack getSpelltome(Spell spell) {
+	public static ItemStack getSpelltome(ISpell spell) {
 		ItemStack i = new ItemStack(Material.BOOK);
 		BookMeta m = (BookMeta) i.getItemMeta();
 		List<String> l = new ArrayList<String>();
@@ -90,12 +94,12 @@ public class SpellTome extends ItemUtil implements Listener {
 				ItemStack i = e.getPlayer().getItemInHand();
 				List<String> l = i.getItemMeta().getLore();
 				String s = l.get(0).replace(ChatColor.GRAY + "", "");
-				if (Zephyrus.spellMap.containsKey(s)) {
-					Spell spell = Zephyrus.spellMap.get(s);
+				if (Zephyrus.getSpellMap().containsKey(s)) {
+					ISpell spell = Zephyrus.getSpellMap().get(s);
 					Player player = e.getPlayer();
 					FileConfiguration cfg = PlayerConfigHandler.getConfig(
-							plugin, player);
-					if (!player.hasPermission("zephyrus.spell." + spell.name())) {
+							player);
+					if (!player.hasPermission("zephyrus.spell." + spell.getName())) {
 						e.getPlayer().sendMessage(Lang.get("spelltome.cantlearn").replace("[SPELL]", spell.getDisplayName()));
 						return;
 					}
@@ -105,13 +109,13 @@ public class SpellTome extends ItemUtil implements Listener {
 						Bukkit.getServer().getPluginManager().callEvent(event);
 						if (!event.isCancelled()) {
 							List<String> learned = PlayerConfigHandler
-									.getConfig(plugin, player).getStringList(
+									.getConfig(player).getStringList(
 											"learned");
 							learned.add(spell.getDisplayName().toLowerCase());
 							cfg.set("learned", learned);
 							e.getPlayer().sendMessage(Lang.get("spelltome.success").replace("[SPELL]", spell.getDisplayName()));
 							e.getPlayer().setItemInHand(null);
-							PlayerConfigHandler.saveConfig(plugin, player, cfg);
+							PlayerConfigHandler.saveConfig(player, cfg);
 						}
 					} else {
 						Lang.errMsg("spelltome.known", e.getPlayer());

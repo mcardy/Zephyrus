@@ -1,12 +1,13 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.hooks.PluginHook;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.WitherSkull;
@@ -22,17 +23,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class Grenade extends Spell {
 
-	public Grenade(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "grenade";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Shoots a big explody thing :D";
 	}
 
@@ -47,33 +44,44 @@ public class Grenade extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		player.launchProjectile(WitherSkull.class);
-	}
-	
-	@Override
-	public boolean canRun(Player player, String[] args) {
-		if (PluginHook.canBuild(player, player.getTargetBlock(null, 1000))) {
-			return true;
+	public boolean run(Player player, String[] args) {
+		if (blockBreak(player)) {
+			return false;
 		}
-		return false;
-	}
-	
-	@Override
-	public String failMessage() {
-		return ChatColor.DARK_RED + "You can't shoot there!";
+		player.launchProjectile(WitherSkull.class);
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.getMaterial(397), 3, (short) 1));
 		return s;
 	}
 	
 	@Override
-	public SpellType type() {
-		return SpellType.ELEMENTAL;
+	public EffectType getPrimaryType() {
+		return EffectType.DESTRUCTION;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.WITHER;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
+	}
+	
+	@Override
+	public Map<String, Object> getConfiguration() {
+		return null;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

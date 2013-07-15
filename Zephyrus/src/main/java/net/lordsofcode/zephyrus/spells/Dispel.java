@@ -1,9 +1,12 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,17 +23,13 @@ import org.bukkit.potion.PotionEffect;
 
 public class Dispel extends Spell {
 
-	public Dispel(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "dispel";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "This spell will clear all effects from the caster";
 	}
 
@@ -45,22 +44,43 @@ public class Dispel extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
 		for (PotionEffect pe : player.getActivePotionEffects()) {
 			player.removePotionEffect(pe.getType());
 		}
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.MILK_BUCKET));
 		return s;
 	}
+	
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.RESTORE;
+	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.RESTORE;
+	public Element getElementType() {
+		return Element.GENERIC;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+	
+	@Override
+	public Map<String, Object> getConfiguration() {
+		return null;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.player.LevelManager;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -28,22 +27,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ManaPotion extends CustomItem {
 
-	LevelManager lvl;
-
-	public ManaPotion(Zephyrus plugin) {
-		super(plugin);
-		lvl = new LevelManager(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return ChatColor.getByChar("b") + "Mana Potion";
 	}
 
 	@Override
-	public ItemStack item() {
+	public ItemStack getItem() {
 		ItemStack i = new ItemStack(Material.POTION);
-		setItemName(i, this.name());
+		setItemName(i, getDisplayName());
 		ItemMeta m = i.getItemMeta();
 		List<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.GRAY + "Restores Mana");
@@ -54,8 +46,8 @@ public class ManaPotion extends CustomItem {
 	}
 
 	@Override
-	public Recipe recipe() {
-		ItemStack manaPotion = item();
+	public Recipe getRecipe() {
+		ItemStack manaPotion = getItem();
 		ShapedRecipe recipe = new ShapedRecipe(manaPotion);
 		recipe.shape("AAA", "ABA", "AAA");
 		recipe.setIngredient('B', Material.POTION, 8192);
@@ -65,10 +57,9 @@ public class ManaPotion extends CustomItem {
 
 	@EventHandler
 	public void onManaPotion(PlayerItemConsumeEvent e) {
-		if (checkName(e.getItem(), this.name())) {
+		if (checkName(e.getItem(), getDisplayName())) {
 			Player player = e.getPlayer();
-			Zephyrus.mana.put(player.getName(),
-					LevelManager.getLevel(player) * 100);
+			Zephyrus.getUser(player).drainMana(-100);
 		}
 	}
 
@@ -79,7 +70,7 @@ public class ManaPotion extends CustomItem {
 
 	@EventHandler
 	public void onCraftHandle(PrepareItemCraftEvent e) {
-		if (checkName(e.getRecipe().getResult(), this.name())) {
+		if (checkName(e.getRecipe().getResult(), getDisplayName())) {
 			List<HumanEntity> player = e.getViewers();
 			for (HumanEntity en : player) {
 				if (!en.hasPermission("zephyrus.craft.mana")) {
@@ -90,12 +81,7 @@ public class ManaPotion extends CustomItem {
 	}
 
 	@Override
-	public int maxLevel() {
-		return 0;
-	}
-
-	@Override
-	public String perm() {
+	public String getPerm() {
 		return "mana";
 	}
 }

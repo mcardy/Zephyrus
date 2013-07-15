@@ -1,7 +1,7 @@
 package net.lordsofcode.zephyrus.commands;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.items.CustomItem;
+import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.utils.ItemUtil;
 import net.lordsofcode.zephyrus.utils.Lang;
 
@@ -18,14 +18,9 @@ import org.bukkit.entity.Player;
  * 
  */
 
-public class LevelUpItem implements CommandExecutor {
+public class LevelUpItem extends ItemUtil implements CommandExecutor {
 
-	ItemUtil item;
-	Zephyrus plugin;
-
-	public LevelUpItem(Zephyrus plugin) {
-		item = new ItemUtil(plugin);
-		this.plugin = plugin;
+	public LevelUpItem() {
 		Lang.add("itemlevel.nomore", "That item cannot be leveled any more!");
 		Lang.add("itemlevel.cantlevel", "The item you are holding cannot be leveled!");
 		Lang.add("itemlevel.complete", "You have leveled up the [ITEMNAME]");
@@ -37,15 +32,15 @@ public class LevelUpItem implements CommandExecutor {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if (player.hasPermission("zephyrus.levelup.item") || player.isOp()) {
-				if (Zephyrus.itemMap.containsKey(player.getItemInHand()
+				if (Zephyrus.getItemMap().containsKey(player.getItemInHand()
 						.getItemMeta().getDisplayName())) {
-					CustomItem i = Zephyrus.itemMap.get(player.getItemInHand()
+					ICustomItem i = Zephyrus.getItemMap().get(player.getItemInHand()
 							.getItemMeta().getDisplayName());
-					if (item.getItemLevel(player.getItemInHand()) < i
-							.maxLevel()) {
-						int current = item.getItemLevel(player.getItemInHand());
-						item.setItemLevel(player.getItemInHand(), current + 1);
-						sender.sendMessage(Lang.get("itemlevel.complete").replace("[ITEMNAME]", Lang.caps(i.name())));
+					if (getItemLevel(player.getItemInHand()) < i
+							.getMaxLevel()) {
+						int current = getItemLevel(player.getItemInHand());
+						setItemLevel(player.getItemInHand(), current + 1);
+						sender.sendMessage(Lang.get("itemlevel.complete").replace("[ITEMNAME]", Lang.caps(i.getDisplayName())));
 					} else {
 						Lang.errMsg("itemlevel.nomore", sender);
 					}

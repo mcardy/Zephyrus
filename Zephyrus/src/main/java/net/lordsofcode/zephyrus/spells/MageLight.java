@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -25,17 +27,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class MageLight extends Spell {
 
-	public MageLight(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "magelight";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Makes the world around you glow with the power of the mage!";
 	}
 
@@ -50,13 +48,14 @@ public class MageLight extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int time = getConfig().getInt(name() + ".duration");
+	public boolean run(Player player, String[] args) {
+		int time = getConfig().getInt(getName() + ".duration");
 		playerMap.add(player.getName());
 		Location loc = player.getLocation();
 		loc.setY(loc.getY() - 1);
 		player.sendBlockChange(loc, Material.GLOWSTONE, (byte) 0);
 		startDelay(player, time * 20);
+		return true;
 	}
 
 	@Override
@@ -72,27 +71,17 @@ public class MageLight extends Spell {
 	}
 
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("duration", 60);
 		return map;
 	}
 
 	@Override
-	public boolean canRun(Player player, String[] args) {
-		return true;
-	}
-
-	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.GLOWSTONE, 32));
 		return s;
-	}
-
-	@Override
-	public SpellType type() {
-		return SpellType.ILLUSION;
 	}
 
 	@EventHandler
@@ -117,5 +106,25 @@ public class MageLight extends Spell {
 						loc2.getBlock().getData());
 			}
 		}
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.ILLUSION;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.LIGHT;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 }

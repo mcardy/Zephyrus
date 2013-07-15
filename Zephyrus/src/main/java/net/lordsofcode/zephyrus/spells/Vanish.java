@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Material;
@@ -24,18 +26,17 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Vanish extends Spell {
 
-	public Vanish(Zephyrus plugin) {
-		super(plugin);
+	public Vanish() {
 		Lang.add("spells.vanish.applied", "$7You have dissappeared");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "vanish";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Makes you dissappear!";
 	}
 
@@ -50,16 +51,17 @@ public class Vanish extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int t = getConfig().getInt(this.name() + ".duration");
+	public boolean run(Player player, String[] args) {
+		int t = getConfig().getInt(getName() + ".duration");
 		player.removePotionEffect(PotionEffectType.INVISIBILITY);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,
 				t * 20, 1));
 		Lang.msg("spells.vanish.applied", player);
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		// Potion extended Invisibility
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.POTION, 1, (short) 8270));
@@ -67,15 +69,30 @@ public class Vanish extends Spell {
 	}
 	
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("duration", 30);
 		return map;
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.ILLUSION;
+	public EffectType getPrimaryType() {
+		return EffectType.BUFF;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.POTION;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

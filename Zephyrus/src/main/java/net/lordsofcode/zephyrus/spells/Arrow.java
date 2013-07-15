@@ -1,9 +1,13 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,17 +26,13 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 public class Arrow extends Spell {
 
-	public Arrow(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "arrow";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Shoots an arrow. Simple.";
 	}
 
@@ -47,28 +47,49 @@ public class Arrow extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
 		org.bukkit.entity.Arrow arrow = player.launchProjectile(org.bukkit.entity.Arrow.class);
-		arrow.setMetadata("no_pickup", new FixedMetadataValue(plugin, true));
+		arrow.setMetadata("no_pickup", new FixedMetadataValue(Zephyrus.getPlugin(), true));
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.ARROW, 16));
 		return s;
 	}
 
-	@Override
-	public SpellType type() {
-		return SpellType.DAMAGE;
-	}
-	
 	@EventHandler
 	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
 	    if(event.getItem().hasMetadata("no_pickup")) {
 	        event.setCancelled(true);
 	    }
+	}
+
+	@Override
+	public Map<String, Object> getConfiguration() {
+		return null;
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.ATTACK;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.AIR;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

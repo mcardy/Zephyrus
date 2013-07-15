@@ -1,7 +1,5 @@
 package net.lordsofcode.zephyrus.utils;
 
-import net.lordsofcode.zephyrus.Zephyrus;
-
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -23,9 +21,10 @@ public class Lang {
 	 * @param desc The object to add
 	 */
 	public static void add(String key, String desc) {
-		if (!Zephyrus.getInstance().langCfg.getConfig().contains(key)) { 
-			Zephyrus.getInstance().langCfg.getConfig().set(key.replace(ChatColor.COLOR_CHAR + "", "$"), desc);
-			Zephyrus.getInstance().langCfg.saveConfig();
+		ConfigHandler cfg = new ConfigHandler("lang.yml");
+		if (!cfg.getConfig().contains(key)) { 
+			cfg.getConfig().set(key.replace(ChatColor.COLOR_CHAR + "", "$"), desc);
+			cfg.saveConfig();
 		}
 	}
 	
@@ -35,7 +34,7 @@ public class Lang {
 	 * @return The String found at that location
 	 */
 	public static String get(String key) {
-		FileConfiguration cfg = Zephyrus.getInstance().langCfg.getConfig();
+		FileConfiguration cfg = new ConfigHandler("lang.yml").getConfig();
 		return cfg.getString(key).replace("$", ChatColor.COLOR_CHAR + "");
 	}
 	

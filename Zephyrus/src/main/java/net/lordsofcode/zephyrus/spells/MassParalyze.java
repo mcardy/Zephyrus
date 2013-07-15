@@ -5,7 +5,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ISpell;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -24,18 +27,14 @@ import org.bukkit.potion.PotionEffectType;
  */
 
 public class MassParalyze extends Spell {
-
-	public MassParalyze(Zephyrus plugin) {
-		super(plugin);
-	}
-
+	
 	@Override
-	public String name() {
+	public String getName() {
 		return "massparalyze";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Paralyses everyone in the area";
 	}
 
@@ -50,7 +49,7 @@ public class MassParalyze extends Spell {
 	}
 
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> cfg = new HashMap<String, Object>();
 		cfg.put("duration", 10);
 		cfg.put("radius", 5);
@@ -58,33 +57,49 @@ public class MassParalyze extends Spell {
 	}
 	
 	@Override
-	public void run(Player player, String[] args) {
-		int time = getConfig().getInt(name() + ".duration");
-		int radius = getConfig().getInt(name() + ".radius");
+	public boolean run(Player player, String[] args) {
+		int time = getConfig().getInt(getName() + ".duration");
+		int radius = getConfig().getInt(getName() + ".radius");
 		for (Entity en : player.getNearbyEntities(radius, radius, radius)) {
 			if (en instanceof LivingEntity) {
 				LivingEntity ln = (LivingEntity) en;
 				ln.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time * 20, 100));
 			}
 		}
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		//Slowness extended potions
 		s.add(new ItemStack(Material.POTION, 1, (short) 8266));
 		return s;
 	}
-
-	@Override
-	public SpellType type() {
-		return SpellType.OTHER;
-	}
 	
 	@Override
-	public String reqSpell() {
-		return Spell.getDisplayName("paralyze");
+	public ISpell getRequiredSpell() {
+		return Spell.forName("paralyze");
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.MOVEMENT;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.POTION;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

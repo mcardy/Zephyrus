@@ -1,10 +1,13 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,17 +24,17 @@ import org.bukkit.inventory.ItemStack;
 
 public class Storm extends Spell {
 
-	public Storm(Zephyrus plugin) {
-		super(plugin);
+	public Storm() {
+		
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "storm";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Collect the power of the elements to conjure a storm!";
 	}
 
@@ -46,7 +49,7 @@ public class Storm extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
 		player.getWorld().setStorm(true);
 		player.getWorld().setThundering(true);
 		for (int i = 0; i < 5; i++) {
@@ -58,24 +61,40 @@ public class Storm extends Spell {
 			loc.setY(loc.getY() - 20);
 			loc.getWorld().strikeLightningEffect(loc);
 		}
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.WATER_BUCKET));
 		return s;
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.ELEMENTAL;
-	}
-
-	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		player.getWorld().strikeLightning(player.getLocation());
 		return false;
+	}
+
+	@Override
+	public Map<String, Object> getConfiguration() {
+		return null;
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.WORLD;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.WATER;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
 	}
 
 }

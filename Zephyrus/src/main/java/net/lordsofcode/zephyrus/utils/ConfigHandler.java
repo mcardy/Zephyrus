@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.logging.Level;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.ZephyrusPlugin;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,7 +22,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class ConfigHandler {
 
 	String fileName;
-	Zephyrus plugin;
+	ZephyrusPlugin plugin;
 
 	File configFile;
 	FileConfiguration fileConfiguration;
@@ -31,8 +32,8 @@ public class ConfigHandler {
 	 * @param plugin Zephyrus instance
 	 * @param fileName The name of the file containing .yml
 	 */
-	public ConfigHandler(Zephyrus plugin, String fileName) {
-		this.plugin = plugin;
+	public ConfigHandler(String fileName) {
+		this.plugin = Zephyrus.getPlugin();
 		this.fileName = fileName;
 	}
 

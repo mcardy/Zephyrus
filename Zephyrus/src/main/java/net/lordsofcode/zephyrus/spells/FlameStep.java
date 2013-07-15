@@ -6,16 +6,19 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.hooks.PluginHook;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -30,28 +33,26 @@ import org.bukkit.scheduler.BukkitRunnable;
  * 
  */
 
-public class FlameStep extends Spell implements Listener {
+public class FlameStep extends Spell {
 
 	private Map<String, Integer> list;
 	private int radius;
 	private int duration;
 	
-	public FlameStep(Zephyrus plugin) {
-		super(plugin);
+	public FlameStep() {
 		list = new HashMap<String, Integer>();
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		Lang.add("spells.flamestep.applied", "You will now burn everything in your path for [TIME] seconds");
 		Lang.add("spells.flamestep.warning", "$7You start to cool down...");
 		Lang.add("spells.flamestep.end", "$7You are cold again...");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "flamestep";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Once cast, everything around you will burn!";
 	}
 
@@ -66,7 +67,7 @@ public class FlameStep extends Spell implements Listener {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
 		radius = getConfig().getInt("flamestep.radius");
 		duration = getConfig().getInt("flamestep.duration");
 		if (list.containsKey(player.getName())) {
@@ -76,12 +77,13 @@ public class FlameStep extends Spell implements Listener {
 		} else {
 			list.put(player.getName(), duration);
 			player.sendMessage(Lang.get("spells.flamestep.applied").replace("[TIME]", list.get(player.getName()) + ""));
-			new FlameRunnable(player).runTaskLater(plugin, 20);
+			new FlameRunnable(player).runTaskLater(Zephyrus.getPlugin(), 20);
 		}
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.LAVA_BUCKET));
 		s.add(new ItemStack(Material.BLAZE_POWDER, 16));
@@ -91,7 +93,7 @@ public class FlameStep extends Spell implements Listener {
 	}
 	
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("radius", 10);
 		map.put("duration", 30);
@@ -112,8 +114,19 @@ public class FlameStep extends Spell implements Listener {
 			for (int x = -(radius); x <= radius; x++) {
 				for (int y = -(radius); y <= radius; y++) {
 					for (int z = -(radius); z <= radius; z++) {
-						if (block.getRelative(x,y,z).getType() == Material.SAND && PluginHook.canBuild(e.getPlayer(), block.getRelative(x,y,z))) {
-							block.getRelative(x,y,z).setType(Material.GLASS);
+						Block b = block.getRelative(x,y,z);
+						if (b.getType() == Material.SAND || b.getType() == Material.COBBLESTONE) {
+							BlockBreakEvent event = new BlockBreakEvent(b, e.getPlayer());
+							Bukkit.getPluginManager().callEvent(event);
+							if (event.isCancelled()) {
+								continue;
+							}
+							if (b.getType() == Material.SAND) {
+								b.setType(Material.GLASS);
+							}
+							if (b.getType() == Material.COBBLESTONE) {
+								b.setType(Material.STONE);
+							}
 						}
 					}
 				}
@@ -147,7 +160,7 @@ public class FlameStep extends Spell implements Listener {
 				}
 				list.put(player.getName(), list.get(player.getName()) - 1);
 				player.setFireTicks(21);
-				new FlameRunnable(player).runTaskLater(plugin, 20);
+				new FlameRunnable(player).runTaskLater(Zephyrus.getPlugin(), 20);
 			} else {
 				list.remove(player.getName());
 				Lang.msg("spells.flamestep.end", player);
@@ -157,8 +170,24 @@ public class FlameStep extends Spell implements Listener {
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.FIRE;
+	public EffectType getPrimaryType() {
+		return EffectType.DESTRUCTION;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.FIRE;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		player.getLocation().getBlock().setType(Material.FIRE);
+		return false;
 	}
 
 }

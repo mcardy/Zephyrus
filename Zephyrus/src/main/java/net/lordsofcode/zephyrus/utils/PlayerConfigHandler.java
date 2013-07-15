@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.ZephyrusPlugin;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -29,7 +30,8 @@ public class PlayerConfigHandler {
 	 *            The player to get the config for
 	 * @return The player's FileConfiguration
 	 */
-	public static FileConfiguration getConfig(Zephyrus plugin, Player player) {
+	public static FileConfiguration getConfig(Player player) {
+		ZephyrusPlugin plugin = Zephyrus.getPlugin();
 		String fileName = player.getName() + ".yml";
 		File dataFolder = new File(plugin.getDataFolder(), "Players");
 		File configFile = new File(dataFolder, fileName);
@@ -44,8 +46,9 @@ public class PlayerConfigHandler {
 	 * @param player
 	 *            The player to save the config for
 	 */
-	public static void saveConfig(Zephyrus plugin, Player player,
+	public static void saveConfig(Player player,
 			FileConfiguration cfg) {
+		ZephyrusPlugin plugin = Zephyrus.getPlugin();
 		String fileName = player.getName() + ".yml";
 		File dataFolder = new File(plugin.getDataFolder(), "Players");
 		dataFolder.mkdirs();
@@ -66,7 +69,8 @@ public class PlayerConfigHandler {
 	 * @param player
 	 *            The player to save the default config for
 	 */
-	public static void saveDefaultConfig(Zephyrus plugin, Player player) {
+	public static void saveDefaultConfig(Player player) {
+		ZephyrusPlugin plugin = Zephyrus.getPlugin();
 		String fileName = player.getName() + ".yml";
 		File dataFolder = new File(plugin.getDataFolder(), "Players");
 		dataFolder.mkdirs();

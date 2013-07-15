@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
@@ -24,19 +26,18 @@ import org.bukkit.inventory.ItemStack;
 
 public class Prospect extends Spell {
 
-	public Prospect(Zephyrus plugin) {
-		super(plugin);
+	public Prospect() {
 		Lang.add("spells.prospect.found", "Found ores: ");
 		Lang.add("spells.prospect.none", "none...");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "prospect";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Searches for valuable materials nearby";
 	}
 
@@ -51,8 +52,8 @@ public class Prospect extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int radius = getConfig().getInt(this.name() + ".radius");
+	public boolean run(Player player, String[] args) {
+		int radius = getConfig().getInt(getName() + ".radius");
 		final Block block = player.getLocation().getBlock();
 		Set<String> s = new HashSet<String>();
 		for (int x = -(radius); x <= radius; x++) {
@@ -88,17 +89,18 @@ public class Prospect extends Spell {
 			msg.append(Lang.get("spells.prospect.none"));
 		}
 		player.sendMessage(msg.toString());
+		return true;
 	}
 
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("radius", 3);
 		return map;
 	}
 	
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.GOLD_INGOT));
 		s.add(new ItemStack(Material.DIAMOND));
@@ -108,8 +110,23 @@ public class Prospect extends Spell {
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.EARTH;
+	public EffectType getPrimaryType() {
+		return EffectType.MONITOR;
 	}
 
+	@Override
+	public Element getElementType() {
+		return Element.EARTH;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
+	}
+	
 }

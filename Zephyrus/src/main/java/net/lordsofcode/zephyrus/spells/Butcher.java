@@ -7,16 +7,16 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 /**
  * Zephyrus
@@ -28,17 +28,13 @@ import org.bukkit.util.Vector;
 
 public class Butcher extends Spell {
 
-	public Butcher(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "butcher";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Brutally murders all creatures within a radius";
 	}
 
@@ -58,8 +54,8 @@ public class Butcher extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int r = getConfig().getInt(this.name() + ".radius");
+	public boolean run(Player player, String[] args) {
+		int r = getConfig().getInt(getName() + ".radius");
 		List<Entity> e = player.getNearbyEntities(r, r, r);
 		for (Entity en : e) {
 			if (en instanceof LivingEntity) {
@@ -73,25 +69,21 @@ public class Butcher extends Spell {
 				}
 			}
 		}
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.DIAMOND_SWORD));
 		return i;
 	}
 
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("radius", 5);
 		return map;
-	}
-
-	@Override
-	public SpellType type() {
-		return SpellType.DAMAGE;
 	}
 
 	@Override
@@ -100,53 +92,20 @@ public class Butcher extends Spell {
 		player.damage(rand.nextInt(4));
 		return false;
 	}
-
+	
 	@Override
-	public Set<SpellType> types() {
-		Set<SpellType> t = types();
-		t.add(SpellType.AIR);
-		t.add(SpellType.RESTORE);
-		t.add(SpellType.FIRE);
-		t.add(SpellType.TELEPORTATION);
-		return t;
+	public EffectType getPrimaryType() {
+		return EffectType.DESTRUCTION;
 	}
 
 	@Override
-	public void comboSpell(Player player, String[] args, SpellType type,
-			int level) {
-		int r = getConfig().getInt(this.name() + ".radius");
-		List<Entity> e = player.getNearbyEntities(r, r, r);
-		switch (type) {
-		case AIR:
-			for (Entity en : e) {
-				if (en instanceof LivingEntity) {
-					en.setVelocity(new Vector(0, level, 0));
-				}
-			}
-		case FIRE:
-			for (Entity en : e) {
-				if (en instanceof LivingEntity) {
-					en.setFireTicks(level * 8);
-				}
-			}
-		case RESTORE:
-			for (Entity en : e) {
-				if (en instanceof LivingEntity) {
-					LivingEntity ent = (LivingEntity) en;
-					ent.setHealth(ent.getMaxHealth());
-				}
-			}
-		case TELEPORTATION:
-			for (Entity en : e) {
-				if (en instanceof LivingEntity) {
-					Location loc = en.getLocation();
-					loc.setY(loc.getY() + level * 4);
-					en.teleport(loc);
-				}
-			}
-		default:
-			break;
-		}
+	public Element getElementType() {
+		return Element.GENERIC;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.HIGH;
 	}
 
 }

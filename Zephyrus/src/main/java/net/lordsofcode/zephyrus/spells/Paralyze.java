@@ -5,7 +5,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -25,17 +28,17 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Paralyze extends Spell {
 
-	public Paralyze(Zephyrus plugin) {
-		super(plugin);
+	public Paralyze() {
+		Lang.add("spells.paralyze.fail", "You don't have a target!");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "paralyze";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Stop your enemy dead in their tracks!";
 	}
 
@@ -50,32 +53,27 @@ public class Paralyze extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		LivingEntity en = (LivingEntity) getTarget(player);
-		int time = getConfig().getInt(name() + ".duration");
+	public boolean run(Player player, String[] args) {
+		Entity e = getTarget(player);
+		if (e == null && !(e instanceof LivingEntity)) {
+			Lang.errMsg("spells.paralyze.fail", player);
+			return false;
+		}
+		LivingEntity en = (LivingEntity) e;
+		int time = getConfig().getInt(getName() + ".duration");
 		en.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time * 20, 100));
+		return true;
 	}
 	
 	@Override
-	public boolean canRun(Player player, String[] args) {
-		Entity en = getTarget(player);
-		return en != null && en instanceof LivingEntity;
-	}
-	
-	@Override
-	public String failMessage() {
-		return "You do not have a target!";
-	}
-	
-	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> cfg = new HashMap<String, Object>();
 		cfg.put("duration", 10);
 		return cfg;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		//Slowness extended potions
 		s.add(new ItemStack(Material.POTION, 1, (short) 8202));
@@ -83,8 +81,24 @@ public class Paralyze extends Spell {
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.OTHER;
+	public EffectType getPrimaryType() {
+		return EffectType.MOVEMENT;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.POTION;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 100));
+		return false;
 	}
 
 }

@@ -5,12 +5,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.hooks.PluginHook;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -23,17 +25,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class Explode extends Spell {
 
-	public Explode(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "explode";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Makes a big boom!";
 	}
 
@@ -48,75 +46,54 @@ public class Explode extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int r = getConfig().getInt(this.name() + ".power");
+	public boolean run(Player player, String[] args) {
+		BlockBreakEvent e = new BlockBreakEvent(
+				player.getTargetBlock(null, 200), player);
+		Bukkit.getPluginManager().callEvent(e);
+		if (e.isCancelled()) {
+			return false;
+		}
+		int r = getConfig().getInt(getName() + ".power");
 		player.getWorld().createExplosion(
 				player.getTargetBlock(null, 200).getLocation(), r, false);
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.TNT, 64));
 		return i;
 	}
-	
+
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("power", 2);
 		return map;
 	}
 
 	@Override
-	public boolean canRun(Player player, String[] args) {
-		boolean b = PluginHook.canBuild(player,
-				player.getTargetBlock(null, 1000))
-				&& PluginHook.allowExplosion() && player.getTargetBlock(null, 1000).getType() != Material.AIR;
-		return b;
-	}
-
-	@Override
-	public String failMessage() {
-		return ChatColor.DARK_RED
-				+ "Can't explode there!";
-	}
-
-	@Override
-	public SpellType type() {
-		return SpellType.EARTH;
-	}
-	
-	@Override
 	public boolean sideEffect(Player player, String[] args) {
-		int r = getConfig().getInt(this.name() + ".power");
+		int r = getConfig().getInt(getName() + ".power");
 		player.getWorld().createExplosion(
 				player.getTargetBlock(null, 200).getLocation(), r * 2, false);
 		return true;
 	}
-	
+
 	@Override
-	public Set<SpellType> types() {
-		Set<SpellType> t = types();
-		t.add(SpellType.FIRE);
-		t.add(SpellType.AIR);
-		return t;
+	public EffectType getPrimaryType() {
+		return EffectType.EXPLOSION;
 	}
-	
+
 	@Override
-	public void comboSpell(Player player, String[] args, SpellType type, int level) {
-		int r = getConfig().getInt(this.name() + ".power");
-		switch (type) {
-		case FIRE:
-			player.getWorld().createExplosion(
-					player.getTargetBlock(null, 200).getLocation(), r, true);
-			break;
-		case AIR:
-			player.getWorld().createExplosion(
-					player.getTargetBlock(null, 200).getLocation(), r * 2, true);
-			break;
-		default: break;
-		}
+	public Element getElementType() {
+		return Element.EARTH;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
 	}
 
 }

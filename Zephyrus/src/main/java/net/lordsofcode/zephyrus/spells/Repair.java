@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
@@ -23,18 +25,19 @@ import org.bukkit.inventory.ItemStack;
 
 public class Repair extends Spell {
 
-	public Repair(Zephyrus plugin) {
-		super(plugin);
+	public Repair() {
 		Lang.add("spells.repair.side", "$7Your tool feels a bit weaker...");
+		Lang.add("spells.repair.applied", "$7Your tool feels a bit stronger");
+		Lang.add("spells.repair.fail", "That item can't be repaired!");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "repair";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Repairs your items! Extends your tools life by 30!";
 	}
 
@@ -49,63 +52,69 @@ public class Repair extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int amount = getConfig().getInt(this.name() + ".amount");
-		ItemStack i = player.getItemInHand();
-		if (i.getDurability() < i.getType().getMaxDurability() + 30) {
-			player.getItemInHand().setDurability(
-					(short) (player.getItemInHand().getDurability() - amount));
-		} else {
-			player.getItemInHand().setDurability(
-					player.getItemInHand().getType().getMaxDurability());
-		}
-		player.sendMessage(ChatColor.GRAY + "Your tool feels a bit stronger");
-	}
-
-	@Override
-	public boolean canRun(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
 		if (player.getItemInHand() != null
 				&& player.getItemInHand().getType().getMaxDurability() != 0) {
+			int amount = getConfig().getInt(getName() + ".amount");
+			ItemStack i = player.getItemInHand();
+			if (i.getDurability() < i.getType().getMaxDurability() + 30) {
+				player.getItemInHand()
+						.setDurability(
+								(short) (player.getItemInHand().getDurability() - amount));
+			} else {
+				player.getItemInHand().setDurability(
+						player.getItemInHand().getType().getMaxDurability());
+			}
+			player.sendMessage(ChatColor.GRAY
+					+ "Your tool feels a bit stronger");
 			return true;
+		} else {
+			Lang.errMsg("spells.repair.fail", player);
+			return false;
 		}
-		return false;
 	}
 
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("amount", 30);
 		return map;
 	}
 
 	@Override
-	public String failMessage() {
-		return ChatColor.GRAY + "That item can't be repaired!";
-	}
-
-	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> items = new HashSet<ItemStack>();
 		items.add(new ItemStack(Material.ANVIL));
 		return items;
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.RESTORE;
-	}
-	
-	@Override
 	public boolean sideEffect(Player player, String[] args) {
-		int amount = getConfig().getInt(this.name() + ".amount");
-		player.getItemInHand().setDurability((short) (player.getItemInHand().getDurability() + amount));
+		int amount = getConfig().getInt(getName() + ".amount");
+		player.getItemInHand().setDurability(
+				(short) (player.getItemInHand().getDurability() + amount));
 		Lang.msg("spells.repair.side", player);
 		return true;
 	}
-	
+
 	@Override
 	public boolean canBind() {
 		return false;
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.RESTORE;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.GENERIC;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
 	}
 
 }

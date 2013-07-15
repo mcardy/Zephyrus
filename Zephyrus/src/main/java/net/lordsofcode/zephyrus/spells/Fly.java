@@ -6,6 +6,10 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ISpell;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
@@ -30,8 +34,7 @@ public class Fly extends Spell {
 
 	Map<String, Integer> list;
 
-	public Fly(Zephyrus plugin) {
-		super(plugin);
+	public Fly() {
 		list = new HashMap<String, Integer>();
 		Lang.add("spells.fly.applied", "You can now fly for [TIME] seconds");
 		Lang.add("spells.fly.warning", "$7Your wings start to dissappear!");
@@ -39,12 +42,12 @@ public class Fly extends Spell {
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "fly";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Allows you to fly for 30 seconds.";
 	}
 
@@ -59,21 +62,22 @@ public class Fly extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int t = getConfig().getInt(this.name() + ".duration");
+	public boolean run(Player player, String[] args) {
+		int t = getConfig().getInt(getName() + ".duration");
 		if (list.containsKey(player.getName())) {
 			list.put(player.getName(), list.get(player.getName()) + t * 20);
 			player.sendMessage(Lang.get("spells.fly.applied").replace("[TIME]",
 					list.get(player.getName()) / 20 + ""));
 			player.setAllowFlight(true);
-			new FeatherRunnable(player).runTaskLater(plugin, 2);
+			new FeatherRunnable(player).runTaskLater(Zephyrus.getPlugin(), 2);
 		} else {
 			list.put(player.getName(), t * 20);
 			player.sendMessage(Lang.get("spells.fly.applied").replace("[TIME]",
 					list.get(player.getName()) / 20 + ""));
 			player.setAllowFlight(true);
-			new FeatherRunnable(player).runTaskLater(plugin, 2);
+			new FeatherRunnable(player).runTaskLater(Zephyrus.getPlugin(), 2);
 		}
+		return true;
 	}
 	
 	@Override
@@ -84,14 +88,14 @@ public class Fly extends Spell {
 	}
 
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("duration", 120);
 		return map;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 
 		i.add(new ItemStack(Material.FEATHER, 32));
@@ -100,8 +104,8 @@ public class Fly extends Spell {
 	}
 
 	@Override
-	public String reqSpell() {
-		return Spell.getDisplayName("feather");
+	public ISpell getRequiredSpell() {
+		return Spell.forName("feather");
 	}
 	
 	@EventHandler
@@ -139,7 +143,7 @@ public class Fly extends Spell {
 							player.getLocation(), (float) 0.5, 0, (float) 0.5,
 							0, 10);
 				}
-				new FeatherRunnable(player).runTaskLater(plugin, 2);
+				new FeatherRunnable(player).runTaskLater(Zephyrus.getPlugin(), 2);
 			} else {
 				list.remove(player.getName());
 				player.setAllowFlight(false);
@@ -151,8 +155,23 @@ public class Fly extends Spell {
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.AIR;
+	public EffectType getPrimaryType() {
+		return EffectType.RESTORE;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.GENERIC;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

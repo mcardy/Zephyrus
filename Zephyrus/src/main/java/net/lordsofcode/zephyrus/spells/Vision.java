@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,17 +25,13 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Vision extends Spell {
 
-	public Vision(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "vision";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "You can see in the dark now!";
 	}
 
@@ -48,15 +46,16 @@ public class Vision extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int t = getConfig().getInt(this.name() + ".duration");
+	public boolean run(Player player, String[] args) {
+		int t = getConfig().getInt(getName() + ".duration");
 		player.removePotionEffect(PotionEffectType.NIGHT_VISION);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION,
 				t * 20, 1));
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		// Potion extended Nightvision
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.POTION, 1, (short) 8262));
@@ -64,22 +63,32 @@ public class Vision extends Spell {
 	}
 	
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("duration", 30);
 		return map;
 	}
-
-	@Override
-	public SpellType type() {
-		return SpellType.ILLUSION;
-	}
 	
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
-		int t = getConfig().getInt(this.name() + ".duration");
-		player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, t*4, 1));
+		int t = getConfig().getInt(getName() + ".duration");
+		player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, t*2, 1));
 		return false;
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.BUFF;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.POTION;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
 	}
 
 }

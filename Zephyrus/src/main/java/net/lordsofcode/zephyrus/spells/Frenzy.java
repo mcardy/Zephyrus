@@ -5,10 +5,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ISpell;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftCreature;
@@ -28,17 +31,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class Frenzy extends Spell {
 
-	public Frenzy(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "frenzy";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Better confusion. HUGE range!";
 	}
 
@@ -58,8 +57,14 @@ public class Frenzy extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int r = getConfig().getInt(this.name() + ".radius");
+	public boolean run(Player player, String[] args) {
+		try {
+			new CraftLivingEntity(null, null);
+		} catch (NoClassDefFoundError err) {
+			Lang.errMsg("outofdate", player);
+			return false;
+		}
+		int r = getConfig().getInt(getName() + ".radius");
 		Monster[] e = getNearbyEntities(player.getLocation(), r);
 		for (int i = 0; i < e.length; i++) {
 			int index = i + 1;
@@ -75,33 +80,18 @@ public class Frenzy extends Spell {
 			ParticleEffects.sendToLocation(ParticleEffects.ANGRY_VILLAGER, loc,
 					0.25F, 0.25F, 0.25F, 5, 10);
 		}
+		return true;
 	}
 
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("radius", 8);
 		return map;
 	}
-	
-	@Override
-	public boolean canRun(Player player, String[] args) {
-		try {
-			new CraftLivingEntity(null, null);
-			return true;
-		} catch (NoClassDefFoundError err) {
-			return false;
-		}
-	}
 
 	@Override
-	public String failMessage() {
-		return ChatColor.RED
-				+ "Zephyrus is not fully compatible with this version of Bukkit.This spell has been disabled :(";
-	}
-
-	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.ENDER_PEARL));
 		i.add(new ItemStack(Material.STRING));
@@ -113,8 +103,8 @@ public class Frenzy extends Spell {
 	}
 
 	@Override
-	public String reqSpell() {
-		return Spell.getDisplayName("confuse");
+	public ISpell getRequiredSpell() {
+		return Spell.forName("confuse");
 	}
 
 	private static Monster[] getNearbyEntities(Location l, int radius) {
@@ -138,7 +128,23 @@ public class Frenzy extends Spell {
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.ILLUSION;
+	public EffectType getPrimaryType() {
+		return EffectType.ATTACK;
 	}
+
+	@Override
+	public Element getElementType() {
+		return Element.GENERIC;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
+	}
+	
 }

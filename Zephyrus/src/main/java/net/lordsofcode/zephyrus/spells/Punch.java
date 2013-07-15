@@ -5,9 +5,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,17 +26,17 @@ import org.bukkit.inventory.ItemStack;
 
 public class Punch extends Spell {
 
-	public Punch(Zephyrus plugin) {
-		super(plugin);
+	public Punch() {
+		Lang.add("spells.punch.fail", "No one to punch!");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "punch";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return null;
 	}
 
@@ -47,47 +51,53 @@ public class Punch extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int damage = getConfig().getInt(this.name() + ".damage");
+	public boolean run(Player player, String[] args) {
+		Entity e = getTarget(player);
+		if (e == null) {
+			Lang.errMsg("spells.punch.fail", player);
+			return false;
+		}
+		int damage = getConfig().getInt(getName() + ".damage");
 		LivingEntity c = (LivingEntity) getTarget(player);
 		c.damage(damage);
+		return true;
 	}
 
 	@Override
-	public boolean canRun(Player player, String[] args) {
-		return getTarget(player) != null;
-	}
-
-	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("damage", 4);
 		return map;
 	}
-	
-	@Override
-	public String failMessage() {
-		return "Nothing to punch!";
-	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		// Potion of instant damage 1
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.IRON_SWORD));
 		i.add(new ItemStack(Material.POTION, 1, (short) 8204));
 		return i;
 	}
-
-	@Override
-	public SpellType type() {
-		return SpellType.DAMAGE;
-	}
 	
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		player.damage(1, player);
 		return false;
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.ATTACK;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.GENERIC;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return null;
 	}
 
 }

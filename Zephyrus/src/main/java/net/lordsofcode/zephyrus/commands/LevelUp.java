@@ -1,7 +1,6 @@
 package net.lordsofcode.zephyrus.commands;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.player.LevelManager;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Bukkit;
@@ -20,12 +19,7 @@ import org.bukkit.entity.Player;
 
 public class LevelUp implements CommandExecutor {
 
-	Zephyrus plugin;
-	LevelManager lvl;
-
-	public LevelUp(Zephyrus plugin) {
-		this.plugin = plugin;
-		lvl = new LevelManager(plugin);
+	public LevelUp() {
 		Lang.add("levelupcmd", "You have leveled up [PLAYER]");
 	}
 
@@ -36,11 +30,11 @@ public class LevelUp implements CommandExecutor {
 			if (sender.hasPermission("zephyrus.levelup") || sender.isOp()) {
 				if (args.length == 0) {
 					Player player = (Player) sender;
-					lvl.levelUp(player);
+					Zephyrus.getUser(player).levelUp();
 				} else {
 					if (isOnline(args[0])) {
 						Player player = Bukkit.getPlayer(args[0]);
-						lvl.levelUp(player);
+						Zephyrus.getUser(player).levelUp();
 						sender.sendMessage(Lang.get("levelupcmd").replace("[PLAYER]", player.getName()));
 					} else {
 						Lang.errMsg("notonline", sender);
@@ -56,7 +50,7 @@ public class LevelUp implements CommandExecutor {
 			}
 			if (isOnline(args[0])) {
 				Player player = Bukkit.getPlayer(args[0]);
-				lvl.levelUp(player);
+				Zephyrus.getUser(player).levelUp();
 				sender.sendMessage(Lang.get("levelupcmd").replace("[PLAYER]", player.getName()));
 			} else {
 				Lang.errMsg("notonline", sender);

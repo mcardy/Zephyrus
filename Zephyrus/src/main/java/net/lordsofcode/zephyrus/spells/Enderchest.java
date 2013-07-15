@@ -1,9 +1,12 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,17 +25,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class Enderchest extends Spell {
 
-	public Enderchest(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "enderchest";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Your very own portable enderchest!";
 	}
 
@@ -47,22 +46,43 @@ public class Enderchest extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
 		Inventory i = player.getEnderChest();
 		player.openInventory(i);
 		player.playSound(player.getLocation(), Sound.CHEST_OPEN, 1, 1);
 		player.sendMessage(ChatColor.DARK_PURPLE + "The inventories of Ender appear at your command");
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> items = new HashSet<ItemStack>();
 		items.add(new ItemStack(Material.ENDER_CHEST));
 		return items;
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.OTHER;
+	public EffectType getPrimaryType() {
+		return EffectType.ILLUSION;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.ENDER;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+	
+	@Override
+	public Map<String, Object> getConfiguration() {
+		return null;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 }

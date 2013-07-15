@@ -2,7 +2,7 @@ package net.lordsofcode.zephyrus.events;
 
 import java.util.List;
 
-import net.lordsofcode.zephyrus.items.CustomItem;
+import net.lordsofcode.zephyrus.api.ICustomItem;
 
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.Cancellable;
@@ -22,10 +22,10 @@ public class PlayerCraftCustomItemEvent extends Event implements Cancellable {
 
 	private boolean cancelled;
 	private List<HumanEntity> player;
-	private CustomItem item;
+	private ICustomItem item;
 	private PrepareItemCraftEvent e;
 	
-	public PlayerCraftCustomItemEvent(List<HumanEntity> player, CustomItem item, PrepareItemCraftEvent e) {
+	public PlayerCraftCustomItemEvent(List<HumanEntity> player, ICustomItem item, PrepareItemCraftEvent e) {
 		this.player = player;
 		this.item = item;
 		this.e = e;
@@ -51,7 +51,7 @@ public class PlayerCraftCustomItemEvent extends Event implements Cancellable {
 	 * Gets the item being crafted
 	 * @return
 	 */
-	public CustomItem getItem() {
+	public ICustomItem getItem() {
 		return item;
 	}
 	

@@ -19,6 +19,8 @@ import net.lordsofcode.zephyrus.Zephyrus;
 
 public class UpdateChecker implements Runnable {
 
+	//TODO Rewrite update checker
+	
 	String checkURL = "https://raw.github.com/minnymin3/Zephyrus/master/version";
 	String changelogURL = "https://raw.github.com/minnymin3/Zephyrus/master/Changelog";
 	Zephyrus plugin;
@@ -44,9 +46,9 @@ public class UpdateChecker implements Runnable {
 
 	@Override
 	public void run() {
-		if (plugin.getConfig().getBoolean("UpdateChecker")) {
-			String current = plugin.getDescription().getVersion();
-			Logger log = plugin.getLogger();
+		if (Zephyrus.getConfig().getBoolean("UpdateChecker")) {
+			String current = Zephyrus.getPlugin().getDescription().getVersion();
+			Logger log = Zephyrus.getPlugin().getLogger();
 
 			try {
 				log.info("Starting update checker...");

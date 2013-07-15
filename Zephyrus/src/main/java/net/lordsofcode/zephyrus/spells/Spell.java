@@ -1,31 +1,23 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.items.SpellTome;
-import net.lordsofcode.zephyrus.player.LevelManager;
+import net.lordsofcode.zephyrus.api.ISpell;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
-import net.lordsofcode.zephyrus.utils.Lang;
-import net.lordsofcode.zephyrus.utils.ParticleEffects;
-import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
-import org.bukkit.util.Vector;
 
 /**
  * Zephyrus
@@ -35,271 +27,105 @@ import org.bukkit.util.Vector;
  * 
  */
 
-public abstract class Spell implements Listener {
+public abstract class Spell implements ISpell {
 
-	public Zephyrus plugin;
-	public Set<String> playerMap;
+	public Set<String> playerMap = new HashSet<String>();
 	
-	public Spell(Zephyrus plugin) {
-		this.plugin = plugin;
-		plugin.addSpell(this);
-		playerMap = new HashSet<String>();
+	@Override
+	public String getDisplayName() {
+		if (getConfig().contains(getName() + ".displayname")) {
+			return getConfig().getString(getName() + ".displayname");
+		}
+		return getName();
 	}
 
-	/**
-	 * Defines the name of the spell
-	 * @return The name of the spell
-	 */
-	public abstract String name();
+	@Override
+	public String getDisplayDesc() {
+		if (getConfig().contains(getName() + ".desc")) {
+			return getConfig().getString(getName() + ".desc");
+		}
+		return getName();
+	}
 
-	/**
-	 * The text that appears in the SpellTome
-	 * @return The SpellTome text
-	 */
-	public abstract String bookText();
+	@Override
+	public int getReqLevel() {
+		if (getConfig().contains(getName() + ".level")) {
+			return getConfig().getInt(getName() + ".level");
+		}
+		return reqLevel();
+	}
 
-	/**
-	 * The level required by default to craft the spell
-	 * @return The default required level
-	 */
-	public abstract int reqLevel();
+	@Override
+	public int getManaCost() {
+		if (getConfig().contains(getName() + ".mana")) {
+			return getConfig().getInt(getName() + ".mana");
+		}
+		return reqLevel();
+	}
 
-	/**
-	 * The mana required by default to cast the spell
-	 * @return The default required mana
-	 */
-	public abstract int manaCost();
-
-	/**
-	 * The method called when the spell is cast
-	 */
-	public abstract void run(Player player, String[] args);
-
-	/**
-	 * The items that are used in crafting the spell
-	 * @return
-	 */
-	public abstract Set<ItemStack> spellItems();
+	@Override
+	public Set<ItemStack> getItems() {
+		Set<ItemStack> items = new HashSet<ItemStack>();
+		//TODO Config for items
+		return items;
+	}
 	
-	/**
-	 * The type of the spell
-	 * @return A SpellType enum value
-	 */
-	public abstract SpellType type();
+	@Override
+	public ISpell getRequiredSpell() {
+		return null;
+	}
+	
+	@Override
+	public int getExp() {
+		if (getConfig().contains(getName() + ".exp")) {
+			return getConfig().getInt(getName() + ".exp");
+		}
+		return reqLevel();
+	}
 
-	/**
-	 * Weather or not the spell can be bound to a wand
-	 * @return True by default
-	 */
+	@Override
+	public boolean isEnabled() {
+		if (getConfig().contains(getName() + ".enabled")) {
+			return getConfig().getBoolean(getName() + ".enabled");
+		}
+		return true;
+	}
+	
+	@Override
+	public void onDisable() {
+	}
+	
+	@Override
+	public boolean comboSpell(Player player, String[] args, EffectType type, Element element, int power) {
+		return false;
+	}
+	
+	@Override
 	public boolean canBind() {
 		return true;
 	}
 	
-	/**
-	 * A spell that is required for crafting this spell
-	 * @return The required spell
-	 */
-	public String reqSpell() {
-		return "";
-	}
-
-	/**
-	 * The boolean dictating if the spell can be run
-	 * @return Whether or not the spell can be cast
-	 */
-	public boolean canRun(Player player, String[] args) {
-		return true;
-	}
-
-	/**
-	 * The message that is sent to the player when canRun returns false
-	 * @return "" by default
-	 */
-	public String failMessage() {
-		return "";
-	}
-	
-	/**
-	 * If the spell is learned
-	 * @return False if the spell is not learned
-	 */
-	public boolean isLearned(Player p, String name) {
-		if (PlayerConfigHandler.getConfig(plugin, p).getStringList("learned")
-				.contains(name)) {
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks if the player has permission to cast the spell. Returns false if
-	 * OpKnowledge is false in the config
-	 * 
-	 * @param player
-	 *            The target player
-	 * @param spell
-	 *            The target spell
-	 */
-	public boolean hasPermission(Player player, Spell spell) {
-		if (plugin.getConfig().getBoolean("OpKnowledge")) {
-			if (player.hasPermission("zephyrus.cast." + spell.name().toLowerCase())) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Gets the mana cost from the config file.
-	 * @return The configured mana cost.
-	 */
-	public int getManaCost() {
-		int cost = getConfig().getInt(this.name() + ".mana");
-		return cost;
-	}
-	
-	/**
-	 * Gets the level from the config file.
-	 * @return The configured level.
-	 */
-	public int getLevel() {
-		int level = getConfig().getInt(this.name() + ".level");
-		return level;
-	}
-	
-	public int getExp() {
-		int exp = getConfig().getInt(this.name() + ".exp");
-		return exp;
-	}
-	
-	/**
-	 * Gets whether or not the spell is enabled from the config file.
-	 * @return Whether or not the spell is enabled.
-	 */
-	public boolean isEnabled() {
-		if (Zephyrus.getInstance().config.getConfig().contains(name() + ".enabled")) {
-			return Zephyrus.getInstance().config.getConfig().getBoolean(this.name() + ".enabled");
-		} else {
-			return true;
-		}
-	}
-	
-	/**
-	 * Gets the description (booktext) of the spell from the spells.yml config
-	 * @return A string from the spells.yml config
-	 */
-	public String getDesc() {
-		String desc = getConfig().getString(this.name() + ".desc").replace("$", ChatColor.COLOR_CHAR + "");
-		return desc;
-	}
-	
-	/**
-	 * Gets the display name (defaulted to the spell's name but configurable in spells.yml) of the spell
-	 * It will get the name that is generally used when casting, learning, etc.
-	 * Permissions and configuration nodes stay the same
-	 * @return The display name
-	 */
-	public String getDisplayName() {
-		FileConfiguration cfg = new ConfigHandler(Zephyrus.getInstance(), "spells.yml").getConfig();
-		if (cfg.contains(this.name() + ".displayname")) {
-			String displayName = cfg.getString(this.name() + ".displayname");
-			return displayName;
-		} else {
-			return this.name();
-		}
-	}
-	
-	public static String getDisplayName(String defaultName) {
-		FileConfiguration cfg = new ConfigHandler(Zephyrus.getInstance(), "spells.yml").getConfig();
-		if (cfg.contains(defaultName + ".displayname")) {
-			String displayName = cfg.getString(defaultName + ".displayname");
-			return displayName;
-		} else {
-			return defaultName;
-		}
-	}
-	
-	/**
-	 * Gets the fail message from the spells.yml config 
-	 * @return The message displayed when the spell can't run
-	 */
-	public String getFailMessage() {
-		String failMessage = Lang.get("spells." + name() + ".fail");
-		return failMessage;
-	}
-	
-	/**
-	 * A list of configurations defined by the spell
-	 * @return The configurations
-	 */
-	public Map<String, Object> getConfigurations() {
-		return null;
-	}
-
-	/**
-	 * Gets the spell configuration
-	 * @return A FileConfiguration of the config
-	 */
-	public FileConfiguration getConfig() {
-		return Zephyrus.getInstance().spells;
-	}
-	
-	/**
-	 * A method for things to be done on the disabling of the plugin
-	 */
-	public void onDisable() {
-	}
-	
-	/**
-	 * An action that should be executed after a period of time or on disable.
-	 * @param player The target of the delay
-	 */
 	public void delayedAction(Player player) {
 	}
-	
-	/**
-	 * Starts the delayed action
-	 * @param player The target of the delay
-	 * @param time The time, in ticks, to wait
-	 */
+
 	public void startDelay(Player player, int time) {
 		new DelayedActionRunnable(this, player, time);
 	}
-	
-	/**
-	 * A side effect that may occur while casting the spell
-	 * @param player The player who cast the spell
-	 * @param args The arguments passed through the command
-	 * @return True if the spell should be cancelled, false otherwise.
-	 */
-	public boolean sideEffect(Player player, String[] args) {
-		return false;
+
+	public FileConfiguration getConfig() {
+		return new ConfigHandler("spells.yml").getConfig();
 	}
 	
-	/**
-	 * The compatible spell types. Combo spells should be able to handle all the given types.
-	 * @return A list of compatible spell types
-	 */
-	public Set<SpellType> types() {
-		Set<SpellType> types = new HashSet<SpellType>();
-		return types;
+	public boolean blockBreak(Player player) {
+		return blockBreak(player, player.getTargetBlock(null, 1000));
 	}
 	
-	/**
-	 * The effects of the combo spell
-	 * @param player The caster
-	 * @param args The argument
-	 * @param type The SpellType of spell being cast
-	 * @param level The combined level of the combo spell spells
-	 */
-	public void comboSpell(Player player, String[] args, SpellType type, int level) {
+	public boolean blockBreak(Player player, Block block) {
+		BlockBreakEvent e = new BlockBreakEvent(block, player);
+		Bukkit.getPluginManager().callEvent(e);
+		return e.isCancelled();
 	}
 	
-	/**
-	 * Get the target entity of the player
-	 * @param player The player
-	 * @return The entity the player is looking at.
-	 */
 	public Entity getTarget(Player player) {
 		BlockIterator iterator = new BlockIterator(player.getWorld(), player
 				.getLocation().toVector(), player.getEyeLocation()
@@ -323,34 +149,6 @@ public abstract class Spell implements Listener {
 		return null;
 	}
 	
-	/**
-	 * The method for destroying a bookshelf and dropping a spelltome
-	 */
-	public void dropSpell(Block bookshelf, String name, String desc, Player player) {
-		Random r = new Random();
-		bookshelf.setType(Material.AIR);
-		SpellTome tome = new SpellTome(plugin, name, desc);
-		Location loc = bookshelf.getLocation();
-		loc.setX(loc.getX() + 0.5);
-		loc.setZ(loc.getZ() + 0.5);
-		loc.getWorld().dropItem(loc.add(0, +1, 0), tome.item())
-				.setVelocity(new Vector(0, 0, 0));
-		int chance = 1;
-		if (LevelManager.getLevel(player) < 7) {
-			chance = 1;
-		} else if (LevelManager.getLevel(player) < 15) {
-			chance = 2;
-		} else {
-			chance = 3;
-		}
-		loc.getWorld().dropItemNaturally(loc.add(0, +0.5, 0), new ItemStack(Material.BOOK, r.nextInt(chance)));
-		try {
-			ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE,
-					loc, 0, 0, 0, 1, 30);
-			loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 3, 12);
-		} catch (Exception e) {}
-	}
-	
 	private class DelayedActionRunnable extends BukkitRunnable {
 		
 		Player player;
@@ -359,7 +157,7 @@ public abstract class Spell implements Listener {
 		DelayedActionRunnable(Spell spell, Player player, int time) {
 			this.spell = spell;
 			this.player = player;
-			this.runTaskLater(Zephyrus.getInstance(), time);
+			this.runTaskLater(Zephyrus.getPlugin(), time);
 		}
 		
 		@Override
@@ -367,4 +165,19 @@ public abstract class Spell implements Listener {
 			spell.delayedAction(player);
 		}
 	}
+	
+	public static ISpell forName(String s) {
+		return Zephyrus.getSpellMap().get(getSpellName(s));
+	}
+	
+	public static String getSpellName(String defaultName) {
+		FileConfiguration cfg = new ConfigHandler("spells.yml").getConfig();
+		if (cfg.contains(defaultName + ".displayname")) {
+			String displayName = cfg.getString(defaultName + ".displayname");
+			return displayName;
+		} else {
+			return defaultName;
+		}
+	}
+
 }

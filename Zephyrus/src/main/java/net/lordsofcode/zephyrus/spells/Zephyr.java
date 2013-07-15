@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Bukkit;
@@ -28,17 +31,13 @@ import org.bukkit.util.Vector;
 
 public class Zephyr extends Spell {
 
-	public Zephyr(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "zephyr";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Pushes enemies away with a small whirlwind";
 	}
 
@@ -53,14 +52,15 @@ public class Zephyr extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int time = getConfig().getInt(name() + ".duration");
-		boolean b = getConfig().getBoolean(name() + ".block-all");
-		int p = getConfig().getInt(name() + ".power");
+	public boolean run(Player player, String[] args) {
+		int time = getConfig().getInt(getName() + ".duration");
+		boolean b = getConfig().getBoolean(getName() + ".block-all");
+		int p = getConfig().getInt(getName() + ".power");
 		playerMap.add(player.getName());
-		new Run(player, b, p).runTaskTimer(Zephyrus.getInstance(), (long) 0.1,
+		new Run(player, b, p).runTaskTimer(Zephyrus.getPlugin(), (long) 0.1,
 				(long) 0.1);
 		startDelay(player, time * 20);
+		return true;
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class Zephyr extends Spell {
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.FEATHER, 8));
 		i.add(new ItemStack(Material.DIAMOND_CHESTPLATE));
@@ -77,12 +77,7 @@ public class Zephyr extends Spell {
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.AIR;
-	}
-
-	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("duration", 60);
 		map.put("block-all", true);
@@ -130,6 +125,26 @@ public class Zephyr extends Spell {
 				this.cancel();
 			}
 		}
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.BUFF;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.AIR;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

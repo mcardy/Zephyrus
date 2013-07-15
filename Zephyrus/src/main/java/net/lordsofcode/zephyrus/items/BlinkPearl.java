@@ -1,7 +1,7 @@
 package net.lordsofcode.zephyrus.items;
 
+import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.hooks.PluginHook;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
@@ -28,8 +28,7 @@ import org.bukkit.inventory.ShapedRecipe;
 
 public class BlinkPearl extends CustomItem {
 
-	public BlinkPearl(Zephyrus plugin) {
-		super(plugin);
+	public BlinkPearl() {
 		Lang.add("blinkpearl.outofrange", "That location is out of range!");
 		Lang.add("blinkpearl.recharge",
 				"The BlinkPearl still needs [TIME] to recharge...");
@@ -37,22 +36,22 @@ public class BlinkPearl extends CustomItem {
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return ChatColor.getByChar("1") + "Blink Pearl";
 	}
 
 	@Override
-	public ItemStack item() {
+	public ItemStack getItem() {
 		ItemStack i = new ItemStack(Material.ENDER_PEARL);
-		setItemName(i, this.name());
+		setItemName(i, getName());
 		setItemLevel(i, 1);
-		i.addEnchantment(plugin.glow, 1);
+		i.addEnchantment(Zephyrus.getInstance().glow, 1);
 		return i;
 	}
 
 	@Override
-	public Recipe recipe() {
-		ItemStack blinkPearl = item();
+	public Recipe getRecipe() {
+		ItemStack blinkPearl = getItem();
 		ShapedRecipe recipe = new ShapedRecipe(blinkPearl);
 		recipe.shape("CCC", "BAB", "CCC");
 		recipe.setIngredient('C', Material.ENDER_PEARL);
@@ -61,15 +60,10 @@ public class BlinkPearl extends CustomItem {
 		return recipe;
 	}
 
-	@Override
-	public int maxLevel() {
-		return 5;
-	}
-
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void blink(PlayerInteractEvent e) {
-		if (checkName(e.getPlayer().getItemInHand(), this.name())) {
+		if (checkName(e.getPlayer().getItemInHand(), getName())) {
 			e.setCancelled(true);
 			e.getPlayer().updateInventory();
 			if (e.getAction() == Action.RIGHT_CLICK_AIR
@@ -78,7 +72,7 @@ public class BlinkPearl extends CustomItem {
 						&& e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE) {
 					return;
 				}
-				if (!ItemDelay.hasDelay(plugin, e.getPlayer(), this)) {
+				if (!ItemDelay.hasDelay(e.getPlayer(), this)) {
 					if (e.getPlayer().getTargetBlock(null, 100) != null
 							&& e.getPlayer().getTargetBlock(null, 100)
 									.getType() != Material.AIR) {
@@ -111,7 +105,7 @@ public class BlinkPearl extends CustomItem {
 								e.getPlayer().getWorld().playEffect(e.getPlayer().getLocation(), Effect.ENDER_SIGNAL, 0);
 								int delay = delayFromLevel(getItemLevel(e
 										.getItem()));
-								ItemDelay.setDelay(plugin, e.getPlayer(), this,
+								ItemDelay.setDelay(e.getPlayer(), this,
 										delay);
 							} else {
 								Lang.errMsg("worldguard", e.getPlayer());
@@ -123,7 +117,7 @@ public class BlinkPearl extends CustomItem {
 						Lang.errMsg("blinkpearl.outofrange", e.getPlayer());
 					}
 				} else {
-					int time = ItemDelay.getDelay(plugin, e.getPlayer(), this);
+					int time = ItemDelay.getDelay(e.getPlayer(), this);
 					e.getPlayer().sendMessage(
 							ChatColor.GRAY
 									+ Lang.get("blinkpearl.recharge").replace(
@@ -134,7 +128,13 @@ public class BlinkPearl extends CustomItem {
 	}
 
 	@Override
-	public String perm() {
+	public String getPerm() {
 		return "blinkpearl";
 	}
+
+	@Override
+	public int getMaxLevel() {
+		return 5;
+	}
+	
 }

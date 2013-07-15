@@ -1,4 +1,4 @@
-package net.lordsofcode.zephyrus.hooks;
+package net.lordsofcode.zephyrus;
 
 import net.milkbowl.vault.economy.Economy;
 

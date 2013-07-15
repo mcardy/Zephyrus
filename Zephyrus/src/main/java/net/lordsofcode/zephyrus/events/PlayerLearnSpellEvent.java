@@ -1,6 +1,6 @@
 package net.lordsofcode.zephyrus.events;
 
-import net.lordsofcode.zephyrus.spells.Spell;
+import net.lordsofcode.zephyrus.api.ISpell;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -19,9 +19,9 @@ public class PlayerLearnSpellEvent extends Event implements Cancellable {
 
 	private boolean cancelled;
 	private Player player;
-	private Spell spell;
+	private ISpell spell;
 	
-	public PlayerLearnSpellEvent(Player player, Spell spell) {
+	public PlayerLearnSpellEvent(Player player, ISpell spell) {
 		this.player = player;
 		this.spell = spell;
 	}
@@ -38,7 +38,7 @@ public class PlayerLearnSpellEvent extends Event implements Cancellable {
 	 * Gets the spell being learned
 	 * @return A spell
 	 */
-	public Spell getSpell() {
+	public ISpell getSpell() {
 		return spell;
 	}
 	

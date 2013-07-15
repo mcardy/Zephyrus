@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Location;
@@ -25,17 +27,13 @@ import org.bukkit.util.Vector;
 
 public class Bang extends Spell {
 
-	public Bang(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "bang";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Pushes enemies away from your pointer location a small whirlwind";
 	}
 
@@ -50,9 +48,9 @@ public class Bang extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int r = getConfig().getInt(name() + ".radius");
-		int p = getConfig().getInt(name() + ".power");
+	public boolean run(Player player, String[] args) {
+		int r = getConfig().getInt(getName() + ".radius");
+		int p = getConfig().getInt(getName() + ".power");
 		Location loc = player.getTargetBlock(null, 1000).getLocation();
 		loc.setX(loc.getX() + 0.5);
 		loc.setZ(loc.getZ() + 0.5);
@@ -68,22 +66,18 @@ public class Bang extends Spell {
 				e.setVelocity(unitVector.multiply(p * 0.4));
 			}
 		}
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.FEATHER, 16));
 		return i;
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.AIR;
-	}
-
-	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("radius", 6);
 		map.put("power", 4);
@@ -106,6 +100,26 @@ public class Bang extends Spell {
 			}
 		}
 		return radiusEntities.toArray(new Entity[radiusEntities.size()]);
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.MOVEMENT;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.AIR;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

@@ -1,9 +1,14 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ISpell;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Location;
@@ -23,17 +28,17 @@ import org.bukkit.inventory.ItemStack;
 
 public class Phase extends Spell {
 
-	public Phase(Zephyrus plugin) {
-		super(plugin);
+	public Phase() {
+		Lang.add("spells.phase.fail", "You can't phase through that!");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "phase";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Phase through blocks!";
 	}
 
@@ -48,7 +53,11 @@ public class Phase extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
+		if (!canRun(player, args)) {
+			Lang.errMsg("spells.phase.fail", player);
+			return false;
+		}
 		Location loc = player.getTargetBlock(null, 4).getLocation();
 		BlockFace bf = yawToFace(player);
 		loc.setY(loc.getY() - 1);
@@ -75,28 +84,25 @@ public class Phase extends Spell {
 		ploc.setX(ploc.getX() + 0.5);
 		ploc.setZ(ploc.getZ() + 0.5);
 		ploc.setY(ploc.getY() + 2);
-		try {
-			ParticleEffects.sendToLocation(ParticleEffects.ENDER,
-					player.getLocation(), 0, 0, 0, 2, 40);
-		} catch (Exception e) {
-		}
+		ParticleEffects.sendToLocation(ParticleEffects.ENDER,
+				player.getLocation(), 0, 0, 0, 2, 40);
 		player.teleport(loc);
+		return true;
 	}
 
 	@Override
-	public String reqSpell() {
-		return Spell.getDisplayName("blink");
+	public ISpell getRequiredSpell() {
+		return Spell.forName("blink");
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.EYE_OF_ENDER));
 		i.add(new ItemStack(Material.ENDER_PEARL));
 		return i;
 	}
 
-	@Override
 	public boolean canRun(Player player, String[] args) {
 		Location loc1 = player.getTargetBlock(null, 4).getLocation();
 		Location loc2;
@@ -153,11 +159,6 @@ public class Phase extends Spell {
 		return false;
 	}
 
-	@Override
-	public String failMessage() {
-		return "Can't phase through that!";
-	}
-
 	private BlockFace yawToFace(Player player) {
 		float yaw = player.getLocation().getYaw();
 		float pitch = player.getLocation().getPitch();
@@ -175,7 +176,28 @@ public class Phase extends Spell {
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.TELEPORTATION;
+	public Map<String, Object> getConfiguration() {
+		return null;
 	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.TELEPORTATION;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.ENDER;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
+	}
+	
 }

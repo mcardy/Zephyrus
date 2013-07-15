@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.items.SpellTome;
-import net.lordsofcode.zephyrus.player.LevelManager;
-import net.lordsofcode.zephyrus.spells.Spell;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Bukkit;
@@ -27,12 +26,7 @@ import org.bukkit.entity.Player;
 
 public class SpellTomeCmd implements CommandExecutor, TabCompleter {
 
-	Zephyrus plugin;
-	LevelManager lvl;
-
-	public SpellTomeCmd(Zephyrus plugin) {
-		this.plugin = plugin;
-		lvl = new LevelManager(plugin);
+	public SpellTomeCmd() {
 		Lang.add("spelltomecmd.nospell", "Specify a spell to give!");
 		Lang.add("spelltomecmd.noexist", "That spell does not exist!");
 		Lang.add("spelltomecmd.usage", "Usage: /spelltome [spell] [player]");
@@ -49,15 +43,15 @@ public class SpellTomeCmd implements CommandExecutor, TabCompleter {
 			} else {
 				if (args.length < 2) {
 					if (sender instanceof Player) {
-						if (Zephyrus.spellMap
+						if (Zephyrus.getSpellMap()
 								.containsKey(args[0].toLowerCase())) {
 							Player player = (Player) sender;
-							Spell spell = Zephyrus.spellMap.get(args[0]
+							ISpell spell = Zephyrus.getSpellMap().get(args[0]
 									.toLowerCase());
 							if (spell.isEnabled()) {
-								SpellTome tome = new SpellTome(plugin, spell
+								SpellTome tome = new SpellTome(spell
 										.getDisplayName().toLowerCase(),
-										spell.getDesc());
+										spell.getDisplayDesc());
 								player.getInventory().addItem(tome.item());
 								sender.sendMessage(Lang
 										.get("spelltomecmd.complete")
@@ -74,15 +68,15 @@ public class SpellTomeCmd implements CommandExecutor, TabCompleter {
 						Lang.errMsg("spelltomecmd.usage", sender);
 					}
 				} else {
-					if (Zephyrus.spellMap.containsKey(args[0].toLowerCase())) {
+					if (Zephyrus.getSpellMap().containsKey(args[0].toLowerCase())) {
 						if (isOnline(args[1])) {
 							Player player = Bukkit.getPlayer(args[1]);
-							Spell spell = Zephyrus.spellMap.get(args[0]
+							ISpell spell = Zephyrus.getSpellMap().get(args[0]
 									.toLowerCase());
 							if (spell.isEnabled()) {
-								SpellTome tome = new SpellTome(plugin, spell
+								SpellTome tome = new SpellTome(spell
 										.getDisplayName().toLowerCase(),
-										spell.getDesc());
+										spell.getDisplayDesc());
 								player.getInventory().addItem(tome.item());
 								sender.sendMessage(Lang
 										.get("spelltomecmd.complete")
@@ -109,7 +103,7 @@ public class SpellTomeCmd implements CommandExecutor, TabCompleter {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command,
 			String alias, String[] args) {
-		Set<String> set = Zephyrus.spellMap.keySet();
+		Set<String> set = Zephyrus.getSpellMap().keySet();
 		List<String> list = new ArrayList<String>();
 		for (String s : set) {
 			list.add(s);

@@ -6,15 +6,16 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -32,26 +33,24 @@ import org.bukkit.util.Vector;
  * 
  */
 
-public class Feather extends Spell implements Listener {
+public class Feather extends Spell {
 
 	Map<String, Integer> list;
 
-	public Feather(Zephyrus plugin) {
-		super(plugin);
+	public Feather() {
 		list = new HashMap<String, Integer>();
-		Bukkit.getPluginManager().registerEvents(this, plugin);
 		Lang.add("spells.feather.applied", "You'll be light as a feather for [TIME] seconds!");
 		Lang.add("spells.feather.warning", "$7You start to feel heavier");
 		Lang.add("spells.feather.end", "$7You feel much heavier");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "feather";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Makes you fall like a feather";
 	}
 
@@ -66,27 +65,28 @@ public class Feather extends Spell implements Listener {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int t = getConfig().getInt(this.name() + ".duration");
+	public boolean run(Player player, String[] args) {
+		int t = getConfig().getInt(getName() + ".duration");
 		if (list.containsKey(player.getName())) {
 			list.put(player.getName(), list.get(player.getName()) + t);
 			player.sendMessage(Lang.get("spells.feather.applied").replace("[TIME]", list.get(player.getName()) + ""));
 		} else {
 			list.put(player.getName(), t);
 			player.sendMessage(Lang.get("spells.feather.applied").replace("[TIME]", list.get(player.getName()) + ""));
-			new FeatherRunnable(player).runTaskLater(plugin, 20);
+			new FeatherRunnable(player).runTaskLater(Zephyrus.getPlugin(), 20);
 		}
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.FEATHER, 8));
 		return s;
 	}
 	
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("duration", 120);
 		return map;
@@ -148,7 +148,7 @@ public class Feather extends Spell implements Listener {
 					Lang.msg("spells.feather.warning", player);
 				}
 				list.put(player.getName(), list.get(player.getName()) - 1);
-				new FeatherRunnable(player).runTaskLater(plugin, 20);
+				new FeatherRunnable(player).runTaskLater(Zephyrus.getPlugin(), 20);
 			} else {
 				list.remove(player.getName());
 				Lang.msg("spells.feather.end", player);
@@ -158,8 +158,23 @@ public class Feather extends Spell implements Listener {
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.AIR;
+	public EffectType getPrimaryType() {
+		return EffectType.BUFF;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.AIR;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

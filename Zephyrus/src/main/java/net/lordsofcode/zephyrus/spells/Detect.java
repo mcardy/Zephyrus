@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
@@ -26,17 +28,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class Detect extends Spell {
 
-	public Detect(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "detect";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Look around for enemies nearby...";
 	}
 
@@ -51,8 +49,8 @@ public class Detect extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int r = getConfig().getInt(name() + ".radius");
+	public boolean run(Player player, String[] args) {
+		int r = getConfig().getInt(getName() + ".radius");
 		List<Entity> enList = player.getNearbyEntities(r, r, r);
 		player.sendMessage(ChatColor.GRAY + "Nearby mobs:");
 		boolean msg = true;
@@ -75,26 +73,42 @@ public class Detect extends Spell {
 		if (msg) {
 			player.sendMessage(ChatColor.GRAY + "None...");
 		}
+		return true;
 	}
 
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> cfg = new HashMap<String, Object>();
 		cfg.put("radius", 20);
 		return cfg;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.TRIPWIRE_HOOK));
 		s.add(new ItemStack(Material.STONE_PLATE));
 		return s;
 	}
+	
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.MONITOR;
+	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.OTHER;
+	public Element getElementType() {
+		return Element.GENERIC;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

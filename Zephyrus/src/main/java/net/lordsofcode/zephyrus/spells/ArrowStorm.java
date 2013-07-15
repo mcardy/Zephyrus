@@ -6,6 +6,10 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ISpell;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,18 +27,14 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 
 public class ArrowStorm extends Spell {
-
-	public ArrowStorm(Zephyrus plugin) {
-		super(plugin);
-	}
-
+	
 	@Override
-	public String name() {
+	public String getName() {
 		return "arrowstorm";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "A storm of arrows!";
 	}
 
@@ -49,13 +49,14 @@ public class ArrowStorm extends Spell {
 	}
 
 	@Override
-	public void run(final Player player, String[] args) {
-		int amount = getConfig().getInt(this.name() + ".count");
-		new Run(player.getName(), amount).runTask(Zephyrus.getInstance());
+	public boolean run(final Player player, String[] args) {
+		int amount = getConfig().getInt("arrowstorm.count");
+		new Run(player.getName(), amount).runTask(Zephyrus.getPlugin());
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.ARROW, 64));
 		s.add(new ItemStack(Material.BOW, 1));
@@ -63,20 +64,15 @@ public class ArrowStorm extends Spell {
 	}
 
 	@Override
-	public SpellType type() {
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("count", 30);
 		return map;
 	}
 
 	@Override
-	public String reqSpell() {
-		return Spell.getDisplayName("arrow");
+	public ISpell getRequiredSpell() {
+		return Spell.forName("arrow");
 	}
 	
 	private class Run extends BukkitRunnable {
@@ -93,12 +89,32 @@ public class ArrowStorm extends Spell {
 			if (0 < amount && Bukkit.getPlayer(player) != null) {
 				org.bukkit.entity.Arrow arrow = Bukkit.getPlayer(player)
 						.launchProjectile(org.bukkit.entity.Arrow.class);
-				arrow.setMetadata("no_pickup", new FixedMetadataValue(plugin,
+				arrow.setMetadata("no_pickup", new FixedMetadataValue(Zephyrus.getPlugin(),
 						true));
-				new Run(player, amount-1).runTaskLater(Zephyrus.getInstance(), 1);
+				new Run(player, amount-1).runTaskLater(Zephyrus.getPlugin(), 1);
 			}
 		}
 
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.ATTACK;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.AIR;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

@@ -46,7 +46,7 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 			Enchantment.registerEnchantment(this);
 		} catch (IllegalArgumentException e) {
 		}
-		Bukkit.getPluginManager().registerEvents(this, Zephyrus.getInstance());
+		Bukkit.getPluginManager().registerEvents(this, Zephyrus.getPlugin());
 	}
 
 	/**
@@ -73,7 +73,7 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 	public void onEnchant(EnchantItemEvent e) {
 		int level = e.getExpLevelCost() / enchantLevelCost();
 		int chance = new Random().nextInt(chance()
-				* Zephyrus.getInstance().getConfig()
+				* Zephyrus.getConfig()
 						.getInt("Enchantment-Chance"));
 		if (chance == 0 && level != 0) {
 			if (e.getItem().getType() != Material.BOOK

@@ -1,16 +1,19 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.hooks.PluginHook;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -23,17 +26,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class Bolt extends Spell {
 
-	public Bolt(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return "bolt";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Strikes lightning where you point!";
 	}
 
@@ -48,32 +47,23 @@ public class Bolt extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
+		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 1000), player);
+		Bukkit.getPluginManager().callEvent(e);
+		if (e.isCancelled()) {
+			return false;
+		}
 		Location loc = player.getTargetBlock(null, 1000).getLocation();
 		player.getWorld().strikeLightning(loc);
+		return true;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> items = new HashSet<ItemStack>();
 		items.add(new ItemStack(Material.EMERALD));
 		items.add(new ItemStack(Material.FLINT_AND_STEEL));
 		return items;
-	}
-
-	@Override
-	public boolean canRun(Player player, String[] args) {
-		return PluginHook.canBuild(player, player.getTargetBlock(null, 1000));
-	}
-
-	@Override
-	public String failMessage() {
-		return ChatColor.DARK_RED + "You don't have permission for this area";
-	}
-
-	@Override
-	public SpellType type() {
-		return SpellType.ELEMENTAL;
 	}
 
 	@Override
@@ -85,4 +75,26 @@ public class Bolt extends Spell {
 		}
 		return false;
 	}
+	
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.ATTACK;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.AIR;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
+	}
+
+	@Override
+	public Map<String, Object> getConfiguration() {
+		return null;
+	}
+	
+	
 }

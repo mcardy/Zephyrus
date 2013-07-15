@@ -1,6 +1,7 @@
 package net.lordsofcode.zephyrus.player;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.IUser;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,28 +16,18 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ManaRecharge extends BukkitRunnable {
 
-	Zephyrus plugin;
 	Player player;
-	LevelManager lvl;
 
-	public ManaRecharge(Zephyrus plugin, Player player) {
-		this.plugin = plugin;
+	public ManaRecharge(Player player) {
 		this.player = player;
-		lvl = new LevelManager(plugin);
 	}
 
 	@Override
 	public void run() {
 		if (player.isOnline()) {
-			if (LevelManager.getMana(player) < LevelManager.getLevel(player) * 100) {
-				if (LevelManager.getMana(player) == 0) {
-					Zephyrus.mana.put(player.getName(), 1);
-				} else {
-					Zephyrus.mana.put(player.getName(),
-							LevelManager.getMana(player) + 1);
-				}
-			}
-			new ManaRecharge(plugin, player).runTaskLater(plugin, plugin
+			IUser user = Zephyrus.getUser(player);
+			user.drainMana(-1);
+			new ManaRecharge(player).runTaskLater(Zephyrus.getPlugin(), Zephyrus
 					.getConfig().getInt("ManaRegen"));
 		}
 	}

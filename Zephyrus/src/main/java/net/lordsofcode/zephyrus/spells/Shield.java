@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Bukkit;
@@ -26,18 +29,14 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 
 public class Shield extends Spell {
-	
-	public Shield(Zephyrus plugin) {
-		super(plugin);
-	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "shield";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Keeps enemies away by zapping them if they get too close";
 	}
 
@@ -52,13 +51,14 @@ public class Shield extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int damage = getConfig().getInt(name() + ".damage");
-		int time = getConfig().getInt(name() + ".duration");
+	public boolean run(Player player, String[] args) {
+		int damage = getConfig().getInt(getName() + ".damage");
+		int time = getConfig().getInt(getName() + ".duration");
 		playerMap.add(player.getName());
-		new Run(player, damage).runTaskTimer(Zephyrus.getInstance(),
+		new Run(player, damage).runTaskTimer(Zephyrus.getPlugin(),
 				(long) 0.5, (long) 0.5);
 		startDelay(player, time * 20);
+		return true;
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class Shield extends Spell {
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.DIAMOND_SWORD));
 		i.add(new ItemStack(Material.DIAMOND_CHESTPLATE));
@@ -75,12 +75,7 @@ public class Shield extends Spell {
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.DAMAGE;
-	}
-
-	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("duration", 60);
 		map.put("damage", 1);
@@ -114,6 +109,26 @@ public class Shield extends Spell {
 				this.cancel();
 			}
 		}
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.BUFF;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.GENERIC;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.MEDIUM;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.ZephyrusPlugin;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -18,37 +19,38 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ItemDelay {
 
-	public static void setDelay(Zephyrus plugin, Player player,
+	public static void setDelay(Player player,
 			CustomItem item, int delay) {
-		if (plugin.itemDelay.containsKey(player.getName())) {
-			Map<String, Integer> s = plugin.itemDelay.get(player.getName());
-			s.put(item.name(), delay);
-			plugin.itemDelay.put(player.getName(), s);
-			new CooldownUtil(plugin, player, item).runTaskLater(plugin, 20);
+		ZephyrusPlugin plugin = Zephyrus.getPlugin();
+		if (Zephyrus.getDelayMap().containsKey(player.getName())) {
+			Map<String, Integer> s = Zephyrus.getDelayMap().get(player.getName());
+			s.put(item.getConfigName(), delay);
+			Zephyrus.getDelayMap().put(player.getName(), s);
+			new CooldownUtil(player, item).runTaskLater(plugin, 20);
 		} else {
 			Map<String, Integer> s = new HashMap<String, Integer>();
-			s.put(item.name(), delay);
-			plugin.itemDelay.put(player.getName(), s);
-			new CooldownUtil(plugin, player, item).runTaskLater(plugin, 20);
+			s.put(item.getConfigName(), delay);
+			Zephyrus.getDelayMap().put(player.getName(), s);
+			new CooldownUtil(player, item).runTaskLater(plugin, 20);
 		}
 	}
 
-	public static boolean hasDelay(Zephyrus plugin, Player player,
+	public static boolean hasDelay(Player player,
 			CustomItem item) {
-		if (plugin.itemDelay.containsKey(player.getName())) {
-			Map<String, Integer> s = plugin.itemDelay.get(player.getName());
-			if (s.containsKey(item.name())) {
+		if (Zephyrus.getDelayMap().containsKey(player.getName())) {
+			Map<String, Integer> s = Zephyrus.getDelayMap().get(player.getName());
+			if (s.containsKey(item.getConfigName())) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public static int getDelay(Zephyrus plugin, Player player, CustomItem item) {
-		if (plugin.itemDelay.containsKey(player.getName())) {
-			Map<String, Integer> s = plugin.itemDelay.get(player.getName());
-			if (s.containsKey(item.name())) {
-				int i = s.get(item.name());
+	public static int getDelay(Player player, CustomItem item) {
+		if (Zephyrus.getDelayMap().containsKey(player.getName())) {
+			Map<String, Integer> s = Zephyrus.getDelayMap().get(player.getName());
+			if (s.containsKey(item.getConfigName())) {
+				int i = s.get(item.getConfigName());
 				int ret = Math.round(i / 20);
 				return ret;
 			} else {
@@ -65,25 +67,23 @@ class CooldownUtil extends BukkitRunnable {
 
 	CustomItem item;
 	Player player;
-	Zephyrus plugin;
 
-	CooldownUtil(Zephyrus plugin, Player player, CustomItem item) {
+	CooldownUtil(Player player, CustomItem item) {
 		this.item = item;
-		this.plugin = plugin;
 		this.player = player;
 	}
 
 	@Override
 	public void run() {
-		Map<String, Integer> s = plugin.itemDelay.get(player.getName());
-		int i = s.get(item.name());
+		Map<String, Integer> s = Zephyrus.getDelayMap().get(player.getName());
+		int i = s.get(item.getConfigName());
 		i = i - 20;
 		if (i <= 0) {
-			s.remove(item.name());
+			s.remove(item.getConfigName());
 		} else {
-			s.put(item.name(), i);
-			new CooldownUtil(plugin, player, item).runTaskLater(plugin, 20);
+			s.put(item.getConfigName(), i);
+			new CooldownUtil(player, item).runTaskLater(Zephyrus.getPlugin(), 20);
 		}
-		plugin.itemDelay.put(player.getName(), s);
+		Zephyrus.getDelayMap().put(player.getName(), s);
 	}
 }

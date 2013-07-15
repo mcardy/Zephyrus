@@ -8,6 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -37,18 +41,18 @@ public class Summon extends Spell {
 
 	List<Entity> en;
 	
-	public Summon(Zephyrus plugin) {
-		super(plugin);
+	public Summon() {
 		en = new ArrayList<Entity>();
+		Lang.add("spells.summon.fail", "The undead can't be spawned there!");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "summon";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Summon the dead to fight with you";
 	}
 
@@ -63,14 +67,15 @@ public class Summon extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
+		if (canRun(player, args)) {
 		Block block = player.getTargetBlock(null, 100);
 		Location loc = block.getLocation();
 		loc.setY(loc.getY() + 1);
 		Skeleton skel = loc.getWorld().spawn(loc, Skeleton.class);
-		skel.setMetadata("owner", new FixedMetadataValue(Zephyrus.getInstance(), player.getName()));
+		skel.setMetadata("owner", new FixedMetadataValue(Zephyrus.getPlugin(), player.getName()));
 		en.add(skel);
-		new End(skel).runTaskLater(Zephyrus.getInstance(), getConfig().getInt(this.name() + ".duration") * 20);
+		new End(skel).runTaskLater(Zephyrus.getPlugin(), getConfig().getInt(getName() + ".duration") * 20);
 		for (Entity e : skel.getNearbyEntities(20, 20, 20)) {
 			if (e instanceof LivingEntity && e != player) {
 				CraftCreature m = (CraftCreature) skel;
@@ -79,9 +84,13 @@ public class Summon extends Spell {
 				break;
 			}
 		}
+		return true;
+		} else {
+			Lang.errMsg("spells.summon.fail", player);
+			return false;
+		}
 	}
 
-	@Override
 	public boolean canRun(Player player, String[] args) {
 		Block block = player.getTargetBlock(null, 100);
 		Location loc = block.getLocation();
@@ -93,11 +102,6 @@ public class Summon extends Spell {
 	}
 	
 	@Override
-	public String failMessage() {
-		return "You can't spawn a mob there!";
-	}
-	
-	@Override
 	public void onDisable() {
 		for (Entity entity : en) {
 			entity.remove();
@@ -105,23 +109,18 @@ public class Summon extends Spell {
 	}
 	
 	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> cfg = new HashMap<String, Object>();
 		cfg.put("duration", 60);
 		return cfg;
 	}
 	
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.ROTTEN_FLESH, 64));
 		i.add(new ItemStack(Material.BONE, 64));
 		return i;
-	}
-
-	@Override
-	public SpellType type() {
-		return SpellType.CONJURE;
 	}
 	
 	@EventHandler
@@ -146,6 +145,26 @@ public class Summon extends Spell {
 		public void run() {
 			entity.damage(1000);
 		}
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.CREATION;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.GENERIC;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.HIGH;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
 	}
 	
 }

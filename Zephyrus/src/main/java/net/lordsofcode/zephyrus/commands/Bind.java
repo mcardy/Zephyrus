@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.spells.Spell;
+import net.lordsofcode.zephyrus.api.ISpell;
+import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
@@ -29,10 +30,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Bind implements CommandExecutor,
 		TabCompleter {
 
-	Zephyrus plugin;
-
-	public Bind(Zephyrus plugin) {
-		this.plugin = plugin;
+	public Bind() {
 		Lang.add("bind.nospell", "Specify a spell to bind!");
 		Lang.add("bind.needwand", "You need to be holding a wand!");
 		Lang.add("bind.cantbind", "$6[SPELL] cannot be bound!");
@@ -48,11 +46,12 @@ public class Bind implements CommandExecutor,
 				if (args.length == 0) {
 					Lang.errMsg("bind.nospell", sender);
 				} else {
-					if (Zephyrus.spellMap.containsKey(args[0])) {
-						Spell spell = Zephyrus.spellMap.get(args[0]);
+					if (Zephyrus.getSpellMap().containsKey(args[0])) {
+						ISpell spell = Zephyrus.getSpellMap().get(args[0]);
 						Player player = (Player) sender;
-						if (spell.isLearned(player, spell.getDisplayName().toLowerCase())
-								|| spell.hasPermission(player, spell)) {
+						IUser user = Zephyrus.getUser(player);
+						if (user.isLearned(spell)
+								|| user.hasPermission(spell)) {
 							if (player.getItemInHand() != null
 									&& player.getItemInHand().hasItemMeta()
 									&& player.getItemInHand().getItemMeta()
@@ -126,7 +125,7 @@ public class Bind implements CommandExecutor,
 
 	public List<String> learned(CommandSender p) {
 		Player player = (Player) p;
-		return PlayerConfigHandler.getConfig(plugin, player).getStringList(
+		return PlayerConfigHandler.getConfig(player).getStringList(
 				"learned");
 	}
 

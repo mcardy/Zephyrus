@@ -1,10 +1,14 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Creature;
@@ -21,18 +25,18 @@ import org.bukkit.inventory.ItemStack;
  */
 
 public class LifeSteal extends Spell {
-
-	public LifeSteal(Zephyrus plugin) {
-		super(plugin);
+	
+	public LifeSteal() {
+		Lang.add("spells.lifesteal.fail", "No one to suck the life out of...");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "lifesteal";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "This spell will damage your enemy and give you their health";
 	}
 
@@ -47,32 +51,27 @@ public class LifeSteal extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
+		Entity e = getTarget(player);
+		if (e == null || !(e instanceof Creature)) {
+			Lang.errMsg("spells.lifesteal.fail", player);
+			return false;
+		}
 		Creature en = (Creature) getTarget(player);
 		en.damage(2);
 		try {
 			player.setHealth(player.getMaxHealth() + 2);
-		} catch (Exception e) {
+		} catch (Exception ex) {
 			player.setHealth(player.getMaxHealth());
 		}
+		return true;
 	}
 
 	@Override
-	public boolean canRun(Player player, String[] args) {
-		Entity en = getTarget(player);
-		return en != null && en instanceof Creature;
-	}
-
-	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
 		s.add(new ItemStack(Material.GHAST_TEAR, 2));
 		return s;
-	}
-
-	@Override
-	public SpellType type() {
-		return SpellType.DAMAGE;
 	}
 
 	@Override
@@ -90,6 +89,26 @@ public class LifeSteal extends Spell {
 		}
 		return false;
 
+	}
+
+	@Override
+	public Map<String, Object> getConfiguration() {
+		return null;
+	}
+
+	@Override
+	public EffectType getPrimaryType() {
+		return EffectType.ATTACK;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.GENERIC;
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
 	}
 
 }

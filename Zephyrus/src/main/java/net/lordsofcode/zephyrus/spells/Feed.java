@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Material;
@@ -22,19 +24,18 @@ import org.bukkit.inventory.ItemStack;
 
 public class Feed extends Spell {
 
-	public Feed(Zephyrus plugin) {
-		super(plugin);
+	public Feed() {
 		Lang.add("spells.feed.applied", "You feel slightly less hungry");
 		Lang.add("spells.feed.side", "You feel slightly more hungry...");
 	}
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "feed";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "You hungry? Not anymore!";
 	}
 
@@ -49,38 +50,26 @@ public class Feed extends Spell {
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		int a = getConfig().getInt(this.name() + ".amount");
+	public boolean run(Player player, String[] args) {
+		int a = getConfig().getInt(getName() + ".amount");
 		if (player.getFoodLevel() + a > 20) {
 			player.setFoodLevel(20);
 		} else {
 			player.setFoodLevel(player.getFoodLevel() + a);
 		}
 		Lang.msg("spells.feed.applied", player);
-	}
-
-	@Override
-	public boolean canRun(Player player, String[] args) {
-		if (player.getFoodLevel() == 20) {
-			return false;
-		}
 		return true;
 	}
 
 	@Override
-	public String failMessage() {
-		return "You are already at max hunger!";
-	}
-	
-	@Override
-	public Map<String, Object> getConfigurations() {
+	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("amount", 4);
 		return map;
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> items = new HashSet<ItemStack>();
 		items.add(new ItemStack(Material.COOKED_BEEF));
 		items.add(new ItemStack(Material.COOKED_CHICKEN));
@@ -89,8 +78,18 @@ public class Feed extends Spell {
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.RESTORE;
+	public EffectType getPrimaryType() {
+		return EffectType.RESTORE;
+	}
+
+	@Override
+	public Element getElementType() {
+		return Element.GENERIC;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
 	}
 	
 	@Override

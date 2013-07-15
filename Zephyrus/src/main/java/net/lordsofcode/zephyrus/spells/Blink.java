@@ -1,10 +1,14 @@
 package net.lordsofcode.zephyrus.spells;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.hooks.PluginHook;
+import net.lordsofcode.zephyrus.PluginHook;
+import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Element;
+import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.ChatColor;
@@ -26,17 +30,17 @@ import org.bukkit.inventory.ItemStack;
 
 public class Blink extends Spell {
 
-	public Blink(Zephyrus plugin) {
-		super(plugin);
+	public Blink () {
+		Lang.add("spells.blink.fail", ChatColor.DARK_RED + "Can't blink there!");
 	}
-
+	
 	@Override
-	public String name() {
+	public String getName() {
 		return "blink";
 	}
 
 	@Override
-	public String bookText() {
+	public String getDesc() {
 		return "Gets you from point A to point C without bothering with point B";
 	}
 
@@ -51,31 +55,14 @@ public class Blink extends Spell {
 	}
 
 	@Override
-	public Set<ItemStack> spellItems() {
+	public Set<ItemStack> items() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
 		i.add(new ItemStack(Material.ENDER_PEARL));
 		return i;
 	}
 
 	@Override
-	public void run(Player player, String[] args) {
-		Location loc = player.getTargetBlock(null, 100).getLocation();
-		Location oldLoc = player.getLocation();
-		ParticleEffects.sendToLocation(ParticleEffects.ENDER,
-				oldLoc, 1, 1, 1, 1, 16);
-		player.getWorld().playSound(player.getLocation(),
-				Sound.ENDERMAN_TELEPORT, 10, 1);
-		loc.setX(loc.getX() + 0.5);
-		loc.setY(loc.getY() + 0.25);
-		loc.setZ(loc.getZ() + 0.5);
-		loc.setPitch(player.getLocation().getPitch());
-		loc.setYaw(player.getLocation().getYaw());
-		player.teleport(loc);
-		player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 0);
-	}
-
-	@Override
-	public boolean canRun(Player player, String[] args) {
+	public boolean run(Player player, String[] args) {
 		if (player.getTargetBlock(null, 100) != null
 				&& player.getTargetBlock(null, 100).getType() != Material.AIR) {
 			Location loc = player.getTargetBlock(null, 100).getLocation();
@@ -86,20 +73,50 @@ public class Blink extends Spell {
 			Block block2 = loc2.getBlock();
 			if (block.getType() == Material.AIR
 					&& block2.getType() == Material.AIR) {
-				return PluginHook.canBuild(player, block);
+				if (PluginHook.canBuild(player, block)) {
+					Location oldLoc = player.getLocation();
+					ParticleEffects.sendToLocation(ParticleEffects.ENDER,
+							oldLoc, 1, 1, 1, 1, 16);
+					player.getWorld().playSound(player.getLocation(),
+							Sound.ENDERMAN_TELEPORT, 10, 1);
+					loc.setX(loc.getX() + 0.5);
+					loc.setY(loc.getY() + 0.25);
+					loc.setZ(loc.getZ() + 0.5);
+					loc.setPitch(player.getLocation().getPitch());
+					loc.setYaw(player.getLocation().getYaw());
+					player.teleport(loc);
+					player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 0);
+					return true;
+				}
 			}
 		}
+		Lang.errMsg("spells.blink.fail", player);
 		return false;
 	}
 
 	@Override
-	public String failMessage() {
-		return ChatColor.GRAY + "Cannot blink there!";
+	public Map<String, Object> getConfiguration() {
+		return null;
 	}
 
 	@Override
-	public SpellType type() {
-		return SpellType.TELEPORTATION;
+	public EffectType getPrimaryType() {
+		return EffectType.TELEPORTATION;
 	}
 
+	@Override
+	public Element getElementType() {
+		return Element.ENDER;
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.LOW;
+	}
+
+	@Override
+	public boolean sideEffect(Player player, String[] args) {
+		return false;
+	}
+	
 }

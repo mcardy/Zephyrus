@@ -26,23 +26,19 @@ import org.bukkit.inventory.ShapedRecipe;
 
 public class HoeOfGrowth extends CustomItem {
 
-	public HoeOfGrowth(Zephyrus plugin) {
-		super(plugin);
-	}
-
 	@Override
-	public String name() {
+	public String getName() {
 		return ChatColor.getByChar("a") + "Hoe of Growth";
 	}
 
 	@Override
-	public int maxLevel() {
+	public int getMaxLevel() {
 		return 2;
 	}
 
 	@Override
-	public Recipe recipe() {
-		ItemStack grow_hoe = item();
+	public Recipe getRecipe() {
+		ItemStack grow_hoe = getItem();
 		ShapedRecipe recipe = new ShapedRecipe(grow_hoe);
 		recipe.shape("CBC", "BAB", "CBC");
 		recipe.setIngredient('C', Material.SAPLING);
@@ -52,11 +48,11 @@ public class HoeOfGrowth extends CustomItem {
 	}
 
 	@Override
-	public ItemStack item() {
+	public ItemStack getItem() {
 		ItemStack i = new ItemStack(Material.GOLD_HOE);
-		setItemName(i, this.name());
+		setItemName(i, getDisplayName());
 		setItemLevel(i, 1);
-		i.addEnchantment(plugin.glow, 1);
+		i.addEnchantment(Zephyrus.getInstance().glow, 1);
 		return i;
 	}
 
@@ -66,7 +62,7 @@ public class HoeOfGrowth extends CustomItem {
 		if (e.getClickedBlock() != null
 				&& e.getAction() == Action.RIGHT_CLICK_BLOCK
 				&& e.getClickedBlock().getTypeId() == 59
-				&& checkName(e.getPlayer().getItemInHand(), name())
+				&& checkName(e.getPlayer().getItemInHand(), getDisplayName())
 				&& e.getClickedBlock().getData() != 7) {
 			e.getClickedBlock().setData((byte) 7);
 			Location loc = e.getClickedBlock().getLocation();
@@ -79,7 +75,7 @@ public class HoeOfGrowth extends CustomItem {
 		}
 		if (e.getClickedBlock() != null
 				&& e.getClickedBlock().getType() == Material.SAPLING
-				&& checkName(e.getPlayer().getItemInHand(), name())
+				&& checkName(e.getPlayer().getItemInHand(), getDisplayName())
 				&& e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (getItemLevel(e.getPlayer().getItemInHand()) == 1) {
 				Block b = e.getClickedBlock();
@@ -152,7 +148,7 @@ public class HoeOfGrowth extends CustomItem {
 	}
 
 	@Override
-	public String perm() {
+	public String getPerm() {
 		return "growhoe";
 	}
 }

@@ -1,6 +1,6 @@
 package net.lordsofcode.zephyrus.events;
 
-import net.lordsofcode.zephyrus.spells.Spell;
+import net.lordsofcode.zephyrus.api.ISpell;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -21,15 +21,24 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 
 	private boolean cancelled;
 	private Player player;
-	private Spell spell;
+	private ISpell spell;
+	private boolean sideEffect;
 	private String[] args;
 
-	public PlayerCastSpellEvent(Player player, Spell spell, String[] args) {
+	public PlayerCastSpellEvent(Player player, ISpell spell, String[] args) {
 		this.player = player;
 		this.spell = spell;
 		this.args = args;
+		sideEffect = false;
 	}
 
+	public PlayerCastSpellEvent(Player player, ISpell spell, String[] args, boolean b) {
+		this.player = player;
+		this.spell = spell;
+		this.args = args;
+		this.sideEffect = b;
+	}
+	
 	@Override
 	public HandlerList getHandlers() {
 		return handlers;
@@ -47,7 +56,7 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 	 * Gets the spell that was cast
 	 * @return The spell that was cast
 	 */
-	public Spell getSpell() {
+	public ISpell getSpell() {
 		return spell;
 	}
 
@@ -63,6 +72,10 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 		return args;
 	}
 
+	public boolean isSideEffect() {
+		return sideEffect;
+	}
+	
 	/**
 	 * Gets the cancellation state of this event
 	 */
