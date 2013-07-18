@@ -36,7 +36,11 @@ public class SpellManager {
 	 * @param spell The ISpell to add
 	 */
 	public void addSpell(ISpell spell) {
-		addSpell(spell, true);
+		if (spell instanceof Spell) {
+			addSpell(spell, true);
+		} else {
+			addSpell(spell, false);
+		}
 	}
 	
 	/**
