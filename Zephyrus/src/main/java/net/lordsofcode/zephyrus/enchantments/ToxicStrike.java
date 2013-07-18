@@ -3,6 +3,9 @@ package net.lordsofcode.zephyrus.enchantments;
 import java.util.Map;
 import java.util.Random;
 
+
+import net.lordsofcode.zephyrus.api.CustomEnchantment;
+
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.LivingEntity;

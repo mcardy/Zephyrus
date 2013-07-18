@@ -1,6 +1,5 @@
-package net.lordsofcode.zephyrus.enchantments;
+package net.lordsofcode.zephyrus.api;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +7,6 @@ import java.util.Random;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -36,17 +34,6 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 	 */
 	public CustomEnchantment(int id) {
 		super(id);
-		try {
-			Field f = Enchantment.class.getDeclaredField("acceptingNew");
-			f.setAccessible(true);
-			f.set(null, true);
-		} catch (Exception e) {
-		}
-		try {
-			Enchantment.registerEnchantment(this);
-		} catch (IllegalArgumentException e) {
-		}
-		Bukkit.getPluginManager().registerEvents(this, Zephyrus.getPlugin());
 	}
 
 	/**

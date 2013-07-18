@@ -1,18 +1,25 @@
 package net.lordsofcode.zephyrus;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Set;
 
+import net.lordsofcode.zephyrus.api.CustomEnchantment;
 import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.api.SpellManager;
 import net.lordsofcode.zephyrus.enchantments.GlowEffect;
+import net.lordsofcode.zephyrus.loader.SpellLoader;
 import net.lordsofcode.zephyrus.player.User;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
+import net.lordsofcode.zephyrus.utils.ItemUtil;
 import net.lordsofcode.zephyrus.utils.Merchant;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,7 +35,8 @@ public class Zephyrus {
 
 	static Zephyrus instance;
 	static SpellManager spellManager;
-	
+
+	SpellLoader loader = new SpellLoader();
 	ConfigHandler spellsConfig = new ConfigHandler("spells.yml");
 	ConfigHandler enchantmentsConfig = new ConfigHandler("enchantments.yml");
 	ConfigHandler langConfig = new ConfigHandler("lang.yml");
@@ -157,6 +165,30 @@ public class Zephyrus {
 		if (i.hasLevel() && i.getName() != null) {
 			Zephyrus.itemMap.put(i.getName(), i);
 		}
+		if (i.hasLevel()) {
+			for (int n = 1; n < i.getMaxLevel(); n++) {
+				ItemStack item = i.getItem();
+				new ItemUtil().setItemLevel(item, n);
+				ItemStack item2 = i.getItem();
+				int n2 = n;
+				new ItemUtil().setItemLevel(item2, n2 + 1);
+				Merchant m = new Merchant();
+				m.addOffer(item, new ItemStack(Material.EMERALD, n),
+						item2);
+				Zephyrus.merchantMap.put(item, m);
+			}
+		}
+	}
+	
+	public static void registerEnchantment(CustomEnchantment e) {
+		try {
+			Field f = Enchantment.class.getDeclaredField("acceptingNew");
+			f.setAccessible(true);
+			f.set(null, true);
+			Enchantment.registerEnchantment(e);
+		} catch (Exception ex) {
+		}
+		Bukkit.getPluginManager().registerEvents(e, Zephyrus.getPlugin());
 	}
 	
 }

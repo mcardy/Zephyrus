@@ -16,6 +16,7 @@ import org.bukkit.inventory.Recipe;
 
 public interface ICustomItem extends Listener {
 
+	
 	public String getName();
 	public String getDisplayName();
 	

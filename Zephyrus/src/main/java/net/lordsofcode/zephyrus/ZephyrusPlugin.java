@@ -1,6 +1,7 @@
 package net.lordsofcode.zephyrus;
 
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,14 +77,12 @@ import net.lordsofcode.zephyrus.spells.Vanish;
 import net.lordsofcode.zephyrus.spells.Vision;
 import net.lordsofcode.zephyrus.spells.Zap;
 import net.lordsofcode.zephyrus.spells.Zephyr;
-import net.lordsofcode.zephyrus.utils.ItemUtil;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.Merchant;
 import net.lordsofcode.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -133,8 +132,6 @@ public class ZephyrusPlugin extends JavaPlugin {
 		addEnchants();
 		addItems();
 		addListeners();
-
-		getLogger().info("Setup complete!");
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			Zephyrus.getUser(p).loadMana();
@@ -317,10 +314,16 @@ public class ZephyrusPlugin extends JavaPlugin {
 		//Z
 		Zephyrus.registerSpell(new Zap());
 		Zephyrus.registerSpell(new Zephyr());
+		
+		try {
+			zephyrus.loader.loadSpells();
+		} catch (MalformedURLException e) {
+			getLogger().warning("Error loading spells from spells folder: " + e.getMessage());
+		}
+		zephyrus.loader.registerSpells();
 	}
 
 	private void addItems() {
-		// TODO Zephyrus.addItem()
 		getLogger().info("Loading items...");
 		if (!getConfig().getBoolean("Disable-Recipes")) {
 			Zephyrus.registerItem(new BlinkPearl());
@@ -335,25 +338,22 @@ public class ZephyrusPlugin extends JavaPlugin {
 	private void addEnchants() {
 		getLogger().info("Loading enchantments...");
 		if (getConfig().getBoolean("Enable-Enchantments")) {
-			new InstaMine(123);
-			new LifeSuck(124);
-			new ToxicStrike(125);
-			new BattleAxe(126);
+			Zephyrus.registerEnchantment(new InstaMine(123));
+			Zephyrus.registerEnchantment(new LifeSuck(124));
+			Zephyrus.registerEnchantment(new ToxicStrike(125));
+			Zephyrus.registerEnchantment(new BattleAxe(126));
 		} else if (getConfig().contains("Enable-Enchantments")) {
-			new InstaMine(123);
-			new LifeSuck(124);
-			new ToxicStrike(125);
-			new BattleAxe(126);
+			Zephyrus.registerEnchantment(new InstaMine(123));
+			Zephyrus.registerEnchantment(new LifeSuck(124));
+			Zephyrus.registerEnchantment(new ToxicStrike(125));
+			Zephyrus.registerEnchantment(new BattleAxe(126));
 		}
 		try {
 			Field f = Enchantment.class.getDeclaredField("acceptingNew");
 			f.setAccessible(true);
 			f.set(null, true);
-		} catch (Exception e) {
-		}
-		try {
 			Enchantment.registerEnchantment(zephyrus.glow);
-		} catch (IllegalArgumentException e) {
+		} catch (Exception e) {
 		}
 	}
 
@@ -380,22 +380,6 @@ public class ZephyrusPlugin extends JavaPlugin {
 	private class PostInit extends BukkitRunnable {
 		@Override
 		public void run() {
-			for (ICustomItem ci : Zephyrus.itemMap.values()) {
-				if (ci.hasLevel()) {
-					for (int i = 1; i < ci.getMaxLevel(); i++) {
-						ItemStack item = ci.getItem();
-						new ItemUtil().setItemLevel(item, i);
-						ItemStack item2 = ci.getItem();
-						int i2 = i;
-						new ItemUtil().setItemLevel(item2, i2 + 1);
-						Merchant m = new Merchant();
-						m.addOffer(item, new ItemStack(Material.EMERALD, i),
-								item2);
-						Zephyrus.merchantMap.put(item, m);
-					}
-				}
-			}
-
 			zephyrus.lang = zephyrus.langConfig.getConfig();
 			zephyrus.spells = zephyrus.spellsConfig.getConfig();
 
@@ -412,7 +396,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 			getLogger()
 					.info("Loaded " + manager.getRegisteredSpells()
 							+ " spells. " + manager.getBuiltInSpells()
-							+ " internal spells and "
+							+ " built in & "
 							+ manager.getExternalSpells() + " external spells.");
 		}
 	}
