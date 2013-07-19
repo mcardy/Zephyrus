@@ -55,7 +55,7 @@ public class Zephyrus {
 	static Map<String, Integer> mana;
 	static Map<String, ICustomItem> itemMap;
 	static Map<ItemStack, Merchant> merchantMap;
-
+	
 	int builtInSpells = 0;
 	
 	public Zephyrus() {

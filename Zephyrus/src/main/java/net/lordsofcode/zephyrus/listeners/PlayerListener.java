@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.events.PlayerCastSpellEvent;
 import net.lordsofcode.zephyrus.events.PlayerCraftCustomItemEvent;
 import net.lordsofcode.zephyrus.utils.ItemUtil;
+import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 import net.lordsofcode.zephyrus.utils.UpdateChecker;
 
@@ -88,13 +90,15 @@ public class PlayerListener extends ItemUtil implements Listener {
 
 	@EventHandler
 	public void playerFile(PlayerJoinEvent e) {
-		File playerFiles = new File(Zephyrus.getPlugin().getDataFolder(), "Players");
+		File playerFiles = new File(Zephyrus.getPlugin().getDataFolder(),
+				"Players");
 		File checkPlayer = new File(playerFiles, e.getPlayer().getName()
 				+ ".yml");
 		Player player = e.getPlayer();
 		if (!checkPlayer.exists()) {
 			FileConfiguration cfg = PlayerConfigHandler.getConfig(player);
-			if (cfg.contains("mana") && cfg.contains("learned") && cfg.contains("progress")) {
+			if (cfg.contains("mana") && cfg.contains("learned")
+					&& cfg.contains("progress")) {
 				if (cfg.contains("Level")) {
 					int level = cfg.getInt("Level");
 					cfg.set("Level", null);
@@ -148,14 +152,14 @@ public class PlayerListener extends ItemUtil implements Listener {
 	}
 
 	@EventHandler
-	public void onSpellCast(PlayerCastSpellEvent e) {
+	public void sideEffect(PlayerCastSpellEvent e) {
 		if (e.isSideEffect()) {
 			return;
 		}
 		if (Zephyrus.getConfig().getBoolean("Enable-Side-Effects")
 				|| !Zephyrus.getConfig().contains("Enable-Side-Effects")) {
-			int chanceMultiplier = Zephyrus.getPlugin().getConfig().getInt(
-					"Side-Effect-Chance");
+			int chanceMultiplier = Zephyrus.getPlugin().getConfig()
+					.getInt("Side-Effect-Chance");
 			if (chanceMultiplier < 1) {
 				chanceMultiplier = 1;
 			}
@@ -164,15 +168,26 @@ public class PlayerListener extends ItemUtil implements Listener {
 					* chanceMultiplier;
 			if (rand.nextInt(chance) == 0) {
 				boolean b = e.getSpell().sideEffect(e.getPlayer(), e.getArgs());
-				PlayerCastSpellEvent ev = new PlayerCastSpellEvent(e.getPlayer(), e.getSpell(), e.getArgs(), true);
+				PlayerCastSpellEvent ev = new PlayerCastSpellEvent(
+						e.getPlayer(), e.getSpell(), e.getArgs(), true);
 				Bukkit.getPluginManager().callEvent(ev);
 				if (b == true) {
 					e.setCancelled(true);
 					if (!ev.isCancelled()) {
-						Zephyrus.getUser(e.getPlayer()).drainMana(e.getSpell().getManaCost());
+						Zephyrus.getUser(e.getPlayer()).drainMana(
+								e.getSpell().getManaCost());
 					}
 				}
 			}
 		}
 	}
+	
+	@EventHandler
+	public void onRegionCast(PlayerCastSpellEvent e) {
+		if (!PluginHook.canCast(e.getPlayer(), e.getPlayer().getLocation())) {
+			e.setCancelled(true);
+			Lang.errMsg("nospellzone", e.getPlayer());
+		}
+	}
+	
 }

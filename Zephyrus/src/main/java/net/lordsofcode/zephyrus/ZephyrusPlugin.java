@@ -166,6 +166,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 	private void setupHooks() {
 		if (PluginHook.isWorldGuard()) {
 			getLogger().info("WorldGuard found. Protections integrated");
+			PluginHook.loadFlags();
 		}
 		if (PluginHook.isEconomy()) {
 			getLogger().info("Vault found. Integrating economy!");
@@ -195,7 +196,8 @@ public class ZephyrusPlugin extends JavaPlugin {
 		Lang.add("disabled", "That spell has been disabled...");
 		Lang.add("notlearned", "You do not know that spell!");
 		Lang.add("worldguard", "You do not have permission for this area!");
-
+		Lang.add("nospellzone", "You are in a no spell zone! You can't cast spells!");
+		
 		Lang.add("spelltome.learn",
 				"Learn this spell by left clicking this book");
 		Lang.add("spelltome.cast", "Cast this spell with $b/cast [SPELL]$0");
