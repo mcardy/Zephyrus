@@ -28,7 +28,7 @@ import org.bukkit.inventory.ItemStack;
  * 
  * @author minnymin3
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- * 
+ * @version 1.3.0 Beta
  */
 
 public class Zephyrus {
@@ -41,9 +41,6 @@ public class Zephyrus {
 	ConfigHandler enchantmentsConfig = new ConfigHandler("enchantments.yml");
 	ConfigHandler langConfig = new ConfigHandler("lang.yml");
 	ConfigHandler itemsConfig = new ConfigHandler("items.yml");
-
-	public FileConfiguration lang;
-	public FileConfiguration spells;
 
 	public GlowEffect glow = new GlowEffect(120);
 
@@ -131,30 +128,59 @@ public class Zephyrus {
 		return itemMap;
 	}
 	
+	/**
+	 * Gets the custom item trading map
+	 * @return
+	 */
 	public static Map<ItemStack, Merchant> getTradeMap() {
 		return merchantMap;
 	}
 	
+	/**
+	 * Gets the item delay map
+	 * @return
+	 */
 	public static Map<String, Map<String, Integer>> getDelayMap() {
 		return itemDelay;
 	}
 	
+	/**
+	 * Gets the custom item merchant map
+	 * @return
+	 */
 	public static Map<String, Merchant> getMerchantMap() {
 		return invPlayers;
 	}
 	
+	/**
+	 * Gets the SpellManager for this instance of Zephyrus
+	 * @return
+	 */
 	public static SpellManager getSpellManager() {
 		return spellManager;
 	}
 	
+	/**
+	 * Registers that ISpell
+	 * @param spell
+	 */
 	public static void registerSpell(ISpell spell) {
 		getSpellManager().addSpell(spell);
 	}
 	
+	/**
+	 * Wraps the user from the specified player
+	 * @param player The player to wrap
+	 * @return An IUser object of the specified player
+	 */
 	public static IUser getUser(Player player) {
 		return new User(player);
 	}
 	
+	/**
+	 * Registers the custom item
+	 * @param i
+	 */
 	public static void registerItem(ICustomItem i) {
 		if (i.getRecipe() != null) {
 			getPlugin().getServer().addRecipe(i.getRecipe());
@@ -180,6 +206,10 @@ public class Zephyrus {
 		}
 	}
 	
+	/**
+	 * Registers the specified enchantment
+	 * @param e
+	 */
 	public static void registerEnchantment(CustomEnchantment e) {
 		try {
 			Field f = Enchantment.class.getDeclaredField("acceptingNew");

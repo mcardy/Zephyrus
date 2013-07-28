@@ -98,22 +98,42 @@ public class SpellManager {
 		}
 	}
 	
+	/**
+	 * Gets the number of built in spells
+	 * @return
+	 */
 	public int getBuiltInSpells() {
 		return builtInSpells;
 	}
 	
+	/**
+	 * Gets the number of external spells
+	 * @return
+	 */
 	public int getExternalSpells() {
 		return spellMap.size() - builtInSpells;
 	}
 	
+	/**
+	 * Gets the number of registered spells
+	 * @return
+	 */
 	public int getRegisteredSpells() {
 		return spellMap.size();
 	}
 	
+	/**
+	 * Gets the registered spells map
+	 * @return
+	 */
 	public Map<String, ISpell> getSpellMap() {
 		return spellMap;
 	}
 	
+	/**
+	 * Gets the registered spell recipe map
+	 * @return
+	 */
 	public Map<Set<ItemStack>, ISpell> getCraftMap() {
 		return spellCraftMap;
 	}

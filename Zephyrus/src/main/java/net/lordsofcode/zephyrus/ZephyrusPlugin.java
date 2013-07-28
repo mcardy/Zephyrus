@@ -382,8 +382,6 @@ public class ZephyrusPlugin extends JavaPlugin {
 	private class PostInit extends BukkitRunnable {
 		@Override
 		public void run() {
-			zephyrus.lang = zephyrus.langConfig.getConfig();
-			zephyrus.spells = zephyrus.spellsConfig.getConfig();
 
 			try {
 				for (String s : zephyrus.updateMsg) {

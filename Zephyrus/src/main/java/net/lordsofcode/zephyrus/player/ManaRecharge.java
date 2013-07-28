@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * 
  */
 
-public class ManaRecharge extends BukkitRunnable {
+class ManaRecharge extends BukkitRunnable {
 
 	Player player;
 

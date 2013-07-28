@@ -154,7 +154,7 @@ public interface ISpell extends Listener {
 	 * @param power The power of the spell
 	 * @return
 	 */
-	public boolean comboSpell(Player player, String[] args, EffectType type, Element element, int power);
+	public boolean comboSpell(Player player, String[] args, EffectType type, Element element, int power); //TODO implement
 	
 	/**
 	 * The method called when the plugin is disabled. Used to remove potion effects, reset blocks, etc.

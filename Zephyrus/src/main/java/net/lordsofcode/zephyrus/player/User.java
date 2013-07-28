@@ -34,8 +34,8 @@ public class User implements IUser {
 
 	@Override
 	public boolean isLearned(ISpell spell) {
-		return (cfg.getStringList("learned")
-				.contains(spell.getName().toLowerCase()));
+		return (cfg.getStringList("learned").contains(spell.getName()
+				.toLowerCase()));
 	}
 
 	@Override
@@ -131,17 +131,17 @@ public class User implements IUser {
 
 	@Override
 	public void loadMana() {
-		Zephyrus.getManaMap().put(player.getName(),
-				cfg.getInt("mana"));
-		new ManaRecharge(player).runTaskLater(
-				Zephyrus.getPlugin(), 30);
+		if (!Zephyrus.getManaMap().containsKey(player.getName())) {
+			Zephyrus.getManaMap().put(player.getName(), cfg.getInt("mana"));
+			new ManaRecharge(player).runTaskLater(Zephyrus.getPlugin(), 30);
+		}
 	}
 
 	@Override
 	public void reLoadMana() {
 		Zephyrus.getManaMap().put(player.getName(), getLevel() * 100);
 	}
-	
+
 	@Override
 	public void displayMana() {
 		new DisplayMana(player);

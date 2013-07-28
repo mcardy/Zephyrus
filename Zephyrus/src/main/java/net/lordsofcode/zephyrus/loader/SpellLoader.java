@@ -82,6 +82,7 @@ public class SpellLoader {
 			try {
 				ISpell spell = clazz.newInstance();
 				Zephyrus.registerSpell(spell);
+				classMap.remove(clazz);
 			} catch (InstantiationException e) {
 				Zephyrus.getPlugin()
 						.getLogger().warning("Error loading spell "

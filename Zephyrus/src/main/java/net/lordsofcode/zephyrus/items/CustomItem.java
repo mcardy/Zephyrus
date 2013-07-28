@@ -3,7 +3,6 @@ package net.lordsofcode.zephyrus.items;
 import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
 import net.lordsofcode.zephyrus.utils.ItemUtil;
-import net.lordsofcode.zephyrus.utils.Merchant;
 
 import org.bukkit.ChatColor;
 
@@ -44,11 +43,6 @@ public abstract class CustomItem extends ItemUtil implements ICustomItem {
 	
 	public String getConfigName() {
 		return ChatColor.stripColor(getName().replace(" ", "-").toLowerCase());
-	}
-	
-	@Override
-	public Merchant getMerchant() {
-		return null;
 	}
 	
 }
