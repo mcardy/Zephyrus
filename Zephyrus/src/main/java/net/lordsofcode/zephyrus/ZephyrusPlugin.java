@@ -179,8 +179,8 @@ public class ZephyrusPlugin extends JavaPlugin {
 		saveDefaultConfig();
 		zephyrus.spellsConfig.saveDefaultConfig();
 		zephyrus.langConfig.saveDefaultConfig();
-		zephyrus.enchantmentsConfig.saveDefaultConfig();
-		zephyrus.itemsConfig.saveDefaultConfig();
+		//zephyrus.enchantmentsConfig.saveDefaultConfig();
+		//zephyrus.itemsConfig.saveDefaultConfig();
 	}
 
 	private void setupLanguage() {
@@ -344,7 +344,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 			Zephyrus.registerEnchantment(new LifeSuck(124));
 			Zephyrus.registerEnchantment(new ToxicStrike(125));
 			Zephyrus.registerEnchantment(new BattleAxe(126));
-		} else if (getConfig().contains("Enable-Enchantments")) {
+		} else if (!getConfig().contains("Enable-Enchantments")) {
 			Zephyrus.registerEnchantment(new InstaMine(123));
 			Zephyrus.registerEnchantment(new LifeSuck(124));
 			Zephyrus.registerEnchantment(new ToxicStrike(125));

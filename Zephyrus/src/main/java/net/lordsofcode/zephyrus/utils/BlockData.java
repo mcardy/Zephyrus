@@ -12,7 +12,6 @@ import org.bukkit.block.Block;
  * 
  */
 
-//TODO store more data like chest, brewing stand and furnace contents
 public class BlockData {
 
 	private Material mat;

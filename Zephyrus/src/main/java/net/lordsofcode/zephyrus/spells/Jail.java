@@ -35,7 +35,6 @@ import org.bukkit.scheduler.BukkitRunnable;
  * 
  */
 
-//TODO fix chests dropping items everywhere
 public class Jail extends Spell {
 
 	Set<Map<Location, BlockData>> lmap;

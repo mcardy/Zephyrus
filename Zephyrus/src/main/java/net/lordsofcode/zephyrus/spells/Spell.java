@@ -30,7 +30,7 @@ import org.bukkit.util.BlockIterator;
 public abstract class Spell implements ISpell {
 
 	public Set<String> playerMap = new HashSet<String>();
-	
+
 	@Override
 	public String getDisplayName() {
 		if (getConfig().contains(getName() + ".displayname")) {
@@ -66,15 +66,15 @@ public abstract class Spell implements ISpell {
 	@Override
 	public Set<ItemStack> getItems() {
 		Set<ItemStack> items = new HashSet<ItemStack>();
-		//TODO Config for items
+		// TODO Configuration for items
 		return items;
 	}
-	
+
 	@Override
 	public ISpell getRequiredSpell() {
 		return null;
 	}
-	
+
 	@Override
 	public int getExp() {
 		if (getConfig().contains(getName() + ".exp")) {
@@ -90,42 +90,87 @@ public abstract class Spell implements ISpell {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void onDisable() {
 	}
-	
+
 	@Override
-	public boolean comboSpell(Player player, String[] args, EffectType type, Element element, int power) {
+	public boolean comboSpell(Player player, String[] args, EffectType type,
+			Element element, int power) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean canBind() {
 		return true;
 	}
-	
+
+	/**
+	 * An action that can be called in the future with the startDelay method
+	 * 
+	 * @param player
+	 *            The player passed in the startDelay action, usually the player
+	 *            who cast the spell
+	 */
 	public void delayedAction(Player player) {
 	}
 
+	/**
+	 * Starts the delayed timer for the delayed action. Usually used on spell
+	 * cast.
+	 * 
+	 * @param player
+	 *            The player who cast the spell and whom to pass to the
+	 *            delayedAction method
+	 * @param time
+	 *            The amount of time, in ticks, to wait to fire the delayed
+	 *            action
+	 */
 	public void startDelay(Player player, int time) {
 		new DelayedActionRunnable(this, player, time);
 	}
 
+	/**
+	 * Gets the file configuration of spells.yml
+	 */
 	public FileConfiguration getConfig() {
 		return new ConfigHandler("spells.yml").getConfig();
 	}
-	
+
+	/**
+	 * Checks if the player's target block can be broken
+	 * 
+	 * @param player
+	 *            The player to check
+	 * @return True if the block cannot be broken
+	 */
 	public boolean blockBreak(Player player) {
 		return blockBreak(player, player.getTargetBlock(null, 1000));
 	}
-	
+
+	/**
+	 * Checks if the block can be broken
+	 * 
+	 * @param player
+	 *            The player who broke the block
+	 * @param block
+	 *            The block to check
+	 * @return True if the block cannot be broken
+	 */
 	public boolean blockBreak(Player player, Block block) {
 		BlockBreakEvent e = new BlockBreakEvent(block, player);
 		Bukkit.getPluginManager().callEvent(e);
 		return e.isCancelled();
 	}
-	
+
+	/**
+	 * Gets the player's target entity
+	 * 
+	 * @param player
+	 *            The player to get the target of
+	 * @return Null if there is no target
+	 */
 	public Entity getTarget(Player player) {
 		BlockIterator iterator = new BlockIterator(player.getWorld(), player
 				.getLocation().toVector(), player.getEyeLocation()
@@ -148,28 +193,44 @@ public abstract class Spell implements ISpell {
 		}
 		return null;
 	}
-	
+
 	private class DelayedActionRunnable extends BukkitRunnable {
-		
+
 		Player player;
 		Spell spell;
-		
+
 		DelayedActionRunnable(Spell spell, Player player, int time) {
 			this.spell = spell;
 			this.player = player;
 			this.runTaskLater(Zephyrus.getPlugin(), time);
 		}
-		
+
 		@Override
 		public void run() {
 			spell.delayedAction(player);
 		}
 	}
-	
+
+	/**
+	 * Gets the spell from its default name. The spell map does not contain the
+	 * default name which is why this method is needed.
+	 * 
+	 * @param s
+	 *            The default name of the spell
+	 * @return The ISpell instance of the spell from the loaded spellmap
+	 */
 	public static ISpell forName(String s) {
 		return Zephyrus.getSpellMap().get(getSpellName(s));
 	}
-	
+
+	/**
+	 * Gets the spell's display name (the name that may have been edited in the
+	 * config) from its default name.
+	 * 
+	 * @param defaultName
+	 *            The default name of the spell
+	 * @return The spell's display name
+	 */
 	public static String getSpellName(String defaultName) {
 		FileConfiguration cfg = new ConfigHandler("spells.yml").getConfig();
 		if (cfg.contains(defaultName + ".displayname")) {

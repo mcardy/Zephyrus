@@ -1,0 +1,5 @@
+name: Zephyrus Example
+main: net.lordsofcode.zephyrus.example.ExamplePlugin
+version: 1.3.0
+author: minnymin3
+depend: [Zephyrus]

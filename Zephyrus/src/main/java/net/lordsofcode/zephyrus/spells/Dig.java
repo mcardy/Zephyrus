@@ -1,6 +1,9 @@
 package net.lordsofcode.zephyrus.spells;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -8,10 +11,8 @@ import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -46,9 +47,8 @@ public class Dig extends Spell {
 
 	@Override
 	public boolean run(Player player, String[] args) {
-		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 12), player);
-		Bukkit.getPluginManager().callEvent(e);
-		if (e.isCancelled()) {
+		List<Integer> list = getIntList(getConfig().getStringList("dig.blacklist"));
+		if (this.blockBreak(player) || list.contains(player.getTargetBlock(null, 12).getTypeId())) {
 			return false;
 		}
 		player.getTargetBlock(null, 12).breakNaturally(
@@ -62,13 +62,17 @@ public class Dig extends Spell {
 		i.add(new ItemStack(Material.DIAMOND_PICKAXE));
 		return i;
 	}
-	
+
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
+		List<Integer> list = getIntList(getConfig().getStringList("dig.blacklist"));
+		if (this.blockBreak(player) || list.contains(player.getTargetBlock(null, 12).getTypeId())) {
+			return false;
+		}
 		player.getTargetBlock(null, 12).breakNaturally(null);
 		return true;
 	}
-	
+
 	@Override
 	public EffectType getPrimaryType() {
 		return EffectType.DESTRUCTION;
@@ -78,16 +82,29 @@ public class Dig extends Spell {
 	public Element getElementType() {
 		return Element.EARTH;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.HIGH;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
-		//TODO Add config for non breakable blocks
-		return null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Integer> blocks = new ArrayList<Integer>();
+		blocks.add(7);
+		map.put("blacklist", blocks);
+		return map;
+	}
+
+	private List<Integer> getIntList(List<String> list) {
+		List<Integer> intList = new ArrayList<Integer>();
+		for (String s : list) {
+			try {
+				intList.add(Integer.parseInt(s));
+			} catch (NumberFormatException ex) {}
+		}
+		return intList;
 	}
 
 }

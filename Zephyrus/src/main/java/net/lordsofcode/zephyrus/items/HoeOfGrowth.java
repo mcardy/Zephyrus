@@ -25,7 +25,7 @@ import org.bukkit.inventory.ShapedRecipe;
  */
 
 public class HoeOfGrowth extends CustomItem {
-
+	
 	@Override
 	public String getName() {
 		return ChatColor.getByChar("a") + "Hoe of Growth";

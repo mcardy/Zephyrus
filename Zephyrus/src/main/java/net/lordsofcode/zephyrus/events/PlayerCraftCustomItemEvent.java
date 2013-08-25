@@ -5,6 +5,7 @@ import java.util.List;
 import net.lordsofcode.zephyrus.api.ICustomItem;
 
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -37,6 +38,18 @@ public class PlayerCraftCustomItemEvent extends Event implements Cancellable {
 	 */
 	public List<HumanEntity> getPlayers() {
 		return player;
+	}
+	
+	/**
+	 * Returns the crafter of the item
+	 * @return Null if the crafter is not a player
+	 */
+	public Player getPlayer() {
+		if (player.get(0) instanceof Player) {
+			return (Player) player.get(0);
+		} else {
+			return null;
+		}
 	}
 	
 	/**

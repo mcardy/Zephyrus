@@ -122,7 +122,11 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 		}
 	}
 
-	public boolean pick(ItemStack item) {
+	public boolean isTool(ItemStack item) {
+		return isPickaxe(item) || isShovel(item) || isAxe(item);
+	}
+	
+	public boolean isPickaxe(ItemStack item) {
 		if (item.getType() == Material.STONE_PICKAXE
 				|| item.getType() == Material.IRON_PICKAXE
 				|| item.getType() == Material.GOLD_PICKAXE
@@ -131,8 +135,28 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 		}
 		return false;
 	}
+	
+	public boolean isShovel(ItemStack item) {
+		if (item.getType() == Material.STONE_SPADE
+				|| item.getType() == Material.IRON_SPADE
+				|| item.getType() == Material.GOLD_SPADE
+				|| item.getType() == Material.DIAMOND_SPADE) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isAxe(ItemStack item) {
+		if (item.getType() == Material.STONE_AXE
+				|| item.getType() == Material.IRON_AXE
+				|| item.getType() == Material.GOLD_AXE
+				|| item.getType() == Material.DIAMOND_AXE) {
+			return true;
+		}
+		return false;
+	}
 
-	public boolean sword(ItemStack item) {
+	public boolean isSword(ItemStack item) {
 		if (item.getType() == Material.STONE_SWORD
 				|| item.getType() == Material.IRON_SWORD
 				|| item.getType() == Material.GOLD_SWORD

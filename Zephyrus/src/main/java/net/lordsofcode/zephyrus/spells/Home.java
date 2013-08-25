@@ -61,7 +61,6 @@ public class Home extends Spell {
 
 	@Override
 	public boolean run(Player player, String[] args) {
-		// TODO multiple homes?
 		if (args.length < 2 && !isHomeSet(player)) {
 			Lang.errMsg("spells.home.fail", player);
 			return false;

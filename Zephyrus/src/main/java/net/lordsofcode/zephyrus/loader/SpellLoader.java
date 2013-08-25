@@ -4,8 +4,11 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
@@ -19,57 +22,63 @@ import net.lordsofcode.zephyrus.api.ISpell;
  */
 
 public class SpellLoader {
-
-	private Set<Class<? extends ISpell>> classMap = new HashSet<Class<? extends ISpell>>();
-
+	
+	private List<ISpell> spellMap = new ArrayList<ISpell>();
+	
 	/**
 	 * Loads spells from the spell folder
-	 * 
-	 * @throws MalformedURLException
-	 *             Thrown when the spell loader can't access the directory for
-	 *             any reason.
+	 * @throws MalformedURLException 
 	 */
 	public void loadSpells() throws MalformedURLException {
-		File file = new File(Zephyrus.getPlugin().getDataFolder(), "Spells");
-		if (!file.exists()) {
-			file.mkdirs();
+		File dir = new File(Zephyrus.getPlugin().getDataFolder(), "Spells");
+		if (!dir.exists()) {
+			dir.mkdirs();
 			Zephyrus.getPlugin().getLogger().info("Creating Spells folder...");
 			return;
 		}
-		URL[] urls = new URL[] { file.toURI().toURL() };
+		URL[] urls = new URL[] { dir.toURI().toURL() };
 		ClassLoader cl = new URLClassLoader(urls,
 				Zephyrus.class.getClassLoader());
-		for (File f : file.listFiles()) {
-			if (f.getName().endsWith(".class")) {
-				try {
+		for (File f : dir.listFiles()) {
+			try {
+				if (f.getName().endsWith(".class")) {
 					Class<?> cls = cl.loadClass(f.getName().replace(".class",
 							""));
 					Object obj = cls.newInstance();
 					if (obj instanceof ISpell) {
-						@SuppressWarnings("unchecked")
-						Class<? extends ISpell> clazz = (Class<? extends ISpell>) cls;
-						classMap.add(clazz);
+						spellMap.add((ISpell) obj);
 					}
-				} catch (ClassNotFoundException ex) {
-					Zephyrus.getPlugin()
-							.getLogger()
-							.warning(
-									"Error loading class " + f.getName()
-											+ " from Spells folder...");
-				} catch (InstantiationException e) {
-					Zephyrus.getPlugin()
-							.getLogger()
-							.warning(
-									"Error loading class "
-											+ f.getName()
-											+ ". Contact the maker of the spell.");
-				} catch (IllegalAccessException e) {
-					Zephyrus.getPlugin()
-							.getLogger()
-							.warning(
-									"Error loading class " + f.getName()
-											+ " from Spells folder...");
+				} else if (f.getName().endsWith(".jar")) {
+					JarFile jFile = new JarFile(f.getPath());
+					Enumeration<JarEntry> e = jFile.entries();
+					urls = new URL[] { f.toURI().toURL() };
+					cl = new URLClassLoader(urls,
+							Zephyrus.class.getClassLoader());
+					while (e.hasMoreElements()) {
+						JarEntry entry = e.nextElement();
+						if (entry.isDirectory()
+								|| !entry.getName().endsWith(".class"))
+							continue;
+						String className = entry.getName().substring(0,
+								entry.getName().length() - 6);
+						className = className.replace('/', '.');
+						try {
+							Class<?> cls = cl.loadClass(className);
+							Object obj = cls.newInstance();
+							if (obj instanceof ISpell) {
+								spellMap.add((ISpell) obj);
+							}
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
 				}
+			} catch (Exception ex) {
+				Zephyrus.getPlugin()
+						.getLogger()
+						.warning(
+								"Error loading file " + f.getName() + "! "
+										+ ex.getMessage());
 			}
 		}
 	}
@@ -78,19 +87,10 @@ public class SpellLoader {
 	 * Registers the pending loaded spells in the private class map
 	 */
 	public void registerSpells() {
-		for (Class<? extends ISpell> clazz : classMap) {
-			try {
-				ISpell spell = clazz.newInstance();
-				Zephyrus.registerSpell(spell);
-				classMap.remove(clazz);
-			} catch (InstantiationException e) {
-				Zephyrus.getPlugin()
-						.getLogger().warning("Error loading spell "
-								+ clazz.getName()+ "! Contact the spell author to fix this.");
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
+		for (int i = 0; i < spellMap.size(); i++) {
+			Zephyrus.registerSpell(spellMap.get(i));
 		}
+		spellMap.clear();
 	}
 
 }

@@ -43,7 +43,7 @@ public class LifeSuck extends CustomEnchantment {
 
 	@Override
 	public boolean canEnchantItem(ItemStack arg0) {
-		return sword(arg0);
+		return isSword(arg0);
 	}
 
 	@Override

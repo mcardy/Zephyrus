@@ -28,7 +28,7 @@ import org.bukkit.inventory.ItemStack;
  * 
  * @author minnymin3
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- * @version 1.3.0 Beta
+ * @version 1.3.0
  */
 
 public class Zephyrus {
@@ -38,9 +38,9 @@ public class Zephyrus {
 
 	SpellLoader loader = new SpellLoader();
 	ConfigHandler spellsConfig = new ConfigHandler("spells.yml");
-	ConfigHandler enchantmentsConfig = new ConfigHandler("enchantments.yml");
+	//ConfigHandler enchantmentsConfig = new ConfigHandler("enchantments.yml");
 	ConfigHandler langConfig = new ConfigHandler("lang.yml");
-	ConfigHandler itemsConfig = new ConfigHandler("items.yml");
+	//ConfigHandler itemsConfig = new ConfigHandler("items.yml");
 
 	public GlowEffect glow = new GlowEffect(120);
 
@@ -58,9 +58,9 @@ public class Zephyrus {
 	public Zephyrus() {
 		instance = this;
 		spellManager = new SpellManager();
-		itemsConfig = new ConfigHandler("items.yml");
+		//itemsConfig = new ConfigHandler("items.yml");
 		spellsConfig = new ConfigHandler("spells.yml");
-		enchantmentsConfig = new ConfigHandler("enchantments.yml");
+		//enchantmentsConfig = new ConfigHandler("enchantments.yml");
 		langConfig = new ConfigHandler("lang.yml");
 	}
 	

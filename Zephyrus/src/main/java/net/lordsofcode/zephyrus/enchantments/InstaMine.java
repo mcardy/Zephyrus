@@ -42,7 +42,7 @@ public class InstaMine extends CustomEnchantment {
 
 	@Override
 	public boolean canEnchantItem(ItemStack item) {
-		return pick(item);
+		return isPickaxe(item);
 	}
 
 	@Override

@@ -18,8 +18,6 @@ import net.lordsofcode.zephyrus.Zephyrus;
  */
 
 public class UpdateChecker implements Runnable {
-
-	//TODO Rewrite update checker
 	
 	String checkURL = "https://raw.github.com/minnymin3/Zephyrus/master/version";
 	String changelogURL = "https://raw.github.com/minnymin3/Zephyrus/master/Changelog";

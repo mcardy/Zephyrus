@@ -26,7 +26,6 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
  * 
  */
 
-//TODO Make worldguard flag for spells
 public class PluginHook {
 
 	private static WorldGuardPlugin wg;
