@@ -97,21 +97,9 @@ public class PlayerListener extends ItemUtil implements Listener {
 		Player player = e.getPlayer();
 		if (!checkPlayer.exists()) {
 			FileConfiguration cfg = PlayerConfigHandler.getConfig(player);
-			if (cfg.contains("mana") && cfg.contains("learned")
-					&& cfg.contains("progress")) {
-				if (cfg.contains("Level")) {
-					int level = cfg.getInt("Level");
-					cfg.set("Level", null);
-					cfg.set("level", level);
-					PlayerConfigHandler.saveConfig(player, cfg);
-					return;
-				} else if (cfg.contains("level")) {
-					return;
-				}
-			}
 			PlayerConfigHandler.saveDefaultConfig(player);
-			if (!cfg.contains("Level") || cfg == null) {
-				cfg.set("Level", 1);
+			if (!cfg.contains("level") || cfg == null) {
+				cfg.set("level", 1);
 			}
 			if (!cfg.contains("mana") || cfg == null) {
 				cfg.set("mana", 100);
@@ -133,6 +121,17 @@ public class PlayerListener extends ItemUtil implements Listener {
 				cfg.set("progress", 0);
 			}
 			PlayerConfigHandler.saveConfig(player, cfg);
+		} else {
+			FileConfiguration cfg = PlayerConfigHandler.getConfig(player);
+			if (cfg.contains("Level")) {
+				int level = cfg.getInt("Level");
+				cfg.set("Level", null);
+				cfg.set("level", level);
+				PlayerConfigHandler.saveConfig(player, cfg);
+				return;
+			} else if (cfg.contains("level")) {
+				return;
+			}
 		}
 	}
 

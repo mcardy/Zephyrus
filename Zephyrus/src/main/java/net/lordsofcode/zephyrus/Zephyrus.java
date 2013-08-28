@@ -17,6 +17,7 @@ import net.lordsofcode.zephyrus.utils.ItemUtil;
 import net.lordsofcode.zephyrus.utils.Merchant;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -38,9 +39,9 @@ public class Zephyrus {
 
 	SpellLoader loader = new SpellLoader();
 	ConfigHandler spellsConfig = new ConfigHandler("spells.yml");
-	//ConfigHandler enchantmentsConfig = new ConfigHandler("enchantments.yml");
+	ConfigHandler enchantmentsConfig = new ConfigHandler("enchantments.yml");
 	ConfigHandler langConfig = new ConfigHandler("lang.yml");
-	//ConfigHandler itemsConfig = new ConfigHandler("items.yml");
+	ConfigHandler itemsConfig = new ConfigHandler("items.yml");
 
 	public GlowEffect glow = new GlowEffect(120);
 
@@ -52,18 +53,18 @@ public class Zephyrus {
 	static Map<String, Integer> mana;
 	static Map<String, ICustomItem> itemMap;
 	static Map<ItemStack, Merchant> merchantMap;
-	
+
 	int builtInSpells = 0;
-	
+
 	public Zephyrus() {
 		instance = this;
 		spellManager = new SpellManager();
-		//itemsConfig = new ConfigHandler("items.yml");
+		itemsConfig = new ConfigHandler("items.yml");
 		spellsConfig = new ConfigHandler("spells.yml");
-		//enchantmentsConfig = new ConfigHandler("enchantments.yml");
+		enchantmentsConfig = new ConfigHandler("enchantments.yml");
 		langConfig = new ConfigHandler("lang.yml");
 	}
-	
+
 	/**
 	 * An instance of Zephyrus defined onEnable
 	 * 
@@ -72,153 +73,187 @@ public class Zephyrus {
 	public static Zephyrus getInstance() {
 		return instance;
 	}
-	
+
 	/**
 	 * Gets the config file of Zephyrus
+	 * 
 	 * @return The FileConfiguration of Zephyrus' config.yml
 	 */
 	public static FileConfiguration getConfig() {
 		return ZephyrusPlugin.getPluginInstance().getConfig();
 	}
-	
+
 	/**
 	 * Saves the config of Zephyrus
 	 */
 	public static void saveConfig() {
 		ZephyrusPlugin.getPluginInstance().saveConfig();
 	}
-	
+
 	/**
 	 * Gets Zephyrus' plugin class
+	 * 
 	 * @return Zephyrus' java plugin
 	 */
 	public static ZephyrusPlugin getPlugin() {
 		return ZephyrusPlugin.getPluginInstance();
 	}
-	
+
 	/**
 	 * Gets the mana map which contains a player's name and their mana value
+	 * 
 	 * @return A map with each player's name and each player's mana value
 	 */
 	public static Map<String, Integer> getManaMap() {
 		return mana;
 	}
-	
+
 	/**
 	 * Gets the SpellManager's map of spells
+	 * 
 	 * @return
 	 */
 	public static Map<String, ISpell> getSpellMap() {
 		return spellManager.getSpellMap();
 	}
-	
+
 	/**
 	 * Gets the Spellmanager's map of craftable spells
+	 * 
 	 * @return The spell's set of items and the spell
 	 */
 	public static Map<Set<ItemStack>, ISpell> getCraftMap() {
 		return spellManager.getCraftMap();
 	}
-	
+
 	/**
 	 * Gets the ItemManager's item map
+	 * 
 	 * @return The Item's name and the CustomItem object
 	 */
 	public static Map<String, ICustomItem> getItemMap() {
 		return itemMap;
 	}
-	
+
 	/**
 	 * Gets the custom item trading map
+	 * 
 	 * @return
 	 */
 	public static Map<ItemStack, Merchant> getTradeMap() {
 		return merchantMap;
 	}
-	
+
 	/**
 	 * Gets the item delay map
+	 * 
 	 * @return
 	 */
 	public static Map<String, Map<String, Integer>> getDelayMap() {
 		return itemDelay;
 	}
-	
+
 	/**
 	 * Gets the custom item merchant map
+	 * 
 	 * @return
 	 */
 	public static Map<String, Merchant> getMerchantMap() {
 		return invPlayers;
 	}
-	
+
 	/**
 	 * Gets the SpellManager for this instance of Zephyrus
+	 * 
 	 * @return
 	 */
 	public static SpellManager getSpellManager() {
 		return spellManager;
 	}
-	
+
 	/**
 	 * Registers that ISpell
+	 * 
 	 * @param spell
 	 */
 	public static void registerSpell(ISpell spell) {
 		getSpellManager().addSpell(spell);
 	}
-	
+
 	/**
 	 * Wraps the user from the specified player
-	 * @param player The player to wrap
+	 * 
+	 * @param player
+	 *            The player to wrap
 	 * @return An IUser object of the specified player
 	 */
 	public static IUser getUser(Player player) {
 		return new User(player);
 	}
-	
+
 	/**
 	 * Registers the custom item
+	 * 
 	 * @param i
 	 */
 	public static void registerItem(ICustomItem i) {
-		if (i.getRecipe() != null) {
-			getPlugin().getServer().addRecipe(i.getRecipe());
+		if (!instance.itemsConfig.getConfig().contains(i.getConfigName() + ".enabled")) {
+			instance.itemsConfig.getConfig().set(i.getConfigName() + ".enabled", true);
+			instance.itemsConfig.saveConfig();
 		}
-		try {
-			getPlugin().getServer().getPluginManager().registerEvents(i, getPlugin());
-		} catch (Exception e) {}
-		if (i.hasLevel() && i.getName() != null) {
-			Zephyrus.itemMap.put(i.getName(), i);
+		if (!instance.itemsConfig.getConfig().contains(i.getConfigName() + ".displayname")) {
+			instance.itemsConfig.getConfig().set(i.getConfigName() + ".displayname", 
+					i.getName().replace(ChatColor.COLOR_CHAR + "", "$"));
+			instance.itemsConfig.saveConfig();
 		}
-		if (i.hasLevel()) {
-			for (int n = 1; n < i.getMaxLevel(); n++) {
-				ItemStack item = i.getItem();
-				new ItemUtil().setItemLevel(item, n);
-				ItemStack item2 = i.getItem();
-				int n2 = n;
-				new ItemUtil().setItemLevel(item2, n2 + 1);
-				Merchant m = new Merchant();
-				m.addOffer(item, new ItemStack(Material.EMERALD, n),
-						item2);
-				Zephyrus.merchantMap.put(item, m);
+		if (instance.itemsConfig.getConfig().getBoolean(
+				i.getConfigName() + ".enabled")) {
+			if (i.getRecipe() != null) {
+				getPlugin().getServer().addRecipe(i.getRecipe());
+			}
+			try {
+				getPlugin().getServer().getPluginManager()
+						.registerEvents(i, getPlugin());
+			} catch (Exception e) {
+			}
+			if (i.hasLevel() && i.getName() != null) {
+				Zephyrus.itemMap.put(i.getName(), i);
+			}
+			if (i.hasLevel()) {
+				for (int n = 1; n < i.getMaxLevel(); n++) {
+					ItemStack item = i.getItem();
+					new ItemUtil().setItemLevel(item, n);
+					ItemStack item2 = i.getItem();
+					int n2 = n;
+					new ItemUtil().setItemLevel(item2, n2 + 1);
+					Merchant m = new Merchant();
+					m.addOffer(item, new ItemStack(Material.EMERALD, n), item2);
+					Zephyrus.merchantMap.put(item, m);
+				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Registers the specified enchantment
+	 * 
 	 * @param e
 	 */
 	public static void registerEnchantment(CustomEnchantment e) {
-		try {
-			Field f = Enchantment.class.getDeclaredField("acceptingNew");
-			f.setAccessible(true);
-			f.set(null, true);
-			Enchantment.registerEnchantment(e);
-		} catch (Exception ex) {
+		if (!instance.enchantmentsConfig.getConfig().contains(e.getName())) {
+			instance.enchantmentsConfig.getConfig().set(e.getName(), true);
+			instance.enchantmentsConfig.saveConfig();
 		}
-		Bukkit.getPluginManager().registerEvents(e, Zephyrus.getPlugin());
+		if (instance.enchantmentsConfig.getConfig().getBoolean(e.getName())) {
+			try {
+				Field f = Enchantment.class.getDeclaredField("acceptingNew");
+				f.setAccessible(true);
+				f.set(null, true);
+				Enchantment.registerEnchantment(e);
+				Bukkit.getPluginManager().registerEvents(e, getPlugin());
+			} catch (Exception ex) {
+			}
+		}
 	}
-	
+
 }

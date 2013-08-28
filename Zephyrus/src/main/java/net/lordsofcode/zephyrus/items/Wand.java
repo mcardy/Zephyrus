@@ -127,8 +127,8 @@ public class Wand extends CustomItem {
 			}
 			if (!getItems(entitys).isEmpty()) {
 				Set<ItemStack> i = getItems(entitys);
-				if (Zephyrus.getSpellMap().containsKey(i)) {
-					ISpell s = Zephyrus.getSpellMap().get(i);
+				if (Zephyrus.getCraftMap().containsKey(i)) {
+					ISpell s = Zephyrus.getCraftMap().get(i);
 					if (s.isEnabled()) {
 						if (e.getPlayer().hasPermission(
 								"zephyrus.spell." + s.getName().toLowerCase())) {
@@ -148,21 +148,21 @@ public class Wand extends CustomItem {
 													e.getPlayer());
 										}
 									} else {
-										e.getPlayer().sendMessage(ChatColor.RED + Lang.get("wand.reqlevel").replace("[LEVEL]", s.reqLevel() + ""));
+										e.getPlayer().sendMessage(ChatColor.RED + Lang.get("wand.reqlevel").replace("[LEVEL]", s.getReqLevel() + ""));
 									}
 								} else {
 									e.getPlayer().sendMessage(
 											Lang.get("wand.reqspell").replace("[SPELL]", s.getRequiredSpell().getDisplayName()));
 								}
 							} else {
-								if (Zephyrus.getUser(e.getPlayer()).getLevel() < s.getReqLevel()) {
+								if (Zephyrus.getUser(e.getPlayer()).getLevel() >= s.getReqLevel()) {
 									for (Item item : getItemEntity(entitys)) {
 										item.remove();
 									}
 									dropSpell(e.getClickedBlock(), s.getDisplayName().toLowerCase(),
 											s.getDesc(), e.getPlayer());
 								} else {
-									e.getPlayer().sendMessage(ChatColor.RED + Lang.get("wand.reqlevel").replace("[LEVEL]", s.reqLevel() + ""));
+									e.getPlayer().sendMessage(ChatColor.RED + Lang.get("wand.reqlevel").replace("[LEVEL]", s.getReqLevel() + ""));
 								}
 							}
 						} else {

@@ -54,4 +54,9 @@ public interface ICustomItem extends Listener {
 	 * @return
 	 */
 	public String getPerm();
+	
+	/**
+	 * Gets the name of the item used in configs
+	 */
+	public String getConfigName();
 }

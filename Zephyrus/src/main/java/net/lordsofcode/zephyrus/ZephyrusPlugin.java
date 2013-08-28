@@ -179,8 +179,8 @@ public class ZephyrusPlugin extends JavaPlugin {
 		saveDefaultConfig();
 		zephyrus.spellsConfig.saveDefaultConfig();
 		zephyrus.langConfig.saveDefaultConfig();
-		//zephyrus.enchantmentsConfig.saveDefaultConfig();
-		//zephyrus.itemsConfig.saveDefaultConfig();
+		zephyrus.enchantmentsConfig.saveDefaultConfig();
+		zephyrus.itemsConfig.saveDefaultConfig();
 	}
 
 	private void setupLanguage() {
