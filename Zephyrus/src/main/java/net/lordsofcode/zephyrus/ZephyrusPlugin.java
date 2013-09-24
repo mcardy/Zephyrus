@@ -79,7 +79,6 @@ import net.lordsofcode.zephyrus.spells.Zap;
 import net.lordsofcode.zephyrus.spells.Zephyr;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.Merchant;
-import net.lordsofcode.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -118,7 +117,6 @@ public class ZephyrusPlugin extends JavaPlugin {
 	private void load() {
 		pluginInstance = this;
 		zephyrus = new Zephyrus();
-		new UpdateChecker(Zephyrus.getInstance());
 
 		setupMaps();
 		setupConfigs();
@@ -382,16 +380,6 @@ public class ZephyrusPlugin extends JavaPlugin {
 	private class PostInit extends BukkitRunnable {
 		@Override
 		public void run() {
-
-			try {
-				for (String s : zephyrus.updateMsg) {
-					if (s != null) {
-						getLogger().info(s);
-					}
-				}
-			} catch (NullPointerException e) {
-				getLogger().info("Could not check for updates...");
-			}
 			SpellManager manager = Zephyrus.getSpellManager();
 			getLogger()
 					.info("Loaded " + manager.getRegisteredSpells()

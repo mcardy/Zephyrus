@@ -15,10 +15,8 @@ import net.lordsofcode.zephyrus.events.PlayerCraftCustomItemEvent;
 import net.lordsofcode.zephyrus.utils.ItemUtil;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
-import net.lordsofcode.zephyrus.utils.UpdateChecker;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -48,22 +46,6 @@ public class PlayerListener extends ItemUtil implements Listener {
 			ICustomItem item = Zephyrus.getItemMap().get(s);
 			if (item.getRecipe() != null) {
 				results.put(item.getRecipe().getResult(), item);
-			}
-		}
-	}
-
-	@EventHandler
-	public void updateMessage(PlayerJoinEvent e) {
-		if (e.getPlayer().hasPermission("zephyrus.notify")) {
-			Player player = e.getPlayer();
-			if (UpdateChecker.isUpdate) {
-				player.sendMessage(ChatColor.DARK_RED
-						+ "Zephyrus is out of date!");
-				player.sendMessage(ChatColor.DARK_RED
-						+ "Get the new version at: " + ChatColor.GRAY
-						+ "dev.bukkit.org/server-mods/Zephyrus");
-				player.sendMessage(ChatColor.DARK_RED + "ChangeLog: "
-						+ ChatColor.GRAY + UpdateChecker.changelog);
 			}
 		}
 	}
