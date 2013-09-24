@@ -14,6 +14,8 @@ import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.BlockData;
 import net.lordsofcode.zephyrus.utils.Lang;
+import net.minecraft.server.v1_6_R3.BlockChest;
+import net.minecraft.server.v1_6_R3.BlockFurnace;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -81,28 +83,32 @@ public class Jail extends Spell {
 			for (int y = loc.getBlockY() - 1; y < loc.getBlockY() + 3; y++) {
 				for (int z = loc.getBlockZ() - 1; z < loc.getBlockZ() + 2; z++) {
 					if (x == loc.getBlockX() && z == loc.getBlockZ()
-							&& y < loc.getBlockY() + 2 && y != loc.getBlockY()-1) {
+							&& y < loc.getBlockY() + 2
+							&& y != loc.getBlockY() - 1) {
 					} else {
-						BlockBreakEvent e = new BlockBreakEvent(new Location(player.getWorld(), x, y, z).getBlock(), player);
+						BlockBreakEvent e = new BlockBreakEvent(new Location(
+								player.getWorld(), x, y, z).getBlock(), player);
 						Bukkit.getPluginManager().callEvent(e);
 						if (e.isCancelled()) {
 							return false;
 						}
 						if (y == loc.getBlockY() - 1
 								|| y == loc.getBlockY() + 2) {
-							Location bloc = new Location(loc.getWorld(), x,
-									y, z);
+							Location bloc = new Location(loc.getWorld(), x, y,
+									z);
 							Block b = bloc.getBlock();
-							map.put(bloc,
-									new BlockData(b));
-							blocks.add(b);
+							if (!(b instanceof BlockChest) && !(b instanceof BlockFurnace)) {
+								map.put(bloc, new BlockData(b));
+								blocks.add(b);
+							}
 						} else {
 							Location bloc = new Location(loc.getWorld(), x, y,
 									z);
 							Block b = bloc.getBlock();
-							map.put(bloc,
-									new BlockData(b));
-							bars.add(b);
+							if (!(b instanceof BlockChest) && !(b instanceof BlockFurnace)) {
+								map.put(bloc, new BlockData(b));
+								bars.add(b);
+							}
 						}
 					}
 				}
@@ -110,17 +116,19 @@ public class Jail extends Spell {
 		}
 		for (Block b : bars) {
 			b.setType(Material.IRON_FENCE);
-			b.setMetadata("jailblock", new FixedMetadataValue(Zephyrus.getPlugin(), true));
+			b.setMetadata("jailblock",
+					new FixedMetadataValue(Zephyrus.getPlugin(), true));
 		}
 		for (Block b : blocks) {
 			b.setType(Material.IRON_BLOCK);
-			b.setMetadata("jailblock", new FixedMetadataValue(Zephyrus.getPlugin(), true));
+			b.setMetadata("jailblock",
+					new FixedMetadataValue(Zephyrus.getPlugin(), true));
 		}
 		this.lmap.add(map);
 		new Reset(map).runTaskLater(Zephyrus.getPlugin(), i * 20);
 		return true;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();

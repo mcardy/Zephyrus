@@ -239,7 +239,7 @@ public class Wand extends CustomItem {
 	public static Set<Item> getItemEntity(Entity[] entitys) {
 		Set<Item> l = new HashSet<Item>();
 		for (Entity e : entitys) {
-			if (e.getType() == EntityType.DROPPED_ITEM) {
+			if (e instanceof Item) {
 				Item i = (Item) e;
 				l.add(i);
 			}

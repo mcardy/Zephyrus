@@ -18,7 +18,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Monster;
@@ -70,7 +70,7 @@ public class LevelingListener implements Listener {
 	}
 
 	@EventHandler
-	public void onLevelUp(final PlayerLevelUpEvent e) {
+	public void onLevelUp(PlayerLevelUpEvent e) {
 		if (Zephyrus.getConfig().getBoolean("Levelup-Spells")) {
 			Player player = e.getPlayer();
 			List<String> l = new ArrayList<String>();
@@ -108,7 +108,7 @@ public class LevelingListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onClickWithItem(final PlayerInteractEvent e) {
+	public void onClickWithItem(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Block block = e.getClickedBlock();
 			byte b = 12;
@@ -133,8 +133,8 @@ public class LevelingListener implements Listener {
 						Lang.errMsg("itemlevel.max", e.getPlayer());
 						return;
 					}
-					if (Zephyrus.getMerchantMap().containsKey(e.getItem())) {
-						Merchant mer = Zephyrus.getMerchantMap().get(e.getItem());
+					if (Zephyrus.getTradeMap().containsKey(e.getItem())) {
+						Merchant mer = Zephyrus.getTradeMap().get(e.getItem());
 						Merchant m = mer.clone();
 						m.openTrade(e.getPlayer());
 						Zephyrus.getMerchantMap().put(e.getPlayer().getName(), m);
@@ -171,7 +171,7 @@ public class LevelingListener implements Listener {
 				}
 				if (i != null && i.getType() == Material.EMERALD || i != null
 						&& i2.getType() == Material.EMERALD) {
-					if (i.hasItemMeta() || i2.hasItemMeta()) {
+					if ((i.hasItemMeta() || i2.hasItemMeta()) && (!i.equals(mi) && !i2.equals(mi)) && (!i.equals(m2) && !i2.equals(m2))) {
 						e.setCancelled(true);
 					}
 				}

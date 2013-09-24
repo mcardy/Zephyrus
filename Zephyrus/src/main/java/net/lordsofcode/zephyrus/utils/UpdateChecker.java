@@ -26,7 +26,7 @@ public class UpdateChecker implements Runnable {
 	public static boolean isUpdate;
 	public static String changelog;
 
-	private String[] result = new String[2];
+	private String[] result = new String[3];
 
 	Thread thread;
 
@@ -68,7 +68,6 @@ public class UpdateChecker implements Runnable {
 							String stri;
 							while ((stri = cl.readLine()) != null) {
 								String scl = stri;
-								log.info("[Changelog] " + scl);
 								changelog = scl;
 								result[2] = "[ChangeLog] " + scl;
 							}

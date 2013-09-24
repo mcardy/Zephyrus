@@ -10,10 +10,14 @@ import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -53,20 +57,26 @@ public class Punch extends Spell {
 	@Override
 	public boolean run(Player player, String[] args) {
 		Entity e = getTarget(player);
+		int damage = getConfig().getInt(getName() + ".damage");
 		if (e == null) {
 			Lang.errMsg("spells.punch.fail", player);
 			return false;
 		}
-		int damage = getConfig().getInt(getName() + ".damage");
-		LivingEntity c = (LivingEntity) getTarget(player);
-		c.damage(damage);
-		return true;
+		EntityDamageEvent event = new EntityDamageEvent(e, DamageCause.ENTITY_ATTACK, (double)damage);
+		Bukkit.getPluginManager().callEvent(event);
+		if (!event.isCancelled()){
+			LivingEntity c = (LivingEntity) getTarget(player);
+			c.damage(damage);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("damage", 4);
+		map.put("damage", 2);
 		return map;
 	}
 

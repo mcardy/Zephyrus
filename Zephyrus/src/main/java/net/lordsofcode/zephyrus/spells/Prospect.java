@@ -105,7 +105,7 @@ public class Prospect extends Spell {
 		s.add(new ItemStack(Material.GOLD_INGOT));
 		s.add(new ItemStack(Material.DIAMOND));
 		s.add(new ItemStack(Material.COAL));
-		s.add(new ItemStack(Material.IRON_ORE));
+		s.add(new ItemStack(Material.IRON_INGOT));
 		return s;
 	}
 

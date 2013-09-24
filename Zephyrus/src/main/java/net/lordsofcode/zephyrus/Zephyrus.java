@@ -45,7 +45,7 @@ public class Zephyrus {
 
 	public GlowEffect glow = new GlowEffect(120);
 
-	public String[] updateMsg;
+	public String[] updateMsg = new String[4];
 
 	static Map<String, Map<String, Integer>> itemDelay;
 	static Map<String, Merchant> invPlayers;
