@@ -1,4 +1,4 @@
-package net.lordsofcode.zephyrus.utils;
+package net.lordsofcode.zephyrus.items;
 
 import net.minecraft.server.v1_6_R3.EntityHuman;
 import net.minecraft.server.v1_6_R3.IMerchant;

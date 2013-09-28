@@ -1,8 +1,8 @@
 package net.lordsofcode.zephyrus.items;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.utils.Effects;
-import net.lordsofcode.zephyrus.utils.ParticleEffects;
+import net.lordsofcode.zephyrus.utils.effects.Effects;
+import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

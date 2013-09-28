@@ -1,4 +1,4 @@
-package net.lordsofcode.zephyrus.utils;
+package net.lordsofcode.zephyrus.utils.effects;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 

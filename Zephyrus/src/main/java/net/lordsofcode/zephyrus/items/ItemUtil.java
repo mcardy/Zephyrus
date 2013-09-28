@@ -1,9 +1,11 @@
-package net.lordsofcode.zephyrus.utils;
+package net.lordsofcode.zephyrus.items;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.ConfigHandler;
+import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;

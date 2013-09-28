@@ -2,7 +2,7 @@ package net.lordsofcode.zephyrus.commands;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ICustomItem;
-import net.lordsofcode.zephyrus.utils.ItemUtil;
+import net.lordsofcode.zephyrus.items.ItemUtil;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.command.Command;

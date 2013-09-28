@@ -11,9 +11,9 @@ import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.events.PlayerCastSpellEvent;
 import net.lordsofcode.zephyrus.events.PlayerCraftSpellEvent;
-import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
-import net.lordsofcode.zephyrus.utils.ParticleEffects;
+import net.lordsofcode.zephyrus.utils.effects.Effects;
+import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

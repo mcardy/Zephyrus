@@ -10,9 +10,9 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
-import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
-import net.lordsofcode.zephyrus.utils.ParticleEffects;
+import net.lordsofcode.zephyrus.utils.effects.Effects;
+import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -9,9 +9,9 @@ import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.events.PlayerCastSpellEvent;
 import net.lordsofcode.zephyrus.events.PlayerLevelUpEvent;
-import net.lordsofcode.zephyrus.utils.ItemUtil;
+import net.lordsofcode.zephyrus.items.ItemUtil;
+import net.lordsofcode.zephyrus.items.Merchant;
 import net.lordsofcode.zephyrus.utils.Lang;
-import net.lordsofcode.zephyrus.utils.Merchant;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
 import org.bukkit.ChatColor;

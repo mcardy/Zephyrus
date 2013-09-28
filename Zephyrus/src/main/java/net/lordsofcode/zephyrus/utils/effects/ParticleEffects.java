@@ -1,4 +1,4 @@
-package net.lordsofcode.zephyrus.utils;
+package net.lordsofcode.zephyrus.utils.effects;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

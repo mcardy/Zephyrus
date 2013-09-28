@@ -9,8 +9,8 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
-import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
+import net.lordsofcode.zephyrus.utils.effects.Effects;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;

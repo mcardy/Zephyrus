@@ -6,7 +6,6 @@ import java.util.List;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.events.PlayerLearnSpellEvent;
-import net.lordsofcode.zephyrus.utils.ItemUtil;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 

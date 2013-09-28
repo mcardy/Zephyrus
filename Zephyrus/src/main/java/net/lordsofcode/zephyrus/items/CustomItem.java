@@ -2,7 +2,6 @@ package net.lordsofcode.zephyrus.items;
 
 import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
-import net.lordsofcode.zephyrus.utils.ItemUtil;
 
 import org.bukkit.ChatColor;
 
