@@ -1,5 +1,7 @@
 package net.lordsofcode.zephyrus.spells;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,12 +14,11 @@ import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
+import net.lordsofcode.zephyrus.utils.ReflectionUtils;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_6_R3.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -79,9 +80,14 @@ public class Summon extends Spell {
 			new End(skel).runTaskLater(Zephyrus.getPlugin(), getConfig().getInt(getName() + ".duration") * 20);
 			for (Entity e : skel.getNearbyEntities(20, 20, 20)) {
 				if (e instanceof LivingEntity && e != player) {
-					CraftCreature m = (CraftCreature) skel;
-					CraftLivingEntity tar = (CraftLivingEntity) e;
-					m.getHandle().setGoalTarget(tar.getHandle());
+					Object m = ReflectionUtils.getHandle(skel);
+					Object tar = ReflectionUtils.getHandle(e);
+					Method method = ReflectionUtils.getMethod(m.getClass(), "setGoalTarget");
+					try {
+						method.invoke(m, tar);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
 					break;
 				}
 			}

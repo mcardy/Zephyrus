@@ -15,8 +15,6 @@ import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.BlockData;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.effects.Effects;
-import net.minecraft.server.v1_6_R3.BlockChest;
-import net.minecraft.server.v1_6_R3.BlockFurnace;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -96,14 +94,14 @@ public class Jail extends Spell {
 						if (y == loc.getBlockY() - 1 || y == loc.getBlockY() + 2) {
 							Location bloc = new Location(loc.getWorld(), x, y, z);
 							Block b = bloc.getBlock();
-							if (!(b instanceof BlockChest) && !(b instanceof BlockFurnace)) {
+							if (!(b.getType() == Material.CHEST) && !(b.getType() == Material.FURNACE)) {
 								map.put(bloc, new BlockData(b));
 								blocks.add(b);
 							}
 						} else {
 							Location bloc = new Location(loc.getWorld(), x, y, z);
 							Block b = bloc.getBlock();
-							if (!(b instanceof BlockChest) && !(b instanceof BlockFurnace)) {
+							if (!(b.getType() == Material.CHEST) && !(b.getType() == Material.FURNACE)) {
 								map.put(bloc, new BlockData(b));
 								bars.add(b);
 							}

@@ -1,5 +1,6 @@
 package net.lordsofcode.zephyrus.spells;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -9,14 +10,12 @@ import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
-import net.lordsofcode.zephyrus.utils.Lang;
+import net.lordsofcode.zephyrus.utils.ReflectionUtils;
 import net.lordsofcode.zephyrus.utils.effects.Effects;
 import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_6_R3.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -59,12 +58,6 @@ public class Frenzy extends Spell {
 
 	@Override
 	public boolean run(Player player, String[] args) {
-		try {
-			new CraftLivingEntity(null, null);
-		} catch (NoClassDefFoundError err) {
-			Lang.errMsg("outofdate", player);
-			return false;
-		}
 		int r = getConfig().getInt(getName() + ".radius");
 		Monster[] e = getNearbyEntities(player.getLocation(), r);
 		for (int i = 0; i < e.length; i++) {
@@ -73,10 +66,15 @@ public class Frenzy extends Spell {
 				index = 0;
 			}
 			e[i].setTarget(e[index]);
-			CraftCreature m = (CraftCreature) e[i];
-			CraftLivingEntity tar = (CraftLivingEntity) e[index];
-			m.getHandle().setGoalTarget(tar.getHandle());
-			Location loc = m.getLocation();
+			Object m = ReflectionUtils.getHandle(e[i]);
+			Object tar = ReflectionUtils.getHandle(e[index]);
+			Method method = ReflectionUtils.getMethod(m.getClass(), "setGoalTarget");
+			try {
+				method.invoke(m, tar);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			Location loc = e[i].getLocation();
 			loc.setY(loc.getY() + 1);
 			Effects.playEffect(ParticleEffects.ANGRY_VILLAGER, loc, 0.25F, 0.25F, 0.25F, 5, 10);
 		}

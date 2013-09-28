@@ -158,33 +158,18 @@ public class PluginHook {
 	public static void addWGFlag(StateFlag flag) {
 		try {
 			Field flagField = DefaultFlag.class.getField("flagsList");
-
 			Flag<?>[] flags = new Flag<?>[DefaultFlag.flagsList.length + 1];
 			System.arraycopy(DefaultFlag.flagsList, 0, flags, 0, DefaultFlag.flagsList.length);
-
 			flags[DefaultFlag.flagsList.length] = flag;
-
-			if (flag == null) {
-				throw new RuntimeException("flag is null");
-			}
-
 			setStaticValue(flagField, flags);
 		} catch (Exception ex) {
-			Bukkit.getServer().getLogger().log(Level.WARNING, "Could not add flag {0} to WorldGuard", flag.getName());
-		}
-
-		for (int i = 0; i < DefaultFlag.getFlags().length; i++) {
-			Flag<?> flag1 = DefaultFlag.getFlags()[i];
-			if (flag1 == null) {
-				throw new RuntimeException("Flag[" + i + "] is null");
-			}
+			ex.printStackTrace();
 		}
 	}
 
 	private static void setStaticValue(Field field, Object value) {
 		try {
 			Field modifier = Field.class.getDeclaredField("modifiers");
-
 			modifier.setAccessible(true);
 			modifier.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 			field.set(null, value);
