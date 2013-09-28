@@ -2,6 +2,7 @@ package net.lordsofcode.zephyrus.items;
 
 import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
@@ -30,8 +31,7 @@ public class BlinkPearl extends CustomItem {
 
 	public BlinkPearl() {
 		Lang.add("blinkpearl.outofrange", "That location is out of range!");
-		Lang.add("blinkpearl.recharge",
-				"The BlinkPearl still needs [TIME] to recharge...");
+		Lang.add("blinkpearl.recharge", "The BlinkPearl still needs [TIME] to recharge...");
 		Lang.add("blinkpearl.noblink", "You can't blink there!");
 	}
 
@@ -66,18 +66,15 @@ public class BlinkPearl extends CustomItem {
 		if (checkName(e.getPlayer().getItemInHand(), getName())) {
 			e.setCancelled(true);
 			e.getPlayer().updateInventory();
-			if (e.getAction() == Action.RIGHT_CLICK_AIR
-					|| e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				if (e.getAction() == Action.RIGHT_CLICK_BLOCK
 						&& e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE) {
 					return;
 				}
 				if (!ItemDelay.hasDelay(e.getPlayer(), this)) {
 					if (e.getPlayer().getTargetBlock(null, 100) != null
-							&& e.getPlayer().getTargetBlock(null, 100)
-									.getType() != Material.AIR) {
-						Location loc = e.getPlayer().getTargetBlock(null, 100)
-								.getLocation();
+							&& e.getPlayer().getTargetBlock(null, 100).getType() != Material.AIR) {
+						Location loc = e.getPlayer().getTargetBlock(null, 100).getLocation();
 						loc.setX(loc.getX() + 0.5);
 						loc.setY(loc.getY() + 0.25);
 						loc.setZ(loc.getZ() + 0.5);
@@ -87,26 +84,17 @@ public class BlinkPearl extends CustomItem {
 						loc2.setY(loc2.getY() + 1);
 						Block block = loc.getBlock();
 						Block block2 = loc2.getBlock();
-						if (block.getType() == Material.AIR
-								&& block2.getType() == Material.AIR) {
-							if (PluginHook.canBuild(e.getPlayer(), e
-									.getPlayer().getTargetBlock(null, 100))) {
-								ParticleEffects.sendToLocation(
-										ParticleEffects.TOWN_AURA, loc, 1, 1,
-										1, 1, 10);
-								ParticleEffects.sendToLocation(
-										ParticleEffects.ENDER, e.getPlayer()
-												.getLocation(), 1, 1, 1, 1, 16);
-								e.getPlayer()
-										.getWorld()
-										.playSound(e.getPlayer().getLocation(),
-												Sound.ENDERMAN_TELEPORT, 10, 1);
+						if (block.getType() == Material.AIR && block2.getType() == Material.AIR) {
+							if (PluginHook.canBuild(e.getPlayer(), e.getPlayer().getTargetBlock(null, 100))) {
+								Effects.playEffect(ParticleEffects.TOWN_AURA, loc, 1, 1, 1, 1, 10);
+								Effects.playEffect(ParticleEffects.ENDER, e.getPlayer().getLocation(), 1, 1, 1, 1, 16);
+								e.getPlayer().getWorld()
+										.playSound(e.getPlayer().getLocation(), Sound.ENDERMAN_TELEPORT, 10, 1);
 								e.getPlayer().teleport(loc);
-								e.getPlayer().getWorld().playEffect(e.getPlayer().getLocation(), Effect.ENDER_SIGNAL, 0);
-								int delay = delayFromLevel(getItemLevel(e
-										.getItem()));
-								ItemDelay.setDelay(e.getPlayer(), this,
-										delay);
+								e.getPlayer().getWorld()
+										.playEffect(e.getPlayer().getLocation(), Effect.ENDER_SIGNAL, 0);
+								int delay = delayFromLevel(getItemLevel(e.getItem()));
+								ItemDelay.setDelay(e.getPlayer(), this, delay);
 							} else {
 								Lang.errMsg("worldguard", e.getPlayer());
 							}
@@ -119,9 +107,7 @@ public class BlinkPearl extends CustomItem {
 				} else {
 					int time = ItemDelay.getDelay(e.getPlayer(), this);
 					e.getPlayer().sendMessage(
-							ChatColor.GRAY
-									+ Lang.get("blinkpearl.recharge").replace(
-											"[TIME]", time + ""));
+							ChatColor.GRAY + Lang.get("blinkpearl.recharge").replace("[TIME]", time + ""));
 				}
 			}
 		}
@@ -136,5 +122,5 @@ public class BlinkPearl extends CustomItem {
 	public int getMaxLevel() {
 		return 5;
 	}
-	
+
 }

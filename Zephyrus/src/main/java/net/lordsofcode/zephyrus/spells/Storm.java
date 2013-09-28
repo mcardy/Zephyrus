@@ -8,9 +8,11 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -61,6 +63,7 @@ public class Storm extends Spell {
 			loc.setY(loc.getY() - 20);
 			loc.getWorld().strikeLightningEffect(loc);
 		}
+		Effects.playEffect(Sound.AMBIENCE_THUNDER, player.getLocation());
 		return true;
 	}
 

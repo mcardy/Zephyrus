@@ -73,6 +73,7 @@ public class Summon extends Spell {
 		Location loc = block.getLocation();
 		loc.setY(loc.getY() + 1);
 		Skeleton skel = loc.getWorld().spawn(loc, Skeleton.class);
+		skel.getEquipment().setHelmet(new ItemStack(Material.LEATHER_HELMET));
 		skel.setMetadata("owner", new FixedMetadataValue(Zephyrus.getPlugin(), player.getName()));
 		en.add(skel);
 		new End(skel).runTaskLater(Zephyrus.getPlugin(), getConfig().getInt(getName() + ".duration") * 20);

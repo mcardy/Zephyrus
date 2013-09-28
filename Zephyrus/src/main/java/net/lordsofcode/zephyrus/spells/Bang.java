@@ -8,10 +8,12 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -56,12 +58,11 @@ public class Bang extends Spell {
 		loc.setZ(loc.getZ() + 0.5);
 		Location ploc = loc;
 		ploc.setY(ploc.getY() + 2);
-		ParticleEffects.sendToLocation(ParticleEffects.MOB_SPELL_AMBIENT, loc,
-				1, 2, 1, 0, 200);
+		Effects.playEffect(ParticleEffects.MOB_SPELL_AMBIENT, loc, 1, 2, 1, 0, 200);
+		Effects.playEffect(Sound.EXPLODE, loc);
 		for (Entity e : getNearbyEntities(loc, r)) {
 			if (e != player) {
-				Vector unitVector = e.getLocation().toVector()
-						.subtract(loc.toVector()).normalize();
+				Vector unitVector = e.getLocation().toVector().subtract(loc.toVector()).normalize();
 				unitVector.setY(0.4);
 				e.setVelocity(unitVector.multiply(p * 0.4));
 			}
@@ -90,10 +91,8 @@ public class Bang extends Spell {
 		for (int chX = 0 - chunkRadius; chX <= chunkRadius; chX++) {
 			for (int chZ = 0 - chunkRadius; chZ <= chunkRadius; chZ++) {
 				int x = (int) l.getX(), y = (int) l.getY(), z = (int) l.getZ();
-				for (Entity e : new Location(l.getWorld(), x + (chX * 16), y, z
-						+ (chZ * 16)).getChunk().getEntities()) {
-					if (e.getLocation().distance(l) <= radius
-							&& e.getLocation().getBlock() != l.getBlock()) {
+				for (Entity e : new Location(l.getWorld(), x + (chX * 16), y, z + (chZ * 16)).getChunk().getEntities()) {
+					if (e.getLocation().distance(l) <= radius && e.getLocation().getBlock() != l.getBlock()) {
 						radiusEntities.add(e);
 					}
 				}
@@ -111,7 +110,7 @@ public class Bang extends Spell {
 	public Element getElementType() {
 		return Element.AIR;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.MEDIUM;

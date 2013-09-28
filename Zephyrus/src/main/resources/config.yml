@@ -85,3 +85,17 @@ Enable-Enchantments: true
 
 # This will change the chance for the enchantment to be applied
 Enchantment-Chance: 1
+
+
+# ####### #
+# Effects #
+# ####### #
+
+
+# The amount of particles being displayed
+# Options:  all, less, none
+Particle-Effects: all
+
+# This is the volume of sounds that are played
+# Options: high, low, off
+Sound-Volume: high

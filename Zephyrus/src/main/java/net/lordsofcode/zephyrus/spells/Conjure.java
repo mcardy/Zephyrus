@@ -9,11 +9,13 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -128,6 +130,7 @@ public class Conjure extends Spell {
 					itemName));
 			Zephyrus.getUser(player).drainMana(getValue(id) * amount);
 		}
+		Effects.playEffect(Sound.NOTE_PIANO, player.getLocation(), 1, 5);
 		return true;
 	}
 

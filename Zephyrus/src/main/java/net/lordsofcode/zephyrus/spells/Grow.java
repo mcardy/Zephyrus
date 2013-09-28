@@ -7,11 +7,13 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -31,7 +33,7 @@ public class Grow extends Spell {
 	public Grow() {
 		Lang.add("spells.grow.fail", "That block can't be grown...");
 	}
-	
+
 	@Override
 	public String getName() {
 		return "grow";
@@ -59,18 +61,14 @@ public class Grow extends Spell {
 			Lang.errMsg("spells.grow.fail", player);
 			return false;
 		}
-		// TODO Add support for mushrooms and melon seeds and carrots and potatoes
+		// TODO Add support for mushrooms, melon seeds, carrots and potatoes
 		if (player.getTargetBlock(null, 4).getTypeId() == 59) {
 			player.getTargetBlock(null, 4).setData((byte) 7);
 			Location loc = player.getTargetBlock(null, 4).getLocation();
 			loc.setX(loc.getX() + 0.6);
 			loc.setZ(loc.getZ() + 0.6);
 			loc.setY(loc.getY() + 0.3);
-			try {
-				ParticleEffects.sendToLocation(ParticleEffects.GREEN_SPARKLE,
-						loc, (float) 0.25, (float) 0.1, (float) 0.25, 100, 20);
-			} catch (Exception e) {
-			}
+			Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc, (float) 0.25, (float) 0.1, (float) 0.25, 100, 20);
 		}
 		if (player.getTargetBlock(null, 4).getType() == Material.SAPLING) {
 			Block b = player.getTargetBlock(null, 4);
@@ -82,11 +80,7 @@ public class Grow extends Spell {
 			loc.setX(loc.getX() + 0.6);
 			loc.setZ(loc.getZ() + 0.6);
 			loc.setY(loc.getY() + 0.3);
-			try {
-				ParticleEffects.sendToLocation(ParticleEffects.GREEN_SPARKLE,
-						loc, 1, 1, 1, 100, 20);
-			} catch (Exception e) {
-			}
+			Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc, (float) 0.25, (float) 0.1, (float) 0.25, 100, 20);
 		}
 		return true;
 	}
@@ -123,12 +117,12 @@ public class Grow extends Spell {
 	public Element getElementType() {
 		return Element.EARTH;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		// TODO Add config for growable blocks
@@ -139,5 +133,5 @@ public class Grow extends Spell {
 	public boolean sideEffect(Player player, String[] args) {
 		return false;
 	}
-	
+
 }

@@ -8,6 +8,7 @@ import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
@@ -78,14 +79,12 @@ public class Phase extends Spell {
 		} else if (bf == BlockFace.UP) {
 			loc.setY(loc.getY() + 2);
 		}
-		player.getWorld().playSound(player.getLocation(),
-				Sound.ENDERMAN_TELEPORT, 1, -1);
+		Effects.playEffect(Sound.ENDERMAN_TELEPORT, player.getLocation(), 1, -1);
 		Location ploc = player.getLocation();
 		ploc.setX(ploc.getX() + 0.5);
 		ploc.setZ(ploc.getZ() + 0.5);
 		ploc.setY(ploc.getY() + 2);
-		ParticleEffects.sendToLocation(ParticleEffects.ENDER,
-				player.getLocation(), 0, 0, 0, 2, 40);
+		Effects.playEffect(ParticleEffects.ENDER, player.getLocation(), 0, 0, 0, 2, 40);
 		player.teleport(loc);
 		return true;
 	}
@@ -111,48 +110,42 @@ public class Phase extends Spell {
 			loc1.setZ(loc1.getZ() + 1);
 			loc2 = loc1;
 			loc2.setY(loc2.getY() - 1);
-			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR) {
+			if (loc1.getBlock().getType() == Material.AIR && loc2.getBlock().getType() == Material.AIR) {
 				return true;
 			}
 		} else if (bf == BlockFace.SOUTH) {
 			loc1.setZ(loc1.getZ() - 1);
 			loc2 = loc1;
 			loc2.setY(loc2.getY() - 1);
-			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR) {
+			if (loc1.getBlock().getType() == Material.AIR && loc2.getBlock().getType() == Material.AIR) {
 				return true;
 			}
 		} else if (bf == BlockFace.EAST) {
 			loc1.setX(loc1.getX() - 1);
 			loc2 = loc1;
 			loc2.setY(loc2.getY() - 1);
-			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR) {
+			if (loc1.getBlock().getType() == Material.AIR && loc2.getBlock().getType() == Material.AIR) {
 				return true;
 			}
 		} else if (bf == BlockFace.WEST) {
 			loc1.setX(loc1.getX() + 1);
 			loc2 = loc1;
 			loc2.setY(loc2.getY() - 1);
-			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR) {
+			if (loc1.getBlock().getType() == Material.AIR && loc2.getBlock().getType() == Material.AIR) {
 				return true;
 			}
 		} else if (bf == BlockFace.DOWN) {
 			loc1.setY(loc1.getY() - 1);
 			loc2 = loc1;
 			loc2.setY(loc2.getY() - 1);
-			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR) {
+			if (loc1.getBlock().getType() == Material.AIR && loc2.getBlock().getType() == Material.AIR) {
 				return true;
 			}
 		} else if (bf == BlockFace.UP) {
 			loc1.setY(loc1.getY() + 1);
 			loc2 = loc1;
 			loc2.setY(loc2.getY() + 1);
-			if (loc1.getBlock().getType() == Material.AIR
-					&& loc2.getBlock().getType() == Material.AIR) {
+			if (loc1.getBlock().getType() == Material.AIR && loc2.getBlock().getType() == Material.AIR) {
 				return true;
 			}
 		}
@@ -162,8 +155,7 @@ public class Phase extends Spell {
 	private BlockFace yawToFace(Player player) {
 		float yaw = player.getLocation().getYaw();
 		float pitch = player.getLocation().getPitch();
-		BlockFace[] axis = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH,
-				BlockFace.WEST };
+		BlockFace[] axis = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
 		if (pitch < 45 && pitch > -45) {
 			return axis[Math.round(yaw / 90f) & 0x3];
 		} else if (pitch < -45) {
@@ -199,5 +191,5 @@ public class Phase extends Spell {
 	public boolean sideEffect(Player player, String[] args) {
 		return false;
 	}
-	
+
 }

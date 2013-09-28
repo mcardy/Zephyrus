@@ -8,10 +8,12 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -67,6 +69,7 @@ public class Repair extends Spell {
 			}
 			player.sendMessage(ChatColor.GRAY
 					+ "Your tool feels a bit stronger");
+			Effects.playEffect(Sound.ANVIL_USE, player.getLocation());
 			return true;
 		} else {
 			Lang.errMsg("spells.repair.fail", player);

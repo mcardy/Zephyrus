@@ -9,6 +9,7 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Bukkit;
@@ -98,7 +99,7 @@ public class Shield extends Spell {
 			if (p != null && playerMap.contains(player.getName())) {
 				Location loc = p.getLocation();
 				loc.setY(player.getLocation().getY() + 1);
-				ParticleEffects.sendToLocation(ParticleEffects.BLUE_SPARKLE,
+				Effects.playEffect(ParticleEffects.BLUE_SPARKLE,
 						loc, 0.5F, 1, 0.5F, 100, 10);
 				for (Entity e : p.getNearbyEntities(2, 2, 2)) {
 					if (e instanceof LivingEntity) {

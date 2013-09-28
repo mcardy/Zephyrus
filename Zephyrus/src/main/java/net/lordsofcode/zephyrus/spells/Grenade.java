@@ -7,8 +7,10 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.inventory.ItemStack;
@@ -49,6 +51,7 @@ public class Grenade extends Spell {
 			return false;
 		}
 		player.launchProjectile(WitherSkull.class);
+		Effects.playEffect(Sound.WITHER_SHOOT, player.getLocation());
 		return true;
 	}
 

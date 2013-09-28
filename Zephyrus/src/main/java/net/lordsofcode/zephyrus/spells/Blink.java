@@ -8,6 +8,7 @@ import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
@@ -30,10 +31,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class Blink extends Spell {
 
-	public Blink () {
+	public Blink() {
 		Lang.add("spells.blink.fail", ChatColor.DARK_RED + "Can't blink there!");
 	}
-	
+
 	@Override
 	public String getName() {
 		return "blink";
@@ -63,22 +64,18 @@ public class Blink extends Spell {
 
 	@Override
 	public boolean run(Player player, String[] args) {
-		if (player.getTargetBlock(null, 100) != null
-				&& player.getTargetBlock(null, 100).getType() != Material.AIR) {
+		if (player.getTargetBlock(null, 100) != null && player.getTargetBlock(null, 100).getType() != Material.AIR) {
 			Location loc = player.getTargetBlock(null, 100).getLocation();
 			loc.setY(loc.getY() + 1);
 			Location loc2 = loc;
 			loc2.setY(loc2.getY() + 1);
 			Block block = loc.getBlock();
 			Block block2 = loc2.getBlock();
-			if (block.getType() == Material.AIR
-					&& block2.getType() == Material.AIR) {
+			if (block.getType() == Material.AIR && block2.getType() == Material.AIR) {
 				if (PluginHook.canBuild(player, block)) {
 					Location oldLoc = player.getLocation();
-					ParticleEffects.sendToLocation(ParticleEffects.ENDER,
-							oldLoc, 1, 1, 1, 1, 16);
-					player.getWorld().playSound(player.getLocation(),
-							Sound.ENDERMAN_TELEPORT, 10, 1);
+					Effects.playEffect(ParticleEffects.ENDER, oldLoc, 1, 1, 1, 1, 16);
+					Effects.playEffect(Sound.ENDERMAN_TELEPORT, player.getLocation(), 10, 1);
 					loc.setX(loc.getX() + 0.5);
 					loc.setY(loc.getY() + 0.25);
 					loc.setZ(loc.getZ() + 0.5);
@@ -108,7 +105,7 @@ public class Blink extends Spell {
 	public Element getElementType() {
 		return Element.ENDER;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;
@@ -118,5 +115,5 @@ public class Blink extends Spell {
 	public boolean sideEffect(Player player, String[] args) {
 		return false;
 	}
-	
+
 }

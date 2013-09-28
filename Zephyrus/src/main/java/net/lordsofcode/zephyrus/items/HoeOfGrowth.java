@@ -1,6 +1,7 @@
 package net.lordsofcode.zephyrus.items;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.ChatColor;
@@ -69,7 +70,7 @@ public class HoeOfGrowth extends CustomItem {
 			loc.setX(loc.getX() + 0.6);
 			loc.setZ(loc.getZ() + 0.6);
 			loc.setY(loc.getY() + 0.3);
-			ParticleEffects.sendToLocation(ParticleEffects.GREEN_SPARKLE, loc,
+			Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc,
 					1, 0, 1, 100, 20);
 			e.getItem().setDurability((short) (e.getItem().getDurability() + 1));
 		}
@@ -87,7 +88,7 @@ public class HoeOfGrowth extends CustomItem {
 				loc.setX(loc.getX() + 0.6);
 				loc.setZ(loc.getZ() + 0.6);
 				loc.setY(loc.getY() + 0.3);
-				ParticleEffects.sendToLocation(ParticleEffects.GREEN_SPARKLE,
+				Effects.playEffect(ParticleEffects.GREEN_SPARKLE,
 						loc, 1, 1, 1, 100, 20);
 			} else {
 				Block b = e.getClickedBlock();
@@ -99,7 +100,7 @@ public class HoeOfGrowth extends CustomItem {
 				loc.setX(loc.getX() + 0.6);
 				loc.setZ(loc.getZ() + 0.6);
 				loc.setY(loc.getY() + 0.3);
-				ParticleEffects.sendToLocation(ParticleEffects.GREEN_SPARKLE,
+				Effects.playEffect(ParticleEffects.GREEN_SPARKLE,
 						loc, 1, 1, 1, 100, 20);
 			}
 		}

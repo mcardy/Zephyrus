@@ -9,6 +9,7 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Bukkit;
@@ -57,8 +58,7 @@ public class Zephyr extends Spell {
 		boolean b = getConfig().getBoolean(getName() + ".block-all");
 		int p = getConfig().getInt(getName() + ".power");
 		playerMap.add(player.getName());
-		new Run(player, b, p).runTaskTimer(Zephyrus.getPlugin(), (long) 0.1,
-				(long) 0.1);
+		new Run(player, b, p).runTaskTimer(Zephyrus.getPlugin(), (long) 0.1, (long) 0.1);
 		startDelay(player, time * 20);
 		return true;
 	}
@@ -103,22 +103,16 @@ public class Zephyr extends Spell {
 			if (p != null && playerMap.contains(player.getName())) {
 				Location loc = p.getLocation();
 				loc.setY(player.getLocation().getY() + 1);
-				ParticleEffects.sendToLocation(
-						ParticleEffects.CLOUD, loc, (float) 0.5,
-						(float) 0.5, (float) 0.5, 0, 10);
+				Effects.playEffect(ParticleEffects.CLOUD, loc, (float) 0.5, (float) 0.5, (float) 0.5, 0, 10);
 				for (Entity e : p.getNearbyEntities(3, 3, 3)) {
 					if (b) {
-						Vector unitVector = e.getLocation().toVector()
-								.subtract(p.getLocation().toVector())
-								.normalize();
+						Vector unitVector = e.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
 						unitVector.setY(0.4);
-						e.setVelocity(unitVector.multiply(power*0.4));
+						e.setVelocity(unitVector.multiply(power * 0.4));
 					} else if (e instanceof LivingEntity) {
-						Vector unitVector = e.getLocation().toVector()
-								.subtract(p.getLocation().toVector())
-								.normalize();
+						Vector unitVector = e.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
 						unitVector.setY(0.4);
-						e.setVelocity(unitVector.multiply(power*0.4));
+						e.setVelocity(unitVector.multiply(power * 0.4));
 					}
 				}
 			} else {

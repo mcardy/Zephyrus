@@ -7,6 +7,7 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
@@ -72,6 +73,7 @@ public class Home extends Spell {
 			goHome(player);
 			Lang.msg("spells.home.applied", player);
 			player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 1);
+			Effects.playEffect(Sound.ENDERMAN_TELEPORT, player.getLocation(), 1, 10);
 		}
 		return true;
 	}
@@ -112,7 +114,7 @@ public class Home extends Spell {
 		String world = cfg.getString("spell.home.world");
 		Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
 		player.teleport(loc);
-		ParticleEffects.sendToLocation(ParticleEffects.ENDER, loc, 0, 0, 0, 2,
+		Effects.playEffect(ParticleEffects.ENDER, loc, 0, 0, 0, 2,
 				20);
 		player.getWorld().playSound(loc, Sound.ENDERMAN_TELEPORT, 10, 1);
 	}

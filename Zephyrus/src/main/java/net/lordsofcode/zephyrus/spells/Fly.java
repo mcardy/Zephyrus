@@ -10,6 +10,7 @@ import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
@@ -66,20 +67,18 @@ public class Fly extends Spell {
 		int t = getConfig().getInt(getName() + ".duration");
 		if (list.containsKey(player.getName())) {
 			list.put(player.getName(), list.get(player.getName()) + t * 20);
-			player.sendMessage(Lang.get("spells.fly.applied").replace("[TIME]",
-					list.get(player.getName()) / 20 + ""));
+			player.sendMessage(Lang.get("spells.fly.applied").replace("[TIME]", list.get(player.getName()) / 20 + ""));
 			player.setAllowFlight(true);
 			new FeatherRunnable(player).runTaskLater(Zephyrus.getPlugin(), 2);
 		} else {
 			list.put(player.getName(), t * 20);
-			player.sendMessage(Lang.get("spells.fly.applied").replace("[TIME]",
-					list.get(player.getName()) / 20 + ""));
+			player.sendMessage(Lang.get("spells.fly.applied").replace("[TIME]", list.get(player.getName()) / 20 + ""));
 			player.setAllowFlight(true);
 			new FeatherRunnable(player).runTaskLater(Zephyrus.getPlugin(), 2);
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void onDisable() {
 		for (String s : list.keySet()) {
@@ -107,14 +106,14 @@ public class Fly extends Spell {
 	public ISpell getRequiredSpell() {
 		return Spell.forName("feather");
 	}
-	
+
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e) {
 		if (list.containsKey(e.getPlayer())) {
 			list.remove(e.getPlayer().getName());
 		}
 	}
-	
+
 	@EventHandler
 	public void onKick(PlayerKickEvent e) {
 		if (list.containsKey(e.getPlayer())) {
@@ -132,16 +131,13 @@ public class Fly extends Spell {
 
 		@Override
 		public void run() {
-			if (list.containsKey(player.getName()) && player.isOnline()
-					&& list.get(player.getName()) > 0) {
+			if (list.containsKey(player.getName()) && player.isOnline() && list.get(player.getName()) > 0) {
 				if (list.get(player.getName()) == 5) {
 					Lang.msg("spells.fly.warning", player);
 				}
 				list.put(player.getName(), list.get(player.getName()) - 2);
 				if (player.isFlying()) {
-					ParticleEffects.sendToLocation(ParticleEffects.CLOUD,
-							player.getLocation(), (float) 0.5, 0, (float) 0.5,
-							0, 10);
+					Effects.playEffect(ParticleEffects.CLOUD, player.getLocation(), 0.5F, 0, 0.5F, 0, 10);
 				}
 				new FeatherRunnable(player).runTaskLater(Zephyrus.getPlugin(), 2);
 			} else {
@@ -163,7 +159,7 @@ public class Fly extends Spell {
 	public Element getElementType() {
 		return Element.GENERIC;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;

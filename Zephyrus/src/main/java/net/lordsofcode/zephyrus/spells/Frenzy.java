@@ -9,6 +9,7 @@ import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
@@ -38,7 +39,7 @@ public class Frenzy extends Spell {
 
 	@Override
 	public String getDesc() {
-		return "Better confusion. HUGE range!";
+		return "Better confusion. Bigger range!";
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class Frenzy extends Spell {
 			m.getHandle().setGoalTarget(tar.getHandle());
 			Location loc = m.getLocation();
 			loc.setY(loc.getY() + 1);
-			ParticleEffects.sendToLocation(ParticleEffects.ANGRY_VILLAGER, loc,
+			Effects.playEffect(ParticleEffects.ANGRY_VILLAGER, loc,
 					0.25F, 0.25F, 0.25F, 5, 10);
 		}
 		return true;

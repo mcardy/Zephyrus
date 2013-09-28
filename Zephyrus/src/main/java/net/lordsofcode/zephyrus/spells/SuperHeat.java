@@ -10,6 +10,7 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
@@ -45,9 +46,7 @@ public class SuperHeat extends Spell {
 
 	@Override
 	public String getDesc() {
-		return ChatColor.RED
-				+ "SuperHeats "
-				+ ChatColor.BLACK
+		return ChatColor.RED + "SuperHeats " + ChatColor.BLACK
 				+ "everything you touch! Cooks ores, smelts cobble, and melts sand!"
 				+ " It might also work on animals...";
 	}
@@ -87,11 +86,9 @@ public class SuperHeat extends Spell {
 				b.setType(Material.getMaterial(change));
 			} else {
 				b.setType(Material.AIR);
-				loc.getWorld().dropItem(loc,
-						new ItemStack(Material.getMaterial(change)));
+				loc.getWorld().dropItem(loc, new ItemStack(Material.getMaterial(change)));
 			}
-			ParticleEffects.sendToLocation(ParticleEffects.FIRE, loc, 0.6F,
-					0.6F, 0.6F, 0, 20);
+			Effects.playEffect(ParticleEffects.FIRE, loc, 0.6F, 0.6F, 0.6F, 0, 20);
 			return true;
 		} else {
 			Entity en = getTarget(player);

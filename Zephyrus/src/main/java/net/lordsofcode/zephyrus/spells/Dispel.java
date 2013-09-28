@@ -7,8 +7,10 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -48,6 +50,7 @@ public class Dispel extends Spell {
 		for (PotionEffect pe : player.getActivePotionEffects()) {
 			player.removePotionEffect(pe.getType());
 		}
+		Effects.playEffect(Sound.WITHER_SHOOT, player.getLocation(), 1, 8);
 		return true;
 	}
 

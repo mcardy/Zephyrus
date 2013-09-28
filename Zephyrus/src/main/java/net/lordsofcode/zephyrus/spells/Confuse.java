@@ -8,6 +8,7 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Location;
@@ -69,7 +70,7 @@ public class Confuse extends Spell {
 			m.getHandle().setGoalTarget(tar.getHandle());
 			Location loc = m.getLocation();
 			loc.setY(loc.getY() + 1);
-			ParticleEffects.sendToLocation(ParticleEffects.ANGRY_VILLAGER, loc,
+			Effects.playEffect(ParticleEffects.ANGRY_VILLAGER, loc,
 					0.25F, 0.25F, 0.25F, 5, 5);
 		}
 		return true;

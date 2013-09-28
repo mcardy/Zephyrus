@@ -31,7 +31,7 @@ public class Zap extends Spell {
 	public Zap() {
 		Lang.add("spells.zap.fail", "You don't have a valid target!");
 	}
-	
+
 	@Override
 	public String getName() {
 		return "zap";
@@ -56,13 +56,13 @@ public class Zap extends Spell {
 	public boolean run(Player player, String[] args) {
 		Entity e = getTarget(player);
 		if (e instanceof LivingEntity) {
-		Set<Entity> list = new HashSet<Entity>();
-		int r = getConfig().getInt(getName() + ".radius");
-		LivingEntity en = (LivingEntity) e;
-		en.getWorld().strikeLightning(e.getLocation());
-		list.add(e);
-		loopThrough(e.getNearbyEntities(r, r, r), player, list);
-		return true;
+			Set<Entity> list = new HashSet<Entity>();
+			int r = getConfig().getInt(getName() + ".radius");
+			LivingEntity en = (LivingEntity) e;
+			en.getWorld().strikeLightning(e.getLocation());
+			list.add(e);
+			loopThrough(e.getNearbyEntities(r, r, r), player, list);
+			return true;
 		}
 		Lang.errMsg("spells.zap.fail", player);
 		return false;
@@ -72,14 +72,15 @@ public class Zap extends Spell {
 		int r = getConfig().getInt(getName() + ".radius");
 		int l = getConfig().getInt(getName() + ".limit");
 		for (Entity en : e) {
-			if (en instanceof LivingEntity && en != player && en.getLocation().distance(player.getLocation()) < l && !list.contains(en)) {
+			if (en instanceof LivingEntity && en != player && en.getLocation().distance(player.getLocation()) < l
+					&& !list.contains(en)) {
 				en.getWorld().strikeLightning(en.getLocation());
 				list.add(en);
 				loopThrough(en.getNearbyEntities(r, r, r), player, list);
 			}
 		}
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -96,7 +97,7 @@ public class Zap extends Spell {
 		i.add(new ItemStack(Material.EMERALD, 4));
 		return i;
 	}
-	
+
 	@Override
 	public ISpell getRequiredSpell() {
 		return Spell.forName("smite");

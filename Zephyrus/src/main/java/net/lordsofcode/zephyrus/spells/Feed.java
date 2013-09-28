@@ -8,9 +8,11 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.utils.Effects;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -58,6 +60,7 @@ public class Feed extends Spell {
 			player.setFoodLevel(player.getFoodLevel() + a);
 		}
 		Lang.msg("spells.feed.applied", player);
+		Effects.playEffect(Sound.EAT, player.getLocation());
 		return true;
 	}
 
