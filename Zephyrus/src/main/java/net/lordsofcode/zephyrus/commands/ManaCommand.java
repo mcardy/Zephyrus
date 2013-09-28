@@ -1,6 +1,7 @@
 package net.lordsofcode.zephyrus.commands;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Bukkit;
@@ -57,6 +58,10 @@ public class ManaCommand implements CommandExecutor {
 							Lang.errMsg("notonline", sender);
 						}
 					}
+				} else if (args[0].equalsIgnoreCase("display")) {
+					IUser user = Zephyrus.getUser((Player)sender);
+					user.setDisplayMana(!user.getDisplayMana());
+					user.drainMana(0);
 				} else if (sender.hasPermission("zephyrus.mana.other") || sender.isOp()) {
 					if (isOnline(args[0])) {
 						Player target = Bukkit.getServer().getPlayer(args[0]);

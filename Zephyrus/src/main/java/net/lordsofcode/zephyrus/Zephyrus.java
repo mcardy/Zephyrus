@@ -10,11 +10,11 @@ import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.api.SpellManager;
 import net.lordsofcode.zephyrus.enchantments.GlowEffect;
+import net.lordsofcode.zephyrus.items.ItemUtil;
+import net.lordsofcode.zephyrus.items.Merchant;
 import net.lordsofcode.zephyrus.loader.SpellLoader;
 import net.lordsofcode.zephyrus.player.User;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
-import net.lordsofcode.zephyrus.utils.ItemUtil;
-import net.lordsofcode.zephyrus.utils.Merchant;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -45,6 +45,8 @@ public class Zephyrus {
 
 	public GlowEffect glow = new GlowEffect(120);
 
+	static int manaRegenTime;
+	
 	static Map<String, Map<String, Integer>> itemDelay;
 	static Map<String, Merchant> invPlayers;
 
@@ -61,6 +63,7 @@ public class Zephyrus {
 		spellsConfig = new ConfigHandler("spells.yml");
 		enchantmentsConfig = new ConfigHandler("enchantments.yml");
 		langConfig = new ConfigHandler("lang.yml");
+		manaRegenTime = Zephyrus.getConfig().getInt("ManaRegen");
 	}
 
 	/**
@@ -178,6 +181,15 @@ public class Zephyrus {
 		getSpellManager().addSpell(spell);
 	}
 
+	/**
+	 * Gets the time between mana regeneration
+	 * 
+	 * @return
+	 */
+	public static int getManaRegenTime() {
+		return manaRegenTime;
+	}
+	
 	/**
 	 * Wraps the user from the specified player
 	 * 

@@ -120,5 +120,9 @@ public interface IUser {
 	 *            The CommandSender to display the mana to
 	 */
 	public void displayLevel(CommandSender sender);
+	
+	public void setDisplayMana(boolean b);
+	
+	public boolean getDisplayMana();
 
 }

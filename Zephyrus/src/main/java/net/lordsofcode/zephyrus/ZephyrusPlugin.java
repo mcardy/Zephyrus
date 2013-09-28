@@ -24,12 +24,14 @@ import net.lordsofcode.zephyrus.items.BlinkPearl;
 import net.lordsofcode.zephyrus.items.GemOfLightning;
 import net.lordsofcode.zephyrus.items.HoeOfGrowth;
 import net.lordsofcode.zephyrus.items.ManaPotion;
+import net.lordsofcode.zephyrus.items.Merchant;
 import net.lordsofcode.zephyrus.items.RodOfFire;
 import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.items.Wand;
 import net.lordsofcode.zephyrus.listeners.EconListener;
 import net.lordsofcode.zephyrus.listeners.LevelingListener;
 import net.lordsofcode.zephyrus.listeners.PlayerListener;
+import net.lordsofcode.zephyrus.player.mana.ManaBar;
 import net.lordsofcode.zephyrus.spells.Armour;
 import net.lordsofcode.zephyrus.spells.Arrow;
 import net.lordsofcode.zephyrus.spells.ArrowStorm;
@@ -78,7 +80,6 @@ import net.lordsofcode.zephyrus.spells.Vision;
 import net.lordsofcode.zephyrus.spells.Zap;
 import net.lordsofcode.zephyrus.spells.Zephyr;
 import net.lordsofcode.zephyrus.utils.Lang;
-import net.lordsofcode.zephyrus.utils.Merchant;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -352,6 +353,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 		pm.registerEvents(new LevelingListener(), this);
 		pm.registerEvents(new SpellTome(), this);
 		pm.registerEvents(new PlayerListener(), this);
+		pm.registerEvents(new ManaBar(), this);
 	}
 
 	private void addCommands() {

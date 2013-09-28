@@ -3,6 +3,7 @@ package net.lordsofcode.zephyrus.player;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
+import net.lordsofcode.zephyrus.events.ManaChangeEvent;
 import net.lordsofcode.zephyrus.events.PlayerLevelUpEvent;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
@@ -56,6 +57,7 @@ public class User implements IUser {
 	public int drainMana(int mana) {
 		mana = mana * Zephyrus.getPlugin().getConfig().getInt("ManaMultiplier");
 		int level = getLevel();
+		onManaChanged(mana);
 		if (getMana() - mana > level * 100) {
 			Zephyrus.getManaMap().put(player.getName(), level * 100);
 			return level * 100;
@@ -128,7 +130,8 @@ public class User implements IUser {
 	public void loadMana() {
 		if (!Zephyrus.getManaMap().containsKey(player.getName())) {
 			Zephyrus.getManaMap().put(player.getName(), cfg.getInt("mana"));
-			new ManaRecharge(player).runTaskLater(Zephyrus.getPlugin(), 30);
+			new ManaRecharge(player.getName()).runTaskLater(Zephyrus.getPlugin(), Zephyrus.getManaRegenTime());
+			onManaChanged(cfg.getInt("mana"));
 		}
 	}
 
@@ -256,6 +259,21 @@ public class User implements IUser {
 						+ ChatColor.DARK_BLUE + "]===---");
 			}
 		}
+	}
+
+	@Override
+	public void setDisplayMana(boolean b) {
+		cfg.set("display-mana", b);
+		PlayerConfigHandler.saveConfig(player, cfg);
+	}
+
+	@Override
+	public boolean getDisplayMana() {
+		return cfg.getBoolean("display-mana");
+	}
+
+	private void onManaChanged(int amount) {
+		Bukkit.getPluginManager().callEvent(new ManaChangeEvent(this.player, amount));
 	}
 
 }
