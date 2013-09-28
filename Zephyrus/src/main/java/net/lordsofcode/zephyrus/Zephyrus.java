@@ -29,7 +29,7 @@ import org.bukkit.inventory.ItemStack;
  * 
  * @author minnymin3
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- * @version 1.3.0
+ * @version 1.4.0
  */
 
 public class Zephyrus {
@@ -44,8 +44,6 @@ public class Zephyrus {
 	ConfigHandler itemsConfig = new ConfigHandler("items.yml");
 
 	public GlowEffect glow = new GlowEffect(120);
-
-	public String[] updateMsg = new String[4];
 
 	static Map<String, Map<String, Integer>> itemDelay;
 	static Map<String, Merchant> invPlayers;
