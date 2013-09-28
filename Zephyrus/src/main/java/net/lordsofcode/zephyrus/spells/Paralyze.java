@@ -64,7 +64,7 @@ public class Paralyze extends Spell {
 		en.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time * 20, 100));
 		return true;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		Map<String, Object> cfg = new HashMap<String, Object>();
@@ -75,7 +75,7 @@ public class Paralyze extends Spell {
 	@Override
 	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
-		//Slowness extended potions
+		// Slowness extended potions
 		s.add(new ItemStack(Material.POTION, 1, (short) 8202));
 		return s;
 	}

@@ -200,18 +200,16 @@ public class Zephyrus {
 			instance.itemsConfig.saveConfig();
 		}
 		if (!instance.itemsConfig.getConfig().contains(i.getConfigName() + ".displayname")) {
-			instance.itemsConfig.getConfig().set(i.getConfigName() + ".displayname", 
+			instance.itemsConfig.getConfig().set(i.getConfigName() + ".displayname",
 					i.getName().replace(ChatColor.COLOR_CHAR + "", "$"));
 			instance.itemsConfig.saveConfig();
 		}
-		if (instance.itemsConfig.getConfig().getBoolean(
-				i.getConfigName() + ".enabled")) {
+		if (instance.itemsConfig.getConfig().getBoolean(i.getConfigName() + ".enabled")) {
 			if (i.getRecipe() != null) {
 				getPlugin().getServer().addRecipe(i.getRecipe());
 			}
 			try {
-				getPlugin().getServer().getPluginManager()
-						.registerEvents(i, getPlugin());
+				getPlugin().getServer().getPluginManager().registerEvents(i, getPlugin());
 			} catch (Exception e) {
 			}
 			if (i.hasLevel() && i.getName() != null) {

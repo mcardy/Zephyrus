@@ -22,12 +22,13 @@ import net.lordsofcode.zephyrus.api.ISpell;
  */
 
 public class SpellLoader {
-	
+
 	private List<ISpell> spellMap = new ArrayList<ISpell>();
-	
+
 	/**
 	 * Loads spells from the spell folder
-	 * @throws MalformedURLException 
+	 * 
+	 * @throws MalformedURLException
 	 */
 	public void loadSpells() throws MalformedURLException {
 		File dir = new File(Zephyrus.getPlugin().getDataFolder(), "Spells");
@@ -37,13 +38,11 @@ public class SpellLoader {
 			return;
 		}
 		URL[] urls = new URL[] { dir.toURI().toURL() };
-		ClassLoader cl = new URLClassLoader(urls,
-				Zephyrus.class.getClassLoader());
+		ClassLoader cl = new URLClassLoader(urls, Zephyrus.class.getClassLoader());
 		for (File f : dir.listFiles()) {
 			try {
 				if (f.getName().endsWith(".class")) {
-					Class<?> cls = cl.loadClass(f.getName().replace(".class",
-							""));
+					Class<?> cls = cl.loadClass(f.getName().replace(".class", ""));
 					Object obj = cls.newInstance();
 					if (obj instanceof ISpell) {
 						spellMap.add((ISpell) obj);
@@ -52,15 +51,12 @@ public class SpellLoader {
 					JarFile jFile = new JarFile(f.getPath());
 					Enumeration<JarEntry> e = jFile.entries();
 					urls = new URL[] { f.toURI().toURL() };
-					cl = new URLClassLoader(urls,
-							Zephyrus.class.getClassLoader());
+					cl = new URLClassLoader(urls, Zephyrus.class.getClassLoader());
 					while (e.hasMoreElements()) {
 						JarEntry entry = e.nextElement();
-						if (entry.isDirectory()
-								|| !entry.getName().endsWith(".class"))
+						if (entry.isDirectory() || !entry.getName().endsWith(".class"))
 							continue;
-						String className = entry.getName().substring(0,
-								entry.getName().length() - 6);
+						String className = entry.getName().substring(0, entry.getName().length() - 6);
 						className = className.replace('/', '.');
 						try {
 							Class<?> cls = cl.loadClass(className);
@@ -74,11 +70,7 @@ public class SpellLoader {
 					}
 				}
 			} catch (Exception ex) {
-				Zephyrus.getPlugin()
-						.getLogger()
-						.warning(
-								"Error loading file " + f.getName() + "! "
-										+ ex.getMessage());
+				Zephyrus.getPlugin().getLogger().warning("Error loading file " + f.getName() + "! " + ex.getMessage());
 			}
 		}
 	}

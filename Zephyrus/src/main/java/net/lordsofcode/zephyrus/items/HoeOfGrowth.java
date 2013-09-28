@@ -26,7 +26,7 @@ import org.bukkit.inventory.ShapedRecipe;
  */
 
 public class HoeOfGrowth extends CustomItem {
-	
+
 	@Override
 	public String getName() {
 		return ChatColor.getByChar("a") + "Hoe of Growth";
@@ -59,23 +59,19 @@ public class HoeOfGrowth extends CustomItem {
 
 	@EventHandler
 	public void grow(PlayerInteractEvent e) throws Exception {
-		//TODO Add support for mushrooms and melon seeds
-		if (e.getClickedBlock() != null
-				&& e.getAction() == Action.RIGHT_CLICK_BLOCK
-				&& e.getClickedBlock().getTypeId() == 59
-				&& checkName(e.getPlayer().getItemInHand(), getDisplayName())
+		// TODO Add support for mushrooms and melon seeds
+		if (e.getClickedBlock() != null && e.getAction() == Action.RIGHT_CLICK_BLOCK
+				&& e.getClickedBlock().getTypeId() == 59 && checkName(e.getPlayer().getItemInHand(), getDisplayName())
 				&& e.getClickedBlock().getData() != 7) {
 			e.getClickedBlock().setData((byte) 7);
 			Location loc = e.getClickedBlock().getLocation();
 			loc.setX(loc.getX() + 0.6);
 			loc.setZ(loc.getZ() + 0.6);
 			loc.setY(loc.getY() + 0.3);
-			Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc,
-					1, 0, 1, 100, 20);
+			Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc, 1, 0, 1, 100, 20);
 			e.getItem().setDurability((short) (e.getItem().getDurability() + 1));
 		}
-		if (e.getClickedBlock() != null
-				&& e.getClickedBlock().getType() == Material.SAPLING
+		if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.SAPLING
 				&& checkName(e.getPlayer().getItemInHand(), getDisplayName())
 				&& e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (getItemLevel(e.getPlayer().getItemInHand()) == 1) {
@@ -88,8 +84,7 @@ public class HoeOfGrowth extends CustomItem {
 				loc.setX(loc.getX() + 0.6);
 				loc.setZ(loc.getZ() + 0.6);
 				loc.setY(loc.getY() + 0.3);
-				Effects.playEffect(ParticleEffects.GREEN_SPARKLE,
-						loc, 1, 1, 1, 100, 20);
+				Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc, 1, 1, 1, 100, 20);
 			} else {
 				Block b = e.getClickedBlock();
 				TreeType tt = getGiantTree(b.getData());
@@ -100,8 +95,7 @@ public class HoeOfGrowth extends CustomItem {
 				loc.setX(loc.getX() + 0.6);
 				loc.setZ(loc.getZ() + 0.6);
 				loc.setY(loc.getY() + 0.3);
-				Effects.playEffect(ParticleEffects.GREEN_SPARKLE,
-						loc, 1, 1, 1, 100, 20);
+				Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc, 1, 1, 1, 100, 20);
 			}
 		}
 	}

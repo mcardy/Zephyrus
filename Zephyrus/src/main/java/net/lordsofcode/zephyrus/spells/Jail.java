@@ -84,28 +84,24 @@ public class Jail extends Spell {
 		for (int x = loc.getBlockX() - 1; x < loc.getBlockX() + 2; x++) {
 			for (int y = loc.getBlockY() - 1; y < loc.getBlockY() + 3; y++) {
 				for (int z = loc.getBlockZ() - 1; z < loc.getBlockZ() + 2; z++) {
-					if (x == loc.getBlockX() && z == loc.getBlockZ()
-							&& y < loc.getBlockY() + 2
+					if (x == loc.getBlockX() && z == loc.getBlockZ() && y < loc.getBlockY() + 2
 							&& y != loc.getBlockY() - 1) {
 					} else {
-						BlockBreakEvent e = new BlockBreakEvent(new Location(
-								player.getWorld(), x, y, z).getBlock(), player);
+						BlockBreakEvent e = new BlockBreakEvent(new Location(player.getWorld(), x, y, z).getBlock(),
+								player);
 						Bukkit.getPluginManager().callEvent(e);
 						if (e.isCancelled()) {
 							return false;
 						}
-						if (y == loc.getBlockY() - 1
-								|| y == loc.getBlockY() + 2) {
-							Location bloc = new Location(loc.getWorld(), x, y,
-									z);
+						if (y == loc.getBlockY() - 1 || y == loc.getBlockY() + 2) {
+							Location bloc = new Location(loc.getWorld(), x, y, z);
 							Block b = bloc.getBlock();
 							if (!(b instanceof BlockChest) && !(b instanceof BlockFurnace)) {
 								map.put(bloc, new BlockData(b));
 								blocks.add(b);
 							}
 						} else {
-							Location bloc = new Location(loc.getWorld(), x, y,
-									z);
+							Location bloc = new Location(loc.getWorld(), x, y, z);
 							Block b = bloc.getBlock();
 							if (!(b instanceof BlockChest) && !(b instanceof BlockFurnace)) {
 								map.put(bloc, new BlockData(b));
@@ -118,13 +114,11 @@ public class Jail extends Spell {
 		}
 		for (Block b : bars) {
 			b.setType(Material.IRON_FENCE);
-			b.setMetadata("jailblock",
-					new FixedMetadataValue(Zephyrus.getPlugin(), true));
+			b.setMetadata("jailblock", new FixedMetadataValue(Zephyrus.getPlugin(), true));
 		}
 		for (Block b : blocks) {
 			b.setType(Material.IRON_BLOCK);
-			b.setMetadata("jailblock",
-					new FixedMetadataValue(Zephyrus.getPlugin(), true));
+			b.setMetadata("jailblock", new FixedMetadataValue(Zephyrus.getPlugin(), true));
 		}
 		this.lmap.add(map);
 		new Reset(map).runTaskLater(Zephyrus.getPlugin(), i * 20);
@@ -183,8 +177,7 @@ public class Jail extends Spell {
 	public void onBreakJail(BlockBreakEvent e) {
 		if (e.getPlayer() != null) {
 			Block b = e.getBlock();
-			if (b.getType() == Material.IRON_FENCE
-					|| b.getType() == Material.IRON_BLOCK) {
+			if (b.getType() == Material.IRON_FENCE || b.getType() == Material.IRON_BLOCK) {
 				if (b.hasMetadata("jailblock")) {
 					e.setCancelled(true);
 					Lang.msg("spells.jail.break", e.getPlayer());

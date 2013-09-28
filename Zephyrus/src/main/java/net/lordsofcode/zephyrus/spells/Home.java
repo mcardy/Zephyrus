@@ -45,9 +45,8 @@ public class Home extends Spell {
 
 	@Override
 	public String getDesc() {
-		return "Set your home with" + ChatColor.BOLD + "/cast home set!"
-				+ ChatColor.RESET + "Then go to your home with "
-				+ ChatColor.BOLD + "/cast home!";
+		return "Set your home with" + ChatColor.BOLD + "/cast home set!" + ChatColor.RESET
+				+ "Then go to your home with " + ChatColor.BOLD + "/cast home!";
 	}
 
 	@Override
@@ -88,7 +87,7 @@ public class Home extends Spell {
 	}
 
 	private void setHome(Player player) {
-		FileConfiguration cfg = PlayerConfigHandler.getConfig( player);
+		FileConfiguration cfg = PlayerConfigHandler.getConfig(player);
 		Location loc = player.getLocation();
 		cfg.set("spell.home.x", loc.getX());
 		cfg.set("spell.home.y", loc.getY());
@@ -114,11 +113,10 @@ public class Home extends Spell {
 		String world = cfg.getString("spell.home.world");
 		Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
 		player.teleport(loc);
-		Effects.playEffect(ParticleEffects.ENDER, loc, 0, 0, 0, 2,
-				20);
+		Effects.playEffect(ParticleEffects.ENDER, loc, 0, 0, 0, 2, 20);
 		player.getWorld().playSound(loc, Sound.ENDERMAN_TELEPORT, 10, 1);
 	}
-	
+
 	@Override
 	public EffectType getPrimaryType() {
 		return EffectType.TELEPORTATION;
@@ -128,7 +126,7 @@ public class Home extends Spell {
 	public Element getElementType() {
 		return Element.ENDER;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;

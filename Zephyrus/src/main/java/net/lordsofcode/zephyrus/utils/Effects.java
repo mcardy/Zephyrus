@@ -20,30 +20,30 @@ public class Effects {
 	public static void playEffect(Effect effect, Location loc) {
 		playEffect(effect, loc, 0);
 	}
-	
+
 	public static void playEffect(Effect effect, Location loc, int data) {
 		playEffect(effect, loc, data, 0);
 	}
-	
+
 	public static void playEffect(Effect effect, Location loc, int data, int radius) {
 		loc.getWorld().playEffect(loc, effect, data, radius);
 	}
-	
+
 	public static void playEffect(Sound sound, Location loc) {
 		playEffect(sound, loc, 1);
 	}
-	
+
 	public static void playEffect(Sound sound, Location loc, float volume) {
 		playEffect(sound, loc, volume, 1);
 	}
-	
+
 	public static void playEffect(Sound sound, Location loc, float volume, float pitch) {
 		String soundVolume = Zephyrus.getConfig().contains("Sound-Volume") ? Zephyrus.getConfig().getString(
 				"Sound-Volume") : "high";
 		float newVolume = getVolume(soundVolume, volume);
 		loc.getWorld().playSound(loc, sound, newVolume, pitch);
 	}
-	
+
 	public static void playEffect(ParticleEffects effect, Block block, int count) {
 		Location loc = block.getLocation();
 		loc.setX(loc.getX() + 0.5);
@@ -86,12 +86,12 @@ public class Effects {
 			return amount;
 		}
 	}
-	
+
 	private static float getVolume(String option, float volume) {
 		if (option.equalsIgnoreCase("off")) {
 			return 0;
 		} else if (option.equalsIgnoreCase("low")) {
-			return volume / (float) 4;
+			return volume / 4;
 		} else {
 			return volume;
 		}

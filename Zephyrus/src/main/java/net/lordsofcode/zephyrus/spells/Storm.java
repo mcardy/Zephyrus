@@ -27,7 +27,7 @@ import org.bukkit.inventory.ItemStack;
 public class Storm extends Spell {
 
 	public Storm() {
-		
+
 	}
 
 	@Override

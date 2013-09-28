@@ -61,8 +61,7 @@ public class Butcher extends Spell {
 		for (Entity en : e) {
 			if (en instanceof LivingEntity) {
 				LivingEntity entity = (LivingEntity) en;
-				Effects.playEffect(ParticleEffects.CRITICAL_HIT,
-						entity.getLocation(), 0.25F, 0.25F, 0.25F, 5, 15);
+				Effects.playEffect(ParticleEffects.CRITICAL_HIT, entity.getLocation(), 0.25F, 0.25F, 0.25F, 5, 15);
 				if (entity instanceof Player) {
 					entity.damage(10, player);
 				} else {
@@ -93,7 +92,7 @@ public class Butcher extends Spell {
 		player.damage(rand.nextInt(4));
 		return false;
 	}
-	
+
 	@Override
 	public EffectType getPrimaryType() {
 		return EffectType.DESTRUCTION;
@@ -103,7 +102,7 @@ public class Butcher extends Spell {
 	public Element getElementType() {
 		return Element.GENERIC;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.HIGH;

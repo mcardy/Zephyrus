@@ -78,8 +78,7 @@ public class Frenzy extends Spell {
 			m.getHandle().setGoalTarget(tar.getHandle());
 			Location loc = m.getLocation();
 			loc.setY(loc.getY() + 1);
-			Effects.playEffect(ParticleEffects.ANGRY_VILLAGER, loc,
-					0.25F, 0.25F, 0.25F, 5, 10);
+			Effects.playEffect(ParticleEffects.ANGRY_VILLAGER, loc, 0.25F, 0.25F, 0.25F, 5, 10);
 		}
 		return true;
 	}
@@ -114,10 +113,8 @@ public class Frenzy extends Spell {
 		for (int chX = 0 - chunkRadius; chX <= chunkRadius; chX++) {
 			for (int chZ = 0 - chunkRadius; chZ <= chunkRadius; chZ++) {
 				int x = (int) l.getX(), y = (int) l.getY(), z = (int) l.getZ();
-				for (Entity e : new Location(l.getWorld(), x + (chX * 16), y, z
-						+ (chZ * 16)).getChunk().getEntities()) {
-					if (e.getLocation().distance(l) <= radius
-							&& e.getLocation().getBlock() != l.getBlock()) {
+				for (Entity e : new Location(l.getWorld(), x + (chX * 16), y, z + (chZ * 16)).getChunk().getEntities()) {
+					if (e.getLocation().distance(l) <= radius && e.getLocation().getBlock() != l.getBlock()) {
 						if (e instanceof Monster) {
 							radiusEntities.add((Monster) e);
 						}
@@ -137,7 +134,7 @@ public class Frenzy extends Spell {
 	public Element getElementType() {
 		return Element.GENERIC;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.MEDIUM;
@@ -147,5 +144,5 @@ public class Frenzy extends Spell {
 	public boolean sideEffect(Player player, String[] args) {
 		return false;
 	}
-	
+
 }

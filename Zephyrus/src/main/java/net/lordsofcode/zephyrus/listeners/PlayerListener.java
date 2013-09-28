@@ -55,15 +55,13 @@ public class PlayerListener extends ItemUtil implements Listener {
 		if (results.containsKey(e.getRecipe().getResult())) {
 			ICustomItem item = results.get(e.getRecipe().getResult());
 			List<HumanEntity> player = e.getViewers();
-			PlayerCraftCustomItemEvent event = new PlayerCraftCustomItemEvent(
-					player, item, e);
+			PlayerCraftCustomItemEvent event = new PlayerCraftCustomItemEvent(player, item, e);
 			Bukkit.getPluginManager().callEvent(event);
 			if (event.isCancelled()) {
 				e.getInventory().setResult(null);
 			}
 			for (HumanEntity en : e.getViewers()) {
-				if (!en.hasPermission("zephyrus.craft." + item.getPerm())
-						&& !en.hasPermission("zephyrus.craft.*")) {
+				if (!en.hasPermission("zephyrus.craft." + item.getPerm()) && !en.hasPermission("zephyrus.craft.*")) {
 					e.getInventory().setResult(null);
 				}
 			}
@@ -72,10 +70,8 @@ public class PlayerListener extends ItemUtil implements Listener {
 
 	@EventHandler
 	public void playerFile(PlayerJoinEvent e) {
-		File playerFiles = new File(Zephyrus.getPlugin().getDataFolder(),
-				"Players");
-		File checkPlayer = new File(playerFiles, e.getPlayer().getName()
-				+ ".yml");
+		File playerFiles = new File(Zephyrus.getPlugin().getDataFolder(), "Players");
+		File checkPlayer = new File(playerFiles, e.getPlayer().getName() + ".yml");
 		Player player = e.getPlayer();
 		if (!checkPlayer.exists()) {
 			FileConfiguration cfg = PlayerConfigHandler.getConfig(player);
@@ -139,30 +135,26 @@ public class PlayerListener extends ItemUtil implements Listener {
 		}
 		if (Zephyrus.getConfig().getBoolean("Enable-Side-Effects")
 				|| !Zephyrus.getConfig().contains("Enable-Side-Effects")) {
-			int chanceMultiplier = Zephyrus.getPlugin().getConfig()
-					.getInt("Side-Effect-Chance");
+			int chanceMultiplier = Zephyrus.getPlugin().getConfig().getInt("Side-Effect-Chance");
 			if (chanceMultiplier < 1) {
 				chanceMultiplier = 1;
 			}
 			Random rand = new Random();
-			int chance = Zephyrus.getUser(e.getPlayer()).getLevel()
-					* chanceMultiplier;
+			int chance = Zephyrus.getUser(e.getPlayer()).getLevel() * chanceMultiplier;
 			if (rand.nextInt(chance) == 0) {
 				boolean b = e.getSpell().sideEffect(e.getPlayer(), e.getArgs());
-				PlayerCastSpellEvent ev = new PlayerCastSpellEvent(
-						e.getPlayer(), e.getSpell(), e.getArgs(), true);
+				PlayerCastSpellEvent ev = new PlayerCastSpellEvent(e.getPlayer(), e.getSpell(), e.getArgs(), true);
 				Bukkit.getPluginManager().callEvent(ev);
 				if (b == true) {
 					e.setCancelled(true);
 					if (!ev.isCancelled()) {
-						Zephyrus.getUser(e.getPlayer()).drainMana(
-								e.getSpell().getManaCost());
+						Zephyrus.getUser(e.getPlayer()).drainMana(e.getSpell().getManaCost());
 					}
 				}
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onRegionCast(PlayerCastSpellEvent e) {
 		if (!PluginHook.canCast(e.getPlayer(), e.getPlayer().getLocation())) {
@@ -170,5 +162,5 @@ public class PlayerListener extends ItemUtil implements Listener {
 			Lang.errMsg("nospellzone", e.getPlayer());
 		}
 	}
-	
+
 }

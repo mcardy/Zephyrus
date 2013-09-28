@@ -25,8 +25,7 @@ public class ManaCommand implements CommandExecutor {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
 			if (args.length == 0) {
 				if (sender.hasPermission("zephyrus.mana") || sender.isOp()) {
@@ -99,7 +98,7 @@ public class ManaCommand implements CommandExecutor {
 		}
 		return false;
 	}
-	
+
 	public boolean isOnline(String player) {
 		Player target = (Bukkit.getServer().getPlayer(player));
 		if (target == null) {

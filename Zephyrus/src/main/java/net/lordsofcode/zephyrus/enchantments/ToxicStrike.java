@@ -3,7 +3,6 @@ package net.lordsofcode.zephyrus.enchantments;
 import java.util.Map;
 import java.util.Random;
 
-
 import net.lordsofcode.zephyrus.api.CustomEnchantment;
 
 import org.bukkit.enchantments.Enchantment;
@@ -74,16 +73,16 @@ public class ToxicStrike extends CustomEnchantment {
 	public int getStartLevel() {
 		return 1;
 	}
-	
+
 	@EventHandler
 	public void onAttack(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Player) {
 			Player player = (Player) e.getDamager();
 			if (hasEnchantment(player.getItemInHand())) {
 				int i = getEnchantment(player.getItemInHand());
-				int chance = new Random().nextInt(5-i);
+				int chance = new Random().nextInt(5 - i);
 				if (chance == 1) {
-					((LivingEntity)e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 2));
+					((LivingEntity) e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 2));
 				}
 			}
 		}

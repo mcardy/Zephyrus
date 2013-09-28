@@ -27,20 +27,16 @@ public class UnBind implements CommandExecutor {
 		Lang.add("unbind.unbound", "Spell unbound from your wand!");
 		Lang.add("unbind.nospell", "There is no spell bound to that wand!");
 	}
-	
+
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if (sender.hasPermission("zephyrus.bind")) {
-				if (player.getItemInHand() != null
-						&& player.getItemInHand().hasItemMeta()
-						&& player.getItemInHand().getItemMeta()
-								.hasDisplayName()
-						&& player.getItemInHand().getItemMeta()
-								.getDisplayName().contains(ChatColor.GOLD + "Wand")) {
+				if (player.getItemInHand() != null && player.getItemInHand().hasItemMeta()
+						&& player.getItemInHand().getItemMeta().hasDisplayName()
+						&& player.getItemInHand().getItemMeta().getDisplayName().contains(ChatColor.GOLD + "Wand")) {
 					if (player.getItemInHand().getItemMeta().getLore().get(0) != ChatColor.GRAY
 							+ "Regular old default wand") {
 						ItemStack i = player.getItemInHand();

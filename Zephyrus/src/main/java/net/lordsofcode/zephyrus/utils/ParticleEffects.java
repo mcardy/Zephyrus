@@ -17,40 +17,16 @@ import org.bukkit.entity.Player;
 
 public enum ParticleEffects {
 
-	HUGE_EXPLODE("hugeexplosion", 0), 
-	LARGE_EXPLODE("largeexplode", 1), 
-	FIREWORK_SPARK("fireworksSpark", 2), 
-	AIR_BUBBLE("bubble", 3), 
-	SUSPEND("suspend", 4), 
-	DEPTH_SUSPEND("depthSuspend", 5), 
-	TOWN_AURA("townaura", 6), 
-	CRITICAL_HIT("crit", 7), 
-	MAGIC_CRITICAL_HIT("magicCrit", 8), 
-	MOB_SPELL("mobSpell", 9), 
-	MOB_SPELL_AMBIENT("mobSpellAmbient", 10), 
-	SPELL("spell", 11), 
-	INSTANT_SPELL("instantSpell", 12), 
-	BLUE_SPARKLE("witchMagic", 13), 
-	NOTE_BLOCK("note", 14), 
-	ENDER("portal", 15), 
-	ENCHANTMENT_TABLE("enchantmenttable", 16), 
-	EXPLODE("explode", 17),
-	FIRE("flame", 18), 
-	LAVA_SPARK("lava", 19), 
-	FOOTSTEP("footstep", 20), 
-	SPLASH("splash", 21), 
-	LARGE_SMOKE("largesmoke", 22), 
-	CLOUD("cloud", 23), 
-	REDSTONE_DUST("reddust", 24), 
-	SNOWBALL_HIT("snowballpoof", 25), 
-	DRIP_WATER("dripWater", 26), 
-	DRIP_LAVA("dripLava", 27), 
-	SNOW_DIG("snowshovel", 28), 
-	SLIME("slime", 29), 
-	HEART("heart", 30), 
-	ANGRY_VILLAGER("angryVillager", 31), 
-	GREEN_SPARKLE("happyVillager", 32), ICONCRACK("iconcrack", 33), 
-	TILECRACK("tilecrack", 34);
+	HUGE_EXPLODE("hugeexplosion", 0), LARGE_EXPLODE("largeexplode", 1), FIREWORK_SPARK("fireworksSpark", 2), AIR_BUBBLE(
+			"bubble", 3), SUSPEND("suspend", 4), DEPTH_SUSPEND("depthSuspend", 5), TOWN_AURA("townaura", 6), CRITICAL_HIT(
+			"crit", 7), MAGIC_CRITICAL_HIT("magicCrit", 8), MOB_SPELL("mobSpell", 9), MOB_SPELL_AMBIENT(
+			"mobSpellAmbient", 10), SPELL("spell", 11), INSTANT_SPELL("instantSpell", 12), BLUE_SPARKLE("witchMagic",
+			13), NOTE_BLOCK("note", 14), ENDER("portal", 15), ENCHANTMENT_TABLE("enchantmenttable", 16), EXPLODE(
+			"explode", 17), FIRE("flame", 18), LAVA_SPARK("lava", 19), FOOTSTEP("footstep", 20), SPLASH("splash", 21), LARGE_SMOKE(
+			"largesmoke", 22), CLOUD("cloud", 23), REDSTONE_DUST("reddust", 24), SNOWBALL_HIT("snowballpoof", 25), DRIP_WATER(
+			"dripWater", 26), DRIP_LAVA("dripLava", 27), SNOW_DIG("snowshovel", 28), SLIME("slime", 29), HEART("heart",
+			30), ANGRY_VILLAGER("angryVillager", 31), GREEN_SPARKLE("happyVillager", 32), ICONCRACK("iconcrack", 33), TILECRACK(
+			"tilecrack", 34);
 
 	private String name;
 	private int id;
@@ -99,13 +75,11 @@ public enum ParticleEffects {
 	 * @param count
 	 *            The count of effects
 	 */
-	static void sendToPlayer(ParticleEffects effect, Player player,
-			Location location, float offsetX, float offsetY, float offsetZ,
-			float speed, int count) {
+	static void sendToPlayer(ParticleEffects effect, Player player, Location location, float offsetX, float offsetY,
+			float offsetZ, float speed, int count) {
 		Object packet;
 		try {
-			packet = createPacket(effect, location, offsetX, offsetY, offsetZ,
-					speed, count);
+			packet = createPacket(effect, location, offsetX, offsetY, offsetZ, speed, count);
 			sendPacket(player, packet);
 		} catch (Exception e) {
 		}
@@ -131,12 +105,10 @@ public enum ParticleEffects {
 	 * @param count
 	 *            The count of effects
 	 */
-	static void sendToLocation(ParticleEffects effect,
-			Location location, float offsetX, float offsetY, float offsetZ,
+	static void sendToLocation(ParticleEffects effect, Location location, float offsetX, float offsetY, float offsetZ,
 			float speed, int count) {
 		try {
-			Object packet = createPacket(effect, location, offsetX, offsetY,
-					offsetZ, speed, count);
+			Object packet = createPacket(effect, location, offsetX, offsetY, offsetZ, speed, count);
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				sendPacket(player, packet);
 			}
@@ -145,27 +117,22 @@ public enum ParticleEffects {
 		}
 	}
 
-	static void sendCrackToPlayer(boolean icon, int id, byte data,
-			Player player, Location location, float offsetX, float offsetY,
-			float offsetZ, int count) throws Exception {
-		Object packet = createCrackPacket(icon, id, data, location, offsetX,
-				offsetY, offsetZ, count);
+	static void sendCrackToPlayer(boolean icon, int id, byte data, Player player, Location location, float offsetX,
+			float offsetY, float offsetZ, int count) throws Exception {
+		Object packet = createCrackPacket(icon, id, data, location, offsetX, offsetY, offsetZ, count);
 		sendPacket(player, packet);
 	}
 
-	static void sendCrackToLocation(boolean icon, int id, byte data,
-			Location location, float offsetX, float offsetY, float offsetZ,
-			int count) throws Exception {
-		Object packet = createCrackPacket(icon, id, data, location, offsetX,
-				offsetY, offsetZ, count);
+	static void sendCrackToLocation(boolean icon, int id, byte data, Location location, float offsetX, float offsetY,
+			float offsetZ, int count) throws Exception {
+		Object packet = createCrackPacket(icon, id, data, location, offsetX, offsetY, offsetZ, count);
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			sendPacket(player, packet);
 		}
 	}
 
-	private static Object createPacket(ParticleEffects effect,
-			Location location, float offsetX, float offsetY, float offsetZ,
-			float speed, int count) throws Exception {
+	private static Object createPacket(ParticleEffects effect, Location location, float offsetX, float offsetY,
+			float offsetZ, float speed, int count) throws Exception {
 		if (count <= 0) {
 			count = 1;
 		}
@@ -182,9 +149,8 @@ public enum ParticleEffects {
 		return packet;
 	}
 
-	private static Object createCrackPacket(boolean icon, int id, byte data,
-			Location location, float offsetX, float offsetY, float offsetZ,
-			int count) throws Exception {
+	private static Object createCrackPacket(boolean icon, int id, byte data, Location location, float offsetX,
+			float offsetY, float offsetZ, int count) throws Exception {
 		if (count <= 0) {
 			count = 1;
 		}
@@ -205,8 +171,7 @@ public enum ParticleEffects {
 		return packet;
 	}
 
-	private static void setValue(Object instance, String fieldName, Object value)
-			throws Exception {
+	private static void setValue(Object instance, String fieldName, Object value) throws Exception {
 		Field field = instance.getClass().getDeclaredField(fieldName);
 		field.setAccessible(true);
 		field.set(instance, value);
@@ -219,20 +184,17 @@ public enum ParticleEffects {
 
 	private static String getPackageName() {
 		return "net.minecraft.server."
-				+ Bukkit.getServer().getClass().getPackage().getName()
-						.replace(".", ",").split(",")[3];
+				+ Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
 	}
 
 	private static Object getPacket63WorldParticles() throws Exception {
-		Class<?> packet = Class.forName(getPackageName()
-				+ ".Packet63WorldParticles");
+		Class<?> packet = Class.forName(getPackageName() + ".Packet63WorldParticles");
 		return packet.getConstructors()[0].newInstance();
 	}
 
 	private static void sendPacket(Player p, Object packet) throws Exception {
 		Object eplayer = getEntityPlayer(p);
-		Field playerConnectionField = eplayer.getClass().getField(
-				"playerConnection");
+		Field playerConnectionField = eplayer.getClass().getField("playerConnection");
 		Object playerConnection = playerConnectionField.get(eplayer);
 		for (Method m : playerConnection.getClass().getMethods()) {
 			if (m.getName().equalsIgnoreCase("sendPacket")) {

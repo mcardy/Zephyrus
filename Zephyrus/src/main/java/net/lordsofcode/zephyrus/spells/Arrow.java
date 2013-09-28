@@ -62,9 +62,9 @@ public class Arrow extends Spell {
 
 	@EventHandler
 	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
-	    if(event.getItem().hasMetadata("no_pickup")) {
-	        event.setCancelled(true);
-	    }
+		if (event.getItem().hasMetadata("no_pickup")) {
+			event.setCancelled(true);
+		}
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class Arrow extends Spell {
 	public Element getElementType() {
 		return Element.AIR;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.MEDIUM;

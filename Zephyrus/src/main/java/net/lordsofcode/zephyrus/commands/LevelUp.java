@@ -24,8 +24,7 @@ public class LevelUp implements CommandExecutor {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command arg1, String arg2,
-			String[] args) {
+	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] args) {
 		if (sender instanceof Player) {
 			if (sender.hasPermission("zephyrus.levelup") || sender.isOp()) {
 				if (args.length == 0) {
@@ -58,7 +57,7 @@ public class LevelUp implements CommandExecutor {
 		}
 		return false;
 	}
-	
+
 	public boolean isOnline(String player) {
 		Player target = (Bukkit.getServer().getPlayer(player));
 		if (target == null) {

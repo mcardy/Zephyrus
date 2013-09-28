@@ -70,12 +70,12 @@ public class Enderchest extends Spell {
 	public Element getElementType() {
 		return Element.ENDER;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		return null;

@@ -74,8 +74,7 @@ public class LevelingListener implements Listener {
 		if (Zephyrus.getConfig().getBoolean("Levelup-Spells")) {
 			Player player = e.getPlayer();
 			List<String> l = new ArrayList<String>();
-			List<String> learned = PlayerConfigHandler
-					.getConfig(player).getStringList("learned");
+			List<String> learned = PlayerConfigHandler.getConfig(player).getStringList("learned");
 			for (ISpell spell : Zephyrus.getSpellMap().values()) {
 				if (spell.getReqLevel() == e.getLevel()) {
 					learned.add(spell.getDisplayName().toLowerCase());
@@ -101,25 +100,21 @@ public class LevelingListener implements Listener {
 			if (str.equals("") || sb.length() == 0) {
 				player.sendMessage(ChatColor.AQUA + Lang.get("levelling.nonew"));
 			} else {
-				player.sendMessage(ChatColor.AQUA + Lang.get("levelling.newspells")
-						+ ChatColor.DARK_AQUA + str.replaceFirst(",", ""));
+				player.sendMessage(ChatColor.AQUA + Lang.get("levelling.newspells") + ChatColor.DARK_AQUA
+						+ str.replaceFirst(",", ""));
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onClickWithItem(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Block block = e.getClickedBlock();
 			byte b = 12;
-			if (block.getType() == Material.ENCHANTMENT_TABLE
-					&& block.getData() == b) {
+			if (block.getType() == Material.ENCHANTMENT_TABLE && block.getData() == b) {
 				ItemStack i = e.getItem();
-				if (i != null
-						&& i.hasItemMeta()
-						&& i.getItemMeta().hasDisplayName()
-						&& Zephyrus.getItemMap().containsKey(i.getItemMeta()
-								.getDisplayName())) {
+				if (i != null && i.hasItemMeta() && i.getItemMeta().hasDisplayName()
+						&& Zephyrus.getItemMap().containsKey(i.getItemMeta().getDisplayName())) {
 					e.setCancelled(true);
 					try {
 						new CraftLivingEntity(null, null);
@@ -127,8 +122,7 @@ public class LevelingListener implements Listener {
 						Lang.errMsg("outofdatebukkit", e.getPlayer());
 						return;
 					}
-					ICustomItem customItem = Zephyrus.getItemMap().get(i
-							.getItemMeta().getDisplayName());
+					ICustomItem customItem = Zephyrus.getItemMap().get(i.getItemMeta().getDisplayName());
 					if (!(new ItemUtil().getItemLevel(i) < customItem.getMaxLevel())) {
 						Lang.errMsg("itemlevel.max", e.getPlayer());
 						return;
@@ -162,16 +156,14 @@ public class LevelingListener implements Listener {
 				ItemStack i2 = e.getCursor();
 				ItemStack mi = m.getInput1();
 				ItemStack m2 = m.getOutput();
-				if (e.getRawSlot() != 0 && e.getRawSlot() != 1 && i != null
-						&& i2 != null && e.getRawSlot() != 2 && !i.equals(mi)
-						&& !i.equals(m2) && !i2.equals(mi) && !i2.equals(m2)
-						&& i.getType() != Material.EMERALD
-						&& i2.getType() != Material.EMERALD) {
+				if (e.getRawSlot() != 0 && e.getRawSlot() != 1 && i != null && i2 != null && e.getRawSlot() != 2
+						&& !i.equals(mi) && !i.equals(m2) && !i2.equals(mi) && !i2.equals(m2)
+						&& i.getType() != Material.EMERALD && i2.getType() != Material.EMERALD) {
 					e.setCancelled(true);
 				}
-				if (i != null && i.getType() == Material.EMERALD || i != null
-						&& i2.getType() == Material.EMERALD) {
-					if ((i.hasItemMeta() || i2.hasItemMeta()) && (!i.equals(mi) && !i2.equals(mi)) && (!i.equals(m2) && !i2.equals(m2))) {
+				if (i != null && i.getType() == Material.EMERALD || i != null && i2.getType() == Material.EMERALD) {
+					if ((i.hasItemMeta() || i2.hasItemMeta()) && (!i.equals(mi) && !i2.equals(mi))
+							&& (!i.equals(m2) && !i2.equals(m2))) {
 						e.setCancelled(true);
 					}
 				}
@@ -181,12 +173,14 @@ public class LevelingListener implements Listener {
 			}
 		}
 	}
-	
+
 	private class CloseInv extends BukkitRunnable {
 		HumanEntity e;
+
 		CloseInv(HumanEntity e) {
 			this.e = e;
 		}
+
 		@Override
 		public void run() {
 			e.closeInventory();

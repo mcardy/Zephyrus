@@ -27,7 +27,7 @@ import org.bukkit.potion.PotionEffectType;
  */
 
 public class MassParalyze extends Spell {
-	
+
 	@Override
 	public String getName() {
 		return "massparalyze";
@@ -55,7 +55,7 @@ public class MassParalyze extends Spell {
 		cfg.put("radius", 5);
 		return cfg;
 	}
-	
+
 	@Override
 	public boolean run(Player player, String[] args) {
 		int time = getConfig().getInt(getName() + ".duration");
@@ -72,11 +72,11 @@ public class MassParalyze extends Spell {
 	@Override
 	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
-		//Slowness extended potions
+		// Slowness extended potions
 		s.add(new ItemStack(Material.POTION, 1, (short) 8266));
 		return s;
 	}
-	
+
 	@Override
 	public ISpell getRequiredSpell() {
 		return Spell.forName("paralyze");

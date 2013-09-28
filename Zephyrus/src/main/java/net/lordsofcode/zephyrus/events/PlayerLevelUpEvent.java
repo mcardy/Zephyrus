@@ -13,25 +13,27 @@ import org.bukkit.event.HandlerList;
  */
 
 public class PlayerLevelUpEvent extends Event {
-	
+
 	private Player player;
 	private int level;
-	
+
 	public PlayerLevelUpEvent(Player player, int level) {
 		this.player = player;
 		this.level = level;
 	}
-	
+
 	/**
 	 * Gets the player who is leveling up
+	 * 
 	 * @return The leveling player
 	 */
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	/**
 	 * Gets the level that the player is leveling up to
+	 * 
 	 * @return An int
 	 */
 	public int getLevel() {
@@ -39,13 +41,13 @@ public class PlayerLevelUpEvent extends Event {
 	}
 
 	private static final HandlerList handlers = new HandlerList();
-	 
+
 	@Override
 	public HandlerList getHandlers() {
-	    return handlers;
+		return handlers;
 	}
-	 
+
 	public static HandlerList getHandlerList() {
-	    return handlers;
+		return handlers;
 	}
 }

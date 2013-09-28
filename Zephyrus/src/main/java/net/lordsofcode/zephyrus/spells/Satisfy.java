@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-
 /**
  * Zephyrus
  * 
@@ -61,7 +60,7 @@ public class Satisfy extends Spell {
 	public ISpell getRequiredSpell() {
 		return Spell.forName("feed");
 	}
-	
+
 	@Override
 	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();

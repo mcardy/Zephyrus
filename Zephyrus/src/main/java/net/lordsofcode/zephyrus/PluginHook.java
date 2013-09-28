@@ -34,6 +34,7 @@ public class PluginHook {
 
 	/**
 	 * Determines if WorldGuard is installed
+	 * 
 	 * @return True if WorldGuard is installed, false otherwise
 	 */
 	public static boolean isWorldGuard() {
@@ -46,14 +47,14 @@ public class PluginHook {
 
 	/**
 	 * Determines if Vault is installed
+	 * 
 	 * @return True if Vault is installed, false otherwise
-	 */	
+	 */
 	public static boolean isEconomy() {
 		if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
 			return false;
 		}
-		RegisteredServiceProvider<Economy> rsp = Bukkit.getServer()
-				.getServicesManager().getRegistration(Economy.class);
+		RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
 		if (rsp == null) {
 			return false;
 		}
@@ -65,8 +66,7 @@ public class PluginHook {
 	 * Hooks into Vault
 	 */
 	public static void hookEcon() {
-		RegisteredServiceProvider<Economy> rsp = Bukkit.getServer()
-				.getServicesManager().getRegistration(Economy.class);
+		RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
 		econ = rsp.getProvider();
 	}
 
@@ -77,24 +77,28 @@ public class PluginHook {
 		Plugin wgplugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
 		wg = (WorldGuardPlugin) wgplugin;
 	}
-	
+
 	public static void loadFlags() {
 		flag = new StateFlag("allowspells", true);
 		PluginHook.addWGFlag(flag);
 	}
-	
+
 	/**
 	 * Gets the allow spells flag.
+	 * 
 	 * @return
 	 */
 	public static StateFlag getFlag() {
 		return flag;
 	}
-	
+
 	/**
 	 * Checks if the player can build
-	 * @param player The player in question
-	 * @param block The block in question
+	 * 
+	 * @param player
+	 *            The player in question
+	 * @param block
+	 *            The block in question
 	 * @return True if the player can build, false otherwise
 	 */
 	public static boolean canBuild(Player player, Block block) {
@@ -107,11 +111,14 @@ public class PluginHook {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Checks if the player can build
-	 * @param player The player in question
-	 * @param block The location in question
+	 * 
+	 * @param player
+	 *            The player in question
+	 * @param block
+	 *            The location in question
 	 * @return True if the player can build, false otherwise
 	 */
 	public static boolean canBuild(Player player, Location loc) {
@@ -121,7 +128,7 @@ public class PluginHook {
 		}
 		return true;
 	}
-	
+
 	public static WorldGuardPlugin getWorldGuard() {
 		if (PluginHook.isWorldGuard()) {
 			PluginHook.hookWG();
@@ -129,7 +136,7 @@ public class PluginHook {
 		}
 		return null;
 	}
-	
+
 	public static boolean allowExplosion() {
 		if (isWorldGuard()) {
 			hookWG();
@@ -137,7 +144,7 @@ public class PluginHook {
 		}
 		return true;
 	}
-	
+
 	public static boolean canCast(Player player, Location loc) {
 		if (!isWorldGuard()) {
 			return true;
@@ -147,42 +154,42 @@ public class PluginHook {
 		}
 		return false;
 	}
-	
+
 	public static void addWGFlag(StateFlag flag) {
-        try {
-            Field flagField = DefaultFlag.class.getField("flagsList");
+		try {
+			Field flagField = DefaultFlag.class.getField("flagsList");
 
-            Flag<?>[] flags = new Flag<?>[DefaultFlag.flagsList.length + 1];
-            System.arraycopy(DefaultFlag.flagsList, 0, flags, 0, DefaultFlag.flagsList.length);
+			Flag<?>[] flags = new Flag<?>[DefaultFlag.flagsList.length + 1];
+			System.arraycopy(DefaultFlag.flagsList, 0, flags, 0, DefaultFlag.flagsList.length);
 
-            flags[DefaultFlag.flagsList.length] = flag;
+			flags[DefaultFlag.flagsList.length] = flag;
 
-            if(flag == null) {
-                throw new RuntimeException("flag is null");
-            }
+			if (flag == null) {
+				throw new RuntimeException("flag is null");
+			}
 
-            setStaticValue(flagField, flags);
-        }
-        catch(Exception ex) {
-            Bukkit.getServer().getLogger().log(Level.WARNING, "Could not add flag {0} to WorldGuard", flag.getName());
-        }
+			setStaticValue(flagField, flags);
+		} catch (Exception ex) {
+			Bukkit.getServer().getLogger().log(Level.WARNING, "Could not add flag {0} to WorldGuard", flag.getName());
+		}
 
-        for(int i = 0; i < DefaultFlag.getFlags().length; i++) {
-            Flag<?> flag1 = DefaultFlag.getFlags()[i];
-            if (flag1 == null) {
-                throw new RuntimeException("Flag["+i+"] is null");
-            }
-        }
-    }
-	
+		for (int i = 0; i < DefaultFlag.getFlags().length; i++) {
+			Flag<?> flag1 = DefaultFlag.getFlags()[i];
+			if (flag1 == null) {
+				throw new RuntimeException("Flag[" + i + "] is null");
+			}
+		}
+	}
+
 	private static void setStaticValue(Field field, Object value) {
-        try {
-            Field modifier = Field.class.getDeclaredField("modifiers");
+		try {
+			Field modifier = Field.class.getDeclaredField("modifiers");
 
-            modifier.setAccessible(true);
-            modifier.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-            field.set(null, value);
-        } catch(Exception ex) { }
-    }
+			modifier.setAccessible(true);
+			modifier.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+			field.set(null, value);
+		} catch (Exception ex) {
+		}
+	}
 
 }

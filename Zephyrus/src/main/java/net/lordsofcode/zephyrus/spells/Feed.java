@@ -89,12 +89,12 @@ public class Feed extends Spell {
 	public Element getElementType() {
 		return Element.GENERIC;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;
 	}
-	
+
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		if (player.getFoodLevel() - 2 < 0) {

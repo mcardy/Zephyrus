@@ -96,8 +96,7 @@ public abstract class Spell implements ISpell {
 	}
 
 	@Override
-	public boolean comboSpell(Player player, String[] args, EffectType type,
-			Element element, int power) {
+	public boolean comboSpell(Player player, String[] args, EffectType type, Element element, int power) {
 		return false;
 	}
 
@@ -172,9 +171,8 @@ public abstract class Spell implements ISpell {
 	 * @return Null if there is no target
 	 */
 	public Entity getTarget(Player player) {
-		BlockIterator iterator = new BlockIterator(player.getWorld(), player
-				.getLocation().toVector(), player.getEyeLocation()
-				.getDirection(), 0, 100);
+		BlockIterator iterator = new BlockIterator(player.getWorld(), player.getLocation().toVector(), player
+				.getEyeLocation().getDirection(), 0, 100);
 		while (iterator.hasNext()) {
 			Block item = iterator.next();
 			for (Entity entity : player.getNearbyEntities(10, 10, 10)) {
@@ -182,8 +180,7 @@ public abstract class Spell implements ISpell {
 				for (int x = -acc; x < acc; x++) {
 					for (int z = -acc; z < acc; z++) {
 						for (int y = -acc; y < acc; y++) {
-							if (entity.getLocation().getBlock()
-									.getRelative(x, y, z).equals(item)) {
+							if (entity.getLocation().getBlock().getRelative(x, y, z).equals(item)) {
 								return entity;
 							}
 						}

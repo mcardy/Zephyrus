@@ -75,7 +75,7 @@ public class Bolt extends Spell {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public EffectType getPrimaryType() {
 		return EffectType.ATTACK;
@@ -85,7 +85,7 @@ public class Bolt extends Spell {
 	public Element getElementType() {
 		return Element.AIR;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.MEDIUM;
@@ -95,6 +95,5 @@ public class Bolt extends Spell {
 	public Map<String, Object> getConfiguration() {
 		return null;
 	}
-	
-	
+
 }

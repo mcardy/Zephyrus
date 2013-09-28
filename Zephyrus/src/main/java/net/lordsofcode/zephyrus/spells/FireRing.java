@@ -28,7 +28,7 @@ import org.bukkit.inventory.ItemStack;
  */
 
 public class FireRing extends Spell {
-	
+
 	@Override
 	public String getName() {
 		return "firering";
@@ -63,8 +63,7 @@ public class FireRing extends Spell {
 					if (e.isCancelled()) {
 						return false;
 					}
-					if (b.getRelative(BlockFace.DOWN).getType() != Material.AIR
-							&& b.getType() == Material.AIR
+					if (b.getRelative(BlockFace.DOWN).getType() != Material.AIR && b.getType() == Material.AIR
 							&& b.getLocation().distance(block.getLocation()) > 2
 							&& b.getLocation().distance(block.getLocation()) < radius) {
 						bList.add(b);
@@ -102,7 +101,7 @@ public class FireRing extends Spell {
 	public Element getElementType() {
 		return Element.FIRE;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;

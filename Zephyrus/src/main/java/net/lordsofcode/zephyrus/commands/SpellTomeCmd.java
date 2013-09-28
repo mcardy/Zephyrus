@@ -30,34 +30,27 @@ public class SpellTomeCmd implements CommandExecutor, TabCompleter {
 		Lang.add("spelltomecmd.nospell", "Specify a spell to give!");
 		Lang.add("spelltomecmd.noexist", "That spell does not exist!");
 		Lang.add("spelltomecmd.usage", "Usage: /spelltome [spell] [player]");
-		Lang.add("spelltomecmd.complete",
-				"Gave [TARGET] the [SPELL] spelltome.");
+		Lang.add("spelltomecmd.complete", "Gave [TARGET] the [SPELL] spelltome.");
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender.hasPermission("zephyrus.spelltome.give") || sender.isOp()) {
 			if (args.length < 1) {
 				Lang.errMsg("spelltomecmd", sender);
 			} else {
 				if (args.length < 2) {
 					if (sender instanceof Player) {
-						if (Zephyrus.getSpellMap()
-								.containsKey(args[0].toLowerCase())) {
+						if (Zephyrus.getSpellMap().containsKey(args[0].toLowerCase())) {
 							Player player = (Player) sender;
-							ISpell spell = Zephyrus.getSpellMap().get(args[0]
-									.toLowerCase());
+							ISpell spell = Zephyrus.getSpellMap().get(args[0].toLowerCase());
 							if (spell.isEnabled()) {
-								SpellTome tome = new SpellTome(spell
-										.getDisplayName().toLowerCase(),
+								SpellTome tome = new SpellTome(spell.getDisplayName().toLowerCase(),
 										spell.getDisplayDesc());
 								player.getInventory().addItem(tome.item());
-								sender.sendMessage(Lang
-										.get("spelltomecmd.complete")
+								sender.sendMessage(Lang.get("spelltomecmd.complete")
 										.replace("[TARGET]", sender.getName())
-										.replace("[SPELL]",
-												spell.getDisplayName()));
+										.replace("[SPELL]", spell.getDisplayName()));
 							} else {
 								Lang.errMsg("disabled", sender);
 							}
@@ -71,18 +64,14 @@ public class SpellTomeCmd implements CommandExecutor, TabCompleter {
 					if (Zephyrus.getSpellMap().containsKey(args[0].toLowerCase())) {
 						if (isOnline(args[1])) {
 							Player player = Bukkit.getPlayer(args[1]);
-							ISpell spell = Zephyrus.getSpellMap().get(args[0]
-									.toLowerCase());
+							ISpell spell = Zephyrus.getSpellMap().get(args[0].toLowerCase());
 							if (spell.isEnabled()) {
-								SpellTome tome = new SpellTome(spell
-										.getDisplayName().toLowerCase(),
+								SpellTome tome = new SpellTome(spell.getDisplayName().toLowerCase(),
 										spell.getDisplayDesc());
 								player.getInventory().addItem(tome.item());
-								sender.sendMessage(Lang
-										.get("spelltomecmd.complete")
+								sender.sendMessage(Lang.get("spelltomecmd.complete")
 										.replace("[TARGET]", player.getName())
-										.replace("[SPELL]",
-												spell.getDisplayName()));
+										.replace("[SPELL]", spell.getDisplayName()));
 							} else {
 								Lang.errMsg("disabled", sender);
 							}
@@ -99,10 +88,9 @@ public class SpellTomeCmd implements CommandExecutor, TabCompleter {
 		}
 		return false;
 	}
-	
+
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command,
-			String alias, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		Set<String> set = Zephyrus.getSpellMap().keySet();
 		List<String> list = new ArrayList<String>();
 		for (String s : set) {
@@ -120,7 +108,7 @@ public class SpellTomeCmd implements CommandExecutor, TabCompleter {
 		}
 		return newList;
 	}
-	
+
 	public boolean isOnline(String player) {
 		Player target = (Bukkit.getServer().getPlayer(player));
 		if (target == null) {

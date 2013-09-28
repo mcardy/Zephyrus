@@ -22,8 +22,11 @@ public class ItemUtil {
 
 	/**
 	 * Set the name for the item
-	 * @param item The ItemStack to rename
-	 * @param name The name of the ItemStack
+	 * 
+	 * @param item
+	 *            The ItemStack to rename
+	 * @param name
+	 *            The name of the ItemStack
 	 */
 	public void setItemName(ItemStack item, String name) {
 		ItemMeta m = item.getItemMeta();
@@ -33,7 +36,9 @@ public class ItemUtil {
 
 	/**
 	 * Sets a dummy enchantment on the item making it glow
-	 * @param item The ItemStack to add the enchantment effect to
+	 * 
+	 * @param item
+	 *            The ItemStack to add the enchantment effect to
 	 */
 	public void setGlow(ItemStack item) {
 		item.addEnchantment(Zephyrus.getInstance().glow, 1);
@@ -41,12 +46,15 @@ public class ItemUtil {
 
 	/**
 	 * Used for custom enchantments and displaying their names
-	 * @param item The ItemStack for the Enchantment
-	 * @param enchant The Enchantment
-	 * @param level The level of the Enchantment
+	 * 
+	 * @param item
+	 *            The ItemStack for the Enchantment
+	 * @param enchant
+	 *            The Enchantment
+	 * @param level
+	 *            The level of the Enchantment
 	 */
-	public void setCustomEnchantment(ItemStack item, Enchantment enchant,
-			int level) {
+	public void setCustomEnchantment(ItemStack item, Enchantment enchant, int level) {
 		item.addEnchantment(enchant, level);
 		ItemMeta meta = item.getItemMeta();
 		List<String> lore = meta.getLore();
@@ -62,7 +70,9 @@ public class ItemUtil {
 
 	/**
 	 * Gets the roman numeral for Enchantments from an integer
-	 * @param level The integer to convert
+	 * 
+	 * @param level
+	 *            The integer to convert
 	 * @return The equivalent roman numeral
 	 */
 	public String enchantLevel(int level) {
@@ -93,12 +103,15 @@ public class ItemUtil {
 
 	/**
 	 * Used for custom items, it sets the item level
-	 * @param i The target ItemStack
-	 * @param level The target level
+	 * 
+	 * @param i
+	 *            The target ItemStack
+	 * @param level
+	 *            The target level
 	 * @return An ItemStack with the custom level
 	 */
 	public ItemStack setItemLevel(ItemStack i, int level) {
-		String sLevel =	new ConfigHandler("lang.yml").getConfig().getString("customitem.level");
+		String sLevel = new ConfigHandler("lang.yml").getConfig().getString("customitem.level");
 		ItemMeta m = i.getItemMeta();
 		List<String> l = m.getLore();
 		try {
@@ -115,8 +128,11 @@ public class ItemUtil {
 
 	/**
 	 * Check if the name of the ItemStack is the same as the string provided
-	 * @param i The ItemStack to check
-	 * @param name The name to check
+	 * 
+	 * @param i
+	 *            The ItemStack to check
+	 * @param name
+	 *            The name to check
 	 * @return True if the display name of the item is the same as the string
 	 */
 	public boolean checkName(ItemStack i, String name) {
@@ -131,7 +147,9 @@ public class ItemUtil {
 
 	/**
 	 * Gets the level of the item (defined in the lore)
-	 * @param i The target ItemStack
+	 * 
+	 * @param i
+	 *            The target ItemStack
 	 * @return The level of the item
 	 */
 	public int getItemLevel(ItemStack i) {
@@ -143,7 +161,9 @@ public class ItemUtil {
 
 	/**
 	 * Gets the tick delay from a level
-	 * @param level A level from an item
+	 * 
+	 * @param level
+	 *            A level from an item
 	 * @return The tick delay from the integer. Anything above 10 will return 0
 	 */
 	public static int delayFromLevel(int level) {

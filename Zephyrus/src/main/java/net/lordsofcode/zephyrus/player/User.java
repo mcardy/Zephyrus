@@ -34,15 +34,13 @@ public class User implements IUser {
 
 	@Override
 	public boolean isLearned(ISpell spell) {
-		return (cfg.getStringList("learned").contains(spell.getName()
-				.toLowerCase()));
+		return (cfg.getStringList("learned").contains(spell.getName().toLowerCase()));
 	}
 
 	@Override
 	public boolean hasPermission(ISpell spell) {
 		if (Zephyrus.getConfig().getBoolean("OpKnowledge")) {
-			if (player.hasPermission("zephyrus.cast."
-					+ spell.getName().toLowerCase())) {
+			if (player.hasPermission("zephyrus.cast." + spell.getName().toLowerCase())) {
 				return true;
 			}
 		}
@@ -51,8 +49,7 @@ public class User implements IUser {
 
 	@Override
 	public boolean hasMana(int mana) {
-		return Zephyrus.getManaMap().get(player.getName())
-				- (mana * Zephyrus.getConfig().getInt("ManaMultiplier")) >= 0;
+		return Zephyrus.getManaMap().get(player.getName()) - (mana * Zephyrus.getConfig().getInt("ManaMultiplier")) >= 0;
 	}
 
 	@Override
@@ -83,8 +80,7 @@ public class User implements IUser {
 		current++;
 		cfg.set("level", current);
 		PlayerConfigHandler.saveConfig(player, cfg);
-		player.sendMessage(ChatColor.AQUA + "You leveled up to level "
-				+ getLevel());
+		player.sendMessage(ChatColor.AQUA + "You leveled up to level " + getLevel());
 		if (Zephyrus.getConfig().getBoolean("Levelup-Sound")) {
 			player.playSound(player.getLocation(), Sound.ORB_PICKUP, 2, 1);
 			player.playSound(player.getLocation(), Sound.ORB_PICKUP, 2, 8);
@@ -102,8 +98,7 @@ public class User implements IUser {
 		current = current + progress;
 		int level = getLevel();
 		while (current > (level * levelBalance) + (level * level + 100)) {
-			current = current
-					- ((level * levelBalance) + (level * level + 100));
+			current = current - ((level * levelBalance) + (level * level + 100));
 			levelUp();
 			level++;
 		}
@@ -190,26 +185,20 @@ public class User implements IUser {
 						break;
 					}
 				}
-				sender.sendMessage(ChatColor.GOLD + "        ---===["
-						+ ChatColor.RED + "Mana: " + currentMana + " / "
+				sender.sendMessage(ChatColor.GOLD + "        ---===[" + ChatColor.RED + "Mana: " + currentMana + " / "
 						+ maxMana + ChatColor.GOLD + "]===---");
-				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.AQUA
-						+ full + ChatColor.GRAY + empty + ChatColor.DARK_AQUA
-						+ "}");
-				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.AQUA
-						+ full + ChatColor.GRAY + empty + ChatColor.DARK_AQUA
-						+ "}");
+				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.AQUA + full + ChatColor.GRAY + empty
+						+ ChatColor.DARK_AQUA + "}");
+				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.AQUA + full + ChatColor.GRAY + empty
+						+ ChatColor.DARK_AQUA + "}");
 			} else {
 				for (int i = 120; i > 0; i = i - 1) {
 					empty.append("|");
 				}
-				sender.sendMessage(ChatColor.GOLD + "              ---===["
-						+ ChatColor.RED + "Mana: " + currentMana + " / "
-						+ maxMana + ChatColor.GOLD + "]===---");
-				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY
-						+ empty + ChatColor.DARK_AQUA + "}");
-				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY
-						+ empty + ChatColor.DARK_AQUA + "}");
+				sender.sendMessage(ChatColor.GOLD + "              ---===[" + ChatColor.RED + "Mana: " + currentMana
+						+ " / " + maxMana + ChatColor.GOLD + "]===---");
+				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY + empty + ChatColor.DARK_AQUA + "}");
+				sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY + empty + ChatColor.DARK_AQUA + "}");
 			}
 		}
 	}
@@ -247,33 +236,24 @@ public class User implements IUser {
 							break;
 						}
 					}
-					sender.sendMessage(ChatColor.DARK_BLUE + "  ---===["
-							+ ChatColor.BLUE + "Level: " + level
-							+ ChatColor.BOLD + "" + ChatColor.DARK_BLUE
-							+ " -=- " + ChatColor.BLUE + "Progress: "
-							+ currentLevelProg + "/" + maxLevelProg
-							+ ChatColor.DARK_BLUE + "]===---");
-					sender.sendMessage(ChatColor.DARK_GRAY + "{"
-							+ ChatColor.LIGHT_PURPLE + full + ChatColor.GRAY
+					sender.sendMessage(ChatColor.DARK_BLUE + "  ---===[" + ChatColor.BLUE + "Level: " + level
+							+ ChatColor.BOLD + "" + ChatColor.DARK_BLUE + " -=- " + ChatColor.BLUE + "Progress: "
+							+ currentLevelProg + "/" + maxLevelProg + ChatColor.DARK_BLUE + "]===---");
+					sender.sendMessage(ChatColor.DARK_GRAY + "{" + ChatColor.LIGHT_PURPLE + full + ChatColor.GRAY
 							+ empty + ChatColor.DARK_GRAY + "}");
 				} else {
 					for (int i = 120; i > 0; i = i - 1) {
 						empty.append("|");
 					}
-					sender.sendMessage(ChatColor.DARK_BLUE + "  ---===["
-							+ ChatColor.BLUE + "Level: " + level
-							+ ChatColor.DARK_BLUE + " -=- " + ChatColor.BLUE
-							+ "Progress: " + currentLevelProg + "/"
+					sender.sendMessage(ChatColor.DARK_BLUE + "  ---===[" + ChatColor.BLUE + "Level: " + level
+							+ ChatColor.DARK_BLUE + " -=- " + ChatColor.BLUE + "Progress: " + currentLevelProg + "/"
 							+ maxLevelProg + ChatColor.DARK_BLUE + "]===---");
-					sender.sendMessage(ChatColor.DARK_AQUA + "{"
-							+ ChatColor.GRAY + empty + ChatColor.DARK_AQUA
-							+ "}");
+					sender.sendMessage(ChatColor.DARK_AQUA + "{" + ChatColor.GRAY + empty + ChatColor.DARK_AQUA + "}");
 				}
 
 			} else {
-				player.sendMessage(ChatColor.DARK_BLUE + "             ---===["
-						+ ChatColor.BLUE + "Level: " + 0 + ChatColor.DARK_BLUE
-						+ "]===---");
+				player.sendMessage(ChatColor.DARK_BLUE + "             ---===[" + ChatColor.BLUE + "Level: " + 0
+						+ ChatColor.DARK_BLUE + "]===---");
 			}
 		}
 	}

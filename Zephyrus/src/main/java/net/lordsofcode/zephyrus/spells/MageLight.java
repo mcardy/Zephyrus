@@ -65,8 +65,7 @@ public class MageLight extends Spell {
 		if (player != null) {
 			Location loc = player.getLocation();
 			loc.setY(loc.getY() - 1);
-			player.sendBlockChange(loc, loc.getBlock().getType(), loc
-					.getBlock().getData());
+			player.sendBlockChange(loc, loc.getBlock().getType(), loc.getBlock().getData());
 		}
 	}
 
@@ -90,20 +89,16 @@ public class MageLight extends Spell {
 			Location loc = e.getTo();
 			loc.setY(loc.getY() - 1);
 			Material mat = loc.getBlock().getType();
-			if (mat != Material.AIR && mat != Material.WATER
-					&& mat != Material.STATIONARY_WATER && mat != Material.LAVA
-					&& mat != Material.STATIONARY_LAVA) {
-				e.getPlayer()
-						.sendBlockChange(loc, Material.GLOWSTONE, (byte) 0);
+			if (mat != Material.AIR && mat != Material.WATER && mat != Material.STATIONARY_WATER
+					&& mat != Material.LAVA && mat != Material.STATIONARY_LAVA) {
+				e.getPlayer().sendBlockChange(loc, Material.GLOWSTONE, (byte) 0);
 			}
 			Location loc2 = e.getFrom();
 			loc2.setY(loc2.getY() - 1);
-			if (loc.getBlockX() == loc2.getBlockX()
-					&& loc.getBlockY() == loc2.getBlockY()
+			if (loc.getBlockX() == loc2.getBlockX() && loc.getBlockY() == loc2.getBlockY()
 					&& loc.getBlockZ() == loc2.getBlockZ()) {
 			} else {
-				e.getPlayer().sendBlockChange(loc2, loc2.getBlock().getType(),
-						loc2.getBlock().getData());
+				e.getPlayer().sendBlockChange(loc2, loc2.getBlock().getType(), loc2.getBlock().getData());
 			}
 		}
 	}

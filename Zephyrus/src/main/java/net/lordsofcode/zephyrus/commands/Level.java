@@ -20,8 +20,7 @@ import org.bukkit.entity.Player;
 public class Level implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
 			if (args.length == 0) {
 				if (sender.hasPermission("zephyrus.level") || sender.isOp()) {
@@ -56,7 +55,7 @@ public class Level implements CommandExecutor {
 		}
 		return false;
 	}
-	
+
 	public boolean isOnline(String player) {
 		Player target = (Bukkit.getServer().getPlayer(player));
 		if (target == null) {

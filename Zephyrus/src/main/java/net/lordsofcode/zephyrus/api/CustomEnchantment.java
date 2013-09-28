@@ -59,12 +59,9 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 	@EventHandler
 	public void onEnchant(EnchantItemEvent e) {
 		int level = e.getExpLevelCost() / enchantLevelCost();
-		int chance = new Random().nextInt(chance()
-				* Zephyrus.getConfig()
-						.getInt("Enchantment-Chance"));
+		int chance = new Random().nextInt(chance() * Zephyrus.getConfig().getInt("Enchantment-Chance"));
 		if (chance == 0 && level != 0) {
-			if (e.getItem().getType() != Material.BOOK
-					&& !incompatible(e.getEnchantsToAdd())
+			if (e.getItem().getType() != Material.BOOK && !incompatible(e.getEnchantsToAdd())
 					&& canEnchantItem(e.getItem())) {
 				if (level > this.getMaxLevel()) {
 					level = this.getMaxLevel();
@@ -125,42 +122,34 @@ public abstract class CustomEnchantment extends Enchantment implements Listener 
 	public boolean isTool(ItemStack item) {
 		return isPickaxe(item) || isShovel(item) || isAxe(item);
 	}
-	
+
 	public boolean isPickaxe(ItemStack item) {
-		if (item.getType() == Material.STONE_PICKAXE
-				|| item.getType() == Material.IRON_PICKAXE
-				|| item.getType() == Material.GOLD_PICKAXE
-				|| item.getType() == Material.DIAMOND_PICKAXE) {
+		if (item.getType() == Material.STONE_PICKAXE || item.getType() == Material.IRON_PICKAXE
+				|| item.getType() == Material.GOLD_PICKAXE || item.getType() == Material.DIAMOND_PICKAXE) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean isShovel(ItemStack item) {
-		if (item.getType() == Material.STONE_SPADE
-				|| item.getType() == Material.IRON_SPADE
-				|| item.getType() == Material.GOLD_SPADE
-				|| item.getType() == Material.DIAMOND_SPADE) {
+		if (item.getType() == Material.STONE_SPADE || item.getType() == Material.IRON_SPADE
+				|| item.getType() == Material.GOLD_SPADE || item.getType() == Material.DIAMOND_SPADE) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean isAxe(ItemStack item) {
-		if (item.getType() == Material.STONE_AXE
-				|| item.getType() == Material.IRON_AXE
-				|| item.getType() == Material.GOLD_AXE
-				|| item.getType() == Material.DIAMOND_AXE) {
+		if (item.getType() == Material.STONE_AXE || item.getType() == Material.IRON_AXE
+				|| item.getType() == Material.GOLD_AXE || item.getType() == Material.DIAMOND_AXE) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean isSword(ItemStack item) {
-		if (item.getType() == Material.STONE_SWORD
-				|| item.getType() == Material.IRON_SWORD
-				|| item.getType() == Material.GOLD_SWORD
-				|| item.getType() == Material.DIAMOND_SWORD) {
+		if (item.getType() == Material.STONE_SWORD || item.getType() == Material.IRON_SWORD
+				|| item.getType() == Material.GOLD_SWORD || item.getType() == Material.DIAMOND_SWORD) {
 			return true;
 		}
 		return false;

@@ -40,7 +40,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class Summon extends Spell {
 
 	List<Entity> en;
-	
+
 	public Summon() {
 		en = new ArrayList<Entity>();
 		Lang.add("spells.summon.fail", "The undead can't be spawned there!");
@@ -69,23 +69,23 @@ public class Summon extends Spell {
 	@Override
 	public boolean run(Player player, String[] args) {
 		if (canRun(player, args)) {
-		Block block = player.getTargetBlock(null, 100);
-		Location loc = block.getLocation();
-		loc.setY(loc.getY() + 1);
-		Skeleton skel = loc.getWorld().spawn(loc, Skeleton.class);
-		skel.getEquipment().setHelmet(new ItemStack(Material.LEATHER_HELMET));
-		skel.setMetadata("owner", new FixedMetadataValue(Zephyrus.getPlugin(), player.getName()));
-		en.add(skel);
-		new End(skel).runTaskLater(Zephyrus.getPlugin(), getConfig().getInt(getName() + ".duration") * 20);
-		for (Entity e : skel.getNearbyEntities(20, 20, 20)) {
-			if (e instanceof LivingEntity && e != player) {
-				CraftCreature m = (CraftCreature) skel;
-				CraftLivingEntity tar = (CraftLivingEntity) e;
-				m.getHandle().setGoalTarget(tar.getHandle());
-				break;
+			Block block = player.getTargetBlock(null, 100);
+			Location loc = block.getLocation();
+			loc.setY(loc.getY() + 1);
+			Skeleton skel = loc.getWorld().spawn(loc, Skeleton.class);
+			skel.getEquipment().setHelmet(new ItemStack(Material.LEATHER_HELMET));
+			skel.setMetadata("owner", new FixedMetadataValue(Zephyrus.getPlugin(), player.getName()));
+			en.add(skel);
+			new End(skel).runTaskLater(Zephyrus.getPlugin(), getConfig().getInt(getName() + ".duration") * 20);
+			for (Entity e : skel.getNearbyEntities(20, 20, 20)) {
+				if (e instanceof LivingEntity && e != player) {
+					CraftCreature m = (CraftCreature) skel;
+					CraftLivingEntity tar = (CraftLivingEntity) e;
+					m.getHandle().setGoalTarget(tar.getHandle());
+					break;
+				}
 			}
-		}
-		return true;
+			return true;
 		} else {
 			Lang.errMsg("spells.summon.fail", player);
 			return false;
@@ -99,23 +99,24 @@ public class Summon extends Spell {
 		Block block2 = loc.getBlock();
 		loc.setY(loc.getY() + 1);
 		Block block3 = loc.getBlock();
-		return block != null && block.getType() != Material.AIR && block2.getType() == Material.AIR && block3.getType() == Material.AIR;
+		return block != null && block.getType() != Material.AIR && block2.getType() == Material.AIR
+				&& block3.getType() == Material.AIR;
 	}
-	
+
 	@Override
 	public void onDisable() {
 		for (Entity entity : en) {
 			entity.remove();
 		}
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		Map<String, Object> cfg = new HashMap<String, Object>();
 		cfg.put("duration", 60);
 		return cfg;
 	}
-	
+
 	@Override
 	public Set<ItemStack> items() {
 		Set<ItemStack> i = new HashSet<ItemStack>();
@@ -123,25 +124,26 @@ public class Summon extends Spell {
 		i.add(new ItemStack(Material.BONE, 64));
 		return i;
 	}
-	
+
 	@EventHandler
 	public void onTarget(EntityTargetEvent e) {
-		if (e.getEntityType() == EntityType.SKELETON && e.getTarget() instanceof Player && e.getEntity().hasMetadata("owner")) {
+		if (e.getEntityType() == EntityType.SKELETON && e.getTarget() instanceof Player
+				&& e.getEntity().hasMetadata("owner")) {
 			String s = e.getEntity().getMetadata("owner").get(0).asString();
-			if (((Player)e.getTarget()).getName().equals(s)) {
+			if (((Player) e.getTarget()).getName().equals(s)) {
 				e.setCancelled(true);
 			}
 		}
 	}
-	
+
 	private class End extends BukkitRunnable {
-		
+
 		LivingEntity entity;
-		
+
 		public End(LivingEntity e) {
 			entity = e;
 		}
-		
+
 		@Override
 		public void run() {
 			entity.damage(1000);
@@ -167,5 +169,5 @@ public class Summon extends Spell {
 	public boolean sideEffect(Player player, String[] args) {
 		return false;
 	}
-	
+
 }

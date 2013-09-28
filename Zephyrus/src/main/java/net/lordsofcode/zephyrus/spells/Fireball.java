@@ -64,14 +64,14 @@ public class Fireball extends Spell {
 		i.add(new ItemStack(Material.COAL));
 		return i;
 	}
-	
+
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		Random rand = new Random();
 		player.setFireTicks(rand.nextInt(40));
 		return false;
 	}
-	
+
 	@Override
 	public EffectType getPrimaryType() {
 		return EffectType.DESTRUCTION;
@@ -81,7 +81,7 @@ public class Fireball extends Spell {
 	public Element getElementType() {
 		return Element.FIRE;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.HIGH;

@@ -2,7 +2,6 @@ package net.lordsofcode.zephyrus.enchantments;
 
 import java.util.Map;
 
-
 import net.lordsofcode.zephyrus.api.CustomEnchantment;
 
 import org.bukkit.enchantments.Enchantment;
@@ -70,7 +69,7 @@ public class LifeSuck extends CustomEnchantment {
 	public int getStartLevel() {
 		return 1;
 	}
-	
+
 	@EventHandler
 	public void onAttack(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Player) {
@@ -82,7 +81,7 @@ public class LifeSuck extends CustomEnchantment {
 			}
 		}
 	}
-	
+
 	public void addHealth(Player player, int amount) {
 		if (player.getHealth() + amount > player.getMaxHealth()) {
 			player.setHealth(player.getMaxHealth());

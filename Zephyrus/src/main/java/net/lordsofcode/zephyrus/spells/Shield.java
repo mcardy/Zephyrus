@@ -56,8 +56,7 @@ public class Shield extends Spell {
 		int damage = getConfig().getInt(getName() + ".damage");
 		int time = getConfig().getInt(getName() + ".duration");
 		playerMap.add(player.getName());
-		new Run(player, damage).runTaskTimer(Zephyrus.getPlugin(),
-				(long) 0.5, (long) 0.5);
+		new Run(player, damage).runTaskTimer(Zephyrus.getPlugin(), (long) 0.5, (long) 0.5);
 		startDelay(player, time * 20);
 		return true;
 	}
@@ -99,8 +98,7 @@ public class Shield extends Spell {
 			if (p != null && playerMap.contains(player.getName())) {
 				Location loc = p.getLocation();
 				loc.setY(player.getLocation().getY() + 1);
-				Effects.playEffect(ParticleEffects.BLUE_SPARKLE,
-						loc, 0.5F, 1, 0.5F, 100, 10);
+				Effects.playEffect(ParticleEffects.BLUE_SPARKLE, loc, 0.5F, 1, 0.5F, 100, 10);
 				for (Entity e : p.getNearbyEntities(2, 2, 2)) {
 					if (e instanceof LivingEntity) {
 						((LivingEntity) e).damage(damage);

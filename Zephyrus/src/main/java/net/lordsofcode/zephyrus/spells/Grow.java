@@ -13,7 +13,6 @@ import net.lordsofcode.zephyrus.utils.ParticleEffects;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.block.Block;

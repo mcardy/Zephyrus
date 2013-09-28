@@ -27,7 +27,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 
 public class ArrowStorm extends Spell {
-	
+
 	@Override
 	public String getName() {
 		return "arrowstorm";
@@ -74,24 +74,23 @@ public class ArrowStorm extends Spell {
 	public ISpell getRequiredSpell() {
 		return Spell.forName("arrow");
 	}
-	
+
 	private class Run extends BukkitRunnable {
 		int amount;
 		String player;
-		
+
 		public Run(String player, int amount) {
 			this.amount = amount;
 			this.player = player;
 		}
-		
+
 		@Override
 		public void run() {
 			if (0 < amount && Bukkit.getPlayer(player) != null) {
 				org.bukkit.entity.Arrow arrow = Bukkit.getPlayer(player)
 						.launchProjectile(org.bukkit.entity.Arrow.class);
-				arrow.setMetadata("no_pickup", new FixedMetadataValue(Zephyrus.getPlugin(),
-						true));
-				new Run(player, amount-1).runTaskLater(Zephyrus.getPlugin(), 1);
+				arrow.setMetadata("no_pickup", new FixedMetadataValue(Zephyrus.getPlugin(), true));
+				new Run(player, amount - 1).runTaskLater(Zephyrus.getPlugin(), 1);
 			}
 		}
 
@@ -106,7 +105,7 @@ public class ArrowStorm extends Spell {
 	public Element getElementType() {
 		return Element.AIR;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.MEDIUM;

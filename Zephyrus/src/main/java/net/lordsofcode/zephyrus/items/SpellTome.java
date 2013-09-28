@@ -39,7 +39,7 @@ public class SpellTome extends ItemUtil implements Listener {
 		this.spell = spell;
 		this.desc = desc;
 	}
-	
+
 	public SpellTome() {
 		spell = null;
 		desc = null;
@@ -76,16 +76,15 @@ public class SpellTome extends ItemUtil implements Listener {
 		l.add(ChatColor.GRAY + "" + spell);
 		m.setLore(l);
 		m.setTitle(spell);
-		m.addPage(desc + "\n\n" + Lang.get("spelltome.cast").replace("[SPELL]", spell)
-				+ "\n\n" + Lang.get("spelltome.learn"));
+		m.addPage(desc + "\n\n" + Lang.get("spelltome.cast").replace("[SPELL]", spell) + "\n\n"
+				+ Lang.get("spelltome.learn"));
 		i.setItemMeta(m);
 		setGlow(i);
 	}
 
 	@EventHandler
 	public void onClick(PlayerInteractEvent e) {
-		if (e.getAction() == Action.LEFT_CLICK_AIR
-				|| e.getAction() == Action.LEFT_CLICK_BLOCK) {
+		if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
 			if (checkName(e.getPlayer().getItemInHand(), this.name())) {
 				if (!e.getPlayer().hasPermission("zephyrus.spelltome")) {
 					e.getPlayer().sendMessage(Lang.get("spelltome.noperm"));
@@ -97,23 +96,21 @@ public class SpellTome extends ItemUtil implements Listener {
 				if (Zephyrus.getSpellMap().containsKey(s)) {
 					ISpell spell = Zephyrus.getSpellMap().get(s);
 					Player player = e.getPlayer();
-					FileConfiguration cfg = PlayerConfigHandler.getConfig(
-							player);
+					FileConfiguration cfg = PlayerConfigHandler.getConfig(player);
 					if (!player.hasPermission("zephyrus.spell." + spell.getName())) {
-						e.getPlayer().sendMessage(Lang.get("spelltome.cantlearn").replace("[SPELL]", spell.getDisplayName()));
+						e.getPlayer().sendMessage(
+								Lang.get("spelltome.cantlearn").replace("[SPELL]", spell.getDisplayName()));
 						return;
 					}
 					if (!cfg.getStringList("learned").contains(spell.getDisplayName().toLowerCase())) {
-						PlayerLearnSpellEvent event = new PlayerLearnSpellEvent(
-								player, spell);
+						PlayerLearnSpellEvent event = new PlayerLearnSpellEvent(player, spell);
 						Bukkit.getServer().getPluginManager().callEvent(event);
 						if (!event.isCancelled()) {
-							List<String> learned = PlayerConfigHandler
-									.getConfig(player).getStringList(
-											"learned");
+							List<String> learned = PlayerConfigHandler.getConfig(player).getStringList("learned");
 							learned.add(spell.getDisplayName().toLowerCase());
 							cfg.set("learned", learned);
-							e.getPlayer().sendMessage(Lang.get("spelltome.success").replace("[SPELL]", spell.getDisplayName()));
+							e.getPlayer().sendMessage(
+									Lang.get("spelltome.success").replace("[SPELL]", spell.getDisplayName()));
 							e.getPlayer().setItemInHand(null);
 							PlayerConfigHandler.saveConfig(player, cfg);
 						}

@@ -27,8 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * 
  */
 
-public class Bind implements CommandExecutor,
-		TabCompleter {
+public class Bind implements CommandExecutor, TabCompleter {
 
 	public Bind() {
 		Lang.add("bind.nospell", "Specify a spell to bind!");
@@ -38,8 +37,7 @@ public class Bind implements CommandExecutor,
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 		if (sender instanceof Player) {
 			if (sender.hasPermission("zephyrus.bind") || sender.isOp()) {
@@ -50,40 +48,33 @@ public class Bind implements CommandExecutor,
 						ISpell spell = Zephyrus.getSpellMap().get(args[0]);
 						Player player = (Player) sender;
 						IUser user = Zephyrus.getUser(player);
-						if (user.isLearned(spell)
-								|| user.hasPermission(spell)) {
+						if (user.isLearned(spell) || user.hasPermission(spell)) {
 							if (player.getItemInHand() != null
 									&& player.getItemInHand().hasItemMeta()
-									&& player.getItemInHand().getItemMeta()
-											.hasDisplayName()
-									&& player.getItemInHand().getItemMeta()
-											.getDisplayName()
+									&& player.getItemInHand().getItemMeta().hasDisplayName()
+									&& player.getItemInHand().getItemMeta().getDisplayName()
 											.contains(ChatColor.GOLD + "Wand")) {
 								if (spell.canBind()) {
 									ItemStack i = player.getItemInHand();
 									List<String> list = new ArrayList<String>();
-									list.add(ChatColor.GRAY + "Bound spell: "
-											+ ChatColor.DARK_GRAY
+									list.add(ChatColor.GRAY + "Bound spell: " + ChatColor.DARK_GRAY
 											+ spell.getDisplayName().toLowerCase());
 									ItemMeta m = i.getItemMeta();
-									m.setDisplayName(ChatColor.GOLD
-											+ "Wand"
-											+ ChatColor.DARK_GRAY
-											+ " | "
-											+ ChatColor.GOLD
-											+ WordUtils.capitalizeFully(spell.getDisplayName()));
+									m.setDisplayName(ChatColor.GOLD + "Wand" + ChatColor.DARK_GRAY + " | "
+											+ ChatColor.GOLD + WordUtils.capitalizeFully(spell.getDisplayName()));
 									m.setLore(list);
 									i.setItemMeta(m);
 									player.sendMessage(ChatColor.GRAY
-											+ Lang.get("bind.finish").replace("[SPELL]",
-													WordUtils.capitalizeFully(ChatColor.GOLD
-															+ spell.getDisplayName() + ChatColor.GRAY)));
+											+ Lang.get("bind.finish").replace(
+													"[SPELL]",
+													WordUtils.capitalizeFully(ChatColor.GOLD + spell.getDisplayName()
+															+ ChatColor.GRAY)));
 								} else {
 									sender.sendMessage(ChatColor.DARK_RED
-											+ Lang.get("bind.cantbind")
-													.replace("[SPELL]",
-															ChatColor.GOLD + WordUtils.capitalizeFully(
-																			spell.getDisplayName()) + ChatColor.RED));
+											+ Lang.get("bind.cantbind").replace(
+													"[SPELL]",
+													ChatColor.GOLD + WordUtils.capitalizeFully(spell.getDisplayName())
+															+ ChatColor.RED));
 								}
 							} else {
 								Lang.errMsg("bind.needwand", player);
@@ -107,8 +98,7 @@ public class Bind implements CommandExecutor,
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command,
-			String alias, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		List<String> list = learned(sender);
 		if (args.length == 0) {
 			return list;
@@ -125,8 +115,7 @@ public class Bind implements CommandExecutor,
 
 	public List<String> learned(CommandSender p) {
 		Player player = (Player) p;
-		return PlayerConfigHandler.getConfig(player).getStringList(
-				"learned");
+		return PlayerConfigHandler.getConfig(player).getStringList("learned");
 	}
 
 }

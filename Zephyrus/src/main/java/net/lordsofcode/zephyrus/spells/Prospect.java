@@ -59,22 +59,22 @@ public class Prospect extends Spell {
 		for (int x = -(radius); x <= radius; x++) {
 			for (int y = -(radius); y <= radius; y++) {
 				for (int z = -(radius); z <= radius; z++) {
-					if (block.getRelative(x,y,z).getType() == Material.GOLD_ORE) {
+					if (block.getRelative(x, y, z).getType() == Material.GOLD_ORE) {
 						s.add(ChatColor.GOLD + "Gold");
 					}
-					if (block.getRelative(x,y,z).getType() == Material.IRON_ORE) {
+					if (block.getRelative(x, y, z).getType() == Material.IRON_ORE) {
 						s.add(ChatColor.GRAY + "Iron");
 					}
-					if (block.getRelative(x,y,z).getType() == Material.COAL_ORE) {
+					if (block.getRelative(x, y, z).getType() == Material.COAL_ORE) {
 						s.add(ChatColor.DARK_GRAY + "Coal");
 					}
-					if (block.getRelative(x,y,z).getType() == Material.REDSTONE_ORE) {
+					if (block.getRelative(x, y, z).getType() == Material.REDSTONE_ORE) {
 						s.add(ChatColor.RED + "Redstone");
 					}
-					if (block.getRelative(x,y,z).getType() == Material.LAPIS_ORE) {
+					if (block.getRelative(x, y, z).getType() == Material.LAPIS_ORE) {
 						s.add(ChatColor.BLUE + "Lapis");
 					}
-					if (block.getRelative(x,y,z).getType() == Material.DIAMOND_ORE) {
+					if (block.getRelative(x, y, z).getType() == Material.DIAMOND_ORE) {
 						s.add(ChatColor.AQUA + "Diamond");
 					}
 				}
@@ -98,7 +98,7 @@ public class Prospect extends Spell {
 		map.put("radius", 3);
 		return map;
 	}
-	
+
 	@Override
 	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
@@ -128,5 +128,5 @@ public class Prospect extends Spell {
 	public boolean sideEffect(Player player, String[] args) {
 		return false;
 	}
-	
+
 }

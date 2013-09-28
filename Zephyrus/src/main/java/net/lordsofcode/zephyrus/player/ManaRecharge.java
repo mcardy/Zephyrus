@@ -27,8 +27,7 @@ class ManaRecharge extends BukkitRunnable {
 		if (player.isOnline()) {
 			IUser user = Zephyrus.getUser(player);
 			user.drainMana(-1);
-			new ManaRecharge(player).runTaskLater(Zephyrus.getPlugin(), Zephyrus
-					.getConfig().getInt("ManaRegen"));
+			new ManaRecharge(player).runTaskLater(Zephyrus.getPlugin(), Zephyrus.getConfig().getInt("ManaRegen"));
 		}
 	}
 

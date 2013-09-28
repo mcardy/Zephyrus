@@ -27,20 +27,17 @@ public class LevelUpItem extends ItemUtil implements CommandExecutor {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command arg1, String arg2,
-			String[] args) {
+	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if (player.hasPermission("zephyrus.levelup.item") || player.isOp()) {
-				if (Zephyrus.getItemMap().containsKey(player.getItemInHand()
-						.getItemMeta().getDisplayName())) {
-					ICustomItem i = Zephyrus.getItemMap().get(player.getItemInHand()
-							.getItemMeta().getDisplayName());
-					if (getItemLevel(player.getItemInHand()) < i
-							.getMaxLevel()) {
+				if (Zephyrus.getItemMap().containsKey(player.getItemInHand().getItemMeta().getDisplayName())) {
+					ICustomItem i = Zephyrus.getItemMap().get(player.getItemInHand().getItemMeta().getDisplayName());
+					if (getItemLevel(player.getItemInHand()) < i.getMaxLevel()) {
 						int current = getItemLevel(player.getItemInHand());
 						setItemLevel(player.getItemInHand(), current + 1);
-						sender.sendMessage(Lang.get("itemlevel.complete").replace("[ITEMNAME]", Lang.caps(i.getDisplayName())));
+						sender.sendMessage(Lang.get("itemlevel.complete").replace("[ITEMNAME]",
+								Lang.caps(i.getDisplayName())));
 					} else {
 						Lang.errMsg("itemlevel.nomore", sender);
 					}

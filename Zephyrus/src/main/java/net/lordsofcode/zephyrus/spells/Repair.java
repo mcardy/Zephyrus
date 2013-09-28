@@ -55,20 +55,15 @@ public class Repair extends Spell {
 
 	@Override
 	public boolean run(Player player, String[] args) {
-		if (player.getItemInHand() != null
-				&& player.getItemInHand().getType().getMaxDurability() != 0) {
+		if (player.getItemInHand() != null && player.getItemInHand().getType().getMaxDurability() != 0) {
 			int amount = getConfig().getInt(getName() + ".amount");
 			ItemStack i = player.getItemInHand();
 			if (i.getDurability() < i.getType().getMaxDurability() + 30) {
-				player.getItemInHand()
-						.setDurability(
-								(short) (player.getItemInHand().getDurability() - amount));
+				player.getItemInHand().setDurability((short) (player.getItemInHand().getDurability() - amount));
 			} else {
-				player.getItemInHand().setDurability(
-						player.getItemInHand().getType().getMaxDurability());
+				player.getItemInHand().setDurability(player.getItemInHand().getType().getMaxDurability());
 			}
-			player.sendMessage(ChatColor.GRAY
-					+ "Your tool feels a bit stronger");
+			player.sendMessage(ChatColor.GRAY + "Your tool feels a bit stronger");
 			Effects.playEffect(Sound.ANVIL_USE, player.getLocation());
 			return true;
 		} else {
@@ -94,8 +89,7 @@ public class Repair extends Spell {
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		int amount = getConfig().getInt(getName() + ".amount");
-		player.getItemInHand().setDurability(
-				(short) (player.getItemInHand().getDurability() + amount));
+		player.getItemInHand().setDurability((short) (player.getItemInHand().getDurability() + amount));
 		Lang.msg("spells.repair.side", player);
 		return true;
 	}

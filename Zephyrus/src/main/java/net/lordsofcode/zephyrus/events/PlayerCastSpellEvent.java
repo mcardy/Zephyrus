@@ -38,7 +38,7 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 		this.args = args;
 		this.sideEffect = b;
 	}
-	
+
 	@Override
 	public HandlerList getHandlers() {
 		return handlers;
@@ -46,6 +46,7 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 
 	/**
 	 * Gets the player who cast the spell
+	 * 
 	 * @return The player who cast the spell
 	 */
 	public Player getPlayer() {
@@ -54,6 +55,7 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 
 	/**
 	 * Gets the spell that was cast
+	 * 
 	 * @return The spell that was cast
 	 */
 	public ISpell getSpell() {
@@ -63,9 +65,11 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 	public static HandlerList getHandlerList() {
 		return handlers;
 	}
-	
+
 	/**
-	 * Gets the arguments used to cast the spell. Null if cast from a wand or a spellbook
+	 * Gets the arguments used to cast the spell. Null if cast from a wand or a
+	 * spellbook
+	 * 
 	 * @return
 	 */
 	public String[] getArgs() {
@@ -75,7 +79,7 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 	public boolean isSideEffect() {
 		return sideEffect;
 	}
-	
+
 	/**
 	 * Gets the cancellation state of this event
 	 */

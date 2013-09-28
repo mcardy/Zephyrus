@@ -61,7 +61,7 @@ public class Grenade extends Spell {
 		s.add(new ItemStack(Material.getMaterial(397), 3, (short) 1));
 		return s;
 	}
-	
+
 	@Override
 	public EffectType getPrimaryType() {
 		return EffectType.DESTRUCTION;
@@ -71,12 +71,12 @@ public class Grenade extends Spell {
 	public Element getElementType() {
 		return Element.WITHER;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.MEDIUM;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		return null;

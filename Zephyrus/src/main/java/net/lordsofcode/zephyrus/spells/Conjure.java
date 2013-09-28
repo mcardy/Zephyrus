@@ -122,12 +122,9 @@ public class Conjure extends Spell {
 		if (!map.isEmpty()) {
 			Lang.errMsg("spells.conjure.invfull", player);
 		} else {
-			String itemName = WordUtils.capitalizeFully(item.getType()
-					.toString().replace("_", " "));
-			player.sendMessage(
-					Lang.get("spells.conjure.complete").replace("[AMOUNT]",
-							ChatColor.GOLD + "" + amount).replace("[ITEM]",
-					itemName));
+			String itemName = WordUtils.capitalizeFully(item.getType().toString().replace("_", " "));
+			player.sendMessage(Lang.get("spells.conjure.complete").replace("[AMOUNT]", ChatColor.GOLD + "" + amount)
+					.replace("[ITEM]", itemName));
 			Zephyrus.getUser(player).drainMana(getValue(id) * amount);
 		}
 		Effects.playEffect(Sound.NOTE_PIANO, player.getLocation(), 1, 5);
@@ -243,20 +240,20 @@ public class Conjure extends Spell {
 	public Element getElementType() {
 		return Element.MAGIC;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.HIGH;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		return null;
 	}
-	
+
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		return false;
 	}
-	
+
 }

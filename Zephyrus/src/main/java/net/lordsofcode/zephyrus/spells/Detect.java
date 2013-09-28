@@ -9,12 +9,9 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
-import net.lordsofcode.zephyrus.utils.Effects;
-
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -62,15 +59,15 @@ public class Detect extends Spell {
 				msg = false;
 				if (mobMap.containsKey(en.getType().toString())) {
 					int i = mobMap.get(en.getType().toString());
-					mobMap.put(en.getType().toString(), i+1);
+					mobMap.put(en.getType().toString(), i + 1);
 				} else {
 					mobMap.put(en.getType().toString(), 1);
 				}
 			}
 		}
 		for (String s : mobMap.keySet()) {
-			player.sendMessage(ChatColor.GREEN + WordUtils.capitalize(s.toLowerCase().replace(
-					"_", " ")) + ": " + mobMap.get(s));
+			player.sendMessage(ChatColor.GREEN + WordUtils.capitalize(s.toLowerCase().replace("_", " ")) + ": "
+					+ mobMap.get(s));
 		}
 		if (msg) {
 			player.sendMessage(ChatColor.GRAY + "None...");
@@ -92,7 +89,7 @@ public class Detect extends Spell {
 		s.add(new ItemStack(Material.STONE_PLATE));
 		return s;
 	}
-	
+
 	@Override
 	public EffectType getPrimaryType() {
 		return EffectType.MONITOR;
@@ -102,7 +99,7 @@ public class Detect extends Spell {
 	public Element getElementType() {
 		return Element.GENERIC;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;

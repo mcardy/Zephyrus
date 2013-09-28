@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
  */
 
 public class LifeSteal extends Spell {
-	
+
 	public LifeSteal() {
 		Lang.add("spells.lifesteal.fail", "No one to suck the life out of...");
 	}

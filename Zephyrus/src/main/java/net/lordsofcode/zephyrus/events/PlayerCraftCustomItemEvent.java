@@ -25,23 +25,25 @@ public class PlayerCraftCustomItemEvent extends Event implements Cancellable {
 	private List<HumanEntity> player;
 	private ICustomItem item;
 	private PrepareItemCraftEvent e;
-	
+
 	public PlayerCraftCustomItemEvent(List<HumanEntity> player, ICustomItem item, PrepareItemCraftEvent e) {
 		this.player = player;
 		this.item = item;
 		this.e = e;
 	}
-	
+
 	/**
 	 * The humans crafting the item
+	 * 
 	 * @return
 	 */
 	public List<HumanEntity> getPlayers() {
 		return player;
 	}
-	
+
 	/**
 	 * Returns the crafter of the item
+	 * 
 	 * @return Null if the crafter is not a player
 	 */
 	public Player getPlayer() {
@@ -51,23 +53,25 @@ public class PlayerCraftCustomItemEvent extends Event implements Cancellable {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Gets the event of crafting the item
+	 * 
 	 * @return
 	 */
 	public PrepareItemCraftEvent getPrepareItemCraft() {
 		return e;
 	}
-	
+
 	/**
 	 * Gets the item being crafted
+	 * 
 	 * @return
 	 */
 	public ICustomItem getItem() {
 		return item;
 	}
-	
+
 	@Override
 	public boolean isCancelled() {
 		return cancelled;
@@ -77,16 +81,16 @@ public class PlayerCraftCustomItemEvent extends Event implements Cancellable {
 	public void setCancelled(boolean arg0) {
 		this.cancelled = arg0;
 	}
-	
+
 	private static final HandlerList handlers = new HandlerList();
-	 
+
 	@Override
 	public HandlerList getHandlers() {
-	    return handlers;
+		return handlers;
 	}
-	 
+
 	public static HandlerList getHandlerList() {
-	    return handlers;
+		return handlers;
 	}
 
 }

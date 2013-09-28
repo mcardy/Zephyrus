@@ -67,27 +67,21 @@ public class RodOfFire extends CustomItem {
 
 	@EventHandler
 	public void fireball(PlayerInteractEvent e) {
-		if (e.getAction() == Action.RIGHT_CLICK_AIR
-				&& checkName(e.getPlayer().getItemInHand(), getDisplayName())
-				&& !ItemDelay.hasDelay(e.getPlayer(), this)
-				&& getItemLevel(e.getPlayer().getItemInHand()) < 6) {
-			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
-					.getTargetBlock(null, 1000))) {
+		if (e.getAction() == Action.RIGHT_CLICK_AIR && checkName(e.getPlayer().getItemInHand(), getDisplayName())
+				&& !ItemDelay.hasDelay(e.getPlayer(), this) && getItemLevel(e.getPlayer().getItemInHand()) < 6) {
+			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer().getTargetBlock(null, 1000))) {
 				Player player = e.getPlayer();
-				SmallFireball fireball = player
-						.launchProjectile(SmallFireball.class);
+				SmallFireball fireball = player.launchProjectile(SmallFireball.class);
 				fireball.setVelocity(fireball.getVelocity().multiply(10));
 				int delay = delayFromLevel(getItemLevel(e.getItem()));
 				ItemDelay.setDelay(e.getPlayer(), this, delay);
 			} else {
 				Lang.errMsg("worldguard", e.getPlayer());
 			}
-		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
-				&& checkName(e.getPlayer().getItemInHand(), getName())
+		} else if (e.getAction() == Action.RIGHT_CLICK_AIR && checkName(e.getPlayer().getItemInHand(), getName())
 				&& !ItemDelay.hasDelay(e.getPlayer(), this)) {
 
-			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
-					.getTargetBlock(null, 1000))) {
+			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer().getTargetBlock(null, 1000))) {
 				Player player = e.getPlayer();
 				Fireball fireball = player.launchProjectile(Fireball.class);
 				fireball.setVelocity(fireball.getVelocity().multiply(10));
@@ -96,11 +90,9 @@ public class RodOfFire extends CustomItem {
 			} else {
 				Lang.errMsg("worldguard", e.getPlayer());
 			}
-		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
-				&& checkName(e.getPlayer().getItemInHand(), getName())) {
+		} else if (e.getAction() == Action.RIGHT_CLICK_AIR && checkName(e.getPlayer().getItemInHand(), getName())) {
 			int time = ItemDelay.getDelay(e.getPlayer(), this);
-			e.getPlayer().sendMessage(
-					ChatColor.GRAY + Lang.get("firerod.recharge").replace("[TIME]", time + ""));
+			e.getPlayer().sendMessage(ChatColor.GRAY + Lang.get("firerod.recharge").replace("[TIME]", time + ""));
 		}
 	}
 

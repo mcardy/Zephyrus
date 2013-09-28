@@ -16,19 +16,19 @@ public class SpellTypes {
 	public enum Element {
 		FIRE, WATER, ICE, EARTH, AIR, LIGHT, ENDER, WITHER, SHADOW, MAGIC, POTION, GENERIC;
 	}
-	
+
 	/**
 	 * A variable for a spell's effect
 	 */
 	public enum EffectType {
 		EXPLOSION, ATTACK, MOVEMENT, TELEPORTATION, DESTRUCTION, CREATION, BUFF, RESTORE, ILLUSION, MONITOR, WORLD;
 	}
-	
+
 	/**
 	 * A variable for the spell's priority of execution
 	 */
 	public enum Priority {
-		HIGH, MEDIUM, LOW;	
+		HIGH, MEDIUM, LOW;
 	}
-	
+
 }

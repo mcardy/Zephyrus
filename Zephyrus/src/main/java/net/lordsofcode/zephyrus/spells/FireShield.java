@@ -31,7 +31,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 
 public class FireShield extends Spell {
-	
+
 	@Override
 	public String getName() {
 		return "fireshield";
@@ -56,8 +56,7 @@ public class FireShield extends Spell {
 	public boolean run(Player player, String[] args) {
 		int time = getConfig().getInt(getName() + ".duration");
 		playerMap.add(player.getName());
-		new Run(player).runTaskTimer(Zephyrus.getPlugin(),
-				(long) 0.5, (long) 0.5);
+		new Run(player).runTaskTimer(Zephyrus.getPlugin(), (long) 0.5, (long) 0.5);
 		startDelay(player, time * 20);
 		return true;
 	}
@@ -74,7 +73,7 @@ public class FireShield extends Spell {
 		i.add(new ItemStack(Material.DIAMOND_CHESTPLATE));
 		return i;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -96,8 +95,7 @@ public class FireShield extends Spell {
 			if (p != null && playerMap.contains(player.getName())) {
 				Location loc = p.getLocation();
 				loc.setY(player.getLocation().getY() + 1);
-				Effects.playEffect(ParticleEffects.REDSTONE_DUST,
-						loc, 1, 1, 1, 0, 5);
+				Effects.playEffect(ParticleEffects.REDSTONE_DUST, loc, 1, 1, 1, 0, 5);
 				Effects.playEffect(Sound.FIRE, loc, 0.4F);
 				for (Entity e : p.getNearbyEntities(2, 2, 2)) {
 					if (e instanceof LivingEntity) {
@@ -109,7 +107,7 @@ public class FireShield extends Spell {
 			}
 		}
 	}
-	
+
 	@Override
 	public EffectType getPrimaryType() {
 		return EffectType.DESTRUCTION;
@@ -119,7 +117,7 @@ public class FireShield extends Spell {
 	public Element getElementType() {
 		return Element.FIRE;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;

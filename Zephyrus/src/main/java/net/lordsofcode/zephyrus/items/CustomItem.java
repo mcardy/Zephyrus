@@ -20,8 +20,7 @@ public abstract class CustomItem extends ItemUtil implements ICustomItem {
 	public String getDisplayName() {
 		ConfigHandler cfg = new ConfigHandler("items.yml");
 		if (cfg.getConfig().contains(getConfigName() + ".displayname")) {
-			return cfg.getConfig().getString(getConfigName() + ".displayname")
-					.replace("$", ChatColor.COLOR_CHAR + "");
+			return cfg.getConfig().getString(getConfigName() + ".displayname").replace("$", ChatColor.COLOR_CHAR + "");
 		} else {
 			return getName();
 		}

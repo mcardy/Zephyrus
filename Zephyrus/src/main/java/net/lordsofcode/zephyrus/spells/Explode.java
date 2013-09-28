@@ -47,15 +47,13 @@ public class Explode extends Spell {
 
 	@Override
 	public boolean run(Player player, String[] args) {
-		BlockBreakEvent e = new BlockBreakEvent(
-				player.getTargetBlock(null, 200), player);
+		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 200), player);
 		Bukkit.getPluginManager().callEvent(e);
 		if (e.isCancelled()) {
 			return false;
 		}
 		int r = getConfig().getInt(getName() + ".power");
-		player.getWorld().createExplosion(
-				player.getTargetBlock(null, 200).getLocation(), r, false);
+		player.getWorld().createExplosion(player.getTargetBlock(null, 200).getLocation(), r, false);
 		return true;
 	}
 
@@ -76,8 +74,7 @@ public class Explode extends Spell {
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		int r = getConfig().getInt(getName() + ".power");
-		player.getWorld().createExplosion(
-				player.getTargetBlock(null, 200).getLocation(), r * 2, false);
+		player.getWorld().createExplosion(player.getTargetBlock(null, 200).getLocation(), r * 2, false);
 		return true;
 	}
 

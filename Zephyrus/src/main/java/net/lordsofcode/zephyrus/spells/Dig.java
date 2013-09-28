@@ -51,8 +51,7 @@ public class Dig extends Spell {
 		if (this.blockBreak(player) || list.contains(player.getTargetBlock(null, 12).getTypeId())) {
 			return false;
 		}
-		player.getTargetBlock(null, 12).breakNaturally(
-				new ItemStack(Material.DIAMOND_PICKAXE));
+		player.getTargetBlock(null, 12).breakNaturally(new ItemStack(Material.DIAMOND_PICKAXE));
 		return true;
 	}
 
@@ -102,7 +101,8 @@ public class Dig extends Spell {
 		for (String s : list) {
 			try {
 				intList.add(Integer.parseInt(s));
-			} catch (NumberFormatException ex) {}
+			} catch (NumberFormatException ex) {
+			}
 		}
 		return intList;
 	}

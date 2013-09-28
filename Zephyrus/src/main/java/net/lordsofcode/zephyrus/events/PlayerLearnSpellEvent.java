@@ -20,28 +20,30 @@ public class PlayerLearnSpellEvent extends Event implements Cancellable {
 	private boolean cancelled;
 	private Player player;
 	private ISpell spell;
-	
+
 	public PlayerLearnSpellEvent(Player player, ISpell spell) {
 		this.player = player;
 		this.spell = spell;
 	}
-	
+
 	/**
 	 * Gets the player who is learning the spell via SpellTome
+	 * 
 	 * @return The Learner
 	 */
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	/**
 	 * Gets the spell being learned
+	 * 
 	 * @return A spell
 	 */
 	public ISpell getSpell() {
 		return spell;
 	}
-	
+
 	@Override
 	public boolean isCancelled() {
 		return cancelled;
@@ -53,13 +55,13 @@ public class PlayerLearnSpellEvent extends Event implements Cancellable {
 	}
 
 	private static final HandlerList handlers = new HandlerList();
-	 
+
 	@Override
 	public HandlerList getHandlers() {
-	    return handlers;
+		return handlers;
 	}
-	 
+
 	public static HandlerList getHandlerList() {
-	    return handlers;
+		return handlers;
 	}
 }

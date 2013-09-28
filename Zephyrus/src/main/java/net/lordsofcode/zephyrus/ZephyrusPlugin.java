@@ -136,12 +136,8 @@ public class ZephyrusPlugin extends JavaPlugin {
 		}
 
 		getLogger().info(
-				"Zephyrus v"
-						+ getDescription().getVersion()
-						+ " by "
-						+ getDescription().getAuthors().toString()
-								.replace("[", "").replace("]", "")
-						+ " enabled!");
+				"Zephyrus v" + getDescription().getVersion() + " by "
+						+ getDescription().getAuthors().toString().replace("[", "").replace("]", "") + " enabled!");
 
 		new PostInit().runTaskAsynchronously(this);
 	}
@@ -183,11 +179,9 @@ public class ZephyrusPlugin extends JavaPlugin {
 
 	private void setupLanguage() {
 		Lang.add("noperm", "You do not have permission to do that!");
-		Lang.add("ingameonly",
-				"You must be an in-game player to perform this command!");
+		Lang.add("ingameonly", "You must be an in-game player to perform this command!");
 		Lang.add("notonline", "That player is not online!");
-		Lang.add(
-				"outofdatebukkit",
+		Lang.add("outofdatebukkit",
 				"Sadly, the version of Craftbukkit that you are using is out of date... This feature has been disabled.");
 
 		Lang.add("nomana", "Not enough mana!");
@@ -195,17 +189,14 @@ public class ZephyrusPlugin extends JavaPlugin {
 		Lang.add("notlearned", "You do not know that spell!");
 		Lang.add("worldguard", "You do not have permission for this area!");
 		Lang.add("nospellzone", "You are in a no spell zone! You can't cast spells!");
-		
-		Lang.add("spelltome.learn",
-				"Learn this spell by left clicking this book");
+
+		Lang.add("spelltome.learn", "Learn this spell by left clicking this book");
 		Lang.add("spelltome.cast", "Cast this spell with $b/cast [SPELL]$0");
 		Lang.add("spelltome.nospell", "That spell was not found!");
 		Lang.add("spelltome.known", "You already know that spell!");
 		Lang.add("spelltome.success", "You have successfully learned $6[SPELL]");
-		Lang.add("spelltome.cantlearn", ChatColor.DARK_RED
-				+ "You don't have permission to learn [SPELL]");
-		Lang.add("spelltome.noperm", ChatColor.DARK_RED
-				+ "You don't have permission to use the spelltome!");
+		Lang.add("spelltome.cantlearn", ChatColor.DARK_RED + "You don't have permission to learn [SPELL]");
+		Lang.add("spelltome.noperm", ChatColor.DARK_RED + "You don't have permission to use the spelltome!");
 
 		Lang.add("customitem.level", "Level");
 	}
@@ -214,10 +205,9 @@ public class ZephyrusPlugin extends JavaPlugin {
 		try {
 			new CraftLivingEntity(null, null);
 		} catch (NoClassDefFoundError err) {
-			getLogger()
-					.warning(
-							"This version of Zephyrus is not fully compatible with your version of CraftBukkit."
-									+ " Some features have been disabled!");
+			getLogger().warning(
+					"This version of Zephyrus is not fully compatible with your version of CraftBukkit."
+							+ " Some features have been disabled!");
 		}
 	}
 
@@ -231,26 +221,26 @@ public class ZephyrusPlugin extends JavaPlugin {
 
 	private void addSpells() {
 		getLogger().info("Loading spells...");
-		//A
+		// A
 		Zephyrus.registerSpell(new Armour());
 		Zephyrus.registerSpell(new Arrow());
 		Zephyrus.registerSpell(new ArrowStorm());
-		//B
+		// B
 		Zephyrus.registerSpell(new Bang());
 		Zephyrus.registerSpell(new Blink());
 		Zephyrus.registerSpell(new Bolt());
 		Zephyrus.registerSpell(new Butcher());
-		//C
+		// C
 		Zephyrus.registerSpell(new Confuse());
 		Zephyrus.registerSpell(new Conjure());
-		//D
+		// D
 		Zephyrus.registerSpell(new Detect());
 		Zephyrus.registerSpell(new Dig());
 		Zephyrus.registerSpell(new Dispel());
-		//E
+		// E
 		Zephyrus.registerSpell(new Enderchest());
 		Zephyrus.registerSpell(new Explode());
-		//F
+		// F
 		Zephyrus.registerSpell(new Feather());
 		Zephyrus.registerSpell(new Feed());
 		Zephyrus.registerSpell(new Fireball());
@@ -260,61 +250,61 @@ public class ZephyrusPlugin extends JavaPlugin {
 		Zephyrus.registerSpell(new Flare());
 		Zephyrus.registerSpell(new Fly());
 		Zephyrus.registerSpell(new Frenzy());
-		//G
+		// G
 		Zephyrus.registerSpell(new Grenade());
 		Zephyrus.registerSpell(new Grow());
-		//H
+		// H
 		Zephyrus.registerSpell(new Heal());
 		Zephyrus.registerSpell(new Home());
-		//I
-		
-		//J
+		// I
+
+		// J
 		Zephyrus.registerSpell(new Jail());
-		//K
-		
-		//L
+		// K
+
+		// L
 		Zephyrus.registerSpell(new LifeSteal());
-		//M
+		// M
 		Zephyrus.registerSpell(new MageLight());
 		Zephyrus.registerSpell(new Mana());
 		Zephyrus.registerSpell(new MassParalyze());
-		//N
-		
-		//O
-		
-		//P
+		// N
+
+		// O
+
+		// P
 		Zephyrus.registerSpell(new Paralyze());
 		Zephyrus.registerSpell(new Phase());
 		Zephyrus.registerSpell(new Prospect());
 		Zephyrus.registerSpell(new Punch());
-		//Q
-		
-		//R
+		// Q
+
+		// R
 		Zephyrus.registerSpell(new Repair());
-		//S
+		// S
 		Zephyrus.registerSpell(new Satisfy());
 		Zephyrus.registerSpell(new Shield());
 		Zephyrus.registerSpell(new Smite());
 		Zephyrus.registerSpell(new Storm());
 		Zephyrus.registerSpell(new Summon());
 		Zephyrus.registerSpell(new SuperHeat());
-		//T
-		
-		//U
-		
-		//V
+		// T
+
+		// U
+
+		// V
 		Zephyrus.registerSpell(new Vanish());
 		Zephyrus.registerSpell(new Vision());
-		//W
-		
-		//X
-		
-		//Y
-		
-		//Z
+		// W
+
+		// X
+
+		// Y
+
+		// Z
 		Zephyrus.registerSpell(new Zap());
 		Zephyrus.registerSpell(new Zephyr());
-		
+
 		try {
 			zephyrus.loader.loadSpells();
 		} catch (MalformedURLException e) {
@@ -381,11 +371,9 @@ public class ZephyrusPlugin extends JavaPlugin {
 		@Override
 		public void run() {
 			SpellManager manager = Zephyrus.getSpellManager();
-			getLogger()
-					.info("Loaded " + manager.getRegisteredSpells()
-							+ " spells. " + manager.getBuiltInSpells()
-							+ " built in & "
-							+ manager.getExternalSpells() + " external spells.");
+			getLogger().info(
+					"Loaded " + manager.getRegisteredSpells() + " spells. " + manager.getBuiltInSpells()
+							+ " built in & " + manager.getExternalSpells() + " external spells.");
 		}
 	}
 

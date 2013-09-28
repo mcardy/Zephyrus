@@ -60,7 +60,7 @@ public class Dispel extends Spell {
 		s.add(new ItemStack(Material.MILK_BUCKET));
 		return s;
 	}
-	
+
 	@Override
 	public EffectType getPrimaryType() {
 		return EffectType.RESTORE;
@@ -70,12 +70,12 @@ public class Dispel extends Spell {
 	public Element getElementType() {
 		return Element.GENERIC;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		return null;

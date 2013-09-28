@@ -84,7 +84,7 @@ public class Feather extends Spell {
 		s.add(new ItemStack(Material.FEATHER, 8));
 		return s;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -94,8 +94,7 @@ public class Feather extends Spell {
 
 	@EventHandler
 	public void onMove(PlayerMoveEvent e) {
-		if (list.containsKey(e.getPlayer().getName())
-				&& !e.getPlayer().isFlying()) {
+		if (list.containsKey(e.getPlayer().getName()) && !e.getPlayer().isFlying()) {
 			if (e.getFrom().getY() > e.getTo().getY()) {
 				Location loc = e.getPlayer().getLocation();
 				loc.setY(loc.getY() - 1);
@@ -112,8 +111,7 @@ public class Feather extends Spell {
 	public void onDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {
 			Player player = (Player) e.getEntity();
-			if (list.containsKey(player.getName())
-					&& e.getCause() == DamageCause.FALL) {
+			if (list.containsKey(player.getName()) && e.getCause() == DamageCause.FALL) {
 				e.setCancelled(true);
 			}
 		}
@@ -125,14 +123,14 @@ public class Feather extends Spell {
 			list.remove(e.getPlayer().getName());
 		}
 	}
-	
+
 	@EventHandler
 	public void onKick(PlayerKickEvent e) {
 		if (list.containsKey(e.getPlayer())) {
 			list.remove(e.getPlayer().getName());
 		}
 	}
-	
+
 	private class FeatherRunnable extends BukkitRunnable {
 
 		Player player;

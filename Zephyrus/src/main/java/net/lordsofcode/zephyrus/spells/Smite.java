@@ -51,8 +51,7 @@ public class Smite extends Spell {
 
 	@Override
 	public boolean run(Player player, String[] args) {
-		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null,
-				1000), player);
+		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 1000), player);
 		Bukkit.getPluginManager().callEvent(e);
 		if (!e.isCancelled()) {
 			Location loc = player.getTargetBlock(null, 1000).getLocation();

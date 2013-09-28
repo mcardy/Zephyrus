@@ -2,7 +2,6 @@ package net.lordsofcode.zephyrus.enchantments;
 
 import java.util.Map;
 
-
 import net.lordsofcode.zephyrus.api.CustomEnchantment;
 
 import org.bukkit.Material;
@@ -44,10 +43,8 @@ public class BattleAxe extends CustomEnchantment {
 
 	@Override
 	public boolean canEnchantItem(ItemStack item) {
-		if (item.getType() == Material.DIAMOND_AXE
-				|| item.getType() == Material.GOLD_AXE
-				|| item.getType() == Material.IRON_AXE
-				|| item.getType() == Material.STONE_AXE) {
+		if (item.getType() == Material.DIAMOND_AXE || item.getType() == Material.GOLD_AXE
+				|| item.getType() == Material.IRON_AXE || item.getType() == Material.STONE_AXE) {
 			return true;
 		}
 		return false;

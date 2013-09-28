@@ -15,7 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
@@ -62,9 +61,9 @@ public class Punch extends Spell {
 			Lang.errMsg("spells.punch.fail", player);
 			return false;
 		}
-		EntityDamageEvent event = new EntityDamageEvent(e, DamageCause.ENTITY_ATTACK, (double)damage);
+		EntityDamageEvent event = new EntityDamageEvent(e, DamageCause.ENTITY_ATTACK, (double) damage);
 		Bukkit.getPluginManager().callEvent(event);
-		if (!event.isCancelled()){
+		if (!event.isCancelled()) {
 			LivingEntity c = (LivingEntity) getTarget(player);
 			c.damage(damage);
 			return true;
@@ -88,7 +87,7 @@ public class Punch extends Spell {
 		i.add(new ItemStack(Material.POTION, 1, (short) 8204));
 		return i;
 	}
-	
+
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		player.damage(1, player);

@@ -29,8 +29,11 @@ public class ConfigHandler {
 
 	/**
 	 * Creates a configuration instance
-	 * @param plugin Zephyrus instance
-	 * @param fileName The name of the file containing .yml
+	 * 
+	 * @param plugin
+	 *            Zephyrus instance
+	 * @param fileName
+	 *            The name of the file containing .yml
 	 */
 	public ConfigHandler(String fileName) {
 		this.plugin = Zephyrus.getPlugin();
@@ -52,14 +55,14 @@ public class ConfigHandler {
 
 		InputStream defConfigStream = plugin.getResource(fileName);
 		if (defConfigStream != null) {
-			YamlConfiguration defConfig = YamlConfiguration
-					.loadConfiguration(defConfigStream);
+			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 			fileConfiguration.setDefaults(defConfig);
 		}
 	}
 
 	/**
 	 * Gets the FileConfiguration of the config object
+	 * 
 	 * @return A FileConfiguration of the object
 	 */
 	public FileConfiguration getConfig() {
@@ -84,8 +87,7 @@ public class ConfigHandler {
 			try {
 				getConfig().save(configFile);
 			} catch (IOException ex) {
-				plugin.getLogger().log(Level.SEVERE,
-						"Could not save config to " + configFile, ex);
+				plugin.getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
 			}
 		}
 	}

@@ -68,7 +68,7 @@ public class Flare extends Spell {
 		i.add(new ItemStack(Material.BLAZE_POWDER, 16));
 		return i;
 	}
-	
+
 	@Override
 	public ISpell getRequiredSpell() {
 		return Spell.forName("fireball");
@@ -83,7 +83,7 @@ public class Flare extends Spell {
 	public Element getElementType() {
 		return Element.FIRE;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;

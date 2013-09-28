@@ -39,19 +39,17 @@ public class Armour extends Spell {
 	public static ItemStack[] armor;
 
 	public Armour() {
-		Lang.add("spells.armour.applied",
-				"$6Your skin feels hard with magic and gold!");
+		Lang.add("spells.armour.applied", "$6Your skin feels hard with magic and gold!");
 		Lang.add("spells.armour.name", "$6Magic Armour");
 
 		Lang.add("spells.armour.fail", "You can't be wearing armour!");
-		
+
 		ItemStack helm = new ItemStack(Material.GOLD_HELMET);
 		ItemStack chest = new ItemStack(Material.GOLD_CHESTPLATE);
 		ItemStack legs = new ItemStack(Material.GOLD_LEGGINGS);
 		ItemStack boots = new ItemStack(Material.GOLD_BOOTS);
 		ItemMeta meta = helm.getItemMeta();
-		meta.setDisplayName(new ConfigHandler("lang.yml").getConfig()
-				.getString("spells.armour.name")
+		meta.setDisplayName(new ConfigHandler("lang.yml").getConfig().getString("spells.armour.name")
 				.replace("$", ChatColor.COLOR_CHAR + ""));
 		helm.setItemMeta(meta);
 		chest.setItemMeta(meta);
@@ -83,10 +81,8 @@ public class Armour extends Spell {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args) {
-		if (player.getInventory().getHelmet() == null
-				&& player.getInventory().getChestplate() == null
-				&& player.getInventory().getLeggings() == null
-				&& player.getInventory().getBoots() == null) {
+		if (player.getInventory().getHelmet() == null && player.getInventory().getChestplate() == null
+				&& player.getInventory().getLeggings() == null && player.getInventory().getBoots() == null) {
 			int time = getConfig().getInt(this.getName() + ".delay");
 			player.getInventory().setArmorContents(armor);
 			player.updateInventory();
@@ -95,7 +91,7 @@ public class Armour extends Spell {
 			Lang.msg("spells.armour.applied", player);
 			return true;
 		} else {
-			Lang.errMsg("spells.armour.fail", player); 
+			Lang.errMsg("spells.armour.fail", player);
 			return false;
 		}
 	}
@@ -138,8 +134,7 @@ public class Armour extends Spell {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
-		if (e.getSlotType() == SlotType.ARMOR
-				&& playerMap.contains(e.getWhoClicked().getName())) {
+		if (e.getSlotType() == SlotType.ARMOR && playerMap.contains(e.getWhoClicked().getName())) {
 			e.setCancelled(true);
 		}
 	}
@@ -161,10 +156,8 @@ public class Armour extends Spell {
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent e) {
 		for (ItemStack i : e.getDrops()) {
-			if (i.hasItemMeta()
-					&& i.getItemMeta().hasDisplayName()
-					&& i.getItemMeta().getDisplayName()
-							.equalsIgnoreCase(Lang.get("spells.armour.name"))) {
+			if (i.hasItemMeta() && i.getItemMeta().hasDisplayName()
+					&& i.getItemMeta().getDisplayName().equalsIgnoreCase(Lang.get("spells.armour.name"))) {
 				e.getDrops().remove(i);
 			}
 		}
@@ -176,10 +169,8 @@ public class Armour extends Spell {
 			Player player = (Player) e.getEntity();
 			if (player.getInventory().getBoots() != null
 					&& player.getInventory().getBoots().hasItemMeta()
-					&& player.getInventory().getBoots().getItemMeta()
-							.hasDisplayName()
-					&& player.getInventory().getBoots().getItemMeta()
-							.getDisplayName()
+					&& player.getInventory().getBoots().getItemMeta().hasDisplayName()
+					&& player.getInventory().getBoots().getItemMeta().getDisplayName()
 							.equals(Lang.get("spells.armour.name"))) {
 				e.setCancelled(true);
 			}
@@ -195,7 +186,7 @@ public class Armour extends Spell {
 	public Element getElementType() {
 		return Element.MAGIC;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;

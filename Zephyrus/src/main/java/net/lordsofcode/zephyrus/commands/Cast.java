@@ -32,8 +32,7 @@ public class Cast implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
 			if (!sender.hasPermission("zephyrus.cast")) {
 				Lang.errMsg("noperm", sender);
@@ -45,14 +44,11 @@ public class Cast implements CommandExecutor, TabCompleter {
 				if (Zephyrus.getSpellMap().containsKey(args[0])) {
 					Player player = (Player) sender;
 					IUser user = Zephyrus.getUser(player);
-					ISpell spell = Zephyrus.getSpellMap()
-							.get(args[0].toLowerCase());
+					ISpell spell = Zephyrus.getSpellMap().get(args[0].toLowerCase());
 					if (user.isLearned(spell) || user.hasPermission(spell)) {
 						if (user.hasMana(spell.getManaCost())) {
-							PlayerCastSpellEvent event = new PlayerCastSpellEvent(
-									player, spell, args);
-							Bukkit.getServer().getPluginManager()
-									.callEvent(event);
+							PlayerCastSpellEvent event = new PlayerCastSpellEvent(player, spell, args);
+							Bukkit.getServer().getPluginManager().callEvent(event);
 							if (!event.isCancelled()) {
 								boolean b = spell.run(player, args);
 								if (b) {
@@ -77,8 +73,7 @@ public class Cast implements CommandExecutor, TabCompleter {
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command,
-			String alias, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		List<String> list = learned(sender);
 		if (args.length == 0) {
 			return list;

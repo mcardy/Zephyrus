@@ -26,18 +26,21 @@ public class Merchant implements IMerchant {
 
 	/**
 	 * Adds a new trade to the merchants
-	 * @param i1 Input one
-	 * @param i2 Input two
-	 * @param i3 Result
+	 * 
+	 * @param i1
+	 *            Input one
+	 * @param i2
+	 *            Input two
+	 * @param i3
+	 *            Result
 	 */
 	public void addOffer(ItemStack i1, ItemStack i2, ItemStack i3) {
 		items[0] = i1;
 		items[1] = i2;
 		items[2] = i3;
-		a(new MerchantRecipe(CraftItemStack.asNMSCopy(i1),
-				CraftItemStack.asNMSCopy(i2), CraftItemStack.asNMSCopy(i3)));
+		a(new MerchantRecipe(CraftItemStack.asNMSCopy(i1), CraftItemStack.asNMSCopy(i2), CraftItemStack.asNMSCopy(i3)));
 	}
-	
+
 	/**
 	 * Adds a trade to the merchant
 	 * 
@@ -57,10 +60,12 @@ public class Merchant implements IMerchant {
 	public MerchantRecipeList getOffers(EntityHuman arg0) {
 		return recipes;
 	}
-	
+
 	/**
 	 * Sets the offer for the merchant
-	 * @param list The MerchantRecipeList to add
+	 * 
+	 * @param list
+	 *            The MerchantRecipeList to add
 	 */
 	public void setOffers(MerchantRecipeList list) {
 		recipes = list;
@@ -76,7 +81,9 @@ public class Merchant implements IMerchant {
 
 	/**
 	 * Opens the trade for the given player
-	 * @param player The player to send the trade to
+	 * 
+	 * @param player
+	 *            The player to send the trade to
 	 */
 	public void openTrade(Player player) {
 		human = ((CraftPlayer) player).getHandle();
@@ -85,15 +92,18 @@ public class Merchant implements IMerchant {
 
 	/**
 	 * Opens the trade for the given EntityHuman
-	 * @param h The EntityHuman to send the trade to
+	 * 
+	 * @param h
+	 *            The EntityHuman to send the trade to
 	 */
 	public void openTrade(EntityHuman h) {
 		human = h;
 		human.openTrade(this, "Arcane Leveler");
 	}
-	
+
 	/**
 	 * Gets the list of items for this merchant
+	 * 
 	 * @return An itemstack array containing the trade items
 	 */
 	public ItemStack[] getItems() {
@@ -102,6 +112,7 @@ public class Merchant implements IMerchant {
 
 	/**
 	 * Gets the first input for the trade
+	 * 
 	 * @return The first input itemstack
 	 */
 	public ItemStack getInput1() {
@@ -110,6 +121,7 @@ public class Merchant implements IMerchant {
 
 	/**
 	 * Gets the second input for the trade
+	 * 
 	 * @return The second input itemstack
 	 */
 	public ItemStack getInput2() {
@@ -118,12 +130,13 @@ public class Merchant implements IMerchant {
 
 	/**
 	 * Gets the output input for the trade
+	 * 
 	 * @return The output input itemstack
 	 */
 	public ItemStack getOutput() {
 		return items[2];
 	}
-	
+
 	/**
 	 * Clones the merchant and returns a new instance with the same trades
 	 */

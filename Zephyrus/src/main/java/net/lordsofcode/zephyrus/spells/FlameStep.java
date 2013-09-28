@@ -38,7 +38,7 @@ public class FlameStep extends Spell {
 	private Map<String, Integer> list;
 	private int radius;
 	private int duration;
-	
+
 	public FlameStep() {
 		list = new HashMap<String, Integer>();
 		Lang.add("spells.flamestep.applied", "You will now burn everything in your path for [TIME] seconds");
@@ -91,7 +91,7 @@ public class FlameStep extends Spell {
 		s.add(new ItemStack(Material.FIREBALL, 8));
 		return s;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -99,7 +99,7 @@ public class FlameStep extends Spell {
 		map.put("duration", 30);
 		return map;
 	}
-	
+
 	@EventHandler
 	public void onMove(PlayerMoveEvent e) {
 		if (list.containsKey(e.getPlayer().getName())) {
@@ -114,7 +114,7 @@ public class FlameStep extends Spell {
 			for (int x = -(radius); x <= radius; x++) {
 				for (int y = -(radius); y <= radius; y++) {
 					for (int z = -(radius); z <= radius; z++) {
-						Block b = block.getRelative(x,y,z);
+						Block b = block.getRelative(x, y, z);
 						if (b.getType() == Material.SAND || b.getType() == Material.COBBLESTONE) {
 							BlockBreakEvent event = new BlockBreakEvent(b, e.getPlayer());
 							Bukkit.getPluginManager().callEvent(event);
@@ -133,7 +133,7 @@ public class FlameStep extends Spell {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FIRE_TICK) {
@@ -143,7 +143,7 @@ public class FlameStep extends Spell {
 			}
 		}
 	}
-	
+
 	private class FlameRunnable extends BukkitRunnable {
 
 		Player player;
@@ -178,7 +178,7 @@ public class FlameStep extends Spell {
 	public Element getElementType() {
 		return Element.FIRE;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;

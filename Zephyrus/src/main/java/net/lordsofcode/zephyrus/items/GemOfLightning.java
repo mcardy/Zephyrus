@@ -59,15 +59,11 @@ public class GemOfLightning extends CustomItem {
 
 	@EventHandler
 	public void lightning(PlayerInteractEvent e) {
-		if (!ItemDelay.hasDelay(e.getPlayer(), this)
-				&& e.getPlayer().getItemInHand().getType() == Material.EMERALD
+		if (!ItemDelay.hasDelay(e.getPlayer(), this) && e.getPlayer().getItemInHand().getType() == Material.EMERALD
 				&& e.getAction() == Action.RIGHT_CLICK_AIR
-				&& checkName(e.getPlayer().getItemInHand(),
-						getDisplayName())) {
-			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer()
-					.getTargetBlock(null, 1000))) {
-				Location loc = e.getPlayer().getTargetBlock(null, 100)
-						.getLocation();
+				&& checkName(e.getPlayer().getItemInHand(), getDisplayName())) {
+			if (PluginHook.canBuild(e.getPlayer(), e.getPlayer().getTargetBlock(null, 1000))) {
+				Location loc = e.getPlayer().getTargetBlock(null, 100).getLocation();
 				e.getPlayer().getWorld().strikeLightning(loc);
 				int delay = delayFromLevel(getItemLevel(e.getItem()));
 				ItemDelay.setDelay(e.getPlayer(), this, delay);
@@ -75,12 +71,10 @@ public class GemOfLightning extends CustomItem {
 				Lang.errMsg("worldguard", e.getPlayer());
 			}
 		} else if (e.getAction() == Action.RIGHT_CLICK_AIR
-				&& checkName(e.getPlayer().getItemInHand(),
-						getDisplayName())
+				&& checkName(e.getPlayer().getItemInHand(), getDisplayName())
 				&& ItemDelay.hasDelay(e.getPlayer(), this)) {
 			int time = ItemDelay.getDelay(e.getPlayer(), this);
-			e.getPlayer().sendMessage(
-					ChatColor.GRAY + Lang.get("lightninggem.recharge").replace("[TIME]", time + ""));
+			e.getPlayer().sendMessage(ChatColor.GRAY + Lang.get("lightninggem.recharge").replace("[TIME]", time + ""));
 		}
 
 	}

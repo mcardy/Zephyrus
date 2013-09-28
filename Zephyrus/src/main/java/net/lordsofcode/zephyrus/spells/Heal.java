@@ -53,7 +53,7 @@ public class Heal extends Spell {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -77,7 +77,7 @@ public class Heal extends Spell {
 	public Element getElementType() {
 		return Element.GENERIC;
 	}
-	
+
 	@Override
 	public Priority getPriority() {
 		return Priority.LOW;
@@ -87,5 +87,5 @@ public class Heal extends Spell {
 	public boolean sideEffect(Player player, String[] args) {
 		return false;
 	}
-	
+
 }

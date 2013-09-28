@@ -54,8 +54,7 @@ public class Vanish extends Spell {
 	public boolean run(Player player, String[] args) {
 		int t = getConfig().getInt(getName() + ".duration");
 		player.removePotionEffect(PotionEffectType.INVISIBILITY);
-		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,
-				t * 20, 1));
+		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, t * 20, 1));
 		Lang.msg("spells.vanish.applied", player);
 		return true;
 	}
@@ -67,7 +66,7 @@ public class Vanish extends Spell {
 		i.add(new ItemStack(Material.POTION, 1, (short) 8270));
 		return i;
 	}
-	
+
 	@Override
 	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();

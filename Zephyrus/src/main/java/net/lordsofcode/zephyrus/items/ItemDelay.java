@@ -19,8 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ItemDelay {
 
-	public static void setDelay(Player player,
-			CustomItem item, int delay) {
+	public static void setDelay(Player player, CustomItem item, int delay) {
 		ZephyrusPlugin plugin = Zephyrus.getPlugin();
 		if (Zephyrus.getDelayMap().containsKey(player.getName())) {
 			Map<String, Integer> s = Zephyrus.getDelayMap().get(player.getName());
@@ -35,8 +34,7 @@ public class ItemDelay {
 		}
 	}
 
-	public static boolean hasDelay(Player player,
-			CustomItem item) {
+	public static boolean hasDelay(Player player, CustomItem item) {
 		if (Zephyrus.getDelayMap().containsKey(player.getName())) {
 			Map<String, Integer> s = Zephyrus.getDelayMap().get(player.getName());
 			if (s.containsKey(item.getConfigName())) {

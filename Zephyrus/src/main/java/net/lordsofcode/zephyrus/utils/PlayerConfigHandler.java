@@ -46,8 +46,7 @@ public class PlayerConfigHandler {
 	 * @param player
 	 *            The player to save the config for
 	 */
-	public static void saveConfig(Player player,
-			FileConfiguration cfg) {
+	public static void saveConfig(Player player, FileConfiguration cfg) {
 		ZephyrusPlugin plugin = Zephyrus.getPlugin();
 		String fileName = player.getName() + ".yml";
 		File dataFolder = new File(plugin.getDataFolder(), "Players");
@@ -56,8 +55,7 @@ public class PlayerConfigHandler {
 		try {
 			cfg.save(configFile);
 		} catch (IOException ex) {
-			plugin.getLogger().log(Level.SEVERE,
-					"Could not save config to " + configFile, ex);
+			plugin.getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
 		}
 	}
 

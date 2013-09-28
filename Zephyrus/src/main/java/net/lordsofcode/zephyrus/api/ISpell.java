@@ -142,7 +142,7 @@ public interface ISpell extends Listener {
 	 * Gets the Priority of the spell. The priority should be high if the spell
 	 * has high compatibility with other spells in combo spells, medium if the
 	 * spell has medium compatibility and low if the spell has no combo spell
-	 * effect. 
+	 * effect.
 	 * 
 	 * @return
 	 */
@@ -185,8 +185,7 @@ public interface ISpell extends Listener {
 	public boolean sideEffect(Player player, String[] args);
 
 	/**
-	 * TODO Implement combo spells
-	 * NOT IMPLEMENTED YET
+	 * TODO Implement combo spells NOT IMPLEMENTED YET
 	 * <p>
 	 * The spell's combo spell effect.
 	 * 
@@ -202,8 +201,7 @@ public interface ISpell extends Listener {
 	 *            The power of the spell
 	 * @return
 	 */
-	public boolean comboSpell(Player player, String[] args, EffectType type,
-			Element element, int power);
+	public boolean comboSpell(Player player, String[] args, EffectType type, Element element, int power);
 
 	/**
 	 * The method called when the plugin is disabled. Used to remove potion
