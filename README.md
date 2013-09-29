@@ -9,4 +9,4 @@ https://github.com/minnymin3/Zephyrus/tree/Zephyrus-Addon
 Zephyrus is licenced under GNU General Public Licence version 3
 
 #### JavaDocs
-http://minnymin3.github.io/Zephyrus/
+http://minnymin3.lordsofcode.net/Zephyrus/docs/
