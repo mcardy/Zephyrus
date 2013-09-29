@@ -50,12 +50,11 @@ public class User implements IUser {
 
 	@Override
 	public boolean hasMana(int mana) {
-		return Zephyrus.getManaMap().get(player.getName()) - (mana * Zephyrus.getConfig().getInt("ManaMultiplier")) >= 0;
+		return Zephyrus.getManaMap().get(player.getName()) - mana >= 0;
 	}
 
 	@Override
 	public int drainMana(int mana) {
-		mana = mana * Zephyrus.getPlugin().getConfig().getInt("ManaMultiplier");
 		int level = getLevel();
 		onManaChanged(mana);
 		if (getMana() - mana > level * 100) {
