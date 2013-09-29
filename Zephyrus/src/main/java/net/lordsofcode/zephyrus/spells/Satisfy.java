@@ -47,7 +47,7 @@ public class Satisfy extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 10;
+		return 100;
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class Zephyr extends Spell {
 
 	@Override
 	public String getDesc() {
-		return "Pushes enemies away with a small whirlwind";
+		return "Keep enemies away with a small whirlwind";
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class Zephyr extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 100;
+		return 400;
 	}
 
 	@Override

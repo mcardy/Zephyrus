@@ -48,7 +48,7 @@ public class Feed extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 5;
+		return 10;
 	}
 
 	@Override

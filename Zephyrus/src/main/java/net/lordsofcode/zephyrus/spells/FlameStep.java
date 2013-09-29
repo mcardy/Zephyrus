@@ -64,7 +64,7 @@ public class FlameStep extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 100;
+		return 550;
 	}
 
 	@Override

@@ -49,7 +49,7 @@ public class Zap extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 200;
+		return 1024;
 	}
 
 	@Override

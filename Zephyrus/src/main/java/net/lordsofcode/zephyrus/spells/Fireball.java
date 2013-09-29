@@ -43,7 +43,7 @@ public class Fireball extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 10;
+		return 50;
 	}
 
 	@Override

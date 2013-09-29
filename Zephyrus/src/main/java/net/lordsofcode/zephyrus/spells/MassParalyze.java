@@ -45,7 +45,7 @@ public class MassParalyze extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 50;
+		return 300;
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class Storm extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 120;
+		return 300;
 	}
 
 	@Override

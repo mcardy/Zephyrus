@@ -75,7 +75,7 @@ public class Armour extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 60;
+		return 300;
 	}
 
 	@SuppressWarnings("deprecation")

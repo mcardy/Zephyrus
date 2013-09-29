@@ -64,7 +64,7 @@ public class Summon extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 100;
+		return 450;
 	}
 
 	@Override

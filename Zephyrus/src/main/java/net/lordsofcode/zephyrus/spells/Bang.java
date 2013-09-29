@@ -46,7 +46,7 @@ public class Bang extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 50;
+		return 200;
 	}
 
 	@Override

@@ -64,7 +64,7 @@ public class Jail extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 100;
+		return 500;
 	}
 
 	@Override

@@ -47,7 +47,7 @@ public class FireRing extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 10;
+		return 150;
 	}
 
 	@Override

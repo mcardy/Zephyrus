@@ -50,7 +50,7 @@ public class Repair extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 12;
+		return 60;
 	}
 
 	@Override

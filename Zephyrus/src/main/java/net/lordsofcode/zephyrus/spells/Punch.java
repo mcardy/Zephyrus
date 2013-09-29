@@ -50,7 +50,7 @@ public class Punch extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 2;
+		return 20;
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class Punch extends Spell {
 	@Override
 	public Map<String, Object> getConfiguration() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("damage", 2);
+		map.put("damage", 1);
 		return map;
 	}
 

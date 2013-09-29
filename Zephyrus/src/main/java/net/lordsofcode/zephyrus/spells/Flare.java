@@ -43,7 +43,7 @@ public class Flare extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 20;
+		return 80;
 	}
 
 	@Override

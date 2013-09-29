@@ -43,7 +43,7 @@ public class Arrow extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 4;
+		return 5;
 	}
 
 	@Override

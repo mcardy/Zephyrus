@@ -46,7 +46,7 @@ public class Smite extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 50;
+		return 250;
 	}
 
 	@Override

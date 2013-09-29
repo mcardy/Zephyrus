@@ -52,7 +52,7 @@ public class Clock extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 250;
+		return 500;
 	}
 
 	@Override

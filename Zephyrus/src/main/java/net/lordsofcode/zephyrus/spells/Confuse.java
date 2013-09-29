@@ -47,7 +47,7 @@ public class Confuse extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 20;
+		return 150;
 	}
 
 	@Override

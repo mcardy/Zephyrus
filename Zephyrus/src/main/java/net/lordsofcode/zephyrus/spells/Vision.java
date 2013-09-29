@@ -42,7 +42,7 @@ public class Vision extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 20;
+		return 96;
 	}
 
 	@Override

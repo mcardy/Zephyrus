@@ -49,7 +49,7 @@ public class Prospect extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 10;
+		return 75;
 	}
 
 	@Override

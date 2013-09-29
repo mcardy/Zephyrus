@@ -47,7 +47,7 @@ public class LifeSteal extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 2;
+		return 30;
 	}
 
 	@Override

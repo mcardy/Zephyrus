@@ -44,7 +44,7 @@ public class Shine extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 80;
+		return 240;
 	}
 
 	@Override

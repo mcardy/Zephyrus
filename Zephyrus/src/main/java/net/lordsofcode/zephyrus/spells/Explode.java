@@ -43,7 +43,7 @@ public class Explode extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 100;
+		return 400;
 	}
 
 	@Override

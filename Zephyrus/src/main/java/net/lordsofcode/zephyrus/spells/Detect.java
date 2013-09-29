@@ -44,7 +44,7 @@ public class Detect extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 10;
+		return 45;
 	}
 
 	@Override

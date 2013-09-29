@@ -48,7 +48,7 @@ public class Frenzy extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 50;
+		return 225;
 	}
 
 	@Override

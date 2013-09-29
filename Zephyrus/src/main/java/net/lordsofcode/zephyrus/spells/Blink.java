@@ -52,7 +52,7 @@ public class Blink extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 8;
+		return 40;
 	}
 
 	@Override

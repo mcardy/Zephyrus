@@ -50,7 +50,7 @@ public class Grow extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 5;
+		return 25;
 	}
 
 	@Override

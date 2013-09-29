@@ -57,7 +57,7 @@ public class Home extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 20;
+		return 200;
 	}
 
 	@Override

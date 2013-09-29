@@ -45,7 +45,7 @@ public class ArrowStorm extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 30;
+		return 150;
 	}
 
 	@Override

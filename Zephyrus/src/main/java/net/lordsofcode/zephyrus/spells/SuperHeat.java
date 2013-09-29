@@ -58,7 +58,7 @@ public class SuperHeat extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 5;
+		return 32;
 	}
 
 	@Override

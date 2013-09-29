@@ -61,7 +61,7 @@ public class Feather extends Spell {
 
 	@Override
 	public int manaCost() {
-		return 20;
+		return 100;
 	}
 
 	@Override
