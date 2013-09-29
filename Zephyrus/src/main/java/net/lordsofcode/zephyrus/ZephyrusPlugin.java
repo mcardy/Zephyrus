@@ -39,10 +39,12 @@ import net.lordsofcode.zephyrus.spells.Bang;
 import net.lordsofcode.zephyrus.spells.Blink;
 import net.lordsofcode.zephyrus.spells.Bolt;
 import net.lordsofcode.zephyrus.spells.Butcher;
+import net.lordsofcode.zephyrus.spells.Clock;
 import net.lordsofcode.zephyrus.spells.Confuse;
 import net.lordsofcode.zephyrus.spells.Conjure;
 import net.lordsofcode.zephyrus.spells.Detect;
 import net.lordsofcode.zephyrus.spells.Dig;
+import net.lordsofcode.zephyrus.spells.Dim;
 import net.lordsofcode.zephyrus.spells.Dispel;
 import net.lordsofcode.zephyrus.spells.Enderchest;
 import net.lordsofcode.zephyrus.spells.Explode;
@@ -71,6 +73,7 @@ import net.lordsofcode.zephyrus.spells.Punch;
 import net.lordsofcode.zephyrus.spells.Repair;
 import net.lordsofcode.zephyrus.spells.Satisfy;
 import net.lordsofcode.zephyrus.spells.Shield;
+import net.lordsofcode.zephyrus.spells.Shine;
 import net.lordsofcode.zephyrus.spells.Smite;
 import net.lordsofcode.zephyrus.spells.Storm;
 import net.lordsofcode.zephyrus.spells.Summon;
@@ -232,11 +235,13 @@ public class ZephyrusPlugin extends JavaPlugin {
 		Zephyrus.registerSpell(new Bolt());
 		Zephyrus.registerSpell(new Butcher());
 		// C
+		Zephyrus.registerSpell(new Clock());
 		Zephyrus.registerSpell(new Confuse());
 		Zephyrus.registerSpell(new Conjure());
 		// D
 		Zephyrus.registerSpell(new Detect());
 		Zephyrus.registerSpell(new Dig());
+		Zephyrus.registerSpell(new Dim());
 		Zephyrus.registerSpell(new Dispel());
 		// E
 		Zephyrus.registerSpell(new Enderchest());
@@ -285,6 +290,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 		// S
 		Zephyrus.registerSpell(new Satisfy());
 		Zephyrus.registerSpell(new Shield());
+		Zephyrus.registerSpell(new Shine());
 		Zephyrus.registerSpell(new Smite());
 		Zephyrus.registerSpell(new Storm());
 		Zephyrus.registerSpell(new Summon());
