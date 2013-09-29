@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
@@ -78,6 +79,11 @@ public class Explode extends Spell {
 		return true;
 	}
 
+	@Override
+	public ISpell getRequiredSpell() {
+		return Spell.forName("bang");
+	}
+	
 	@Override
 	public EffectType getPrimaryType() {
 		return EffectType.EXPLOSION;

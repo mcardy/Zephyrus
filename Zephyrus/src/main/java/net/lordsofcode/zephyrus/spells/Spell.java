@@ -60,7 +60,7 @@ public abstract class Spell implements ISpell {
 		if (getConfig().contains(getName() + ".mana")) {
 			return getConfig().getInt(getName() + ".mana");
 		}
-		return reqLevel();
+		return manaCost();
 	}
 
 	@Override

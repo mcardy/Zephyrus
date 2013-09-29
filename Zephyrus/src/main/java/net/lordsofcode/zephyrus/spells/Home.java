@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
@@ -140,6 +141,11 @@ public class Home extends Spell {
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		return false;
+	}
+	
+	@Override
+	public ISpell getRequiredSpell() {
+		return Spell.forName("blink");
 	}
 
 }

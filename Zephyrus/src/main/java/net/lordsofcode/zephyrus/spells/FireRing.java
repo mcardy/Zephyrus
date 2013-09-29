@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
@@ -107,6 +108,11 @@ public class FireRing extends Spell {
 		return Priority.LOW;
 	}
 
+	@Override
+	public ISpell getRequiredSpell() {
+		return Spell.forName("flare");
+	}
+	
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		player.getLocation().getBlock().setType(Material.FIRE);

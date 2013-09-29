@@ -9,8 +9,10 @@ import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
+import net.lordsofcode.zephyrus.utils.effects.Effects;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -53,6 +55,7 @@ public class Satisfy extends Spell {
 		player.setFoodLevel(20);
 		player.setSaturation(20);
 		Lang.msg("spells.satisfy.applied", player);
+		Effects.playEffect(Sound.EAT, player.getLocation());
 		return true;
 	}
 

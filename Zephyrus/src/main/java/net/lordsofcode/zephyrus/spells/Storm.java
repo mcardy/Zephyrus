@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
@@ -98,6 +99,11 @@ public class Storm extends Spell {
 	@Override
 	public Priority getPriority() {
 		return Priority.MEDIUM;
+	}
+	
+	@Override
+	public ISpell getRequiredSpell() {
+		return Spell.forName("smite");
 	}
 
 }

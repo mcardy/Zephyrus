@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
@@ -127,6 +128,11 @@ public class FireShield extends Spell {
 	public boolean sideEffect(Player player, String[] args) {
 		player.getLocation().getBlock().setType(Material.FIRE);
 		return false;
+	}
+	
+	@Override
+	public ISpell getRequiredSpell() {
+		return Spell.forName("firering");
 	}
 
 }
