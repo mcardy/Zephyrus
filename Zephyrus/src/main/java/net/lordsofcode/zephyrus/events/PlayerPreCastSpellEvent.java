@@ -15,7 +15,7 @@ import org.bukkit.event.HandlerList;
  * 
  */
 
-public class PlayerCastSpellEvent extends Event implements Cancellable {
+public class PlayerPreCastSpellEvent extends Event implements Cancellable {
 
 	private static final HandlerList handlers = new HandlerList();
 
@@ -25,14 +25,14 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 	private boolean sideEffect;
 	private String[] args;
 
-	public PlayerCastSpellEvent(Player player, ISpell spell, String[] args) {
+	public PlayerPreCastSpellEvent(Player player, ISpell spell, String[] args) {
 		this.player = player;
 		this.spell = spell;
 		this.args = args;
 		sideEffect = false;
 	}
 
-	public PlayerCastSpellEvent(Player player, ISpell spell, String[] args, boolean b) {
+	public PlayerPreCastSpellEvent(Player player, ISpell spell, String[] args, boolean b) {
 		this.player = player;
 		this.spell = spell;
 		this.args = args;
@@ -45,16 +45,16 @@ public class PlayerCastSpellEvent extends Event implements Cancellable {
 	}
 
 	/**
-	 * Gets the player who cast the spell
+	 * Gets the player who will cast the spell
 	 * 
-	 * @return The player who cast the spell
+	 * @return The player who will cast the spell
 	 */
 	public Player getPlayer() {
 		return player;
 	}
 
 	/**
-	 * Gets the spell that was cast
+	 * Gets the spell that will be cast
 	 * 
 	 * @return The spell that was cast
 	 */

@@ -10,7 +10,7 @@ import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.events.PlayerCastSpellEvent;
+import net.lordsofcode.zephyrus.events.PlayerPreCastSpellEvent;
 import net.lordsofcode.zephyrus.events.PlayerCraftCustomItemEvent;
 import net.lordsofcode.zephyrus.items.ItemUtil;
 import net.lordsofcode.zephyrus.utils.Lang;
@@ -129,7 +129,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 	}
 
 	@EventHandler
-	public void sideEffect(PlayerCastSpellEvent e) {
+	public void sideEffect(PlayerPreCastSpellEvent e) {
 		if (e.isSideEffect()) {
 			return;
 		}
@@ -143,7 +143,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 			int chance = Zephyrus.getUser(e.getPlayer()).getLevel() * chanceMultiplier;
 			if (rand.nextInt(chance) == 0) {
 				boolean b = e.getSpell().sideEffect(e.getPlayer(), e.getArgs());
-				PlayerCastSpellEvent ev = new PlayerCastSpellEvent(e.getPlayer(), e.getSpell(), e.getArgs(), true);
+				PlayerPreCastSpellEvent ev = new PlayerPreCastSpellEvent(e.getPlayer(), e.getSpell(), e.getArgs(), true);
 				Bukkit.getPluginManager().callEvent(ev);
 				if (b == true) {
 					e.setCancelled(true);
@@ -156,7 +156,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 	}
 
 	@EventHandler
-	public void onRegionCast(PlayerCastSpellEvent e) {
+	public void onRegionCast(PlayerPreCastSpellEvent e) {
 		if (!PluginHook.canCast(e.getPlayer(), e.getPlayer().getLocation())) {
 			e.setCancelled(true);
 			Lang.errMsg("nospellzone", e.getPlayer());

@@ -7,8 +7,8 @@ import java.util.List;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.events.PlayerCastSpellEvent;
 import net.lordsofcode.zephyrus.events.PlayerLevelUpEvent;
+import net.lordsofcode.zephyrus.events.PlayerPostCastSpellEvent;
 import net.lordsofcode.zephyrus.items.ItemUtil;
 import net.lordsofcode.zephyrus.items.Merchant;
 import net.lordsofcode.zephyrus.utils.Lang;
@@ -65,7 +65,7 @@ public class LevelingListener implements Listener {
 	}
 
 	@EventHandler
-	public void onCast(PlayerCastSpellEvent e) {
+	public void onCast(PlayerPostCastSpellEvent e) {
 		Zephyrus.getUser(e.getPlayer()).levelProgress(e.getSpell().getExp());
 	}
 

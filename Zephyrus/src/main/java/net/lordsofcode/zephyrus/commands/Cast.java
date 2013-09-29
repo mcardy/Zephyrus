@@ -6,7 +6,8 @@ import java.util.List;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
-import net.lordsofcode.zephyrus.events.PlayerCastSpellEvent;
+import net.lordsofcode.zephyrus.events.PlayerPostCastSpellEvent;
+import net.lordsofcode.zephyrus.events.PlayerPreCastSpellEvent;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
@@ -47,12 +48,14 @@ public class Cast implements CommandExecutor, TabCompleter {
 					ISpell spell = Zephyrus.getSpellMap().get(args[0].toLowerCase());
 					if (user.isLearned(spell) || user.hasPermission(spell)) {
 						if (user.hasMana(spell.getManaCost())) {
-							PlayerCastSpellEvent event = new PlayerCastSpellEvent(player, spell, args);
-							Bukkit.getServer().getPluginManager().callEvent(event);
+							PlayerPreCastSpellEvent event = new PlayerPreCastSpellEvent(player, spell, args);
+							Bukkit.getPluginManager().callEvent(event);
 							if (!event.isCancelled()) {
 								boolean b = spell.run(player, args);
 								if (b) {
 									user.drainMana(spell.getManaCost());
+									PlayerPostCastSpellEvent event2 = new PlayerPostCastSpellEvent(player, spell);
+									Bukkit.getPluginManager().callEvent(event2);
 								}
 							}
 						} else {
