@@ -7,14 +7,13 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.registry.PlantRegistry;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.effects.Effects;
 import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.TreeType;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -53,49 +52,20 @@ public class Grow extends Spell {
 		return 25;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args) {
-		if (player.getTargetBlock(null, 4).getTypeId() != 59
-				&& player.getTargetBlock(null, 4).getType() != Material.SAPLING) {
-			Lang.errMsg("spells.grow.fail", player);
-			return false;
-		}
-		// TODO Add support for mushrooms, melon seeds, carrots and potatoes
-		if (player.getTargetBlock(null, 4).getTypeId() == 59) {
-			player.getTargetBlock(null, 4).setData((byte) 7);
-			Location loc = player.getTargetBlock(null, 4).getLocation();
+		Block target = player.getTargetBlock(null, 6);
+		if (PlantRegistry.grow(target)) {
+			Location loc = target.getLocation();
 			loc.setX(loc.getX() + 0.6);
 			loc.setZ(loc.getZ() + 0.6);
 			loc.setY(loc.getY() + 0.3);
 			Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc, (float) 0.25, (float) 0.1, (float) 0.25, 100, 20);
+			return true;
 		}
-		if (player.getTargetBlock(null, 4).getType() == Material.SAPLING) {
-			Block b = player.getTargetBlock(null, 4);
-			TreeType tt = getTree(b.getData());
-			World world = player.getWorld();
-			b.setTypeId(0);
-			world.generateTree(b.getLocation(), tt);
-			Location loc = player.getTargetBlock(null, 4).getLocation();
-			loc.setX(loc.getX() + 0.6);
-			loc.setZ(loc.getZ() + 0.6);
-			loc.setY(loc.getY() + 0.3);
-			Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc, (float) 0.25, (float) 0.1, (float) 0.25, 100, 20);
-		}
-		return true;
-	}
-
-	public static TreeType getTree(int data) {
-		switch (data) {
-		case 0:
-			return TreeType.TREE;
-		case 1:
-			return TreeType.REDWOOD;
-		case 2:
-			return TreeType.BIRCH;
-		case 3:
-			return TreeType.SMALL_JUNGLE;
-		}
-		return TreeType.TREE;
+		Lang.errMsg("spells.grow.fail", player);
+		return false;
 	}
 
 	@Override
@@ -124,7 +94,6 @@ public class Grow extends Spell {
 
 	@Override
 	public Map<String, Object> getConfiguration() {
-		// TODO Add config for growable blocks
 		return null;
 	}
 

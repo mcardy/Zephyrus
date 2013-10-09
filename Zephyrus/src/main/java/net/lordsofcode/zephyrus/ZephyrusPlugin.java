@@ -32,6 +32,7 @@ import net.lordsofcode.zephyrus.listeners.EconListener;
 import net.lordsofcode.zephyrus.listeners.LevelingListener;
 import net.lordsofcode.zephyrus.listeners.PlayerListener;
 import net.lordsofcode.zephyrus.player.mana.ManaBar;
+import net.lordsofcode.zephyrus.registry.PlantRegistry;
 import net.lordsofcode.zephyrus.spells.Armour;
 import net.lordsofcode.zephyrus.spells.Arrow;
 import net.lordsofcode.zephyrus.spells.ArrowStorm;
@@ -125,6 +126,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 		setupMaps();
 		setupConfigs();
 		setupLanguage();
+		setupRegistry();
 
 		setupHooks();
 		setupVersion();
@@ -160,7 +162,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 	static ZephyrusPlugin getPluginInstance() {
 		return pluginInstance;
 	}
-
+	
 	private void setupHooks() {
 		if (PluginHook.isWorldGuard()) {
 			getLogger().info("WorldGuard found. Protections integrated");
@@ -223,6 +225,10 @@ public class ZephyrusPlugin extends JavaPlugin {
 		Zephyrus.mana = new HashMap<String, Integer>();
 	}
 
+	private void setupRegistry() {
+		PlantRegistry.init();
+	}
+	
 	private void addSpells() {
 		getLogger().info("Loading spells...");
 		// A

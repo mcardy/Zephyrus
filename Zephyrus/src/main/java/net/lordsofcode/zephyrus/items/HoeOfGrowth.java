@@ -1,14 +1,13 @@
 package net.lordsofcode.zephyrus.items;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.registry.PlantRegistry;
 import net.lordsofcode.zephyrus.utils.effects.Effects;
 import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.TreeType;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -59,87 +58,17 @@ public class HoeOfGrowth extends CustomItem {
 
 	@EventHandler
 	public void grow(PlayerInteractEvent e) throws Exception {
-		// TODO Add support for mushrooms and melon seeds
-		if (e.getClickedBlock() != null && e.getAction() == Action.RIGHT_CLICK_BLOCK
-				&& e.getClickedBlock().getTypeId() == 59 && checkName(e.getPlayer().getItemInHand(), getDisplayName())
-				&& e.getClickedBlock().getData() != 7) {
-			e.getClickedBlock().setData((byte) 7);
-			Location loc = e.getClickedBlock().getLocation();
-			loc.setX(loc.getX() + 0.6);
-			loc.setZ(loc.getZ() + 0.6);
-			loc.setY(loc.getY() + 0.3);
-			Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc, 1, 0, 1, 100, 20);
-			e.getItem().setDurability((short) (e.getItem().getDurability() + 1));
-		}
-		if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.SAPLING
-				&& checkName(e.getPlayer().getItemInHand(), getDisplayName())
-				&& e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (getItemLevel(e.getPlayer().getItemInHand()) == 1) {
-				Block b = e.getClickedBlock();
-				TreeType tt = getTree(b.getData());
-				World world = e.getPlayer().getWorld();
-				b.setTypeId(0);
-				world.generateTree(b.getLocation(), tt);
-				Location loc = e.getClickedBlock().getLocation();
+		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && checkName(e.getPlayer().getItemInHand(), getDisplayName())) {
+			Block target = e.getClickedBlock();
+			if (PlantRegistry.grow(target)) {
+				Location loc = target.getLocation();
 				loc.setX(loc.getX() + 0.6);
 				loc.setZ(loc.getZ() + 0.6);
 				loc.setY(loc.getY() + 0.3);
-				Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc, 1, 1, 1, 100, 20);
-			} else {
-				Block b = e.getClickedBlock();
-				TreeType tt = getGiantTree(b.getData());
-				World world = e.getPlayer().getWorld();
-				b.setTypeId(0);
-				world.generateTree(b.getLocation(), tt);
-				Location loc = e.getClickedBlock().getLocation();
-				loc.setX(loc.getX() + 0.6);
-				loc.setZ(loc.getZ() + 0.6);
-				loc.setY(loc.getY() + 0.3);
-				Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc, 1, 1, 1, 100, 20);
+				Effects.playEffect(ParticleEffects.GREEN_SPARKLE, loc, (float) 0.25, (float) 0.1, (float) 0.25, 100, 20);
+				e.getItem().setDurability((short) (e.getItem().getDurability() + 1));
 			}
 		}
-	}
-
-	public static TreeType getTree(int data) {
-		switch (data) {
-		case 0:
-			return TreeType.TREE;
-		case 1:
-			return TreeType.REDWOOD;
-		case 2:
-			return TreeType.BIRCH;
-		case 3:
-			return TreeType.SMALL_JUNGLE;
-		}
-		return TreeType.TREE;
-	}
-
-	public static TreeType getGiantTree(int data) {
-		switch (data) {
-		case 0:
-			return TreeType.BIG_TREE;
-		case 1:
-			return TreeType.TALL_REDWOOD;
-		case 2:
-			return TreeType.BIRCH;
-		case 3:
-			return TreeType.JUNGLE;
-		}
-		return TreeType.BIG_TREE;
-	}
-
-	public static TreeType getTaintedTree(int data) {
-		switch (data) {
-		case 0:
-			return TreeType.SWAMP;
-		case 1:
-			return TreeType.RED_MUSHROOM;
-		case 2:
-			return TreeType.BIRCH;
-		case 3:
-			return TreeType.SMALL_JUNGLE;
-		}
-		return TreeType.TREE;
 	}
 
 	@Override

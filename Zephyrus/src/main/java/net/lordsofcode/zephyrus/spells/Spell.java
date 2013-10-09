@@ -96,7 +96,7 @@ public abstract class Spell implements ISpell {
 	}
 
 	@Override
-	public boolean comboSpell(Player player, String[] args, EffectType type, Element element, int power) {
+	public boolean comboEffect(Player player, String[] args, EffectType type, Element element, int power) {
 		return false;
 	}
 
