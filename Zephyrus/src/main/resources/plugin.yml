@@ -56,6 +56,9 @@ permissions:
    zephyrus.spelltome:
       default: true
       description: Allows players to learn spells from a spelltome.
+   zephyrus.xp:
+      default: true
+      description: Allows the player to gain XP through spell casting or other means
    zephyrus.craft.*:
       default: true
       children:

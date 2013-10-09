@@ -4,6 +4,7 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.events.ManaChangeEvent;
+import net.lordsofcode.zephyrus.events.PlayerGainXPEvent;
 import net.lordsofcode.zephyrus.events.PlayerLevelUpEvent;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
@@ -94,8 +95,13 @@ public class User implements IUser {
 
 	@Override
 	public int levelProgress(int progress) {
+		PlayerGainXPEvent e = new PlayerGainXPEvent(player, progress);
+		Bukkit.getPluginManager().callEvent(e);
 		int levelBalance = Zephyrus.getConfig().getInt("LevelBalance");
 		int current = cfg.getInt("progress");
+		if (e.isCancelled()) {
+			return current;
+		}
 		current = current + progress;
 		int level = getLevel();
 		while (current > (level * levelBalance) + (level * level + 100)) {

@@ -7,6 +7,7 @@ import java.util.List;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.api.ISpell;
+import net.lordsofcode.zephyrus.events.PlayerGainXPEvent;
 import net.lordsofcode.zephyrus.events.PlayerLevelUpEvent;
 import net.lordsofcode.zephyrus.events.PlayerPostCastSpellEvent;
 import net.lordsofcode.zephyrus.items.ItemUtil;
@@ -19,14 +20,11 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -52,23 +50,17 @@ public class LevelingListener implements Listener {
 	}
 
 	@EventHandler
-	public void onKill(EntityDeathEvent e) {
-		if (e.getEntity().getKiller() instanceof Player) {
-			Player player = e.getEntity().getKiller();
-			Entity en = e.getEntity();
-			if (en instanceof Monster) {
-				Zephyrus.getUser(player).levelProgress(2);
-			} else if (en instanceof Player) {
-				Zephyrus.getUser(player).levelProgress(4);
-			}
-		}
-	}
-
-	@EventHandler
 	public void onCast(PlayerPostCastSpellEvent e) {
 		Zephyrus.getUser(e.getPlayer()).levelProgress(e.getSpell().getExp());
 	}
 
+	@EventHandler
+	public void onXPGain(PlayerGainXPEvent e) {
+		if (e.getPlayer().hasPermission("zephyrus.xp")) {
+			e.setCancelled(true);
+		}
+	}
+	
 	@EventHandler
 	public void onLevelUp(PlayerLevelUpEvent e) {
 		if (Zephyrus.getConfig().getBoolean("Levelup-Spells")) {
@@ -106,6 +98,7 @@ public class LevelingListener implements Listener {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onClickWithItem(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
