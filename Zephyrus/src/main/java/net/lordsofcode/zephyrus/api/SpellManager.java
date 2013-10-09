@@ -1,6 +1,7 @@
 package net.lordsofcode.zephyrus.api;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +15,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Zephyrus
@@ -26,7 +26,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class SpellManager {
 
-	private Map<String, ISpell> spellMap = new HashMap<String, ISpell>();
+	private Map<String, ISpell> spellMap = new LinkedHashMap<String, ISpell>();
 	private Map<Set<ItemStack>, ISpell> spellCraftMap = new HashMap<Set<ItemStack>, ISpell>();
 	private int builtInSpells = 0;
 	private ConfigHandler spellsConfig = new ConfigHandler("spells.yml");
@@ -154,41 +154,34 @@ public class SpellManager {
 	}
 
 	private void spellCfg(final ISpell spell) {
-		Bukkit.getServer().getScheduler().runTask(Zephyrus.getPlugin(), new BukkitRunnable() {
-
-			@Override
-			public void run() {
-				if (!spellsConfig.getConfig().contains(spell.getName() + ".enabled")) {
-					spellsConfig.getConfig().set(spell.getName() + ".enabled", true);
+		if (!spellsConfig.getConfig().contains(spell.getName() + ".enabled")) {
+			spellsConfig.getConfig().set(spell.getName() + ".enabled", true);
+		}
+		if (!spellsConfig.getConfig().contains(spell.getName() + ".desc") && spell.getDesc() != null) {
+			spellsConfig.getConfig().set(spell.getName() + ".desc",
+					spell.getDesc().replace(ChatColor.COLOR_CHAR + "", "$"));
+		}
+		if (!spellsConfig.getConfig().contains(spell.getName() + ".mana")) {
+			spellsConfig.getConfig().set(spell.getName() + ".mana", spell.manaCost());
+		}
+		if (!spellsConfig.getConfig().contains(spell.getName() + ".level")) {
+			spellsConfig.getConfig().set(spell.getName() + ".level", spell.reqLevel());
+		}
+		if (!spellsConfig.getConfig().contains(spell.getName() + ".exp")) {
+			spellsConfig.getConfig().set(spell.getName() + ".exp", spell.manaCost() / 3 + 1);
+		}
+		if (!spellsConfig.getConfig().contains(spell.getName() + ".displayname")) {
+			spellsConfig.getConfig().set(spell.getName() + ".displayname", spell.getName());
+		}
+		if (spell.getConfiguration() != null) {
+			Map<String, Object> cfg = spell.getConfiguration();
+			for (String str : cfg.keySet()) {
+				if (!spellsConfig.getConfig().contains(spell.getName() + "." + str)) {
+					spellsConfig.getConfig().set(spell.getName() + "." + str, cfg.get(str));
 				}
-				if (!spellsConfig.getConfig().contains(spell.getName() + ".desc") && spell.getDesc() != null) {
-					spellsConfig.getConfig().set(spell.getName() + ".desc",
-							spell.getDesc().replace(ChatColor.COLOR_CHAR + "", "$"));
-				}
-				if (!spellsConfig.getConfig().contains(spell.getName() + ".mana")) {
-					spellsConfig.getConfig().set(spell.getName() + ".mana", spell.manaCost());
-				}
-				if (!spellsConfig.getConfig().contains(spell.getName() + ".level")) {
-					spellsConfig.getConfig().set(spell.getName() + ".level", spell.reqLevel());
-				}
-				if (!spellsConfig.getConfig().contains(spell.getName() + ".exp")) {
-					spellsConfig.getConfig().set(spell.getName() + ".exp", spell.manaCost() / 3 + 1);
-				}
-				if (!spellsConfig.getConfig().contains(spell.getName() + ".displayname")) {
-					spellsConfig.getConfig().set(spell.getName() + ".displayname", spell.getName());
-				}
-				if (spell.getConfiguration() != null) {
-					Map<String, Object> cfg = spell.getConfiguration();
-					for (String str : cfg.keySet()) {
-						if (!spellsConfig.getConfig().contains(spell.getName() + "." + str)) {
-							spellsConfig.getConfig().set(spell.getName() + "." + str, cfg.get(str));
-						}
-					}
-				}
-				spellsConfig.saveConfig();
 			}
-
-		});
+		}
+		spellsConfig.saveConfig();
 	}
 
 }

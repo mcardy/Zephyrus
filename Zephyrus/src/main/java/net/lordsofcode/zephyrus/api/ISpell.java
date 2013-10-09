@@ -185,7 +185,8 @@ public interface ISpell extends Listener {
 	public boolean sideEffect(Player player, String[] args);
 
 	/**
-	 * TODO Implement combo spells NOT IMPLEMENTED YET
+	 * TODO Implement combo spells 
+	 * NOT IMPLEMENTED YET
 	 * <p>
 	 * The spell's combo spell effect.
 	 * 
@@ -201,7 +202,7 @@ public interface ISpell extends Listener {
 	 *            The power of the spell
 	 * @return
 	 */
-	public boolean comboSpell(Player player, String[] args, EffectType type, Element element, int power);
+	public boolean comboEffect(Player player, String[] args, EffectType type, Element element, int power);
 
 	/**
 	 * The method called when the plugin is disabled. Used to remove potion
