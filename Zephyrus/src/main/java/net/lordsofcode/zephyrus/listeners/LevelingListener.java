@@ -56,7 +56,7 @@ public class LevelingListener implements Listener {
 
 	@EventHandler
 	public void onXPGain(PlayerGainXPEvent e) {
-		if (e.getPlayer().hasPermission("zephyrus.xp")) {
+		if (!e.getPlayer().hasPermission("zephyrus.xp")) {
 			e.setCancelled(true);
 		}
 	}
