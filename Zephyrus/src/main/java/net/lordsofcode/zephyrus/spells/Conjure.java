@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
@@ -58,6 +58,7 @@ public class Conjure extends Spell {
 		return 0;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args) {
 		if (!(args.length < 2)) {
@@ -232,8 +233,8 @@ public class Conjure extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.CREATION;
+	public Type getPrimaryType() {
+		return Type.CREATION;
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
@@ -46,6 +46,7 @@ public class Fireball extends Spell {
 		return 50;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args) {
 		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 1000), player);
@@ -73,8 +74,8 @@ public class Fireball extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.DESTRUCTION;
+	public Type getPrimaryType() {
+		return Type.DESTRUCTION;
 	}
 
 	@Override

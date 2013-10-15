@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
@@ -45,6 +45,7 @@ public class Dig extends Spell {
 		return 5;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args) {
 		List<Integer> list = getIntList(getConfig().getStringList("dig.blacklist"));
@@ -62,6 +63,7 @@ public class Dig extends Spell {
 		return i;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		List<Integer> list = getIntList(getConfig().getStringList("dig.blacklist"));
@@ -73,8 +75,8 @@ public class Dig extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.DESTRUCTION;
+	public Type getPrimaryType() {
+		return Type.DESTRUCTION;
 	}
 
 	@Override

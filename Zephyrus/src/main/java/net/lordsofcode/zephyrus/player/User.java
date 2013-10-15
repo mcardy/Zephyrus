@@ -1,6 +1,13 @@
 package net.lordsofcode.zephyrus.player;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.EffectType;
+import net.lordsofcode.zephyrus.api.IEffect;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.events.ManaChangeEvent;
@@ -279,6 +286,47 @@ public class User implements IUser {
 
 	private void onManaChanged(int amount) {
 		Bukkit.getPluginManager().callEvent(new ManaChangeEvent(this.player, amount));
+	}
+	
+	@Override
+	public void applyEffect(EffectType type, int time) {
+		if (getEffectMap().containsKey(type.getID())) {
+			time += getEffectMap().get(type.getID());
+			getEffectMap().put(type.getID(), time);
+		} else {
+			getEffectMap().put(type.getID(), time);
+			type.getEffect().onApplied(player);
+		}
+	}
+	
+	@Override
+	public Collection<IEffect> getCurrentEffects() {
+		Collection<IEffect> col = new ArrayList<IEffect>();
+		for (Entry<Integer, Integer> entry : getEffectMap().entrySet()) {
+			EffectType type = EffectType.values()[entry.getKey()];
+			col.add(type.getEffect());
+		}
+		return col;
+	}
+	
+	@Override
+	public int getEffectTime(EffectType type) {
+		return getEffectMap().get(type.getID());
+	}
+	
+	@Override
+	public void removeEffect(EffectType type) {
+		getEffectMap().remove(type.getID());
+		type.getEffect().onRemoved(player);
+	}
+	
+	private Map<Integer, Integer> getEffectMap() {
+		return Zephyrus.getEffectMap().get(player.getName());
+	}
+	
+	@Override
+	public boolean hasEffect(EffectType type) {
+		return getEffectMap().containsKey(type.getID());
 	}
 
 }

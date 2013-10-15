@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
@@ -24,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-
+//TODO Change to effect
 public class MageLight extends Spell {
 
 	@Override
@@ -104,8 +104,8 @@ public class MageLight extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.ILLUSION;
+	public Type getPrimaryType() {
+		return Type.ILLUSION;
 	}
 
 	@Override

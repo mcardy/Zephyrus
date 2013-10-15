@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.effects.Effects;
@@ -49,6 +49,7 @@ public class Bang extends Spell {
 		return 200;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args) {
 		int r = getConfig().getInt(getName() + ".radius");
@@ -102,8 +103,8 @@ public class Bang extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.MOVEMENT;
+	public Type getPrimaryType() {
+		return Type.MOVEMENT;
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.ZephyrusPlugin;
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
@@ -102,7 +102,7 @@ public class Smite extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
+	public Type getPrimaryType() {
 		return null;
 	}
 

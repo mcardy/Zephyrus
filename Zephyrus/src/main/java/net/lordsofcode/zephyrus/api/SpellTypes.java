@@ -2,6 +2,8 @@ package net.lordsofcode.zephyrus.api;
 
 /**
  * Zephyrus
+ * <p>
+ * Represents different types of spells
  * 
  * @author minnymin3
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
@@ -20,7 +22,7 @@ public class SpellTypes {
 	/**
 	 * A variable for a spell's effect
 	 */
-	public enum EffectType {
+	public enum Type {
 		EXPLOSION, ATTACK, MOVEMENT, TELEPORTATION, DESTRUCTION, CREATION, BUFF, RESTORE, ILLUSION, MONITOR, WORLD;
 	}
 

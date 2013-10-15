@@ -1,6 +1,5 @@
 package net.lordsofcode.zephyrus.spells;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,9 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ReflectionUtils;
 
@@ -37,7 +36,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-
+//TODO Mob controller stuff
 public class Summon extends Spell {
 
 	List<Entity> en;
@@ -157,8 +156,8 @@ public class Summon extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.CREATION;
+	public Type getPrimaryType() {
+		return Type.CREATION;
 	}
 
 	@Override

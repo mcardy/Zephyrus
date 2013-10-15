@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -46,6 +46,7 @@ public class Explode extends Spell {
 		return 400;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args) {
 		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 200), player);
@@ -72,6 +73,7 @@ public class Explode extends Spell {
 		return map;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean sideEffect(Player player, String[] args) {
 		int r = getConfig().getInt(getName() + ".power");
@@ -85,8 +87,8 @@ public class Explode extends Spell {
 	}
 	
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.EXPLOSION;
+	public Type getPrimaryType() {
+		return Type.EXPLOSION;
 	}
 
 	@Override

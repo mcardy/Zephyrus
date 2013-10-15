@@ -9,6 +9,7 @@ import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.api.SpellManager;
+import net.lordsofcode.zephyrus.effects.EffectHandler;
 import net.lordsofcode.zephyrus.enchantments.GlowEffect;
 import net.lordsofcode.zephyrus.items.ItemUtil;
 import net.lordsofcode.zephyrus.items.Merchant;
@@ -43,12 +44,15 @@ public class Zephyrus {
 	ConfigHandler langConfig = new ConfigHandler("lang.yml");
 	ConfigHandler itemsConfig = new ConfigHandler("items.yml");
 
+	EffectHandler effectHandler;
+	
 	public GlowEffect glow = new GlowEffect(120);
 
 	static int manaRegenTime;
 	
 	static Map<String, Map<String, Integer>> itemDelay;
 	static Map<String, Merchant> invPlayers;
+	static Map<String, Map<Integer, Integer>> effectMap;
 
 	static Map<String, Integer> mana;
 	static Map<String, ICustomItem> itemMap;
@@ -64,6 +68,7 @@ public class Zephyrus {
 		enchantmentsConfig = new ConfigHandler("enchantments.yml");
 		langConfig = new ConfigHandler("lang.yml");
 		manaRegenTime = Zephyrus.getConfig().getInt("ManaRegen");
+		effectHandler = new EffectHandler();
 	}
 
 	/**
@@ -242,6 +247,10 @@ public class Zephyrus {
 		}
 	}
 
+	public static Map<String, Map<Integer, Integer>> getEffectMap() {
+		return effectMap;
+	}
+	
 	/**
 	 * Registers the specified enchantment
 	 * 

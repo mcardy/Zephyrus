@@ -5,8 +5,6 @@ import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
-import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
 
 import org.bukkit.Bukkit;
@@ -96,7 +94,7 @@ public abstract class Spell implements ISpell {
 	}
 
 	@Override
-	public boolean comboEffect(Player player, String[] args, EffectType type, Element element, int power) {
+	public boolean comboEffect(Player player, String[] args, int power, ISpell comboSpell) {
 		return false;
 	}
 

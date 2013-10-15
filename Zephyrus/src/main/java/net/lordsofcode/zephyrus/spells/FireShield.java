@@ -7,7 +7,7 @@ import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.effects.Effects;
@@ -30,7 +30,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-
+//TODO Change to effect
 public class FireShield extends Spell {
 
 	@Override
@@ -110,8 +110,8 @@ public class FireShield extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.DESTRUCTION;
+	public Type getPrimaryType() {
+		return Type.DESTRUCTION;
 	}
 
 	@Override

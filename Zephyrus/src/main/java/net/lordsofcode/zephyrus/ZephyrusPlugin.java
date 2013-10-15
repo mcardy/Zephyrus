@@ -90,6 +90,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -139,6 +141,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			Zephyrus.getUser(p).loadMana();
+			zephyrus.effectHandler.onLogin(new PlayerJoinEvent(p, ""));
 		}
 
 		getLogger().info(
@@ -151,6 +154,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 	private void unload() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			Zephyrus.getUser(p).unLoadMana();
+			zephyrus.effectHandler.onLogout(new PlayerQuitEvent(p, ""));
 		}
 		for (ISpell spell : Zephyrus.getSpellMap().values()) {
 			spell.onDisable();
@@ -223,6 +227,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 		Zephyrus.invPlayers = new HashMap<String, Merchant>();
 		Zephyrus.itemDelay = new HashMap<String, Map<String, Integer>>();
 		Zephyrus.mana = new HashMap<String, Integer>();
+		Zephyrus.effectMap = new HashMap<String, Map<Integer, Integer>>();
 	}
 
 	private void setupRegistry() {
@@ -366,6 +371,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 		pm.registerEvents(new SpellTome(), this);
 		pm.registerEvents(new PlayerListener(), this);
 		pm.registerEvents(new ManaBar(), this);
+		pm.registerEvents(zephyrus.effectHandler, this);
 	}
 
 	private void addCommands() {

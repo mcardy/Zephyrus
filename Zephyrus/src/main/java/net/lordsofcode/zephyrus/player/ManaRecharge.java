@@ -2,8 +2,6 @@ package net.lordsofcode.zephyrus.player;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.IUser;
-import net.lordsofcode.zephyrus.player.mana.DummyDragon;
-import net.lordsofcode.zephyrus.utils.ReflectionUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

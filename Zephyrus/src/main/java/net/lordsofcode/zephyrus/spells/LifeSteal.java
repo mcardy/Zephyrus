@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
@@ -97,8 +97,8 @@ public class LifeSteal extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.ATTACK;
+	public Type getPrimaryType() {
+		return Type.ATTACK;
 	}
 
 	@Override

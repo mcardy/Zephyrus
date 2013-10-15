@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
@@ -111,8 +111,8 @@ public class Prospect extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.MONITOR;
+	public Type getPrimaryType() {
+		return Type.MONITOR;
 	}
 
 	@Override

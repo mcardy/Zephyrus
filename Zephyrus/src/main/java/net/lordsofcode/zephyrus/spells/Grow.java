@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.registry.PlantRegistry;
@@ -78,8 +78,8 @@ public class Grow extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.CREATION;
+	public Type getPrimaryType() {
+		return Type.CREATION;
 	}
 
 	@Override

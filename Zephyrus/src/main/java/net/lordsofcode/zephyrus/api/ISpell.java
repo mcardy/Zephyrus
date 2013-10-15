@@ -3,7 +3,7 @@ package net.lordsofcode.zephyrus.api;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
@@ -13,6 +13,9 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * Zephyrus
+ * <p>
+ * This class represents the spell object. It can be registered with Zephyrus to
+ * be craftable and castable.
  * 
  * @author minnymin3
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
@@ -129,7 +132,7 @@ public interface ISpell extends Listener {
 	 * 
 	 * @return
 	 */
-	public EffectType getPrimaryType();
+	public Type getPrimaryType();
 
 	/**
 	 * Gets the Element of the spell
@@ -185,8 +188,7 @@ public interface ISpell extends Listener {
 	public boolean sideEffect(Player player, String[] args);
 
 	/**
-	 * TODO Implement combo spells 
-	 * NOT IMPLEMENTED YET
+	 * TODO Implement combo spells NOT IMPLEMENTED YET
 	 * <p>
 	 * The spell's combo spell effect.
 	 * 
@@ -194,15 +196,13 @@ public interface ISpell extends Listener {
 	 *            The player who cast the spell
 	 * @param args
 	 *            The arguments used to cast the spell
-	 * @param type
-	 *            The type of spell the other spell is
-	 * @param element
-	 *            The element the other spell is
 	 * @param power
 	 *            The power of the spell
+	 * @param comboSpell
+	 *            The spell that is being cast with this spell
 	 * @return
 	 */
-	public boolean comboEffect(Player player, String[] args, EffectType type, Element element, int power);
+	public boolean comboEffect(Player player, String[] args, int power, ISpell comboSpell);
 
 	/**
 	 * The method called when the plugin is disabled. Used to remove potion

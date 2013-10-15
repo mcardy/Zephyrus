@@ -1,5 +1,7 @@
 package net.lordsofcode.zephyrus.api;
 
+import java.util.Collection;
+
 import org.bukkit.command.CommandSender;
 
 /**
@@ -121,8 +123,48 @@ public interface IUser {
 	 */
 	public void displayLevel(CommandSender sender);
 	
+	/**
+	 * Sets weather or not the mana bar should always be displayed
+	 * @param b Display or not
+	 */
 	public void setDisplayMana(boolean b);
 	
+	/**
+	 * Get weather or not the mana bar should always be displayed
+	 * @return Display or not
+	 */
 	public boolean getDisplayMana();
+	
+	/**
+	 * Applies the effect to the player
+	 * @param type The effect to add
+	 * @param time The duration of the effect
+	 */
+	public void applyEffect(EffectType type, int time);
+	
+	/**
+	 * Removes the effect type from the player
+	 * @param type The type to remove
+	 */
+	public void removeEffect(EffectType type);
+	
+	/**
+	 * Gets a collection of effects currently active on the player
+	 */
+	public Collection<IEffect> getCurrentEffects();
+		
+	/**
+	 * Gets the amount of time remaining for the specified type
+	 * @param type The type to get
+	 * @return 0 if the effect is not applied
+	 */
+	public int getEffectTime(EffectType type);
+	
+	/**
+	 * Checks if the player has the specified effect
+	 * @param type The type to get
+	 * @return True if the player has the effect
+	 */
+	public boolean hasEffect(EffectType type);
 
 }

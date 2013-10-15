@@ -18,6 +18,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Zephyrus
+ * <p>
+ * This class represents a custom enchantment that can be registered with
+ * Zephyrus to be able to be applied when an item is enchanted
  * 
  * @author minnymin3
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)

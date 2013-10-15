@@ -58,6 +58,7 @@ public class DummyDragon {
 		this.visible = visible;
 	}
 
+	@SuppressWarnings("deprecation")
 	public Object getMobPacket() {
 		Class<?> mob_class = ReflectionUtils.getCraftClass("Packet24MobSpawn");
 		Object mobPacket = null;

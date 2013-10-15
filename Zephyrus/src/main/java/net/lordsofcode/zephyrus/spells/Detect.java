@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import org.apache.commons.lang.WordUtils;
@@ -91,8 +91,8 @@ public class Detect extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.MONITOR;
+	public Type getPrimaryType() {
+		return Type.MONITOR;
 	}
 
 	@Override

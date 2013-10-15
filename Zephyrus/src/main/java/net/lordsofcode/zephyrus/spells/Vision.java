@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
@@ -76,8 +76,8 @@ public class Vision extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.BUFF;
+	public Type getPrimaryType() {
+		return Type.BUFF;
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 
@@ -46,6 +46,7 @@ public class Flare extends Spell {
 		return 80;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args) {
 		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 1000), player);
@@ -75,8 +76,8 @@ public class Flare extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.DESTRUCTION;
+	public Type getPrimaryType() {
+		return Type.DESTRUCTION;
 	}
 
 	@Override

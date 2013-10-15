@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.PluginHook;
-import net.lordsofcode.zephyrus.api.SpellTypes.EffectType;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
@@ -62,6 +62,7 @@ public class Blink extends Spell {
 		return i;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args) {
 		if (player.getTargetBlock(null, 100) != null && player.getTargetBlock(null, 100).getType() != Material.AIR) {
@@ -97,8 +98,8 @@ public class Blink extends Spell {
 	}
 
 	@Override
-	public EffectType getPrimaryType() {
-		return EffectType.TELEPORTATION;
+	public Type getPrimaryType() {
+		return Type.TELEPORTATION;
 	}
 
 	@Override
