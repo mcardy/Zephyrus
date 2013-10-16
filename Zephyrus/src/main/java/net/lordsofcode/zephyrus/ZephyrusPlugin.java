@@ -79,6 +79,7 @@ import net.lordsofcode.zephyrus.spells.Smite;
 import net.lordsofcode.zephyrus.spells.Storm;
 import net.lordsofcode.zephyrus.spells.Summon;
 import net.lordsofcode.zephyrus.spells.SuperHeat;
+import net.lordsofcode.zephyrus.spells.SuperSpeed;
 import net.lordsofcode.zephyrus.spells.Vanish;
 import net.lordsofcode.zephyrus.spells.Vision;
 import net.lordsofcode.zephyrus.spells.Zap;
@@ -306,6 +307,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 		Zephyrus.registerSpell(new Storm());
 		Zephyrus.registerSpell(new Summon());
 		Zephyrus.registerSpell(new SuperHeat());
+		Zephyrus.registerSpell(new SuperSpeed());
 		// T
 
 		// U

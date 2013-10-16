@@ -25,6 +25,21 @@ public class PlantRegistry {
 		add(new Plant(Material.CARROT));
 		add(new Plant(Material.POTATO));
 		add(new Tree());
+		add(new Plant(Material.SUGAR_CANE_BLOCK) {
+			@Override
+			public boolean grow(Block block) {
+				if (block.getType() == Material.SUGAR_CANE_BLOCK) {
+					Block block1 = block.getWorld().getBlockAt(block.getX(), block.getY() + 1, block.getZ());
+					Block block2 = block.getWorld().getBlockAt(block.getX(), block.getY() + 1, block.getZ());
+					if (block1.getType() == Material.AIR && block2.getType() == Material.AIR) {
+						block1.setType(Material.SUGAR_CANE_BLOCK);
+						block2.setType(Material.SUGAR_CANE_BLOCK);
+						return true;
+					}
+				}
+				return false;
+			}
+		});
 	}
 	
 	public static void add(Plant plant) {
