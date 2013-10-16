@@ -1,8 +1,6 @@
 package net.lordsofcode.zephyrus.effects;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.api.EffectType;
-import net.lordsofcode.zephyrus.api.IEffect;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Location;

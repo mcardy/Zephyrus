@@ -1,9 +1,6 @@
-package net.lordsofcode.zephyrus.api;
+package net.lordsofcode.zephyrus.effects;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.effects.ArmourEffect;
-import net.lordsofcode.zephyrus.effects.FeatherEffect;
-import net.lordsofcode.zephyrus.effects.FlameStepEffect;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -18,7 +15,7 @@ import org.bukkit.event.Listener;
 
 public enum EffectType {
 
-	ARMOUR(new ArmourEffect(0), 0), FEATHER(new FeatherEffect(1), 1), FLAMESTEP(new FlameStepEffect(2), 2);
+	ARMOUR(new ArmourEffect(0), 0), FEATHER(new FeatherEffect(1), 1), FLAMESTEP(new FlameStepEffect(2), 2), SUPERSPEED(new SpeedEffect(3), 3);
 
 	private IEffect effect;
 	private int ID;

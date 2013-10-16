@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.api.EffectType;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.api.SpellTypes.Type;
+import net.lordsofcode.zephyrus.effects.EffectType;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.Material;

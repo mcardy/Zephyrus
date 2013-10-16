@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.api.EffectType;
-import net.lordsofcode.zephyrus.api.IEffect;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
+import net.lordsofcode.zephyrus.effects.EffectType;
+import net.lordsofcode.zephyrus.effects.IEffect;
 import net.lordsofcode.zephyrus.events.ManaChangeEvent;
 import net.lordsofcode.zephyrus.events.PlayerGainXPEvent;
 import net.lordsofcode.zephyrus.events.PlayerLevelUpEvent;

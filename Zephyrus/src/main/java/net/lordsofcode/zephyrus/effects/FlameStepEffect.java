@@ -1,7 +1,5 @@
 package net.lordsofcode.zephyrus.effects;
 
-import net.lordsofcode.zephyrus.api.EffectType;
-import net.lordsofcode.zephyrus.api.IEffect;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
 import net.lordsofcode.zephyrus.utils.Lang;
 

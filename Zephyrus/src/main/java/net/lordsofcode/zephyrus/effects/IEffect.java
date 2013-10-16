@@ -1,4 +1,5 @@
-package net.lordsofcode.zephyrus.api;
+package net.lordsofcode.zephyrus.effects;
+
 
 import org.bukkit.entity.Player;
 

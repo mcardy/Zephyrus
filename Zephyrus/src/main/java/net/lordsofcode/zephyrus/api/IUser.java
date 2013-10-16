@@ -2,6 +2,9 @@ package net.lordsofcode.zephyrus.api;
 
 import java.util.Collection;
 
+import net.lordsofcode.zephyrus.effects.EffectType;
+import net.lordsofcode.zephyrus.effects.IEffect;
+
 import org.bukkit.command.CommandSender;
 
 /**

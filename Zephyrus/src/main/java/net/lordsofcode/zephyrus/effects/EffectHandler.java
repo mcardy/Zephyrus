@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.api.EffectType;
-import net.lordsofcode.zephyrus.api.IEffect;
 import net.lordsofcode.zephyrus.api.IUser;
 
 import org.bukkit.Bukkit;
