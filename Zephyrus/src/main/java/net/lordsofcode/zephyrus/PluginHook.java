@@ -148,7 +148,8 @@ public class PluginHook {
 		if (!isWorldGuard()) {
 			return true;
 		}
-		if (getWorldGuard().getRegionManager(player.getWorld()).getApplicableRegions(loc).allows(getFlag())) {
+		if (getWorldGuard().getRegionManager(player.getWorld()).getApplicableRegions(loc).allows(getFlag())
+				|| player.hasPermission("zephyrus.regionbypass")) {
 			return true;
 		}
 		return false;

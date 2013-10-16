@@ -59,6 +59,9 @@ permissions:
    zephyrus.xp:
       default: true
       description: Allows the player to gain XP through spell casting or other means
+   zephyrus.regionbypass:
+      default: false
+      description: Allows the player to bypass the allowspells worldguard flag 
    zephyrus.craft.*:
       default: true
       children:
