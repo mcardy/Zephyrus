@@ -38,11 +38,13 @@ public class User implements IUser {
 
 	public User(Player player) {
 		this.player = player;
-		cfg = PlayerConfigHandler.getConfig(player);
 	}
 
 	@Override
 	public boolean isLearned(ISpell spell) {
+		if (cfg == null) {
+			cfg = PlayerConfigHandler.getConfig(player);
+		}
 		return (cfg.getStringList("learned").contains(spell.getName().toLowerCase()));
 	}
 
@@ -85,6 +87,9 @@ public class User implements IUser {
 
 	@Override
 	public int levelUp() {
+		if (cfg == null) {
+			cfg = PlayerConfigHandler.getConfig(player);
+		}
 		int current = cfg.getInt("level");
 		current++;
 		cfg.set("level", current);
@@ -102,6 +107,9 @@ public class User implements IUser {
 
 	@Override
 	public int levelProgress(int progress) {
+		if (cfg == null) {
+			cfg = PlayerConfigHandler.getConfig(player);
+		}
 		PlayerGainXPEvent e = new PlayerGainXPEvent(player, progress);
 		Bukkit.getPluginManager().callEvent(e);
 		int levelBalance = Zephyrus.getConfig().getInt("LevelBalance");
@@ -123,16 +131,25 @@ public class User implements IUser {
 
 	@Override
 	public int getLevelProgress() {
+		if (cfg == null) {
+			cfg = PlayerConfigHandler.getConfig(player);
+		}
 		return cfg.getInt("progress");
 	}
 
 	@Override
 	public int getLevel() {
+		if (cfg == null) {
+			cfg = PlayerConfigHandler.getConfig(player);
+		}
 		return cfg.getInt("level");
 	}
 
 	@Override
 	public void unLoadMana() {
+		if (cfg == null) {
+			cfg = PlayerConfigHandler.getConfig(player);
+		}
 		cfg.set("mana", Zephyrus.getManaMap().get(player.getName()));
 		PlayerConfigHandler.saveConfig(player, cfg);
 		Zephyrus.getManaMap().remove(player.getName());
@@ -140,6 +157,9 @@ public class User implements IUser {
 
 	@Override
 	public void loadMana() {
+		if (cfg == null) {
+			cfg = PlayerConfigHandler.getConfig(player);
+		}
 		if (!Zephyrus.getManaMap().containsKey(player.getName())) {
 			Zephyrus.getManaMap().put(player.getName(), cfg.getInt("mana"));
 			new ManaRecharge(player.getName()).runTaskLater(Zephyrus.getPlugin(), Zephyrus.getManaRegenTime());
@@ -275,12 +295,18 @@ public class User implements IUser {
 
 	@Override
 	public void setDisplayMana(boolean b) {
+		if (cfg == null) {
+			cfg = PlayerConfigHandler.getConfig(player);
+		}
 		cfg.set("display-mana", b);
 		PlayerConfigHandler.saveConfig(player, cfg);
 	}
 
 	@Override
 	public boolean getDisplayMana() {
+		if (cfg == null) {
+			cfg = PlayerConfigHandler.getConfig(player);
+		}
 		return cfg.getBoolean("display-mana");
 	}
 
