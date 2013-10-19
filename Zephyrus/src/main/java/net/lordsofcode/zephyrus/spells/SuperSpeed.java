@@ -13,6 +13,7 @@ import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.effects.EffectType;
 import net.lordsofcode.zephyrus.utils.Lang;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -62,7 +63,7 @@ public class SuperSpeed extends Spell {
 	@Override
 	public Set<ItemStack> items() {
 		Set<ItemStack> set = new HashSet<ItemStack>();
-		// TODO Swiftness II;
+		set.add(new ItemStack(Material.SUGAR, 64));
 		return set;
 	}
 
