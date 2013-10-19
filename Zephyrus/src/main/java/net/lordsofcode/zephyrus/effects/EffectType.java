@@ -15,7 +15,8 @@ import org.bukkit.event.Listener;
 
 public enum EffectType {
 
-	ARMOUR(new ArmourEffect(0), 0), FEATHER(new FeatherEffect(1), 1), FLAMESTEP(new FlameStepEffect(2), 2), SUPERSPEED(new SpeedEffect(3), 3);
+	ARMOUR(new ArmourEffect(0), 0), FEATHER(new FeatherEffect(1), 1), FLAMESTEP(new FlameStepEffect(2), 2), SUPERSPEED(
+			new SpeedEffect(3), 3), FLY(new FlyEffect(4), 4);
 
 	private IEffect effect;
 	private int ID;
@@ -31,11 +32,11 @@ public enum EffectType {
 	public IEffect getEffect() {
 		return this.effect;
 	}
-	
+
 	public int getID() {
 		return this.ID;
 	}
-	
+
 	public static EffectType getByID(int id) {
 		return values()[id];
 	}
