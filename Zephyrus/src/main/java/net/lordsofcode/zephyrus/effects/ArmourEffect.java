@@ -117,7 +117,7 @@ public class ArmourEffect implements IEffect, Listener {
 		if (e.getEntity() instanceof Player && e.getCause() != DamageCause.VOID) {
 			Player player = (Player) e.getEntity();
 			if (checkArmour(player)) {
-				e.setCancelled(true);
+				e.setDamage(e.getDamage()/4.0F);
 			}
 		}
 	}
