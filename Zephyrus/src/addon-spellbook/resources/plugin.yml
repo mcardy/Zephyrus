@@ -1,0 +1,17 @@
+name: SpellBook
+main: net.lordsofcode.zephyrus.spellbook.SpellBook
+version: 1.1.2
+author: minnymin3
+depend: [Zephyrus]
+commands:
+   spellbook:
+      description: Gives a player a spellbook. /spellbook <player>
+permissions:
+   zephyrus.spellbook.give.other:
+      default: op
+   zephyrus.spellbook.give:
+      default: op
+   zephyrus.spellbook.sign:
+      default: op
+   zephyrus.spellbook.craft:
+      default: true

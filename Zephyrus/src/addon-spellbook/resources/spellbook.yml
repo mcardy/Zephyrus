@@ -1,0 +1,14 @@
+#SpellBound Book
+#By Minnymin3
+
+#Possible configurations: SHIFT_RIGHT, SHIFT_LEFT, RIGHT, LEFT
+Cycle-Forward: SHIFT_RIGHT
+Cycle-Backward: SHIFT_LEFT
+Cast-Spell: RIGHT
+
+#Enable or disable the crafting of the spellbook
+Enable-Crafting: true
+
+#Configuration for the item itself
+Item-Name: SpellBook
+Item-ID: 340
