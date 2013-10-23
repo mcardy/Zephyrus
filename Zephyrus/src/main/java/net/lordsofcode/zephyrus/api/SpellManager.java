@@ -26,10 +26,17 @@ import org.bukkit.permissions.PermissionDefault;
 
 public class SpellManager {
 
-	private Map<String, ISpell> spellMap = new LinkedHashMap<String, ISpell>();
-	private Map<Set<ItemStack>, ISpell> spellCraftMap = new HashMap<Set<ItemStack>, ISpell>();
+	private Map<String, ISpell> spellMap;
+	private Map<Set<ItemStack>, ISpell> spellCraftMap;
 	private int builtInSpells = 0;
-	private ConfigHandler spellsConfig = new ConfigHandler("spells.yml");
+	private ConfigHandler spellsConfig;
+	
+	public SpellManager() {
+		this.spellsConfig = new ConfigHandler("spells.yml");
+		this.spellsConfig.saveDefaultConfig();
+		this.spellCraftMap = new HashMap<Set<ItemStack>, ISpell>();
+		this.spellMap = new LinkedHashMap<String, ISpell>();
+	}
 
 	/**
 	 * Adds a spell to Zephyrus and loads the spell's config

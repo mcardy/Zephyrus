@@ -5,7 +5,6 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellManager;
 import net.lordsofcode.zephyrus.commands.Bind;
@@ -24,7 +23,6 @@ import net.lordsofcode.zephyrus.items.BlinkPearl;
 import net.lordsofcode.zephyrus.items.GemOfLightning;
 import net.lordsofcode.zephyrus.items.HoeOfGrowth;
 import net.lordsofcode.zephyrus.items.ManaPotion;
-import net.lordsofcode.zephyrus.items.Merchant;
 import net.lordsofcode.zephyrus.items.RodOfFire;
 import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.items.wands.BasicWand;
@@ -93,7 +91,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -182,10 +179,8 @@ public class ZephyrusPlugin extends JavaPlugin {
 
 	private void setupConfigs() {
 		saveDefaultConfig();
-		zephyrus.spellsConfig.saveDefaultConfig();
 		zephyrus.langConfig.saveDefaultConfig();
 		zephyrus.enchantmentsConfig.saveDefaultConfig();
-		zephyrus.itemsConfig.saveDefaultConfig();
 	}
 
 	private void setupLanguage() {
@@ -223,10 +218,6 @@ public class ZephyrusPlugin extends JavaPlugin {
 	}
 
 	private void setupMaps() {
-		Zephyrus.itemMap = new HashMap<String, ICustomItem>();
-		Zephyrus.merchantMap = new HashMap<ItemStack, Merchant>();
-		Zephyrus.invPlayers = new HashMap<String, Merchant>();
-		Zephyrus.itemDelay = new HashMap<String, Map<String, Integer>>();
 		Zephyrus.mana = new HashMap<String, Integer>();
 		Zephyrus.effectMap = new HashMap<String, Map<Integer, Integer>>();
 	}
@@ -340,8 +331,8 @@ public class ZephyrusPlugin extends JavaPlugin {
 			Zephyrus.registerItem(new GemOfLightning());
 			Zephyrus.registerItem(new HoeOfGrowth());
 			Zephyrus.registerItem(new RodOfFire());
+			Zephyrus.registerItem(new ManaPotion());
 		}
-		Zephyrus.registerItem(new ManaPotion());
 		Zephyrus.registerItem(new BasicWand());
 	}
 

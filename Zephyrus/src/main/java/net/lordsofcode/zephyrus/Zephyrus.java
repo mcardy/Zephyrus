@@ -8,18 +8,16 @@ import net.lordsofcode.zephyrus.api.CustomEnchantment;
 import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
+import net.lordsofcode.zephyrus.api.ItemManager;
 import net.lordsofcode.zephyrus.api.SpellManager;
 import net.lordsofcode.zephyrus.effects.EffectHandler;
 import net.lordsofcode.zephyrus.enchantments.GlowEffect;
-import net.lordsofcode.zephyrus.items.ItemUtil;
 import net.lordsofcode.zephyrus.items.Merchant;
 import net.lordsofcode.zephyrus.loader.SpellLoader;
 import net.lordsofcode.zephyrus.player.User;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -37,12 +35,11 @@ public class Zephyrus {
 
 	static Zephyrus instance;
 	static SpellManager spellManager;
+	static ItemManager itemManager;
 
 	SpellLoader loader = new SpellLoader();
-	ConfigHandler spellsConfig = new ConfigHandler("spells.yml");
 	ConfigHandler enchantmentsConfig = new ConfigHandler("enchantments.yml");
 	ConfigHandler langConfig = new ConfigHandler("lang.yml");
-	ConfigHandler itemsConfig = new ConfigHandler("items.yml");
 
 	EffectHandler effectHandler;
 	
@@ -50,21 +47,17 @@ public class Zephyrus {
 
 	static int manaRegenTime;
 	
-	static Map<String, Map<String, Integer>> itemDelay;
-	static Map<String, Merchant> invPlayers;
 	static Map<String, Map<Integer, Integer>> effectMap;
-
 	static Map<String, Integer> mana;
-	static Map<String, ICustomItem> itemMap;
-	static Map<ItemStack, Merchant> merchantMap;
 
 	int builtInSpells = 0;
 
 	public Zephyrus() {
 		instance = this;
+		
 		spellManager = new SpellManager();
-		itemsConfig = new ConfigHandler("items.yml");
-		spellsConfig = new ConfigHandler("spells.yml");
+		itemManager = new ItemManager();
+		
 		enchantmentsConfig = new ConfigHandler("enchantments.yml");
 		langConfig = new ConfigHandler("lang.yml");
 		manaRegenTime = Zephyrus.getConfig().getInt("ManaRegen");
@@ -131,32 +124,14 @@ public class Zephyrus {
 	public static Map<Set<ItemStack>, ISpell> getCraftMap() {
 		return spellManager.getCraftMap();
 	}
-
-	/**
-	 * Gets the ItemManager's item map
-	 * 
-	 * @return The Item's name and the CustomItem object
-	 */
-	public static Map<String, ICustomItem> getItemMap() {
-		return itemMap;
-	}
-
+	
 	/**
 	 * Gets the custom item trading map
 	 * 
 	 * @return
 	 */
 	public static Map<ItemStack, Merchant> getTradeMap() {
-		return merchantMap;
-	}
-
-	/**
-	 * Gets the item delay map
-	 * 
-	 * @return
-	 */
-	public static Map<String, Map<String, Integer>> getDelayMap() {
-		return itemDelay;
+		return itemManager.getTradeMap();
 	}
 
 	/**
@@ -165,7 +140,7 @@ public class Zephyrus {
 	 * @return
 	 */
 	public static Map<String, Merchant> getMerchantMap() {
-		return invPlayers;
+		return itemManager.getMerchantMap();
 	}
 
 	/**
@@ -212,39 +187,11 @@ public class Zephyrus {
 	 * @param i
 	 */
 	public static void registerItem(ICustomItem i) {
-		if (!instance.itemsConfig.getConfig().contains(i.getConfigName() + ".enabled")) {
-			instance.itemsConfig.getConfig().set(i.getConfigName() + ".enabled", true);
-			instance.itemsConfig.saveConfig();
-		}
-		if (!instance.itemsConfig.getConfig().contains(i.getConfigName() + ".displayname")) {
-			instance.itemsConfig.getConfig().set(i.getConfigName() + ".displayname",
-					i.getName().replace(ChatColor.COLOR_CHAR + "", "$"));
-			instance.itemsConfig.saveConfig();
-		}
-		if (instance.itemsConfig.getConfig().getBoolean(i.getConfigName() + ".enabled")) {
-			if (i.getRecipe() != null) {
-				getPlugin().getServer().addRecipe(i.getRecipe());
-			}
-			try {
-				getPlugin().getServer().getPluginManager().registerEvents(i, getPlugin());
-			} catch (Exception e) {
-			}
-			if (i.hasLevel() && i.getName() != null) {
-				Zephyrus.itemMap.put(i.getName(), i);
-			}
-			if (i.hasLevel()) {
-				for (int n = 1; n < i.getMaxLevel(); n++) {
-					ItemStack item = i.getItem();
-					new ItemUtil().setItemLevel(item, n);
-					ItemStack item2 = i.getItem();
-					int n2 = n;
-					new ItemUtil().setItemLevel(item2, n2 + 1);
-					Merchant m = new Merchant();
-					m.addOffer(item, new ItemStack(Material.EMERALD, n), item2);
-					Zephyrus.merchantMap.put(item, m);
-				}
-			}
-		}
+		itemManager.addItem(i);
+	}
+	
+	public static ItemManager getItemManager() {
+		return itemManager;
 	}
 
 	public static Map<String, Map<Integer, Integer>> getEffectMap() {

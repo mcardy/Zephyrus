@@ -239,7 +239,7 @@ public abstract class Wand extends ItemUtil implements ICustomItemWand {
 		} else {
 			chance = 3;
 		}
-		loc.getWorld().dropItemNaturally(loc.add(0, +0.5, 0), new ItemStack(Material.BOOK, r.nextInt(chance)));
+		loc.getWorld().dropItemNaturally(loc.add(0, +1, 0), new ItemStack(Material.BOOK, r.nextInt(chance))).setVelocity(new Vector(0, 0, 0));
 		Effects.playEffect(ParticleEffects.ENCHANTMENT_TABLE, loc, 0, 0, 0, 1, 30);
 		Effects.playEffect(Sound.ORB_PICKUP, loc, 3, 12);
 	}

@@ -106,8 +106,7 @@ public class LevelingListener implements Listener {
 			byte b = 12;
 			if (block.getType() == Material.ENCHANTMENT_TABLE && block.getData() == b) {
 				ItemStack i = e.getItem();
-				if (i != null && i.hasItemMeta() && i.getItemMeta().hasDisplayName()
-						&& Zephyrus.getItemMap().containsKey(i.getItemMeta().getDisplayName())) {
+				if (Zephyrus.getItemManager().isCustomItem(i)) {
 					e.setCancelled(true);
 					try {
 						new CraftLivingEntity(null, null);
@@ -115,7 +114,7 @@ public class LevelingListener implements Listener {
 						Lang.errMsg("outofdatebukkit", e.getPlayer());
 						return;
 					}
-					ICustomItem customItem = Zephyrus.getItemMap().get(i.getItemMeta().getDisplayName());
+					ICustomItem customItem = Zephyrus.getItemManager().getCustomItem(i);
 					if (!(new ItemUtil().getItemLevel(i) < customItem.getMaxLevel())) {
 						Lang.errMsg("itemlevel.max", e.getPlayer());
 						return;

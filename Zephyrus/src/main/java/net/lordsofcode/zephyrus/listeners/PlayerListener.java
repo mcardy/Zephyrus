@@ -42,8 +42,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 
 	public PlayerListener() {
 		results = new HashMap<ItemStack, ICustomItem>();
-		for (String s : Zephyrus.getItemMap().keySet()) {
-			ICustomItem item = Zephyrus.getItemMap().get(s);
+		for (ICustomItem item : Zephyrus.getItemManager().getItemMap()) {
 			if (item.getRecipe() != null) {
 				results.put(item.getRecipe().getResult(), item);
 			}

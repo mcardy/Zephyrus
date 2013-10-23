@@ -21,22 +21,22 @@ public class ItemDelay {
 
 	public static void setDelay(Player player, CustomItem item, int delay) {
 		ZephyrusPlugin plugin = Zephyrus.getPlugin();
-		if (Zephyrus.getDelayMap().containsKey(player.getName())) {
-			Map<String, Integer> s = Zephyrus.getDelayMap().get(player.getName());
+		if (Zephyrus.getItemManager().getDelayMap().containsKey(player.getName())) {
+			Map<String, Integer> s = Zephyrus.getItemManager().getDelayMap().get(player.getName());
 			s.put(item.getConfigName(), delay);
-			Zephyrus.getDelayMap().put(player.getName(), s);
+			Zephyrus.getItemManager().getDelayMap().put(player.getName(), s);
 			new CooldownUtil(player, item).runTaskLater(plugin, 20);
 		} else {
 			Map<String, Integer> s = new HashMap<String, Integer>();
 			s.put(item.getConfigName(), delay);
-			Zephyrus.getDelayMap().put(player.getName(), s);
+			Zephyrus.getItemManager().getDelayMap().put(player.getName(), s);
 			new CooldownUtil(player, item).runTaskLater(plugin, 20);
 		}
 	}
 
 	public static boolean hasDelay(Player player, CustomItem item) {
-		if (Zephyrus.getDelayMap().containsKey(player.getName())) {
-			Map<String, Integer> s = Zephyrus.getDelayMap().get(player.getName());
+		if (Zephyrus.getItemManager().getDelayMap().containsKey(player.getName())) {
+			Map<String, Integer> s = Zephyrus.getItemManager().getDelayMap().get(player.getName());
 			if (s.containsKey(item.getConfigName())) {
 				return true;
 			}
@@ -45,8 +45,8 @@ public class ItemDelay {
 	}
 
 	public static int getDelay(Player player, CustomItem item) {
-		if (Zephyrus.getDelayMap().containsKey(player.getName())) {
-			Map<String, Integer> s = Zephyrus.getDelayMap().get(player.getName());
+		if (Zephyrus.getItemManager().getDelayMap().containsKey(player.getName())) {
+			Map<String, Integer> s = Zephyrus.getItemManager().getDelayMap().get(player.getName());
 			if (s.containsKey(item.getConfigName())) {
 				int i = s.get(item.getConfigName());
 				int ret = Math.round(i / 20);
@@ -73,7 +73,7 @@ class CooldownUtil extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		Map<String, Integer> s = Zephyrus.getDelayMap().get(player.getName());
+		Map<String, Integer> s = Zephyrus.getItemManager().getDelayMap().get(player.getName());
 		int i = s.get(item.getConfigName());
 		i = i - 20;
 		if (i <= 0) {
@@ -82,6 +82,6 @@ class CooldownUtil extends BukkitRunnable {
 			s.put(item.getConfigName(), i);
 			new CooldownUtil(player, item).runTaskLater(Zephyrus.getPlugin(), 20);
 		}
-		Zephyrus.getDelayMap().put(player.getName(), s);
+		Zephyrus.getItemManager().getDelayMap().put(player.getName(), s);
 	}
 }
