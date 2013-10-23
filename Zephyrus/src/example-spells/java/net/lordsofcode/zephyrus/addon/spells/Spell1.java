@@ -114,7 +114,7 @@ public class Spell1 extends Spell {
 	 * This is the method that is called when the spell is cast
 	 */
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		// This gets the potion effect from the config. This field was declared
 		// above in the getConfiguration() method.
 		int potionEffectDuration = this.getConfig().getInt("example.duration");

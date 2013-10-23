@@ -81,7 +81,7 @@ public class Spell2 extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		Entity en = getTarget(player);
 		if (en != null && en instanceof LivingEntity) {
 			((LivingEntity)en).setFireTicks(100);

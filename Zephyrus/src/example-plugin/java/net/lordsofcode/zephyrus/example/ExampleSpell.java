@@ -78,7 +78,7 @@ public class ExampleSpell extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		// We want to check if the block can be broken
 		if (!this.blockBreak(player)) {
 			// If the block can be broken then break the block
