@@ -54,7 +54,7 @@ public class Phase extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		if (!canRun(player, args)) {
 			Lang.errMsg("spells.phase.fail", player);
 			return false;
@@ -106,6 +106,9 @@ public class Phase extends Spell {
 		Location loc1 = player.getTargetBlock(null, 4).getLocation();
 		Location loc2;
 		BlockFace bf = yawToFace(player);
+		if (player.getWorld().getBlockAt(loc1).getType() == Material.AIR) {
+			return false;
+		}
 		if (bf == BlockFace.NORTH) {
 			loc1.setZ(loc1.getZ() + 1);
 			loc2 = loc1;

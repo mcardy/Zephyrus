@@ -45,7 +45,7 @@ public class FlameStepEffect implements IEffect, Listener {
 
 	@Override
 	public void onTick(Player player) {
-		player.setFireTicks(2);
+		player.setFireTicks(20);
 	}
 
 	@Override
@@ -104,6 +104,11 @@ public class FlameStepEffect implements IEffect, Listener {
 				e.setCancelled(true);
 			}
 		}
+	}
+	
+	@Override
+	public int getTickTime() {
+		return 20;
 	}
 	
 }

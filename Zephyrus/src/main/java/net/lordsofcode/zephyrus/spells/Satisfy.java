@@ -51,7 +51,7 @@ public class Satisfy extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		player.setFoodLevel(20);
 		player.setSaturation(20);
 		Lang.msg("spells.satisfy.applied", player);

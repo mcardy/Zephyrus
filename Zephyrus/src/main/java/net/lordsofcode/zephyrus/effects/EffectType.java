@@ -16,7 +16,8 @@ import org.bukkit.event.Listener;
 public enum EffectType {
 
 	ARMOUR(new ArmourEffect(0), 0), FEATHER(new FeatherEffect(1), 1), FLAMESTEP(new FlameStepEffect(2), 2), SUPERSPEED(
-			new SpeedEffect(3), 3), FLY(new FlyEffect(4), 4);
+			new SpeedEffect(3), 3), FLY(new FlyEffect(4), 4), MAGELIGHT(new MageLightEffect(5), 5), FIRESHIELD(
+			new FireShieldEffect(6), 6), SHIELD(new ShieldEffect(7), 7), ZEPHYR(new ZephyrEffect(8), 8);
 
 	private IEffect effect;
 	private int ID;

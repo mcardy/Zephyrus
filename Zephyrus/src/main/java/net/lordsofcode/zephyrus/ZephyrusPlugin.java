@@ -27,11 +27,11 @@ import net.lordsofcode.zephyrus.items.ManaPotion;
 import net.lordsofcode.zephyrus.items.Merchant;
 import net.lordsofcode.zephyrus.items.RodOfFire;
 import net.lordsofcode.zephyrus.items.SpellTome;
-import net.lordsofcode.zephyrus.items.Wand;
+import net.lordsofcode.zephyrus.items.wands.BasicWand;
 import net.lordsofcode.zephyrus.listeners.EconListener;
 import net.lordsofcode.zephyrus.listeners.LevelingListener;
 import net.lordsofcode.zephyrus.listeners.PlayerListener;
-import net.lordsofcode.zephyrus.player.mana.ManaBar;
+import net.lordsofcode.zephyrus.player.ManaBar;
 import net.lordsofcode.zephyrus.registry.PlantRegistry;
 import net.lordsofcode.zephyrus.spells.Armour;
 import net.lordsofcode.zephyrus.spells.Arrow;
@@ -342,7 +342,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 			Zephyrus.registerItem(new RodOfFire());
 		}
 		Zephyrus.registerItem(new ManaPotion());
-		Zephyrus.registerItem(new Wand());
+		Zephyrus.registerItem(new BasicWand());
 	}
 
 	private void addEnchants() {

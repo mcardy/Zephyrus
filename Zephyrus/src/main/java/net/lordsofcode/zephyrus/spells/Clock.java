@@ -81,7 +81,7 @@ public class Clock extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		if (args.length == 1) {
 			ChatColor color;
 			long time = player.getWorld().getTime();

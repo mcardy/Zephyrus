@@ -1,17 +1,19 @@
-package net.lordsofcode.zephyrus.items;
+package net.lordsofcode.zephyrus.items.wands;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ICustomItemWand;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
+import net.lordsofcode.zephyrus.events.PlayerCraftSpellEvent;
 import net.lordsofcode.zephyrus.events.PlayerPostCastSpellEvent;
 import net.lordsofcode.zephyrus.events.PlayerPreCastSpellEvent;
-import net.lordsofcode.zephyrus.events.PlayerCraftSpellEvent;
+import net.lordsofcode.zephyrus.items.ItemUtil;
+import net.lordsofcode.zephyrus.items.SpellTome;
+import net.lordsofcode.zephyrus.utils.ConfigHandler;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.effects.Effects;
 import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
@@ -33,9 +35,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 /**
@@ -46,68 +45,92 @@ import org.bukkit.util.Vector;
  * 
  */
 
-public class Wand extends CustomItem {
-
-	public Wand() {
-		Lang.add("wand.enchanter", "You have successfully created an #6#lArcane Leveller");
-		Lang.add("wand.nospell", "Spell recipe not found!");
-		Lang.add("wand.noperm", "You do not have permission to learn [SPELL]");
-		Lang.add("wand.reqlevel", "That spell requires level [LEVEL]");
-		Lang.add("wand.reqspell", "That spell requires the knowledge of [SPELL]");
-	}
-
+public abstract class Wand extends ItemUtil implements ICustomItemWand {
+	
+	public abstract int getPower();
+	
 	@Override
-	public String getName() {
-		return ChatColor.GOLD + "Wand";
-	}
-
-	@Override
-	public ItemStack getItem() {
-		int id = Zephyrus.getConfig().getInt("Wand-ID");
-		ItemStack i;
-		try {
-			i = new ItemStack(Material.getMaterial(id));
-		} catch (Exception e) {
-			i = new ItemStack(Material.STICK);
+	public String getDisplayName() {
+		ConfigHandler cfg = new ConfigHandler("items.yml");
+		if (cfg.getConfig().contains(getConfigName() + ".displayname")) {
+			return cfg.getConfig().getString(getConfigName() + ".displayname").replace("$", ChatColor.COLOR_CHAR + "");
+		} else {
+			return getName();
 		}
-		try {
-			setItemName(i, getDisplayName());
-		} catch (Exception e) {
-			i = new ItemStack(Material.STICK);
-			setItemName(i, getDisplayName());
-		}
-		ItemMeta m = i.getItemMeta();
-		List<String> lore = new ArrayList<String>();
-		lore.add(ChatColor.GRAY + "Regular old default wand");
-		m.setLore(lore);
-		i.setItemMeta(m);
-		setGlow(i);
-		return i;
 	}
 
 	@Override
-	public Recipe getRecipe() {
-		ShapedRecipe recipe = new ShapedRecipe(getItem());
-		recipe.shape("  C", " B ", "A  ");
-		recipe.setIngredient('C', Material.GLOWSTONE_DUST);
-		recipe.setIngredient('B', Material.STICK);
-		recipe.setIngredient('A', Material.GOLD_INGOT);
-		return recipe;
+	public boolean hasLevel() {
+		return false;
 	}
-
+	
+	@Override
+	public int getMaxLevel() {
+		return 0;
+	}
+	
+	@Override
+	public String getConfigName() {
+		return ChatColor.stripColor(getName().replace(" ", "-").toLowerCase());
+	}
+	
+	@EventHandler
+	public void onCraft(PrepareItemCraftEvent e) {
+		if (e.getRecipe().getResult() == getRecipe().getResult()
+				&& Zephyrus.getConfig().getBoolean("Disable-Wand-Recipe")) {
+			e.getInventory().setResult(null);
+		}
+	}
+	
+	@EventHandler
+	public void onBoundSpell(PlayerInteractEvent e) {
+		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			ItemStack i = e.getItem();
+			if (i != null && i.hasItemMeta() && i.getItemMeta().hasDisplayName()
+					&& i.getItemMeta().getDisplayName().contains(getDisplayName())) {
+				String s = i.getItemMeta().getLore().get(0)
+						.replace(ChatColor.GRAY + "Bound spell: " + ChatColor.DARK_GRAY, "");
+				if (Zephyrus.getSpellMap().containsKey(s)) {
+					ISpell spell = Zephyrus.getSpellMap().get(s);
+					Player player = e.getPlayer();
+					IUser user = Zephyrus.getUser(player);
+					if (user.isLearned(spell) || user.hasPermission(spell)) {
+						if (user.hasMana(spell.getManaCost())) {
+							PlayerPreCastSpellEvent event = new PlayerPreCastSpellEvent(player, spell, null);
+							Bukkit.getPluginManager().callEvent(event);
+							if (!event.isCancelled()) {
+								boolean b = spell.run(player, null, getPower());
+								if (b) {
+									user.drainMana(spell.getManaCost());
+									PlayerPostCastSpellEvent event2 = new PlayerPostCastSpellEvent(player, spell);
+									Bukkit.getPluginManager().callEvent(event2);
+								}
+							}
+						} else {
+							Lang.errMsg("nomana", player);
+						}
+					} else {
+						Lang.errMsg("notlearned", player);
+					}
+				}
+			}
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void arcaneClick(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && checkName(e.getItem(), getDisplayName())
-				&& e.getItem().getItemMeta().getLore().get(0).contains("wand")) {
+				&& !e.getItem().getItemMeta().getLore().get(0).contains("bound")) {
 			Block b = e.getClickedBlock();
 			if (b.getType() == Material.ENCHANTMENT_TABLE && b.getData() != 12) {
 				e.setCancelled(true);
 				b.setData((byte) 12);
-				Lang.msg("wand.enchanter", e.getPlayer());
+				e.getPlayer().sendMessage(Lang.get("wand.enchanter").replace("#", ChatColor.COLOR_CHAR + ""));
 			}
 		}
 	}
-
+	
 	@EventHandler(priority = EventPriority.LOW)
 	public void bookShelfClick(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.BOOKSHELF
@@ -183,7 +206,7 @@ public class Wand extends CustomItem {
 
 		}
 	}
-
+	
 	public Entity[] getNearbyEntities(Location l, int radius) {
 		int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
 		HashSet<Entity> radiusEntities = new HashSet<Entity>();
@@ -200,7 +223,7 @@ public class Wand extends CustomItem {
 		return radiusEntities.toArray(new Entity[radiusEntities.size()]);
 	}
 
-	public void dropSpell(Block bookshelf, String name, String desc, Player player) {
+	private void dropSpell(Block bookshelf, String name, String desc, Player player) {
 		Random r = new Random();
 		bookshelf.setType(Material.AIR);
 		SpellTome tome = new SpellTome(name, desc);
@@ -221,7 +244,7 @@ public class Wand extends CustomItem {
 		Effects.playEffect(Sound.ORB_PICKUP, loc, 3, 12);
 	}
 
-	public Set<ItemStack> getItems(Entity[] entitys) {
+	private Set<ItemStack> getItems(Entity[] entitys) {
 		Set<ItemStack> items = new HashSet<ItemStack>();
 		for (Entity e : entitys) {
 			if (e.getType() == EntityType.DROPPED_ITEM) {
@@ -233,7 +256,7 @@ public class Wand extends CustomItem {
 		return items;
 	}
 
-	public static Set<Item> getItemEntity(Entity[] entitys) {
+	private Set<Item> getItemEntity(Entity[] entitys) {
 		Set<Item> l = new HashSet<Item>();
 		for (Entity e : entitys) {
 			if (e instanceof Item) {
@@ -243,57 +266,5 @@ public class Wand extends CustomItem {
 		}
 		return l;
 	}
-
-	@Override
-	public boolean hasLevel() {
-		return false;
-	}
-
-	@EventHandler
-	public void onBoundSpell(PlayerInteractEvent e) {
-		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			ItemStack i = e.getItem();
-			if (i != null && i.hasItemMeta() && i.getItemMeta().hasDisplayName()
-					&& i.getItemMeta().getDisplayName().contains(getDisplayName())) {
-				String s = i.getItemMeta().getLore().get(0)
-						.replace(ChatColor.GRAY + "Bound spell: " + ChatColor.DARK_GRAY, "");
-				if (Zephyrus.getSpellMap().containsKey(s)) {
-					ISpell spell = Zephyrus.getSpellMap().get(s);
-					Player player = e.getPlayer();
-					IUser user = Zephyrus.getUser(player);
-					if (user.isLearned(spell) || user.hasPermission(spell)) {
-						if (user.hasMana(spell.getManaCost())) {
-							PlayerPreCastSpellEvent event = new PlayerPreCastSpellEvent(player, spell, null);
-							Bukkit.getPluginManager().callEvent(event);
-							if (!event.isCancelled()) {
-								boolean b = spell.run(player, null);
-								if (b) {
-									user.drainMana(spell.getManaCost());
-									PlayerPostCastSpellEvent event2 = new PlayerPostCastSpellEvent(player, spell);
-									Bukkit.getPluginManager().callEvent(event2);
-								}
-							}
-						} else {
-							Lang.errMsg("nomana", player);
-						}
-					} else {
-						Lang.errMsg("notlearned", player);
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	public String getPerm() {
-		return "wand";
-	}
-
-	@EventHandler
-	public void onCraft(PrepareItemCraftEvent e) {
-		if (e.getRecipe().getResult() == getRecipe().getResult()
-				&& Zephyrus.getConfig().getBoolean("Disable-Wand-Recipe")) {
-			e.getInventory().setResult(null);
-		}
-	}
+	
 }

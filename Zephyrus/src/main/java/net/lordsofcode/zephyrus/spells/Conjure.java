@@ -60,7 +60,7 @@ public class Conjure extends Spell {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		if (!(args.length < 2)) {
 			int id = -1;
 			if (args[1].contains("\\:")) {

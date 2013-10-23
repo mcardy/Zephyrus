@@ -52,10 +52,11 @@ public class Vanish extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
-		int t = getConfig().getInt(getName() + ".duration");
+	public boolean run(Player player, String[] args, int power) {
+		int time = getConfig().getInt(getName() + ".duration");
+		time *= power;
 		player.removePotionEffect(PotionEffectType.INVISIBILITY);
-		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, t * 20, 1));
+		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, time * 20, 1));
 		Lang.msg("spells.vanish.applied", player);
 		return true;
 	}

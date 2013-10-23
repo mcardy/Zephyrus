@@ -38,7 +38,6 @@ public class Bind implements CommandExecutor, TabCompleter {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
 		if (sender instanceof Player) {
 			if (sender.hasPermission("zephyrus.bind") || sender.isOp()) {
 				if (args.length == 0) {
@@ -52,8 +51,7 @@ public class Bind implements CommandExecutor, TabCompleter {
 							if (player.getItemInHand() != null
 									&& player.getItemInHand().hasItemMeta()
 									&& player.getItemInHand().getItemMeta().hasDisplayName()
-									&& player.getItemInHand().getItemMeta().getDisplayName()
-											.contains(ChatColor.GOLD + "Wand")) {
+									&& (true)) {
 								if (spell.canBind()) {
 									ItemStack i = player.getItemInHand();
 									List<String> list = new ArrayList<String>();

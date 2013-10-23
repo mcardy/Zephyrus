@@ -53,8 +53,9 @@ public class Prospect extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int radius = getConfig().getInt(getName() + ".radius");
+		radius *= power;
 		final Block block = player.getLocation().getBlock();
 		Set<String> s = new HashSet<String>();
 		for (int x = -(radius); x <= radius; x++) {

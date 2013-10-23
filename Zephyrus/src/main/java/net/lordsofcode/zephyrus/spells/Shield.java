@@ -6,20 +6,15 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
-import net.lordsofcode.zephyrus.utils.effects.Effects;
-import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
+import net.lordsofcode.zephyrus.effects.EffectType;
+import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Zephyrus
@@ -28,9 +23,15 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-//TODO Change to effect
+
 public class Shield extends Spell {
 
+	public Shield() {
+		Lang.add("zephyrus.spells.shield.warning", "$7Your shield starts to dissappear...");
+		Lang.add("zephyrus.spells.shield.removed", "$7You are no longer shielded...");
+		Lang.add("zephyrus.spells.shield.applied", "$You are now protected for TIME seconds");
+	}
+	
 	@Override
 	public String getName() {
 		return "shield";
@@ -52,18 +53,12 @@ public class Shield extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
-		int damage = getConfig().getInt(getName() + ".damage");
+	public boolean run(Player player, String[] args, int power) {
 		int time = getConfig().getInt(getName() + ".duration");
-		playerMap.add(player.getName());
-		new Run(player, damage).runTaskTimer(Zephyrus.getPlugin(), (long) 0.5, (long) 0.5);
-		startDelay(player, time * 20);
+		Zephyrus.getUser(player).applyEffect(EffectType.SHIELD, time*20*power);
+		player.sendMessage(Lang.get("zephyrus.spells.shield.applied").replace("TIME",
+				Zephyrus.getUser(player).getEffectTime(EffectType.SHIELD) + ""));
 		return true;
-	}
-
-	@Override
-	public void delayedAction(Player player) {
-		playerMap.remove(player.getName());
 	}
 
 	@Override
@@ -80,34 +75,6 @@ public class Shield extends Spell {
 		map.put("duration", 60);
 		map.put("damage", 1);
 		return map;
-	}
-
-	private class Run extends BukkitRunnable {
-
-		Player player;
-		int damage;
-
-		Run(Player player, int damage) {
-			this.player = player;
-			this.damage = damage;
-		}
-
-		@Override
-		public void run() {
-			Player p = Bukkit.getPlayer(player.getName());
-			if (p != null && playerMap.contains(player.getName())) {
-				Location loc = p.getLocation();
-				loc.setY(player.getLocation().getY() + 1);
-				Effects.playEffect(ParticleEffects.BLUE_SPARKLE, loc, 0.5F, 1, 0.5F, 100, 10);
-				for (Entity e : p.getNearbyEntities(2, 2, 2)) {
-					if (e instanceof LivingEntity) {
-						((LivingEntity) e).damage(damage);
-					}
-				}
-			} else {
-				this.cancel();
-			}
-		}
 	}
 
 	@Override

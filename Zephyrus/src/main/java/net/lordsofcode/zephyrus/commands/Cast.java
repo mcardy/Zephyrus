@@ -51,7 +51,7 @@ public class Cast implements CommandExecutor, TabCompleter {
 							PlayerPreCastSpellEvent event = new PlayerPreCastSpellEvent(player, spell, args);
 							Bukkit.getPluginManager().callEvent(event);
 							if (!event.isCancelled()) {
-								boolean b = spell.run(player, args);
+								boolean b = spell.run(player, args, 1);
 								if (b) {
 									user.drainMana(spell.getManaCost());
 									PlayerPostCastSpellEvent event2 = new PlayerPostCastSpellEvent(player, spell);

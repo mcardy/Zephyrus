@@ -61,7 +61,7 @@ public class Home extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		if (args.length < 2 && !isHomeSet(player)) {
 			Lang.errMsg("spells.home.fail", player);
 			return false;

@@ -49,9 +49,9 @@ public class ArrowStorm extends Spell {
 	}
 
 	@Override
-	public boolean run(final Player player, String[] args) {
+	public boolean run(final Player player, String[] args, int power) {
 		int amount = getConfig().getInt("arrowstorm.count");
-		new Run(player.getName(), amount).runTask(Zephyrus.getPlugin());
+		new Run(player.getName(), amount*power).runTask(Zephyrus.getPlugin());
 		return true;
 	}
 

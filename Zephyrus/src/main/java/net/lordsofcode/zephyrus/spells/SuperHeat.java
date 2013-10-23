@@ -62,7 +62,7 @@ public class SuperHeat extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		List<String> list = getConfig().getStringList(getName() + ".ids");
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		for (String s : list) {

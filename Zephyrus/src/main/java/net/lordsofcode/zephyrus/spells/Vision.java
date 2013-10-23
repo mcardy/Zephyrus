@@ -46,10 +46,11 @@ public class Vision extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
-		int t = getConfig().getInt(getName() + ".duration");
+	public boolean run(Player player, String[] args, int power) {
+		int time = getConfig().getInt(getName() + ".duration");
+		time *= power;
 		player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-		player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, t * 20, 1));
+		player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, time * 20, 1));
 		return true;
 	}
 

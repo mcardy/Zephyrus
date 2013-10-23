@@ -4,7 +4,7 @@ import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.items.SpellTome;
-import net.lordsofcode.zephyrus.items.Wand;
+import net.lordsofcode.zephyrus.items.wands.BasicWand;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
@@ -88,7 +88,7 @@ public class EconListener implements Listener {
 									.replace(ChatColor.GOLD + "", ""));
 							if (PluginHook.econ.getBalance(e.getPlayer().getName()) >= cost) {
 								PluginHook.econ.withdrawPlayer(e.getPlayer().getName(), cost);
-								ItemStack wand = new Wand().getItem();
+								ItemStack wand = new BasicWand().getItem();
 								e.getPlayer().getInventory().addItem(wand);
 								e.getPlayer().updateInventory();
 							} else {

@@ -55,10 +55,10 @@ public class FlameStep extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int duration = getConfig().getInt("flamestep.duration");
 		IUser user = Zephyrus.getUser(player);
-		user.applyEffect(EffectType.FLAMESTEP, duration*20);
+		user.applyEffect(EffectType.FLAMESTEP, duration*20*power);
 		player.sendMessage(Lang.get("spells.flamestep.applied").replace("[TIME]", user.getEffectTime(EffectType.FLAMESTEP) + ""));
 		return true;
 	}

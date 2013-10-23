@@ -68,7 +68,7 @@ public class Jail extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int i = getConfig().getInt(getName() + ".duration");
 		Entity target = getTarget(player);
 		if (target == null) {
@@ -119,7 +119,7 @@ public class Jail extends Spell {
 			b.setMetadata("jailblock", new FixedMetadataValue(Zephyrus.getPlugin(), true));
 		}
 		this.lmap.add(map);
-		new Reset(map).runTaskLater(Zephyrus.getPlugin(), i * 20);
+		new Reset(map).runTaskLater(Zephyrus.getPlugin(), i * 20 * power);
 		Effects.playEffect(Sound.ANVIL_LAND, loc);
 		return true;
 	}

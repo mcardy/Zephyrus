@@ -82,4 +82,9 @@ public class FeatherEffect implements IEffect, Listener {
 		Lang.msg("spells.feather.warning", player);
 	}
 
+	@Override
+	public int getTickTime() {
+		return 0;
+	}
+	
 }

@@ -51,7 +51,7 @@ public class Bang extends Spell {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int r = getConfig().getInt(getName() + ".radius");
 		int p = getConfig().getInt(getName() + ".power");
 		Location loc = player.getTargetBlock(null, 1000).getLocation();
@@ -65,7 +65,7 @@ public class Bang extends Spell {
 			if (e != player) {
 				Vector unitVector = e.getLocation().toVector().subtract(loc.toVector()).normalize();
 				unitVector.setY(0.4);
-				e.setVelocity(unitVector.multiply(p * 0.4));
+				e.setVelocity(unitVector.multiply(p*power * 0.4));
 			}
 		}
 		return true;

@@ -51,16 +51,16 @@ public class LifeSteal extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		Entity e = getTarget(player);
 		if (e == null || !(e instanceof Creature)) {
 			Lang.errMsg("spells.lifesteal.fail", player);
 			return false;
 		}
 		Creature en = (Creature) getTarget(player);
-		en.damage(2);
+		en.damage(2*power);
 		try {
-			player.setHealth(player.getMaxHealth() + 2);
+			player.setHealth(player.getMaxHealth() + 2*power);
 		} catch (Exception ex) {
 			player.setHealth(player.getMaxHealth());
 		}

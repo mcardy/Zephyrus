@@ -52,7 +52,7 @@ public class Storm extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		player.getWorld().setStorm(true);
 		player.getWorld().setThundering(true);
 		for (int i = 0; i < 5; i++) {

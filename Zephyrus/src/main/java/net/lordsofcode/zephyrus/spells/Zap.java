@@ -53,30 +53,30 @@ public class Zap extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		Entity e = getTarget(player);
 		if (e instanceof LivingEntity) {
 			Set<Entity> list = new HashSet<Entity>();
-			int r = getConfig().getInt(getName() + ".radius");
+			int radius = getConfig().getInt(getName() + ".radius");
+			radius *= power;
+			int limit = getConfig().getInt(getName() + ".limit");
 			LivingEntity en = (LivingEntity) e;
 			en.getWorld().strikeLightning(e.getLocation());
 			list.add(e);
-			loopThrough(e.getNearbyEntities(r, r, r), player, list);
+			loopThrough(e.getNearbyEntities(radius, radius, radius), player, list, radius, limit);
 			return true;
 		}
 		Lang.errMsg("spells.zap.fail", player);
 		return false;
 	}
 
-	public void loopThrough(List<Entity> e, Player player, Set<Entity> list) {
-		int r = getConfig().getInt(getName() + ".radius");
-		int l = getConfig().getInt(getName() + ".limit");
+	public void loopThrough(List<Entity> e, Player player, Set<Entity> list, int radius, int limit) {
 		for (Entity en : e) {
-			if (en instanceof LivingEntity && en != player && en.getLocation().distance(player.getLocation()) < l
+			if (en instanceof LivingEntity && en != player && en.getLocation().distance(player.getLocation()) < limit
 					&& !list.contains(en)) {
 				en.getWorld().strikeLightning(en.getLocation());
 				list.add(en);
-				loopThrough(en.getNearbyEntities(r, r, r), player, list);
+				loopThrough(en.getNearbyEntities(radius, radius, radius), player, list, radius, limit);
 			}
 		}
 	}

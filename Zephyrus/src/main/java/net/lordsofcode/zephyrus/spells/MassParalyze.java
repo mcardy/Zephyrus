@@ -57,13 +57,13 @@ public class MassParalyze extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int time = getConfig().getInt(getName() + ".duration");
 		int radius = getConfig().getInt(getName() + ".radius");
 		for (Entity en : player.getNearbyEntities(radius, radius, radius)) {
 			if (en instanceof LivingEntity) {
 				LivingEntity ln = (LivingEntity) en;
-				ln.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time * 20, 100));
+				ln.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time * 20 * power, 100));
 			}
 		}
 		return true;

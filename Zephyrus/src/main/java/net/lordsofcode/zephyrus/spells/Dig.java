@@ -47,7 +47,7 @@ public class Dig extends Spell {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		List<Integer> list = getIntList(getConfig().getStringList("dig.blacklist"));
 		if (this.blockBreak(player) || list.contains(player.getTargetBlock(null, 12).getTypeId())) {
 			return false;

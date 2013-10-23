@@ -67,7 +67,7 @@ public class Summon extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		if (canRun(player, args)) {
 			Block block = player.getTargetBlock(null, 100);
 			Location loc = block.getLocation();

@@ -125,5 +125,10 @@ public class ArmourEffect implements IEffect, Listener {
 	@Override
 	public void onWarning(Player player) {
 	}
+	
+	@Override
+	public int getTickTime() {
+		return 0;
+	}
 
 }

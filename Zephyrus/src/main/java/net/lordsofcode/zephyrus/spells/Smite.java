@@ -50,20 +50,14 @@ public class Smite extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 1000), player);
 		Bukkit.getPluginManager().callEvent(e);
 		if (!e.isCancelled()) {
 			Location loc = player.getTargetBlock(null, 1000).getLocation();
-			ZephyrusPlugin plugin = Zephyrus.getPlugin();
-			new Strike(loc).runTaskLater(plugin, 1);
-			new Strike(loc).runTaskLater(plugin, 2);
-			new Strike(loc).runTaskLater(plugin, 3);
-			new Strike(loc).runTaskLater(plugin, 4);
-			new Strike(loc).runTaskLater(plugin, 5);
-			new Strike(loc).runTaskLater(plugin, 6);
-			new Strike(loc).runTaskLater(plugin, 7);
-			new Strike(loc).runTaskLater(plugin, 8);
+			for (int i = 0; i < power*10; i++) {
+				new Strike(loc).runTaskLater(Zephyrus.getPlugin(), i);
+			}
 			return true;
 		}
 		return false;

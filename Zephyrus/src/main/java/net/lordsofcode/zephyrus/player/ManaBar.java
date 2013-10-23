@@ -1,4 +1,4 @@
-package net.lordsofcode.zephyrus.player.mana;
+package net.lordsofcode.zephyrus.player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +12,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 /**
  * Zephyrus
@@ -30,7 +32,25 @@ public class ManaBar implements Listener {
 		if (user.getDisplayMana()) {
 			setStatus(player, ChatColor.DARK_AQUA + "---{" + ChatColor.BOLD + ChatColor.AQUA + user.getMana() + "/"
 					+ user.getLevel() * 100 + ChatColor.RESET + ChatColor.DARK_AQUA + "}---", user.getMana()
-					/ ((float) user.getLevel() * 100));
+					/ ((float) user.getLevel() * 100), false);
+		} else {
+			if (manaDisplayMap.containsKey(player.getName())) {
+				DummyDragon dragon = manaDisplayMap.get(player.getName());
+				Object destroyPacket = dragon.getDestroyEntityPacket();
+				ReflectionUtils.sendPacket(player, destroyPacket);
+				manaDisplayMap.remove(player.getName());
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		IUser user = Zephyrus.getUser(player);
+		if (user.getDisplayMana()) {
+			setStatus(player, ChatColor.DARK_AQUA + "---{" + ChatColor.BOLD + ChatColor.AQUA + user.getMana() + "/"
+					+ user.getLevel() * 100 + ChatColor.RESET + ChatColor.DARK_AQUA + "}---", user.getMana()
+					/ ((float) user.getLevel() * 100), true);
 		} else {
 			if (manaDisplayMap.containsKey(player.getName())) {
 				DummyDragon dragon = manaDisplayMap.get(player.getName());
@@ -41,13 +61,32 @@ public class ManaBar implements Listener {
 		}
 	}
 
+	@EventHandler
+	public void onPlayerTeleport(PlayerTeleportEvent event) {
+		Player player = event.getPlayer();
+		IUser user = Zephyrus.getUser(player);
+		if (user.getDisplayMana()) {
+			setStatus(player, ChatColor.DARK_AQUA + "---{" + ChatColor.BOLD + ChatColor.AQUA + user.getMana() + "/"
+					+ user.getLevel() * 100 + ChatColor.RESET + ChatColor.DARK_AQUA + "}---", user.getMana()
+					/ ((float) user.getLevel() * 100), true);
+		} else {
+			if (manaDisplayMap.containsKey(player.getName())) {
+				DummyDragon dragon = manaDisplayMap.get(player.getName());
+				Object destroyPacket = dragon.getDestroyEntityPacket();
+				ReflectionUtils.sendPacket(player, destroyPacket);
+				manaDisplayMap.remove(player.getName());
+			}
+		}
+	}
+	
+	
 	private Integer ENTITY_ID = 6000;
 	private Map<String, DummyDragon> manaDisplayMap = new HashMap<String, DummyDragon>();
 
-	public void setStatus(Player player, String text, float percent) {
+	public void setStatus(Player player, String text, float percent, boolean reset) {
 		DummyDragon dragon = null;
 
-		if (manaDisplayMap.containsKey(player.getName())) {
+		if (manaDisplayMap.containsKey(player.getName()) && !reset) {
 			dragon = manaDisplayMap.get(player.getName());
 		} else {
 			dragon = new DummyDragon(text, ENTITY_ID, player.getLocation().add(0, -200, 0), percent

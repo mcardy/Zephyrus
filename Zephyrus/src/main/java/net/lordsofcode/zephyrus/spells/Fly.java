@@ -31,7 +31,7 @@ public class Fly extends Spell {
 
 	public Fly() {
 		list = new HashMap<String, Integer>();
-		Lang.add("spells.fly.applied", "You can now fly for [TIME] seconds");
+		Lang.add("spells.fly.applied", "$7You can now fly for [TIME] seconds");
 		Lang.add("spells.fly.warning", "$7Your wings start to dissappear!");
 		Lang.add("spells.fly.end", "$7Your wings were taken!");
 	}
@@ -57,8 +57,9 @@ public class Fly extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int t = getConfig().getInt(getName() + ".duration");
+		t = t*power;
 		Zephyrus.getUser(player).applyEffect(EffectType.FLY, t);
 		return true;
 	}

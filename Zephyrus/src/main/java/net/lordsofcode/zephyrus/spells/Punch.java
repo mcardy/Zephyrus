@@ -54,9 +54,10 @@ public class Punch extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		Entity e = getTarget(player);
 		int damage = getConfig().getInt(getName() + ".damage");
+		damage *= power;
 		if (e == null) {
 			Lang.errMsg("spells.punch.fail", player);
 			return false;

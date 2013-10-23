@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 
 public class SpeedEffect implements IEffect {
 
-	private int ID;
+	private final int ID;
 	
 	public SpeedEffect(int ID) {
 		this.ID = ID;
@@ -49,6 +49,11 @@ public class SpeedEffect implements IEffect {
 	@Override
 	public int getTypeID() {
 		return ID;
+	}
+	
+	@Override
+	public int getTickTime() {
+		return 0;
 	}
 
 }

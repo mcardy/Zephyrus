@@ -174,7 +174,7 @@ public interface ISpell extends Listener {
 	 *            The arguments used to cast the spell
 	 * @return True to drain mana, false otherwise.
 	 */
-	public boolean run(Player player, String[] args);
+	public boolean run(Player player, String[] args, int power);
 
 	/**
 	 * The side effect of the spell. Called randomly when the spell is cast

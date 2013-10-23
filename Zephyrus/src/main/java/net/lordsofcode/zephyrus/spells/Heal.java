@@ -44,7 +44,7 @@ public class Heal extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int a = getConfig().getInt(getName() + ".amount");
 		if (player.getFoodLevel() + a > 20) {
 			player.setHealth(20);

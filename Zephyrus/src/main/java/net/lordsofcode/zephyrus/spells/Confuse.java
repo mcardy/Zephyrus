@@ -51,8 +51,9 @@ public class Confuse extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int r = getConfig().getInt(getName() + ".radius");
+		r = r*power;
 		Monster[] e = getNearbyEntities(player.getLocation(), r);
 		for (int i = 0; i < e.length; i++) {
 			int index = i + 1;

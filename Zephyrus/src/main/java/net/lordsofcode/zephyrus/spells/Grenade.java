@@ -47,7 +47,7 @@ public class Grenade extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		if (blockBreak(player)) {
 			return false;
 		}

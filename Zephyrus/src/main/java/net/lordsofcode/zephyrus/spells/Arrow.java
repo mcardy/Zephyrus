@@ -47,7 +47,7 @@ public class Arrow extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		org.bukkit.entity.Arrow arrow = player.launchProjectile(org.bukkit.entity.Arrow.class);
 		arrow.setMetadata("no_pickup", new FixedMetadataValue(Zephyrus.getPlugin(), true));
 		return true;

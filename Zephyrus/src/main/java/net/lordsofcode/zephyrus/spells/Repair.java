@@ -54,11 +54,12 @@ public class Repair extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		if (player.getItemInHand() != null && player.getItemInHand().getType().getMaxDurability() != 0) {
 			int amount = getConfig().getInt(getName() + ".amount");
+			amount *= power;
 			ItemStack i = player.getItemInHand();
-			if (i.getDurability() < i.getType().getMaxDurability() + 30) {
+			if (i.getDurability() < i.getType().getMaxDurability() + amount) {
 				player.getItemInHand().setDurability((short) (player.getItemInHand().getDurability() - amount));
 			} else {
 				player.getItemInHand().setDurability(player.getItemInHand().getType().getMaxDurability());

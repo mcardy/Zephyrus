@@ -48,8 +48,9 @@ public class Detect extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int r = getConfig().getInt(getName() + ".radius");
+		r = r*power;
 		List<Entity> enList = player.getNearbyEntities(r, r, r);
 		player.sendMessage(ChatColor.GRAY + "Nearby mobs:");
 		boolean msg = true;

@@ -53,11 +53,11 @@ public class Armour extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		if (player.getInventory().getHelmet() == null && player.getInventory().getChestplate() == null
 				&& player.getInventory().getLeggings() == null && player.getInventory().getBoots() == null) {
 			int time = getConfig().getInt(this.getName() + ".delay");
-			Zephyrus.getUser(player).applyEffect(EffectType.ARMOUR, time*20);
+			Zephyrus.getUser(player).applyEffect(EffectType.ARMOUR, time*20*power);
 			Lang.msg("spells.armour.applied", player);
 			return true;
 		} else {

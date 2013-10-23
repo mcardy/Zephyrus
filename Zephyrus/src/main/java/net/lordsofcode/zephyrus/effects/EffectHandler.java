@@ -67,9 +67,11 @@ public class EffectHandler implements Listener {
 	private class EffectTimer extends BukkitRunnable {
 
 		private String playerName;
+		private int tickTime;
 		
 		public EffectTimer(String playerName) {
 			this.playerName = playerName;
+			this.tickTime = 0;
 		}
 		
 		@Override
@@ -79,13 +81,22 @@ public class EffectHandler implements Listener {
 				IUser user = Zephyrus.getUser(player);
 				for (IEffect effect : user.getCurrentEffects()) {
 					EffectType type = EffectType.getByID(effect.getTypeID());
-					effect.onTick(player);
-					Zephyrus.getEffectMap().get(player.getName()).put(type.getID(), user.getEffectTime(type)-1);
-					if (user.getEffectTime(type) <= 0) {
+					int time = type.getEffect().getTickTime();
+					float tick = tickTime/(float)time;
+					if (time != 0 && tick == (int) tick) {
+						effect.onTick(player);
+					}
+					int remaining = user.getEffectTime(type)-1;
+					Zephyrus.getEffectMap().get(player.getName()).put(type.getID(), remaining);
+					if (remaining <= 0) {
 						user.removeEffect(type);
 					}
 				}
 			}
+			if (tickTime == 20) {
+				tickTime = 0;
+			}
+			tickTime++;
 		}
 
 	}

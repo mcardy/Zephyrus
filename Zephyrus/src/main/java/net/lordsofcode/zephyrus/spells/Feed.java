@@ -52,8 +52,9 @@ public class Feed extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int a = getConfig().getInt(getName() + ".amount");
+		a = a*power;
 		if (player.getFoodLevel() + a > 20) {
 			player.setFoodLevel(20);
 		} else {

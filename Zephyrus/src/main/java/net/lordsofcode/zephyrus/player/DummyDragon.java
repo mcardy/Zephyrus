@@ -1,4 +1,4 @@
-package net.lordsofcode.zephyrus.player.mana;
+package net.lordsofcode.zephyrus.player;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

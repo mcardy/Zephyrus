@@ -55,8 +55,9 @@ public class Butcher extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int r = getConfig().getInt(getName() + ".radius");
+		r = r*power;
 		List<Entity> e = player.getNearbyEntities(r, r, r);
 		for (Entity en : e) {
 			if (en instanceof LivingEntity) {

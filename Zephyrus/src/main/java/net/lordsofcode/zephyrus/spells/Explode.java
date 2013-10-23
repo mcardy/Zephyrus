@@ -48,14 +48,14 @@ public class Explode extends Spell {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 200), player);
 		Bukkit.getPluginManager().callEvent(e);
 		if (e.isCancelled()) {
 			return false;
 		}
 		int r = getConfig().getInt(getName() + ".power");
-		player.getWorld().createExplosion(player.getTargetBlock(null, 200).getLocation(), r, false);
+		player.getWorld().createExplosion(player.getTargetBlock(null, 200).getLocation(), r*power, false);
 		return true;
 	}
 

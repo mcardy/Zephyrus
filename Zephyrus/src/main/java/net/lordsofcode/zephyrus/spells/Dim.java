@@ -74,7 +74,7 @@ public class Dim extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		player.getWorld().setTime(14000);
 		return true;
 	}

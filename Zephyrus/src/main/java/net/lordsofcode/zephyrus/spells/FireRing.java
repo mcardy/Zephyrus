@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -27,7 +27,7 @@ import org.bukkit.inventory.ItemStack;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-
+//TODO Fix NoCheatPlus bug - make place block not break
 public class FireRing extends Spell {
 
 	@Override
@@ -51,14 +51,16 @@ public class FireRing extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int radius = getConfig().getInt(getName() + ".radius");
+		radius = radius*power;
 		final Block block = player.getLocation().getBlock();
 		List<Block> bList = new ArrayList<Block>();
 		for (int x = -(radius); x <= radius; x++) {
 			for (int y = -(radius); y <= radius; y++) {
 				for (int z = -(radius); z <= radius; z++) {
 					Block b = block.getRelative(x, y, z);
+					//BlockPlaceEvent e = new BlockPlaceEvent(b, null, block, new ItemStack(Material.FIRE), player, false);
 					BlockBreakEvent e = new BlockBreakEvent(b, player);
 					Bukkit.getPluginManager().callEvent(e);
 					if (e.isCancelled()) {

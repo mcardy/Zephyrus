@@ -48,4 +48,10 @@ public interface IEffect {
 	 * @see EffectType
 	 */
 	public int getTypeID();
+	
+	/**
+	 * Gets the speed in ticks at which the effect ticks. Set to 0 for no tick.
+	 * @return
+	 */
+	public int getTickTime();
 }

@@ -14,7 +14,7 @@ import org.bukkit.block.Block;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-
+// TODO JavaDocs
 public class Effects {
 
 	public static void playEffect(Effect effect, Location loc) {

@@ -56,5 +56,10 @@ public class FlyEffect implements IEffect {
 	public int getTypeID() {
 		return this.ID;
 	}
+	
+	@Override
+	public int getTickTime() {
+		return 0;
+	}
 
 }

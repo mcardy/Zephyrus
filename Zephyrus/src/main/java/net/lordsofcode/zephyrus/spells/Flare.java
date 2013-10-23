@@ -48,7 +48,7 @@ public class Flare extends Spell {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 1000), player);
 		Bukkit.getPluginManager().callEvent(e);
 		if (e.isCancelled()) {

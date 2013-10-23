@@ -54,10 +54,10 @@ public class Feather extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int t = getConfig().getInt(getName() + ".duration");
 		IUser user = Zephyrus.getUser(player);
-		user.applyEffect(EffectType.FEATHER, t*20);
+		user.applyEffect(EffectType.FEATHER, t*20*power);
 		player.sendMessage(Lang.get("spells.feather.applied").replace("[TIME]",
 				user.getEffectTime(EffectType.FEATHER)/20 + ""));
 		return true;

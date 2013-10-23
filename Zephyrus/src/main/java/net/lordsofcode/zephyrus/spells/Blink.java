@@ -64,7 +64,7 @@ public class Blink extends Spell {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		if (player.getTargetBlock(null, 100) != null && player.getTargetBlock(null, 100).getType() != Material.AIR) {
 			Location loc = player.getTargetBlock(null, 100).getLocation();
 			loc.setY(loc.getY() + 1);

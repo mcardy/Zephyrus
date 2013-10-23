@@ -54,7 +54,7 @@ public class Grow extends Spell {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		Block target = player.getTargetBlock(null, 6);
 		if (PlantRegistry.grow(target)) {
 			Location loc = target.getLocation();

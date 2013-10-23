@@ -53,7 +53,7 @@ public class Paralyze extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		Entity e = getTarget(player);
 		if (e == null && !(e instanceof LivingEntity)) {
 			Lang.errMsg("spells.paralyze.fail", player);
@@ -61,7 +61,7 @@ public class Paralyze extends Spell {
 		}
 		LivingEntity en = (LivingEntity) e;
 		int time = getConfig().getInt(getName() + ".duration");
-		en.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time * 20, 100));
+		en.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time * 20 * power, 100));
 		return true;
 	}
 

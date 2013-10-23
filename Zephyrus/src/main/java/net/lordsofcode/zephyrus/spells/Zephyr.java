@@ -6,21 +6,15 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
-import net.lordsofcode.zephyrus.utils.effects.Effects;
-import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
+import net.lordsofcode.zephyrus.effects.EffectType;
+import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 /**
  * Zephyrus
@@ -29,9 +23,15 @@ import org.bukkit.util.Vector;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-//TODO Change to effect
+
 public class Zephyr extends Spell {
 
+	public Zephyr() {
+		Lang.add("zephyrus.spells.zephyr.warning", "$7You feel the air slow down...");
+		Lang.add("zephyrus.spells.zephyr.removed", "$7The air goes still around you...");
+		Lang.add("zephyrus.spells.zephyr.applied", "$Whirlwinds protect you for TIME seconds");
+	}
+	
 	@Override
 	public String getName() {
 		return "zephyr";
@@ -53,19 +53,13 @@ public class Zephyr extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int time = getConfig().getInt(getName() + ".duration");
-		boolean b = getConfig().getBoolean(getName() + ".block-all");
-		int p = getConfig().getInt(getName() + ".power");
-		playerMap.add(player.getName());
-		new Run(player, b, p).runTaskTimer(Zephyrus.getPlugin(), (long) 0.1, (long) 0.1);
-		startDelay(player, time * 20);
+		time *= power;
+		Zephyrus.getUser(player).applyEffect(EffectType.ZEPHYR, time);
+		player.sendMessage(Lang.get("zephyrus.spells.fireshield.applied").replace("TIME",
+				Zephyrus.getUser(player).getEffectTime(EffectType.FIRESHIELD) + ""));
 		return true;
-	}
-
-	@Override
-	public void delayedAction(Player player) {
-		playerMap.remove(player.getName());
 	}
 
 	@Override
@@ -83,42 +77,6 @@ public class Zephyr extends Spell {
 		map.put("block-all", true);
 		map.put("power", 3);
 		return map;
-	}
-
-	private class Run extends BukkitRunnable {
-
-		Player player;
-		boolean b;
-		int power;
-
-		Run(Player player, boolean b, int power) {
-			this.player = player;
-			this.b = b;
-			this.power = power;
-		}
-
-		@Override
-		public void run() {
-			Player p = Bukkit.getPlayer(player.getName());
-			if (p != null && playerMap.contains(player.getName())) {
-				Location loc = p.getLocation();
-				loc.setY(player.getLocation().getY() + 1);
-				Effects.playEffect(ParticleEffects.CLOUD, loc, (float) 0.5, (float) 0.5, (float) 0.5, 0, 10);
-				for (Entity e : p.getNearbyEntities(3, 3, 3)) {
-					if (b) {
-						Vector unitVector = e.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
-						unitVector.setY(0.4);
-						e.setVelocity(unitVector.multiply(power * 0.4));
-					} else if (e instanceof LivingEntity) {
-						Vector unitVector = e.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
-						unitVector.setY(0.4);
-						e.setVelocity(unitVector.multiply(power * 0.4));
-					}
-				}
-			} else {
-				this.cancel();
-			}
-		}
 	}
 
 	@Override

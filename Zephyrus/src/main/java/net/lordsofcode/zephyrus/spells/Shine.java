@@ -71,7 +71,7 @@ public class Shine extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		player.getWorld().setTime(1000);
 		return true;
 	}

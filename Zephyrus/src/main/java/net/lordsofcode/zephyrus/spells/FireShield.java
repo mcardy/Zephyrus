@@ -7,21 +7,15 @@ import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
-import net.lordsofcode.zephyrus.utils.effects.Effects;
-import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
+import net.lordsofcode.zephyrus.effects.EffectType;
+import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Zephyrus
@@ -30,8 +24,14 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-//TODO Change to effect
+
 public class FireShield extends Spell {
+
+	public FireShield() {
+		Lang.add("zephyrus.spells.fireshield.warning", "$cYou start to cool down...");
+		Lang.add("zephyrus.spells.fireshield.removed", "$7You feel cold again...");
+		Lang.add("zephyrus.spells.fireshield.applied", "$cFlames engulf you for TIME seconds");
+	}
 
 	@Override
 	public String getName() {
@@ -54,17 +54,13 @@ public class FireShield extends Spell {
 	}
 
 	@Override
-	public boolean run(Player player, String[] args) {
+	public boolean run(Player player, String[] args, int power) {
 		int time = getConfig().getInt(getName() + ".duration");
-		playerMap.add(player.getName());
-		new Run(player).runTaskTimer(Zephyrus.getPlugin(), (long) 0.5, (long) 0.5);
-		startDelay(player, time * 20);
+		time = time * power;
+		Zephyrus.getUser(player).applyEffect(EffectType.FIRESHIELD, time * 20);
+		player.sendMessage(Lang.get("zephyrus.spells.fireshield.applied").replace("TIME",
+				Zephyrus.getUser(player).getEffectTime(EffectType.FIRESHIELD) + ""));
 		return true;
-	}
-
-	@Override
-	public void delayedAction(Player player) {
-		playerMap.remove(player.getName());
 	}
 
 	@Override
@@ -80,33 +76,6 @@ public class FireShield extends Spell {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("duration", 60);
 		return map;
-	}
-
-	private class Run extends BukkitRunnable {
-
-		Player player;
-
-		Run(Player player) {
-			this.player = player;
-		}
-
-		@Override
-		public void run() {
-			Player p = Bukkit.getPlayer(player.getName());
-			if (p != null && playerMap.contains(player.getName())) {
-				Location loc = p.getLocation();
-				loc.setY(player.getLocation().getY() + 1);
-				Effects.playEffect(ParticleEffects.REDSTONE_DUST, loc, 1, 1, 1, 0, 5);
-				Effects.playEffect(Sound.FIRE, loc, 0.4F);
-				for (Entity e : p.getNearbyEntities(2, 2, 2)) {
-					if (e instanceof LivingEntity) {
-						((LivingEntity) e).setFireTicks(20);
-					}
-				}
-			} else {
-				this.cancel();
-			}
-		}
 	}
 
 	@Override
@@ -129,7 +98,7 @@ public class FireShield extends Spell {
 		player.getLocation().getBlock().setType(Material.FIRE);
 		return false;
 	}
-	
+
 	@Override
 	public ISpell getRequiredSpell() {
 		return Spell.forName("firering");
