@@ -26,6 +26,9 @@ import net.lordsofcode.zephyrus.items.ManaPotion;
 import net.lordsofcode.zephyrus.items.RodOfFire;
 import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.items.wands.BasicWand;
+import net.lordsofcode.zephyrus.items.wands.ObsidianWand;
+import net.lordsofcode.zephyrus.items.wands.WandListener;
+import net.lordsofcode.zephyrus.items.wands.WeakWand;
 import net.lordsofcode.zephyrus.listeners.EconListener;
 import net.lordsofcode.zephyrus.listeners.LevelingListener;
 import net.lordsofcode.zephyrus.listeners.PlayerListener;
@@ -334,6 +337,8 @@ public class ZephyrusPlugin extends JavaPlugin {
 			Zephyrus.registerItem(new ManaPotion());
 		}
 		Zephyrus.registerItem(new BasicWand());
+		Zephyrus.registerItem(new ObsidianWand());
+		Zephyrus.registerItem(new WeakWand());
 	}
 
 	private void addEnchants() {
@@ -364,6 +369,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 		pm.registerEvents(new SpellTome(), this);
 		pm.registerEvents(new PlayerListener(), this);
 		pm.registerEvents(new ManaBar(), this);
+		pm.registerEvents(new WandListener(), this);
 		pm.registerEvents(zephyrus.effectHandler, this);
 	}
 

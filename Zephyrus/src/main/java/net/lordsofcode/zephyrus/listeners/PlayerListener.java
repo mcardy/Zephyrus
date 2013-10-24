@@ -10,8 +10,8 @@ import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.events.PlayerPreCastSpellEvent;
 import net.lordsofcode.zephyrus.events.PlayerCraftCustomItemEvent;
+import net.lordsofcode.zephyrus.events.PlayerPreCastSpellEvent;
 import net.lordsofcode.zephyrus.items.ItemUtil;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
@@ -41,6 +41,7 @@ public class PlayerListener extends ItemUtil implements Listener {
 	Map<ItemStack, ICustomItem> results;
 
 	public PlayerListener() {
+		Lang.add("zephyrus.craft.nolevel", "$7You are not high enough level to craft that item!");
 		results = new HashMap<ItemStack, ICustomItem>();
 		for (ICustomItem item : Zephyrus.getItemManager().getItemMap()) {
 			if (item.getRecipe() != null) {
@@ -53,15 +54,22 @@ public class PlayerListener extends ItemUtil implements Listener {
 	public void craftingHandler(PrepareItemCraftEvent e) {
 		if (results.containsKey(e.getRecipe().getResult())) {
 			ICustomItem item = results.get(e.getRecipe().getResult());
-			List<HumanEntity> player = e.getViewers();
-			PlayerCraftCustomItemEvent event = new PlayerCraftCustomItemEvent(player, item, e);
+			List<HumanEntity> players = e.getViewers();
+			PlayerCraftCustomItemEvent event = new PlayerCraftCustomItemEvent(players, item, e);
 			Bukkit.getPluginManager().callEvent(event);
 			if (event.isCancelled()) {
 				e.getInventory().setResult(null);
 			}
 			for (HumanEntity en : e.getViewers()) {
-				if (!en.hasPermission("zephyrus.craft." + item.getPerm()) && !en.hasPermission("zephyrus.craft.*")) {
-					e.getInventory().setResult(null);
+				if (en instanceof Player) {
+					Player player = (Player) en;
+					if (!player.hasPermission("zephyrus.craft." + item.getPerm())) {
+						e.getInventory().setResult(null);
+					}
+					if (Zephyrus.getUser(player).getLevel() < item.getReqLevel()) {
+						Lang.msg("zephyrus.craft.nolevel", player);
+						e.getInventory().setResult(null);
+					}
 				}
 			}
 		}

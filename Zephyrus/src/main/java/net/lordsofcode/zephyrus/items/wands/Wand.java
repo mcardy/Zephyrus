@@ -7,10 +7,7 @@ import java.util.Set;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ICustomItemWand;
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.events.PlayerCraftSpellEvent;
-import net.lordsofcode.zephyrus.events.PlayerPostCastSpellEvent;
-import net.lordsofcode.zephyrus.events.PlayerPreCastSpellEvent;
 import net.lordsofcode.zephyrus.items.ItemUtil;
 import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
@@ -46,9 +43,7 @@ import org.bukkit.util.Vector;
  */
 
 public abstract class Wand extends ItemUtil implements ICustomItemWand {
-	
-	public abstract int getPower();
-	
+
 	@Override
 	public String getDisplayName() {
 		ConfigHandler cfg = new ConfigHandler("items.yml");
@@ -63,17 +58,17 @@ public abstract class Wand extends ItemUtil implements ICustomItemWand {
 	public boolean hasLevel() {
 		return false;
 	}
-	
+
 	@Override
 	public int getMaxLevel() {
 		return 0;
 	}
-	
+
 	@Override
 	public String getConfigName() {
 		return ChatColor.stripColor(getName().replace(" ", "-").toLowerCase());
 	}
-	
+
 	@EventHandler
 	public void onCraft(PrepareItemCraftEvent e) {
 		if (e.getRecipe().getResult() == getRecipe().getResult()
@@ -81,61 +76,12 @@ public abstract class Wand extends ItemUtil implements ICustomItemWand {
 			e.getInventory().setResult(null);
 		}
 	}
-	
-	@EventHandler
-	public void onBoundSpell(PlayerInteractEvent e) {
-		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			ItemStack i = e.getItem();
-			if (i != null && i.hasItemMeta() && i.getItemMeta().hasDisplayName()
-					&& i.getItemMeta().getDisplayName().contains(getDisplayName())) {
-				String s = i.getItemMeta().getLore().get(0)
-						.replace(ChatColor.GRAY + "Bound spell: " + ChatColor.DARK_GRAY, "");
-				if (Zephyrus.getSpellMap().containsKey(s)) {
-					ISpell spell = Zephyrus.getSpellMap().get(s);
-					Player player = e.getPlayer();
-					IUser user = Zephyrus.getUser(player);
-					if (user.isLearned(spell) || user.hasPermission(spell)) {
-						if (user.hasMana(spell.getManaCost())) {
-							PlayerPreCastSpellEvent event = new PlayerPreCastSpellEvent(player, spell, null);
-							Bukkit.getPluginManager().callEvent(event);
-							if (!event.isCancelled()) {
-								boolean b = spell.run(player, null, getPower());
-								if (b) {
-									user.drainMana(spell.getManaCost());
-									PlayerPostCastSpellEvent event2 = new PlayerPostCastSpellEvent(player, spell);
-									Bukkit.getPluginManager().callEvent(event2);
-								}
-							}
-						} else {
-							Lang.errMsg("nomana", player);
-						}
-					} else {
-						Lang.errMsg("notlearned", player);
-					}
-				}
-			}
-		}
-	}
-	
-	@SuppressWarnings("deprecation")
-	@EventHandler
-	public void arcaneClick(PlayerInteractEvent e) {
-		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && checkName(e.getItem(), getDisplayName())
-				&& !e.getItem().getItemMeta().getLore().get(0).contains("bound")) {
-			Block b = e.getClickedBlock();
-			if (b.getType() == Material.ENCHANTMENT_TABLE && b.getData() != 12) {
-				e.setCancelled(true);
-				b.setData((byte) 12);
-				e.getPlayer().sendMessage(Lang.get("wand.enchanter").replace("#", ChatColor.COLOR_CHAR + ""));
-			}
-		}
-	}
-	
+
 	@EventHandler(priority = EventPriority.LOW)
 	public void bookShelfClick(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getType() == Material.BOOKSHELF
-				&& checkName(e.getPlayer().getItemInHand(), getDisplayName())
-				&& e.getItem().getItemMeta().getLore().get(0).contains("wand")) {
+				&& checkContainsName(e.getItem(), getItem().getItemMeta().getDisplayName())
+				&& !Zephyrus.getSpellMap().containsKey(getSpell(e.getItem()))) {
 			if (Zephyrus.getConfig().getBoolean("Disable-Spell-Crafting")) {
 				return;
 			}
@@ -206,7 +152,7 @@ public abstract class Wand extends ItemUtil implements ICustomItemWand {
 
 		}
 	}
-	
+
 	public Entity[] getNearbyEntities(Location l, int radius) {
 		int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
 		HashSet<Entity> radiusEntities = new HashSet<Entity>();
@@ -223,7 +169,7 @@ public abstract class Wand extends ItemUtil implements ICustomItemWand {
 		return radiusEntities.toArray(new Entity[radiusEntities.size()]);
 	}
 
-	private void dropSpell(Block bookshelf, String name, String desc, Player player) {
+	protected void dropSpell(Block bookshelf, String name, String desc, Player player) {
 		Random r = new Random();
 		bookshelf.setType(Material.AIR);
 		SpellTome tome = new SpellTome(name, desc);
@@ -239,12 +185,13 @@ public abstract class Wand extends ItemUtil implements ICustomItemWand {
 		} else {
 			chance = 3;
 		}
-		loc.getWorld().dropItemNaturally(loc.add(0, +1, 0), new ItemStack(Material.BOOK, r.nextInt(chance))).setVelocity(new Vector(0, 0, 0));
+		loc.getWorld().dropItemNaturally(loc.add(0, +1, 0), new ItemStack(Material.BOOK, r.nextInt(chance)))
+				.setVelocity(new Vector(0, 0, 0));
 		Effects.playEffect(ParticleEffects.ENCHANTMENT_TABLE, loc, 0, 0, 0, 1, 30);
 		Effects.playEffect(Sound.ORB_PICKUP, loc, 3, 12);
 	}
 
-	private Set<ItemStack> getItems(Entity[] entitys) {
+	protected Set<ItemStack> getItems(Entity[] entitys) {
 		Set<ItemStack> items = new HashSet<ItemStack>();
 		for (Entity e : entitys) {
 			if (e.getType() == EntityType.DROPPED_ITEM) {
@@ -256,7 +203,7 @@ public abstract class Wand extends ItemUtil implements ICustomItemWand {
 		return items;
 	}
 
-	private Set<Item> getItemEntity(Entity[] entitys) {
+	protected Set<Item> getItemEntity(Entity[] entitys) {
 		Set<Item> l = new HashSet<Item>();
 		for (Entity e : entitys) {
 			if (e instanceof Item) {
@@ -266,5 +213,5 @@ public abstract class Wand extends ItemUtil implements ICustomItemWand {
 		}
 		return l;
 	}
-	
+
 }

@@ -70,5 +70,6 @@ permissions:
          zephyrus.craft.growhoe: true
          zephyrus.craft.mana: true
          zephyrus.craft.firerod: true
-         zephyrus.craft.wand: true
+         zephyrus.craft.wand.basic: true
+         zephyrus.craft.wand.advanced: true
 load: STARTUP

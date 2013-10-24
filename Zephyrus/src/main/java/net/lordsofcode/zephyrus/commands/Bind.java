@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ICustomItemWand;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.utils.Lang;
@@ -34,6 +35,7 @@ public class Bind implements CommandExecutor, TabCompleter {
 		Lang.add("bind.needwand", "You need to be holding a wand!");
 		Lang.add("bind.cantbind", "$6[SPELL] cannot be bound!");
 		Lang.add("bind.finish", "Bound [SPELL] to your wand");
+		Lang.add("bind.cantbindwand", "That wand can't have spells bound to it!");
 	}
 
 	@Override
@@ -47,32 +49,31 @@ public class Bind implements CommandExecutor, TabCompleter {
 						ISpell spell = Zephyrus.getSpellMap().get(args[0]);
 						Player player = (Player) sender;
 						IUser user = Zephyrus.getUser(player);
+						ItemStack item = player.getItemInHand();
 						if (user.isLearned(spell) || user.hasPermission(spell)) {
-							if (player.getItemInHand() != null
-									&& player.getItemInHand().hasItemMeta()
-									&& player.getItemInHand().getItemMeta().hasDisplayName()
-									&& (true)) {
-								if (spell.canBind()) {
-									ItemStack i = player.getItemInHand();
-									List<String> list = new ArrayList<String>();
-									list.add(ChatColor.GRAY + "Bound spell: " + ChatColor.DARK_GRAY
-											+ spell.getDisplayName().toLowerCase());
-									ItemMeta m = i.getItemMeta();
-									m.setDisplayName(ChatColor.GOLD + "Wand" + ChatColor.DARK_GRAY + " | "
-											+ ChatColor.GOLD + WordUtils.capitalizeFully(spell.getDisplayName()));
-									m.setLore(list);
-									i.setItemMeta(m);
-									player.sendMessage(ChatColor.GRAY
-											+ Lang.get("bind.finish").replace(
-													"[SPELL]",
-													WordUtils.capitalizeFully(ChatColor.GOLD + spell.getDisplayName()
-															+ ChatColor.GRAY)));
+							if (Zephyrus.getItemManager().isWand(item)) {
+								ICustomItemWand wand = Zephyrus.getItemManager().getWand(item);
+								if (wand.getCanBind()) {
+									if (spell.canBind()) {
+										ItemMeta m = item.getItemMeta();
+										m.setDisplayName(wand.getBoundName(spell));
+										m.setLore(wand.getBoundLore(spell));
+										item.setItemMeta(m);
+										player.sendMessage(ChatColor.GRAY
+												+ Lang.get("bind.finish").replace(
+														"[SPELL]",
+														WordUtils.capitalizeFully(ChatColor.GOLD
+																+ spell.getDisplayName() + ChatColor.GRAY)));
+									} else {
+										sender.sendMessage(ChatColor.DARK_RED
+												+ Lang.get("bind.cantbind").replace(
+														"[SPELL]",
+														ChatColor.GOLD
+																+ WordUtils.capitalizeFully(spell.getDisplayName())
+																+ ChatColor.RED));
+									}
 								} else {
-									sender.sendMessage(ChatColor.DARK_RED
-											+ Lang.get("bind.cantbind").replace(
-													"[SPELL]",
-													ChatColor.GOLD + WordUtils.capitalizeFully(spell.getDisplayName())
-															+ ChatColor.RED));
+									Lang.errMsg("bind.cantbindwand", player);
 								}
 							} else {
 								Lang.errMsg("bind.needwand", player);

@@ -16,7 +16,6 @@ import org.bukkit.ChatColor;
 public abstract class CustomItem extends ItemUtil implements ICustomItem {
 
 	// TODO better custom item stuff
-	// TODO fix permission issue when using custom items
 	
 	@Override
 	public String getDisplayName() {

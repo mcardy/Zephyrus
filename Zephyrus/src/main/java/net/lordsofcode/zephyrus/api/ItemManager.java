@@ -42,6 +42,10 @@ public class ItemManager extends ItemUtil implements Listener {
 	}
 
 	public void addItem(ICustomItem item) {
+		if (item instanceof ICustomItemWand) {
+			wandMap.add((ICustomItemWand) item);
+		}
+		itemMap.add(item);
 		if (!itemConfig.getConfig().contains(item.getConfigName() + ".enabled")) {
 			itemConfig.getConfig().set(item.getConfigName() + ".enabled", true);
 			itemConfig.saveConfig();
@@ -58,9 +62,6 @@ public class ItemManager extends ItemUtil implements Listener {
 			try {
 				Zephyrus.getPlugin().getServer().getPluginManager().registerEvents(item, Zephyrus.getPlugin());
 			} catch (Exception e) {
-			}
-			if (item.hasLevel() && item.getName() != null) {
-				itemMap.add(item);
 			}
 			if (item.hasLevel()) {
 				for (int n = 1; n < item.getMaxLevel(); n++) {
@@ -113,6 +114,10 @@ public class ItemManager extends ItemUtil implements Listener {
 		return invPlayers;
 	}
 
+	public boolean isLevellableItem(ItemStack i) {
+		return getCustomItem(i).hasLevel();
+	}
+	
 	public boolean isCustomItem(ItemStack i) {
 		return getCustomItem(i) != null;
 	}
@@ -127,7 +132,19 @@ public class ItemManager extends ItemUtil implements Listener {
 	}
 	
 	public boolean checkItem(ICustomItem c, ItemStack i) {
-		return checkName(i, c.getItem().getItemMeta().getDisplayName());
+		return checkContainsName(i, c.getItem().getItemMeta().getDisplayName());
+	}
+	
+	public boolean isWand(ItemStack i) {
+		return getCustomItem(i) instanceof ICustomItemWand;
+	}
+	
+	public ICustomItemWand getWand(ItemStack i) {
+		return (ICustomItemWand) getCustomItem(i);
+	}
+	
+	public Set<ICustomItemWand> getWandMap() {
+		return wandMap;
 	}
 	
 	

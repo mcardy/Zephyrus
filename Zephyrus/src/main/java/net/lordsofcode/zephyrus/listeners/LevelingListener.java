@@ -106,7 +106,7 @@ public class LevelingListener implements Listener {
 			byte b = 12;
 			if (block.getType() == Material.ENCHANTMENT_TABLE && block.getData() == b) {
 				ItemStack i = e.getItem();
-				if (Zephyrus.getItemManager().isCustomItem(i)) {
+				if (Zephyrus.getItemManager().isCustomItem(i) && Zephyrus.getItemManager().isLevellableItem(i)) {
 					e.setCancelled(true);
 					try {
 						new CraftLivingEntity(null, null);

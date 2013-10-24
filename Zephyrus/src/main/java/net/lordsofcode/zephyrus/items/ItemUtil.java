@@ -146,6 +146,25 @@ public class ItemUtil {
 		}
 		return false;
 	}
+	
+	/**
+	 * Check if the name of the ItemStack is similar the string provided
+	 * 
+	 * @param i
+	 *            The ItemStack to check
+	 * @param name
+	 *            The name to check
+	 * @return True if the display name of the item contains the name
+	 */
+	public boolean checkContainsName(ItemStack i, String name) {
+		try {
+			if (i.getItemMeta().getDisplayName().contains(name)) {
+				return true;
+			}
+		} catch (NullPointerException exception) {
+		}
+		return false;
+	}
 
 	/**
 	 * Gets the level of the item (defined in the lore)

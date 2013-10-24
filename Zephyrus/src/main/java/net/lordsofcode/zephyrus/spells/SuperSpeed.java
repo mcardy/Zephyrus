@@ -87,7 +87,7 @@ public class SuperSpeed extends Spell {
 		int time = getConfig().getInt(getName() + ".duration");
 		time *= power;
 		IUser user = Zephyrus.getUser(player);
-		user.applyEffect(EffectType.SUPERSPEED, time);
+		user.applyEffect(EffectType.SUPERSPEED, time*20);
 		player.sendMessage(Lang.get("spells.superspeed.applied").replace("[TIME]",
 				user.getEffectTime(EffectType.SUPERSPEED)/20 + ""));
 		return true;

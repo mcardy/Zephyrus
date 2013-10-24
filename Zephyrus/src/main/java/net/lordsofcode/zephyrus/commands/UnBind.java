@@ -1,11 +1,9 @@
 package net.lordsofcode.zephyrus.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.lordsofcode.zephyrus.Zephyrus;
+import net.lordsofcode.zephyrus.api.ICustomItemWand;
 import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,21 +32,17 @@ public class UnBind implements CommandExecutor {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if (sender.hasPermission("zephyrus.bind")) {
-				if (player.getItemInHand() != null && player.getItemInHand().hasItemMeta()
-						&& player.getItemInHand().getItemMeta().hasDisplayName()
-						&& player.getItemInHand().getItemMeta().getDisplayName().contains(ChatColor.GOLD + "Wand")) {
-					if (player.getItemInHand().getItemMeta().getLore().get(0) != ChatColor.GRAY
-							+ "Regular old default wand") {
-						ItemStack i = player.getItemInHand();
-						List<String> list = new ArrayList<String>();
-						list.add(ChatColor.GRAY + "Regular old default wand");
-						ItemMeta m = i.getItemMeta();
-						m.setDisplayName(ChatColor.GOLD + "Wand");
-						m.setLore(list);
-						i.setItemMeta(m);
+				ItemStack item = player.getItemInHand();
+				if (Zephyrus.getItemManager().isWand(item)) {
+					ICustomItemWand wand = Zephyrus.getItemManager().getWand(item);
+					if (wand.getCanBind()) {
+						ItemMeta m = item.getItemMeta();
+						m.setDisplayName(wand.getDisplayName());
+						m.setLore(wand.getDefaultLore());
+						item.setItemMeta(m);
 						Lang.msg("unbind.unbound", sender);
 					} else {
-						Lang.errMsg("unbind.nospell", sender);
+						Lang.msg("unbind.nospell", sender);
 					}
 				} else {
 					Lang.errMsg("bind.needwand", sender);

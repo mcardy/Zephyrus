@@ -1,5 +1,9 @@
 package net.lordsofcode.zephyrus.api;
 
+import java.util.List;
+
+import org.bukkit.inventory.ItemStack;
+
 /**
  * Zephyrus
  * 
@@ -17,9 +21,19 @@ public interface ICustomItemWand extends ICustomItem {
 	public int getPower();
 	
 	/**
-	 * Gets the mana discount of the wand
+	 * Gets the percentage mana discount
 	 * @return
 	 */
 	public int getManaDiscount();
+	
+	public boolean getCanBind();
+	
+	public String getSpell(ItemStack i);
+	
+	public List<String> getDefaultLore();
+	
+	public List<String> getBoundLore(ISpell spell);
+	
+	public String getBoundName(ISpell spell);
 	
 }
