@@ -9,7 +9,6 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.effects.EffectType;
-import net.lordsofcode.zephyrus.effects.IEffect;
 import net.lordsofcode.zephyrus.events.ManaChangeEvent;
 import net.lordsofcode.zephyrus.events.PlayerGainXPEvent;
 import net.lordsofcode.zephyrus.events.PlayerLevelUpEvent;
@@ -326,11 +325,11 @@ public class User implements IUser {
 	}
 	
 	@Override
-	public Collection<IEffect> getCurrentEffects() {
-		Collection<IEffect> col = new ArrayList<IEffect>();
+	public Collection<EffectType> getCurrentEffects() {
+		Collection<EffectType> col = new ArrayList<EffectType>();
 		for (Entry<Integer, Integer> entry : getEffectMap().entrySet()) {
 			EffectType type = EffectType.values()[entry.getKey()];
-			col.add(type.getEffect());
+			col.add(type);
 		}
 		return col;
 	}

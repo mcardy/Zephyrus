@@ -19,6 +19,8 @@ commands:
       description: Shows your level progress
    unbind:
       description: Allows you to unbind the spell from the wand
+   effects:
+      description: Allows you to see which effects are currently active
 permissions:
    zephyrus.bind:
       default: true

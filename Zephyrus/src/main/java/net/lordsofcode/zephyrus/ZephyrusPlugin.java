@@ -9,6 +9,7 @@ import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellManager;
 import net.lordsofcode.zephyrus.commands.Bind;
 import net.lordsofcode.zephyrus.commands.Cast;
+import net.lordsofcode.zephyrus.commands.EffectsCommand;
 import net.lordsofcode.zephyrus.commands.Level;
 import net.lordsofcode.zephyrus.commands.LevelUp;
 import net.lordsofcode.zephyrus.commands.LevelUpItem;
@@ -384,6 +385,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 		getCommand("spelltome").setExecutor(new SpellTomeCmd());
 		getCommand("level").setExecutor(new Level());
 		getCommand("unbind").setExecutor(new UnBind());
+		getCommand("effects").setExecutor(new EffectsCommand());
 	}
 
 	private class PostInit extends BukkitRunnable {

@@ -33,7 +33,8 @@ public class Lang {
 	}
 
 	/**
-	 * Gets the specified section from the language config
+	 * Gets the specified section from the language config and replaces all '$'
+	 * with the chat formatting code
 	 * 
 	 * @param key
 	 *            The object's key

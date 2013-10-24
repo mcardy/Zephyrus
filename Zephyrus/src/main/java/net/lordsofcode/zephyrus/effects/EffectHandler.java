@@ -79,12 +79,11 @@ public class EffectHandler implements Listener {
 			Player player = Bukkit.getPlayer(playerName);
 			if (player != null) {
 				IUser user = Zephyrus.getUser(player);
-				for (IEffect effect : user.getCurrentEffects()) {
-					EffectType type = EffectType.getByID(effect.getTypeID());
+				for (EffectType type : user.getCurrentEffects()) {
 					int time = type.getEffect().getTickTime();
 					float tick = tickTime/(float)time;
 					if (time != 0 && tick == (int) tick) {
-						effect.onTick(player);
+						type.getEffect().onTick(player);
 					}
 					int remaining = user.getEffectTime(type)-1;
 					Zephyrus.getEffectMap().get(player.getName()).put(type.getID(), remaining);

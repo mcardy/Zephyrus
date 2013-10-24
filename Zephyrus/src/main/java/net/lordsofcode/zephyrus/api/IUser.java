@@ -3,7 +3,6 @@ package net.lordsofcode.zephyrus.api;
 import java.util.Collection;
 
 import net.lordsofcode.zephyrus.effects.EffectType;
-import net.lordsofcode.zephyrus.effects.IEffect;
 
 import org.bukkit.command.CommandSender;
 
@@ -154,7 +153,7 @@ public interface IUser {
 	/**
 	 * Gets a collection of effects currently active on the player
 	 */
-	public Collection<IEffect> getCurrentEffects();
+	public Collection<EffectType> getCurrentEffects();
 		
 	/**
 	 * Gets the amount of time remaining for the specified type
