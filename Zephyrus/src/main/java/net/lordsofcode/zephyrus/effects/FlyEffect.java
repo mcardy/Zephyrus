@@ -1,6 +1,5 @@
 package net.lordsofcode.zephyrus.effects;
 
-import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.utils.Lang;
 
 import org.bukkit.ChatColor;
@@ -26,8 +25,6 @@ public class FlyEffect implements IEffect {
 	@Override
 	public void onApplied(Player player) {
 		player.setAllowFlight(true);
-		player.sendMessage(Lang.get("spells.fly.applied").replace("[TIME]",
-				Zephyrus.getUser(player).getEffectTime(EffectType.FLY) + ""));
 	}
 
 	@Override

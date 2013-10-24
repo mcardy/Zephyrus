@@ -59,8 +59,11 @@ public class Fly extends Spell {
 	@Override
 	public boolean run(Player player, String[] args, int power) {
 		int t = getConfig().getInt(getName() + ".duration");
-		t = t*power;
+		t = t*20*power;
 		Zephyrus.getUser(player).applyEffect(EffectType.FLY, t);
+		player.setAllowFlight(true);
+		player.sendMessage(Lang.get("spells.fly.applied").replace("[TIME]",
+				Zephyrus.getUser(player).getEffectTime(EffectType.FLY)/20 + ""));
 		return true;
 	}
 

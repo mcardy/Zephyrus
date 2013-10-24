@@ -56,9 +56,9 @@ public class Zephyr extends Spell {
 	public boolean run(Player player, String[] args, int power) {
 		int time = getConfig().getInt(getName() + ".duration");
 		time *= power;
-		Zephyrus.getUser(player).applyEffect(EffectType.ZEPHYR, time);
+		Zephyrus.getUser(player).applyEffect(EffectType.ZEPHYR, time*20);
 		player.sendMessage(Lang.get("zephyrus.spells.fireshield.applied").replace("TIME",
-				Zephyrus.getUser(player).getEffectTime(EffectType.FIRESHIELD) + ""));
+				Zephyrus.getUser(player).getEffectTime(EffectType.FIRESHIELD)/20 + ""));
 		return true;
 	}
 
