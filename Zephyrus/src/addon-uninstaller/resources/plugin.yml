@@ -1,5 +1,4 @@
 name: Zephyrus Uninstaller
-main: net.lordsofcode.zephyrus
+main: net.lordsofcode.zephyrus.uninstaller.Uninstaller
 version: 1.4.0
 author: minnymin3
-depend: [Zephyrus]

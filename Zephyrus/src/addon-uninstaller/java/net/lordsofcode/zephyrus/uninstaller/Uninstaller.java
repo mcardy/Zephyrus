@@ -22,10 +22,11 @@ public class Uninstaller extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(this, this);
 		getLogger()
 				.warning(
-						"This plugin will remove all Zephyrus related items to allow for the removal of the plugin Zephyrus."
+						"This plugin will remove all Zephyrus enchantments to allow for removal of Zephyrus with minimal effort."
 								+ " Do not use this plugin if you do not intend on removing Zephyrus as all players will lose all items added by Zephyrus.");
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onLogin(PlayerJoinEvent event) {
 		for (ItemStack item : event.getPlayer().getInventory().getContents()) {
