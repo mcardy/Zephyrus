@@ -63,7 +63,7 @@ public class SpellBookItem implements Listener {
 	}
 
 	public static String name() {
-		return "¤6" + SpellBook.name;
+		return ChatColor.GOLD + SpellBook.name;
 	}
 
 	public static Recipe getRecipe() {
@@ -113,7 +113,7 @@ public class SpellBookItem implements Listener {
 						ItemMeta im = e.getItem().getItemMeta();
 						List<String> lore = im.getLore();
 						int current = spells.indexOf(string[2]
-								.replace("¤6", ""));
+								.replace(ChatColor.GOLD + "", ""));
 						if (current == -1) {
 							lore.set(2, ChatColor.GRAY + "Bound spell: "
 									+ ChatColor.GOLD + spells.get(0));
@@ -186,7 +186,7 @@ public class SpellBookItem implements Listener {
 						ItemMeta im = e.getItem().getItemMeta();
 						List<String> lore = im.getLore();
 						int current = spells.indexOf(string[2]
-								.replace("¤6", ""));
+								.replace(ChatColor.GOLD + "", ""));
 						if (current == -1) {
 							lore.set(2, ChatColor.GRAY + "Bound spell: "
 									+ ChatColor.GOLD + spells.get(0));
@@ -224,7 +224,7 @@ public class SpellBookItem implements Listener {
 					if (!e.getPlayer().isSneaking()) {
 						String[] string = e.getItem().getItemMeta().getLore()
 								.get(2).split(" ");
-						String spellName = string[2].replace("¤6", "");
+						String spellName = string[2].replace(ChatColor.GOLD + "", "");
 						if (Zephyrus.getSpellMap().containsKey(spellName)) {
 							Player player = e.getPlayer();
 							IUser user = Zephyrus.getUser(player);
