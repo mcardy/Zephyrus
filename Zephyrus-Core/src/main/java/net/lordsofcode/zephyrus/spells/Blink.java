@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.utils.Lang;
+import net.lordsofcode.zephyrus.utils.PluginHook;
 import net.lordsofcode.zephyrus.utils.effects.Effects;
 import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
 

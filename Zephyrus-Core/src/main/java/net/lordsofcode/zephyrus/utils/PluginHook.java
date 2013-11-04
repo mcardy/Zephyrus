@@ -1,4 +1,4 @@
-package net.lordsofcode.zephyrus;
+package net.lordsofcode.zephyrus.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

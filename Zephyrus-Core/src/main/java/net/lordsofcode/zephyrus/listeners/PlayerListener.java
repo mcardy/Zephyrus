@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ICustomItem;
 import net.lordsofcode.zephyrus.api.ISpell;
@@ -15,6 +14,7 @@ import net.lordsofcode.zephyrus.events.PlayerPreCastSpellEvent;
 import net.lordsofcode.zephyrus.items.ItemUtil;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
+import net.lordsofcode.zephyrus.utils.PluginHook;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;

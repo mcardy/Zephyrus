@@ -1,7 +1,7 @@
 package net.lordsofcode.zephyrus.items;
 
-import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.utils.Lang;
+import net.lordsofcode.zephyrus.utils.PluginHook;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

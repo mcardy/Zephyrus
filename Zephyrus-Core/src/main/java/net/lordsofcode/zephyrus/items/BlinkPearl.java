@@ -1,8 +1,8 @@
 package net.lordsofcode.zephyrus.items;
 
-import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.utils.Lang;
+import net.lordsofcode.zephyrus.utils.PluginHook;
 import net.lordsofcode.zephyrus.utils.effects.Effects;
 import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
 

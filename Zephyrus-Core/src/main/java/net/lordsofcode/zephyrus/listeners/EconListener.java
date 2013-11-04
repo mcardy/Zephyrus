@@ -1,11 +1,11 @@
 package net.lordsofcode.zephyrus.listeners;
 
-import net.lordsofcode.zephyrus.PluginHook;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.items.SpellTome;
 import net.lordsofcode.zephyrus.items.wands.BasicWand;
 import net.lordsofcode.zephyrus.utils.Lang;
+import net.lordsofcode.zephyrus.utils.PluginHook;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

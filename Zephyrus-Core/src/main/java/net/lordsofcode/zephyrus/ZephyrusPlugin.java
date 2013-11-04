@@ -87,6 +87,7 @@ import net.lordsofcode.zephyrus.spells.Vision;
 import net.lordsofcode.zephyrus.spells.Zap;
 import net.lordsofcode.zephyrus.spells.Zephyr;
 import net.lordsofcode.zephyrus.utils.Lang;
+import net.lordsofcode.zephyrus.utils.PluginHook;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
