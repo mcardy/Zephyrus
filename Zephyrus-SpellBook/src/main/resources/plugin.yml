@@ -1,6 +1,6 @@
 name: SpellBook
 main: net.lordsofcode.zephyrus.spellbook.SpellBook
-version: 1.4.0
+version: ${buildVersion}
 author: minnymin3
 depend: [Zephyrus]
 commands:

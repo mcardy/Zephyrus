@@ -1,6 +1,6 @@
 name: Zephyrus
 main: net.lordsofcode.zephyrus.ZephyrusPlugin
-version: 1.4.0
+version: ${buildVersion}
 author: minnymin3
 commands:
    levelup:
