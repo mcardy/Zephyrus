@@ -1,0 +1,5 @@
+name: WizardPaths
+main: net.lordsofcode.zephyrus.paths.WizardPaths
+version: ${buildVersion}
+author: minnymin3
+depend: [Zephyrus]
