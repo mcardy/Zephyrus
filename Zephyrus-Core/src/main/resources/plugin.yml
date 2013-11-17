@@ -2,25 +2,6 @@ name: Zephyrus
 main: net.lordsofcode.zephyrus.ZephyrusPlugin
 version: ${buildVersion}
 author: minnymin3
-commands:
-   levelup:
-      description: Levels up the specified player
-   levelupitem:
-      description: Levels up the item in your hand
-   cast:
-      description: Casts the specified spell if the caster knows it
-   mana:
-      description: Displays your mana
-   bind:
-      description: Binds a spell to a wand
-   spelltome:
-      description: Gives you the spelltome of the designated spell
-   level:
-      description: Shows your level progress
-   unbind:
-      description: Allows you to unbind the spell from the wand
-   effects:
-      description: Allows you to see which effects are currently active
 permissions:
    zephyrus.bind:
       default: true

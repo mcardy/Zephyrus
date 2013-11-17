@@ -7,15 +7,9 @@ import java.util.Map;
 
 import net.lordsofcode.zephyrus.api.ISpell;
 import net.lordsofcode.zephyrus.api.SpellManager;
-import net.lordsofcode.zephyrus.commands.Bind;
-import net.lordsofcode.zephyrus.commands.Cast;
-import net.lordsofcode.zephyrus.commands.EffectsCommand;
-import net.lordsofcode.zephyrus.commands.Level;
-import net.lordsofcode.zephyrus.commands.LevelUp;
-import net.lordsofcode.zephyrus.commands.LevelUpItem;
-import net.lordsofcode.zephyrus.commands.ManaCommand;
-import net.lordsofcode.zephyrus.commands.SpellTomeCmd;
-import net.lordsofcode.zephyrus.commands.UnBind;
+import net.lordsofcode.zephyrus.commands.LevelCommands;
+import net.lordsofcode.zephyrus.commands.ManaCommands;
+import net.lordsofcode.zephyrus.commands.SpellCommands;
 import net.lordsofcode.zephyrus.enchantments.BattleAxe;
 import net.lordsofcode.zephyrus.enchantments.InstaMine;
 import net.lordsofcode.zephyrus.enchantments.LifeSuck;
@@ -88,9 +82,12 @@ import net.lordsofcode.zephyrus.spells.Zap;
 import net.lordsofcode.zephyrus.spells.Zephyr;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PluginHook;
+import net.lordsofcode.zephyrus.utils.command.CommandFramework;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -113,7 +110,8 @@ public class ZephyrusPlugin extends JavaPlugin {
 	static ZephyrusPlugin pluginInstance;
 
 	private Zephyrus zephyrus;
-
+	private CommandFramework framework;
+	
 	@Override
 	public void onEnable() {
 		load();
@@ -127,7 +125,8 @@ public class ZephyrusPlugin extends JavaPlugin {
 	private void load() {
 		pluginInstance = this;
 		zephyrus = new Zephyrus();
-
+		framework = new CommandFramework(this);
+		
 		setupMaps();
 		setupConfigs();
 		setupLanguage();
@@ -376,19 +375,17 @@ public class ZephyrusPlugin extends JavaPlugin {
 	}
 
 	private void addCommands() {
-		getCommand("levelup").setExecutor(new LevelUp());
-		getCommand("levelupitem").setExecutor(new LevelUpItem());
-		getCommand("cast").setExecutor(new Cast());
-		getCommand("cast").setTabCompleter(new Cast());
-		getCommand("mana").setExecutor(new ManaCommand());
-		getCommand("bind").setExecutor(new Bind());
-		getCommand("bind").setTabCompleter(new Bind());
-		getCommand("spelltome").setExecutor(new SpellTomeCmd());
-		getCommand("level").setExecutor(new Level());
-		getCommand("unbind").setExecutor(new UnBind());
-		getCommand("effects").setExecutor(new EffectsCommand());
+		framework.registerCommands(new LevelCommands());
+		framework.registerCommands(new ManaCommands());
+		framework.registerCommands(new SpellCommands());
+		
+		framework.registerHelp();
 	}
 
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		return framework.handleCommand(sender, label, command, args);
+	}
+	
 	private class PostInit extends BukkitRunnable {
 		@Override
 		public void run() {
