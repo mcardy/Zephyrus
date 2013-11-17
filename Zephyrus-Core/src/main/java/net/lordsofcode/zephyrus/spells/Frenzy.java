@@ -7,9 +7,10 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
+import net.lordsofcode.zephyrus.nms.NMSHandler;
 import net.lordsofcode.zephyrus.utils.ReflectionUtils;
 import net.lordsofcode.zephyrus.utils.effects.Effects;
 import net.lordsofcode.zephyrus.utils.effects.ParticleEffects;
@@ -67,8 +68,8 @@ public class Frenzy extends Spell {
 				index = 0;
 			}
 			e[i].setTarget(e[index]);
-			Object m = ReflectionUtils.getHandle(e[i]);
-			Object tar = ReflectionUtils.getHandle(e[index]);
+			Object m = NMSHandler.getHandle(e[i]);
+			Object tar = NMSHandler.getHandle(e[index]);
 			Method method = ReflectionUtils.getMethod(m.getClass(), "setGoalTarget");
 			try {
 				method.invoke(m, tar);

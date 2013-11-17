@@ -16,6 +16,8 @@ OpKnowledge: false
 # The colour code of the error messages
 ErrorColour: 4
 
+# The duration of the hotbar notifications
+
 # ######### #
 # Balancing #
 # ######### #

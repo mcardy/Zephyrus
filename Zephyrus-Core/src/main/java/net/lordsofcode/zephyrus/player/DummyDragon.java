@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import net.lordsofcode.zephyrus.nms.NMSHandler;
 import net.lordsofcode.zephyrus.utils.ReflectionUtils;
 
 import org.bukkit.Location;
@@ -60,7 +61,7 @@ public class DummyDragon {
 
 	@SuppressWarnings("deprecation")
 	public Object getMobPacket() {
-		Class<?> mob_class = ReflectionUtils.getCraftClass("Packet24MobSpawn");
+		Class<?> mob_class = NMSHandler.getCraftClass("Packet24MobSpawn");
 		Object mobPacket = null;
 		try {
 			mobPacket = mob_class.newInstance();
@@ -115,7 +116,7 @@ public class DummyDragon {
 	}
 
 	public Object getDestroyEntityPacket() {
-		Class<?> packet_class = ReflectionUtils.getCraftClass("Packet29DestroyEntity");
+		Class<?> packet_class = NMSHandler.getCraftClass("Packet29DestroyEntity");
 		Object packet = null;
 		try {
 			packet = packet_class.newInstance();
@@ -133,7 +134,7 @@ public class DummyDragon {
 	}
 
 	public Object getMetadataPacket(Object watcher) {
-		Class<?> packet_class = ReflectionUtils.getCraftClass("Packet40EntityMetadata");
+		Class<?> packet_class = NMSHandler.getCraftClass("Packet40EntityMetadata");
 		Object packet = null;
 		try {
 			packet = packet_class.newInstance();
@@ -160,7 +161,7 @@ public class DummyDragon {
 	}
 
 	public Object getTeleportPacket(Location loc) {
-		Class<?> packet_class = ReflectionUtils.getCraftClass("Packet34EntityTeleport");
+		Class<?> packet_class = NMSHandler.getCraftClass("Packet34EntityTeleport");
 		Object packet = null;
 		try {
 			packet = packet_class.newInstance();
@@ -192,7 +193,7 @@ public class DummyDragon {
 	}
 
 	public Object getRespawnPacket() {
-		Class<?> packet_class = ReflectionUtils.getCraftClass("Packet205ClientCommand");
+		Class<?> packet_class = NMSHandler.getCraftClass("Packet205ClientCommand");
 		Object packet = null;
 		try {
 			packet = packet_class.newInstance();
@@ -209,7 +210,7 @@ public class DummyDragon {
 	}
 
 	public Object getWatcher() {
-		Class<?> watcher_class = ReflectionUtils.getCraftClass("DataWatcher");
+		Class<?> watcher_class = NMSHandler.getCraftClass("DataWatcher");
 		Object watcher = null;
 		try {
 			watcher = watcher_class.newInstance();

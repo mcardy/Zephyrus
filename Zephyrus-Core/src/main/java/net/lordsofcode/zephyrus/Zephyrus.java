@@ -12,8 +12,8 @@ import net.lordsofcode.zephyrus.api.ItemManager;
 import net.lordsofcode.zephyrus.api.SpellManager;
 import net.lordsofcode.zephyrus.effects.EffectHandler;
 import net.lordsofcode.zephyrus.enchantments.GlowEffect;
-import net.lordsofcode.zephyrus.items.Merchant;
 import net.lordsofcode.zephyrus.loader.SpellLoader;
+import net.lordsofcode.zephyrus.nms.ITrader;
 import net.lordsofcode.zephyrus.player.User;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
 
@@ -40,7 +40,6 @@ public class Zephyrus {
 	SpellLoader loader = new SpellLoader();
 	ConfigHandler enchantmentsConfig = new ConfigHandler("enchantments.yml");
 	ConfigHandler langConfig = new ConfigHandler("lang.yml");
-
 	EffectHandler effectHandler;
 	
 	public GlowEffect glow = new GlowEffect(120);
@@ -130,7 +129,7 @@ public class Zephyrus {
 	 * 
 	 * @return
 	 */
-	public static Map<ItemStack, Merchant> getTradeMap() {
+	public static Map<ItemStack, ITrader> getTradeMap() {
 		return itemManager.getTradeMap();
 	}
 
@@ -139,7 +138,7 @@ public class Zephyrus {
 	 * 
 	 * @return
 	 */
-	public static Map<String, Merchant> getMerchantMap() {
+	public static Map<String, ITrader> getMerchantMap() {
 		return itemManager.getMerchantMap();
 	}
 

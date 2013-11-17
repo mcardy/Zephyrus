@@ -11,7 +11,8 @@ import net.lordsofcode.zephyrus.events.PlayerGainXPEvent;
 import net.lordsofcode.zephyrus.events.PlayerLevelUpEvent;
 import net.lordsofcode.zephyrus.events.PlayerPostCastSpellEvent;
 import net.lordsofcode.zephyrus.items.ItemUtil;
-import net.lordsofcode.zephyrus.items.Merchant;
+import net.lordsofcode.zephyrus.nms.ITrader;
+import net.lordsofcode.zephyrus.nms.NMSHandler;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PlayerConfigHandler;
 
@@ -119,9 +120,9 @@ public class LevelingListener implements Listener {
 						Lang.errMsg("itemlevel.max", e.getPlayer());
 						return;
 					}
-					if (Zephyrus.getTradeMap().containsKey(e.getItem())) {
-						Merchant mer = Zephyrus.getTradeMap().get(e.getItem());
-						Merchant m = mer.clone();
+					if (Zephyrus.getTradeMap().containsKey(e.getItem()) && NMSHandler.getTrader() != null) {
+						ITrader mer = Zephyrus.getTradeMap().get(e.getItem());
+						ITrader m = mer.clone();
 						m.openTrade(e.getPlayer());
 						Zephyrus.getMerchantMap().put(e.getPlayer().getName(), m);
 					} else {
@@ -143,7 +144,7 @@ public class LevelingListener implements Listener {
 	public void onClickInv(InventoryClickEvent e) {
 		if (Zephyrus.getMerchantMap().containsKey(e.getWhoClicked().getName())) {
 			if (e.getInventory().getType() == InventoryType.MERCHANT) {
-				Merchant m = Zephyrus.getMerchantMap().get(e.getWhoClicked().getName());
+				ITrader m = Zephyrus.getMerchantMap().get(e.getWhoClicked().getName());
 				ItemStack i = e.getCurrentItem();
 				ItemStack i2 = e.getCursor();
 				ItemStack mi = m.getInput1();

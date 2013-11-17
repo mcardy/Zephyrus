@@ -6,7 +6,7 @@ import java.util.Map;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.IUser;
 import net.lordsofcode.zephyrus.events.ManaChangeEvent;
-import net.lordsofcode.zephyrus.utils.ReflectionUtils;
+import net.lordsofcode.zephyrus.nms.NMSHandler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -37,7 +37,7 @@ public class ManaBar implements Listener {
 			if (manaDisplayMap.containsKey(player.getName())) {
 				DummyDragon dragon = manaDisplayMap.get(player.getName());
 				Object destroyPacket = dragon.getDestroyEntityPacket();
-				ReflectionUtils.sendPacket(player, destroyPacket);
+				NMSHandler.sendPacket(player, destroyPacket);
 				manaDisplayMap.remove(player.getName());
 			}
 		}
@@ -55,7 +55,7 @@ public class ManaBar implements Listener {
 			if (manaDisplayMap.containsKey(player.getName())) {
 				DummyDragon dragon = manaDisplayMap.get(player.getName());
 				Object destroyPacket = dragon.getDestroyEntityPacket();
-				ReflectionUtils.sendPacket(player, destroyPacket);
+				NMSHandler.sendPacket(player, destroyPacket);
 				manaDisplayMap.remove(player.getName());
 			}
 		}
@@ -73,12 +73,11 @@ public class ManaBar implements Listener {
 			if (manaDisplayMap.containsKey(player.getName())) {
 				DummyDragon dragon = manaDisplayMap.get(player.getName());
 				Object destroyPacket = dragon.getDestroyEntityPacket();
-				ReflectionUtils.sendPacket(player, destroyPacket);
+				NMSHandler.sendPacket(player, destroyPacket);
 				manaDisplayMap.remove(player.getName());
 			}
 		}
 	}
-	
 	
 	private Integer ENTITY_ID = 6000;
 	private Map<String, DummyDragon> manaDisplayMap = new HashMap<String, DummyDragon>();
@@ -92,21 +91,21 @@ public class ManaBar implements Listener {
 			dragon = new DummyDragon(text, ENTITY_ID, player.getLocation().add(0, -200, 0), percent
 					* DummyDragon.MAX_HEALTH, false);
 			Object mobPacket = dragon.getMobPacket();
-			ReflectionUtils.sendPacket(player, mobPacket);
+			NMSHandler.sendPacket(player, mobPacket);
 			manaDisplayMap.put(player.getName(), dragon);
 		}
 
 		if (text == "") {
 			Object destroyPacket = dragon.getDestroyEntityPacket();
-			ReflectionUtils.sendPacket(player, destroyPacket);
+			NMSHandler.sendPacket(player, destroyPacket);
 			manaDisplayMap.remove(player.getName());
 		} else {
 			dragon.name = text;
 			dragon.health = percent * DummyDragon.MAX_HEALTH;
 			Object metaPacket = dragon.getMetadataPacket(dragon.getWatcher());
 			Object teleportPacket = dragon.getTeleportPacket(player.getLocation().add(0, -200, 0));
-			ReflectionUtils.sendPacket(player, metaPacket);
-			ReflectionUtils.sendPacket(player, teleportPacket);
+			NMSHandler.sendPacket(player, metaPacket);
+			NMSHandler.sendPacket(player, teleportPacket);
 		}
 	}
 

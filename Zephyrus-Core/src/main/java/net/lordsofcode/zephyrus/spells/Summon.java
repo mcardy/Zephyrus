@@ -12,6 +12,7 @@ import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
 import net.lordsofcode.zephyrus.api.SpellTypes.Type;
+import net.lordsofcode.zephyrus.nms.NMSHandler;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.ReflectionUtils;
 
@@ -79,8 +80,8 @@ public class Summon extends Spell {
 			new End(skel).runTaskLater(Zephyrus.getPlugin(), getConfig().getInt(getName() + ".duration") * 20);
 			for (Entity e : skel.getNearbyEntities(20, 20, 20)) {
 				if (e instanceof LivingEntity && e != player) {
-					Object m = ReflectionUtils.getHandle(skel);
-					Object tar = ReflectionUtils.getHandle(e);
+					Object m = NMSHandler.getHandle(skel);
+					Object tar = NMSHandler.getHandle(e);
 					Method method = ReflectionUtils.getMethod(m.getClass(), "setGoalTarget");
 					try {
 						method.invoke(m, tar);

@@ -7,7 +7,8 @@ import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.items.ItemUtil;
-import net.lordsofcode.zephyrus.items.Merchant;
+import net.lordsofcode.zephyrus.nms.ITrader;
+import net.lordsofcode.zephyrus.nms.NMSHandler;
 import net.lordsofcode.zephyrus.utils.ConfigHandler;
 
 import org.bukkit.ChatColor;
@@ -29,16 +30,18 @@ public class ItemManager extends ItemUtil implements Listener {
 	private Set<ICustomItemWand> wandMap;
 	private Map<String, Map<String, Integer>> itemDelay;
 	private ConfigHandler itemConfig;
-	private Map<ItemStack, Merchant> merchantMap;
-	private Map<String, Merchant> invPlayers;
+	private Map<ItemStack, ITrader> merchantMap;
+	private Map<String, ITrader> invPlayers;
+	
+	public static boolean trade = NMSHandler.getTrader() != null;
 	
 	public ItemManager() {
 		this.itemMap = new HashSet<ICustomItem>();
 		this.wandMap = new HashSet<ICustomItemWand>();
 		this.itemDelay = new HashMap<String, Map<String, Integer>>();
 		this.itemConfig = new ConfigHandler("items.yml");
-		this.merchantMap = new HashMap<ItemStack, Merchant>();
-		this.invPlayers = new HashMap<String, Merchant>();
+		this.merchantMap = new HashMap<ItemStack, ITrader>();
+		this.invPlayers = new HashMap<String, ITrader>();
 	}
 
 	public void addItem(ICustomItem item) {
@@ -63,16 +66,18 @@ public class ItemManager extends ItemUtil implements Listener {
 				Zephyrus.getPlugin().getServer().getPluginManager().registerEvents(item, Zephyrus.getPlugin());
 			} catch (Exception e) {
 			}
-			if (item.hasLevel()) {
-				for (int n = 1; n < item.getMaxLevel(); n++) {
-					ItemStack itemstack = item.getItem();
-					new ItemUtil().setItemLevel(itemstack, n);
-					ItemStack itemstack2 = item.getItem();
-					int n2 = n;
-					new ItemUtil().setItemLevel(itemstack2, n2 + 1);
-					Merchant m = new Merchant();
-					m.addOffer(itemstack, new ItemStack(Material.EMERALD, n), itemstack2);
-					merchantMap.put(itemstack, m);
+			if (trade) {
+				if (item.hasLevel()) {
+					for (int n = 1; n < item.getMaxLevel(); n++) {
+						ItemStack itemstack = item.getItem();
+						new ItemUtil().setItemLevel(itemstack, n);
+						ItemStack itemstack2 = item.getItem();
+						int n2 = n;
+						new ItemUtil().setItemLevel(itemstack2, n2 + 1);
+						ITrader m = NMSHandler.getTrader();
+						m.addOffer(itemstack, new ItemStack(Material.EMERALD, n), itemstack2);
+						merchantMap.put(itemstack, m);
+					}
 				}
 			}
 		}
@@ -101,7 +106,7 @@ public class ItemManager extends ItemUtil implements Listener {
 	 * 
 	 * @return
 	 */
-	public Map<ItemStack, Merchant> getTradeMap() {
+	public Map<ItemStack, ITrader> getTradeMap() {
 		return merchantMap;
 	}
 
@@ -110,7 +115,7 @@ public class ItemManager extends ItemUtil implements Listener {
 	 * 
 	 * @return
 	 */
-	public Map<String, Merchant> getMerchantMap() {
+	public Map<String, ITrader> getMerchantMap() {
 		return invPlayers;
 	}
 
