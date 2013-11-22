@@ -82,6 +82,7 @@ import net.lordsofcode.zephyrus.spells.Zap;
 import net.lordsofcode.zephyrus.spells.Zephyr;
 import net.lordsofcode.zephyrus.utils.Lang;
 import net.lordsofcode.zephyrus.utils.PluginHook;
+import net.lordsofcode.zephyrus.utils.UpdateChecker;
 import net.lordsofcode.zephyrus.utils.command.CommandFramework;
 
 import org.bukkit.Bukkit;
@@ -109,9 +110,10 @@ public class ZephyrusPlugin extends JavaPlugin {
 
 	static ZephyrusPlugin pluginInstance;
 
+	private UpdateChecker checker;
 	private Zephyrus zephyrus;
 	private CommandFramework framework;
-	
+
 	@Override
 	public void onEnable() {
 		load();
@@ -126,7 +128,11 @@ public class ZephyrusPlugin extends JavaPlugin {
 		pluginInstance = this;
 		zephyrus = new Zephyrus();
 		framework = new CommandFramework(this);
-		
+
+		if (getConfig().getBoolean("UpdateChecker")) {
+			checker = new UpdateChecker(this, 56632, this.getFile(), UpdateChecker.UpdateType.NO_DOWNLOAD, false);
+		}
+
 		setupMaps();
 		setupConfigs();
 		setupLanguage();
@@ -168,7 +174,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 	static ZephyrusPlugin getPluginInstance() {
 		return pluginInstance;
 	}
-	
+
 	private void setupHooks() {
 		if (PluginHook.isWorldGuard()) {
 			getLogger().info("WorldGuard found. Protections integrated");
@@ -229,7 +235,7 @@ public class ZephyrusPlugin extends JavaPlugin {
 	private void setupRegistry() {
 		PlantRegistry.init();
 	}
-	
+
 	private void addSpells() {
 		getLogger().info("Loading spells...");
 		// A
@@ -378,14 +384,14 @@ public class ZephyrusPlugin extends JavaPlugin {
 		framework.registerCommands(new LevelCommands());
 		framework.registerCommands(new ManaCommands());
 		framework.registerCommands(new SpellCommands());
-		
+
 		framework.registerHelp();
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		return framework.handleCommand(sender, label, command, args);
 	}
-	
+
 	private class PostInit extends BukkitRunnable {
 		@Override
 		public void run() {
@@ -393,6 +399,25 @@ public class ZephyrusPlugin extends JavaPlugin {
 			getLogger().info(
 					"Loaded " + manager.getRegisteredSpells() + " spells. " + manager.getBuiltInSpells()
 							+ " built in & " + manager.getExternalSpells() + " external spells.");
+			if (checker != null) {
+				switch (checker.getResult()) {
+				case FAIL_APIKEY:
+				case FAIL_BADID:
+				case FAIL_DBO:
+				case FAIL_DOWNLOAD:
+				case FAIL_NOVERSION:
+					getLogger().info("There was an issue while updating... " + checker.getResult());
+					break;
+				case DISABLED:
+				case SUCCESS:
+				case NO_UPDATE:
+					break;
+				case UPDATE_AVAILABLE:
+					getLogger().info(
+							"There is an updated version of Zephyrus available " + checker.getLatestName()
+									+ ". Get it here: " + checker.getLatestFileLink());
+				}
+			}
 		}
 	}
 
