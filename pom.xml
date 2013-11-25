@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   
   <properties>
-    <buildVersion>1.4.0</buildVersion>
-    <bukkitVersion>1.6.4-R1.0</bukkitVersion>
+    <buildVersion>1.4.1</buildVersion>
+    <bukkitVersion>1.6.4-R2.0</bukkitVersion>
     <worldguardVersion>5.7.3</worldguardVersion>
     <vaultVersion>1.2.27</vaultVersion>
   </properties>
