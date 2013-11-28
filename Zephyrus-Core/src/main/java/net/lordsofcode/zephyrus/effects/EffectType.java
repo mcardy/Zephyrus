@@ -3,7 +3,7 @@ package net.lordsofcode.zephyrus.effects;
 import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.utils.Lang;
 
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 

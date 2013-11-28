@@ -8,4 +8,49 @@
     <version>${buildVersion}</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
+  <repositories>
+    <repository>
+      <id>local</id>
+      <name>Local Repository</name>
+      <url>file://${project.basedir}/libs/</url>
+    </repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>net.lordsofcode.zephyrus</groupId>
+      <artifactId>Zephyrus-NMS</artifactId>
+      <version>${buildVersion}</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <artifactSet>
+                <includes>
+                  <include>net.lordsofcode.zephyrus:Zephyrus-NMS</include>
+                </includes>
+              </artifactSet>
+              <relocations>
+                <relocation>
+                  <pattern>nms</pattern>
+                  <shadedPattern>net.lordsofcode.zephyrus.nms</shadedPattern>
+                </relocation>
+              </relocations>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

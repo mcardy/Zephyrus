@@ -61,12 +61,6 @@
       <version>${bukkitVersion}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>craftbukkit</artifactId>
-      <version>${bukkitVersion}</version>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
   
   <build>
@@ -75,9 +69,6 @@
         <targetPath>.</targetPath>
         <directory>${basedir}/src/main/resources/</directory>
         <filtering>true</filtering>
-        <includes>
-          <include>*.yml</include>
-        </includes>
       </resource>
     </resources>
     <plugins>

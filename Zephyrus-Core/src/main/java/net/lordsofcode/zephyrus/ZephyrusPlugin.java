@@ -89,7 +89,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -139,7 +138,6 @@ public class ZephyrusPlugin extends JavaPlugin {
 		setupRegistry();
 
 		setupHooks();
-		setupVersion();
 
 		addSpells();
 		addCommands();
@@ -215,16 +213,6 @@ public class ZephyrusPlugin extends JavaPlugin {
 		Lang.add("spelltome.noperm", ChatColor.DARK_RED + "You don't have permission to use the spelltome!");
 
 		Lang.add("customitem.level", "Level");
-	}
-
-	private void setupVersion() {
-		try {
-			new CraftLivingEntity(null, null);
-		} catch (NoClassDefFoundError err) {
-			getLogger().warning(
-					"This version of Zephyrus is not fully compatible with your version of CraftBukkit."
-							+ " Some features have been disabled!");
-		}
 	}
 
 	private void setupMaps() {

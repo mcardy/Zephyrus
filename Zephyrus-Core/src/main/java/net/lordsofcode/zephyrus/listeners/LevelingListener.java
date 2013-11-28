@@ -20,7 +20,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_6_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -61,7 +60,7 @@ public class LevelingListener implements Listener {
 			e.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler
 	public void onLevelUp(PlayerLevelUpEvent e) {
 		if (Zephyrus.getConfig().getBoolean("Levelup-Spells")) {
@@ -109,11 +108,9 @@ public class LevelingListener implements Listener {
 				ItemStack i = e.getItem();
 				if (Zephyrus.getItemManager().isCustomItem(i) && Zephyrus.getItemManager().isLevellableItem(i)) {
 					e.setCancelled(true);
-					try {
-						new CraftLivingEntity(null, null);
-					} catch (NoClassDefFoundError err) {
-						Lang.errMsg("outofdatebukkit", e.getPlayer());
-						return;
+					if (NMSHandler.getTrader() == null) {
+						Zephyrus.getPlugin().getLogger()
+								.warning("This version of Bukkit is unsupported! Some features are disabled.");
 					}
 					ICustomItem customItem = Zephyrus.getItemManager().getCustomItem(i);
 					if (!(new ItemUtil().getItemLevel(i) < customItem.getMaxLevel())) {

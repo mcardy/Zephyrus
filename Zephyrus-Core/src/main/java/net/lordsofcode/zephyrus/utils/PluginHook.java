@@ -27,6 +27,8 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 
 public class PluginHook {
 
+	// TODO Re-write dependancy handling
+	
 	private static WorldGuardPlugin wg;
 	public static Economy econ = null;
 	private static StateFlag flag;

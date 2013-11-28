@@ -42,6 +42,10 @@ public class ItemManager extends ItemUtil implements Listener {
 		this.itemConfig = new ConfigHandler("items.yml");
 		this.merchantMap = new HashMap<ItemStack, ITrader>();
 		this.invPlayers = new HashMap<String, ITrader>();
+		if (!trade) {
+			Zephyrus.getPlugin().getLogger()
+					.warning("This version of Bukkit is unsupported! Some features are disabled.");
+		}
 	}
 
 	public void addItem(ICustomItem item) {
