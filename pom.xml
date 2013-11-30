@@ -54,6 +54,12 @@
       <artifactId>worldguard</artifactId>
       <version>${worldguardVersion}</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.spout</groupId>
+          <artifactId>vanilla</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
