@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>net.lordsofcode.zephyrus</groupId>
+  <artifactId>Zephyrus-NMS</artifactId>
+  <versioning>
+    <release>1.4.1</release>
+    <versions>
+      <version>1.4.1</version>
+    </versions>
+    <lastUpdated>20131130041539</lastUpdated>
+  </versioning>
+</metadata>

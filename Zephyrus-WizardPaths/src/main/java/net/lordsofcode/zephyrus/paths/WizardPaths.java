@@ -3,7 +3,7 @@ package net.lordsofcode.zephyrus.paths;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Zephyrus
+ * Zephyrus WizardPaths
  * 
  * @author minnymin3
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)

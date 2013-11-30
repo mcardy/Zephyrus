@@ -12,6 +12,13 @@ import net.lordsofcode.zephyrus.paths.WizardPaths;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+/**
+ * Zephyrus WizardPaths
+ * 
+ * @author minnymin3 
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ *
+ */
 public class ConfigHandler {
 	
 	String fileName;
