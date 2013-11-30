@@ -65,6 +65,7 @@ public class RodOfFire extends CustomItem {
 		return 1;
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void fireball(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR && checkName(e.getPlayer().getItemInHand(), getDisplayName())

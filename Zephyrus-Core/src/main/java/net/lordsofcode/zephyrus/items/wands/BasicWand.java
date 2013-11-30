@@ -3,7 +3,6 @@ package net.lordsofcode.zephyrus.items.wands;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.lordsofcode.zephyrus.Zephyrus;
 import net.lordsofcode.zephyrus.api.ISpell;
 
 import org.apache.commons.lang.WordUtils;
@@ -12,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Zephyrus
@@ -27,30 +25,6 @@ public class BasicWand extends Wand {
 	@Override
 	public String getName() {
 		return ChatColor.GOLD + "Wand";
-	}
-
-	@Override
-	public ItemStack getItem() {
-		int id = Zephyrus.getConfig().getInt("Wand-ID");
-		ItemStack i;
-		try {
-			i = new ItemStack(Material.getMaterial(id));
-		} catch (Exception e) {
-			i = new ItemStack(Material.STICK);
-		}
-		try {
-			setItemName(i, getDisplayName());
-		} catch (Exception e) {
-			i = new ItemStack(Material.STICK);
-			setItemName(i, getDisplayName());
-		}
-		ItemMeta m = i.getItemMeta();
-		List<String> lore = new ArrayList<String>();
-		lore.add(ChatColor.GRAY + "Regular old default wand");
-		m.setLore(lore);
-		i.setItemMeta(m);
-		setGlow(i);
-		return i;
 	}
 
 	@Override

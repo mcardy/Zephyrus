@@ -138,6 +138,7 @@ public class Jail extends Spell {
 		return s;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onDisable() {
 		Iterator<Map<Location, BlockData>> it = lmap.iterator();
@@ -160,6 +161,7 @@ public class Jail extends Spell {
 			this.map = map2;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public void run() {
 			for (Location loc : map.keySet()) {

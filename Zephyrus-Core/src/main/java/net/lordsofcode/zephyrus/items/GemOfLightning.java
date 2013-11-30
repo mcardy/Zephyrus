@@ -57,6 +57,7 @@ public class GemOfLightning extends CustomItem {
 		return 5;
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void lightning(PlayerInteractEvent e) {
 		if (!ItemDelay.hasDelay(e.getPlayer(), this) && e.getPlayer().getItemInHand().getType() == Material.EMERALD

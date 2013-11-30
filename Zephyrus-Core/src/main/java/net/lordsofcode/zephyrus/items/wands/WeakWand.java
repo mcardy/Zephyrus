@@ -24,7 +24,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Zephyrus
@@ -39,28 +38,6 @@ public class WeakWand extends Wand {
 	@Override
 	public String getName() {
 		return ChatColor.GRAY + "Weak Wand";
-	}
-
-	@Override
-	public ItemStack getItem() {
-		int id = Zephyrus.getConfig().getInt("Wand-ID");
-		ItemStack i;
-		try {
-			i = new ItemStack(Material.getMaterial(id));
-		} catch (Exception e) {
-			i = new ItemStack(Material.STICK);
-		}
-		try {
-			setItemName(i, getDisplayName());
-		} catch (Exception e) {
-			i = new ItemStack(Material.STICK);
-			setItemName(i, getDisplayName());
-		}
-		ItemMeta m = i.getItemMeta();
-		m.setLore(getDefaultLore());
-		i.setItemMeta(m);
-		setGlow(i);
-		return i;
 	}
 
 	@Override

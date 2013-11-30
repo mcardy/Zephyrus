@@ -32,6 +32,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 /**
@@ -44,6 +45,29 @@ import org.bukkit.util.Vector;
 
 public abstract class Wand extends ItemUtil implements ICustomItemWand {
 
+	@SuppressWarnings("deprecation")
+	@Override
+	public ItemStack getItem() {
+		int id = Zephyrus.getConfig().getInt("Wand-ID");
+		ItemStack i;
+		try {
+			i = new ItemStack(Material.getMaterial(id));
+		} catch (Exception e) {
+			i = new ItemStack(Material.STICK);
+		}
+		try {
+			setItemName(i, getDisplayName());
+		} catch (Exception e) {
+			i = new ItemStack(Material.STICK);
+			setItemName(i, getDisplayName());
+		}
+		ItemMeta m = i.getItemMeta();
+		m.setLore(getDefaultLore());
+		i.setItemMeta(m);
+		setGlow(i);
+		return i;
+	}
+	
 	@Override
 	public String getDisplayName() {
 		ConfigHandler cfg = new ConfigHandler("items.yml");

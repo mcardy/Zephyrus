@@ -26,6 +26,7 @@ public class BlockData {
 	 * @param b
 	 *            The data of the block
 	 */
+	@SuppressWarnings("deprecation")
 	public BlockData(Block b) {
 		this.mat = b.getType();
 		this.b = b.getData();
@@ -36,6 +37,7 @@ public class BlockData {
 	 * Restores the block back to what it originally was when the BlockData
 	 * object was created
 	 */
+	@SuppressWarnings("deprecation")
 	public void restore() {
 		Block block = loc.getBlock();
 		block.setType(mat);

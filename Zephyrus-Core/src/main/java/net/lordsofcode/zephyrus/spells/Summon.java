@@ -67,6 +67,7 @@ public class Summon extends Spell {
 		return 450;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args, int power) {
 		if (canRun(player, args)) {
@@ -98,6 +99,7 @@ public class Summon extends Spell {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public boolean canRun(Player player, String[] args) {
 		Block block = player.getTargetBlock(null, 100);
 		Location loc = block.getLocation();

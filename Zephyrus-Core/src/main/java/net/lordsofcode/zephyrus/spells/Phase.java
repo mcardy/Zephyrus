@@ -53,6 +53,7 @@ public class Phase extends Spell {
 		return 50;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args, int power) {
 		if (!canRun(player, args)) {
@@ -102,6 +103,7 @@ public class Phase extends Spell {
 		return i;
 	}
 
+	@SuppressWarnings("deprecation")
 	public boolean canRun(Player player, String[] args) {
 		Location loc1 = player.getTargetBlock(null, 4).getLocation();
 		Location loc2;

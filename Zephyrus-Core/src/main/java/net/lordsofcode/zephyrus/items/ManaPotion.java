@@ -45,6 +45,7 @@ public class ManaPotion extends CustomItem {
 		return i;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Recipe getRecipe() {
 		ItemStack manaPotion = getItem();

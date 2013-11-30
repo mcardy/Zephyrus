@@ -142,6 +142,7 @@ public abstract class Spell implements ISpell {
 	 *            The player to check
 	 * @return True if the block cannot be broken
 	 */
+	@SuppressWarnings("deprecation")
 	public boolean blockBreak(Player player) {
 		return blockBreak(player, player.getTargetBlock(null, 1000));
 	}

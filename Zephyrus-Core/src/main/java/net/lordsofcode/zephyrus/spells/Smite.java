@@ -5,11 +5,10 @@ import java.util.Map;
 import java.util.Set;
 
 import net.lordsofcode.zephyrus.Zephyrus;
-import net.lordsofcode.zephyrus.ZephyrusPlugin;
 import net.lordsofcode.zephyrus.api.ISpell;
-import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 import net.lordsofcode.zephyrus.api.SpellTypes.Element;
 import net.lordsofcode.zephyrus.api.SpellTypes.Priority;
+import net.lordsofcode.zephyrus.api.SpellTypes.Type;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -49,6 +48,7 @@ public class Smite extends Spell {
 		return 250;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args, int power) {
 		BlockBreakEvent e = new BlockBreakEvent(player.getTargetBlock(null, 1000), player);

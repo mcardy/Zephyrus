@@ -61,6 +61,7 @@ public class SuperHeat extends Spell {
 		return 32;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, String[] args, int power) {
 		List<String> list = getConfig().getStringList(getName() + ".ids");
