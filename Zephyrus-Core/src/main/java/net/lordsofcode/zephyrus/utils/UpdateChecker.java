@@ -493,7 +493,7 @@ public class UpdateChecker {
 	 */
 	private boolean versionCheck(String title) {
 		if (this.type != UpdateType.NO_VERSION_CHECK) {
-			final String version = this.plugin.getDescription().getVersion();
+			final String version = this.plugin.getDescription().getVersion().replace("-SNAPSHOT", "");
 			if (title.split("-").length == 2) {
 				final String remoteVersion = title.split("-")[1].split(" ")[0]; // Get
 																				// the

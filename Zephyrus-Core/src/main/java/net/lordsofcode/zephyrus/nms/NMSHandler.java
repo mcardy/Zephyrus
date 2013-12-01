@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import net.lordsofcode.zephyrus.utils.ReflectionUtils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,9 +21,10 @@ import org.bukkit.inventory.ItemStack;
  */
 
 public class NMSHandler {
-	
+
 	/**
 	 * Gets the NMS specific trader for this version
+	 * 
 	 * @return null if there is no trader for this version
 	 */
 	public static ITrader getTrader() {
@@ -33,11 +35,26 @@ public class NMSHandler {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Gets the NMS specific dragon for this version
+	 * 
+	 * @return null if there is no dragon for this version
+	 */
+	public static IDragon getDragon(String name, Location loc, int percent) {
+		try {
+			Class<?> clazz = Class.forName(getPackageName() + ".Dragon");
+			return (IDragon) clazz.getConstructor(String.class, Location.class, int.class).newInstance(name, loc,
+					percent);
+		} catch (Exception ex) {
+			return null;
+		}
+	}
+
 	public static Object getNMSItemStack(ItemStack stack) {
 		try {
 			Class<?> clazz = Class.forName("org.bukkit.craftbukkit." + getVersion() + ".inventory.CraftItemStack");
-			Method m = ReflectionUtils.getMethod(clazz, "asNMSCopy", new Class<?>[]{ItemStack.class});
+			Method m = ReflectionUtils.getMethod(clazz, "asNMSCopy", new Class<?>[] { ItemStack.class });
 			return m.invoke(null, stack);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -50,7 +67,7 @@ public class NMSHandler {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Sends the given packet object to the given player
 	 */
@@ -84,7 +101,7 @@ public class NMSHandler {
 		}
 		return null;
 	}
-	
+
 	public static Class<?> getCraftClass(String name) {
 		String version = getVersion() + ".";
 		String className = "net.minecraft.server." + version + name;
@@ -111,14 +128,13 @@ public class NMSHandler {
 		}
 		return nms_entity;
 	}
-	
+
 	private static String getPackageName() {
-		return "net.lordsofcode.zephyrus.nms."
-				+ getVersion();
+		return "net.lordsofcode.zephyrus.nms." + getVersion();
 	}
-	
+
 	private static String getVersion() {
 		return Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
 	}
-	
+
 }

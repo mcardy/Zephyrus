@@ -26,13 +26,11 @@ public class Tree extends Plant {
 		TreeType type = getTree(block);
 		Material prevMat = block.getType();
 		block.setType(Material.AIR);
-		boolean grown = block.getWorld().generateTree(block.getLocation(), type);
-		if (grown) {
+		if (block.getWorld().generateTree(block.getLocation(), type)) {
 			return true;
-		} else {
-			block.setType(prevMat);
-			return false;
 		}
+		block.setType(prevMat);
+		return false;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -47,6 +45,10 @@ public class Tree extends Plant {
 				return TreeType.BIRCH;
 			case 3:
 				return TreeType.SMALL_JUNGLE;
+			case 4:
+				return TreeType.ACACIA;
+			case 5:
+				return TreeType.DARK_OAK;
 			}
 			return TreeType.TREE;
 		} else {

@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 /**
@@ -75,13 +76,13 @@ public enum ParticleEffects {
 	 * @param count
 	 *            The count of effects
 	 */
-	static void sendToPlayer(ParticleEffects effect, Player player, Location location, float offsetX, float offsetY,
+	public static void sendToPlayer(ParticleEffects effect, Player player, Location location, float offsetX, float offsetY,
 			float offsetZ, float speed, int count) {
-		Object packet;
 		try {
-			packet = createPacket(effect, location, offsetX, offsetY, offsetZ, speed, count);
+			Object packet = createPacket(effect, location, offsetX, offsetY, offsetZ, speed, count);
 			sendPacket(player, packet);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -105,7 +106,7 @@ public enum ParticleEffects {
 	 * @param count
 	 *            The count of effects
 	 */
-	static void sendToLocation(ParticleEffects effect, Location location, float offsetX, float offsetY, float offsetZ,
+	public static void sendToLocation(ParticleEffects effect, Location location, float offsetX, float offsetY, float offsetZ,
 			float speed, int count) {
 		try {
 			Object packet = createPacket(effect, location, offsetX, offsetY, offsetZ, speed, count);
@@ -113,21 +114,7 @@ public enum ParticleEffects {
 				sendPacket(player, packet);
 			}
 		} catch (Exception e) {
-
-		}
-	}
-
-	static void sendCrackToPlayer(boolean icon, int id, byte data, Player player, Location location, float offsetX,
-			float offsetY, float offsetZ, int count) throws Exception {
-		Object packet = createCrackPacket(icon, id, data, location, offsetX, offsetY, offsetZ, count);
-		sendPacket(player, packet);
-	}
-
-	static void sendCrackToLocation(boolean icon, int id, byte data, Location location, float offsetX, float offsetY,
-			float offsetZ, int count) throws Exception {
-		Object packet = createCrackPacket(icon, id, data, location, offsetX, offsetY, offsetZ, count);
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			sendPacket(player, packet);
+			e.printStackTrace();
 		}
 	}
 
@@ -136,64 +123,15 @@ public enum ParticleEffects {
 		if (count <= 0) {
 			count = 1;
 		}
-		Object packet = getPacket63WorldParticles();
-		setValue(packet, "a", effect.name);
-		setValue(packet, "b", (float) location.getX());
-		setValue(packet, "c", (float) location.getY());
-		setValue(packet, "d", (float) location.getZ());
-		setValue(packet, "e", offsetX);
-		setValue(packet, "f", offsetY);
-		setValue(packet, "g", offsetZ);
-		setValue(packet, "h", speed);
-		setValue(packet, "i", count);
+		Class<?> packetClass = getCraftClass("PacketPlayOutWorldParticles");
+		Object packet = packetClass.getConstructor(String.class, float.class, float.class, float.class, float.class,
+				float.class, float.class, float.class, int.class).newInstance(effect.name, (float) location.getX(),
+				(float) location.getY(), (float) location.getZ(), offsetX, offsetY, offsetZ, speed, count);
 		return packet;
-	}
-
-	private static Object createCrackPacket(boolean icon, int id, byte data, Location location, float offsetX,
-			float offsetY, float offsetZ, int count) throws Exception {
-		if (count <= 0) {
-			count = 1;
-		}
-		Object packet = getPacket63WorldParticles();
-		String modifier = "iconcrack_" + id;
-		if (!icon) {
-			modifier = "tilecrack_" + id + "_" + data;
-		}
-		setValue(packet, "a", modifier);
-		setValue(packet, "b", (float) location.getX());
-		setValue(packet, "c", (float) location.getY());
-		setValue(packet, "d", (float) location.getZ());
-		setValue(packet, "e", offsetX);
-		setValue(packet, "f", offsetY);
-		setValue(packet, "g", offsetZ);
-		setValue(packet, "h", 0.1F);
-		setValue(packet, "i", count);
-		return packet;
-	}
-
-	private static void setValue(Object instance, String fieldName, Object value) throws Exception {
-		Field field = instance.getClass().getDeclaredField(fieldName);
-		field.setAccessible(true);
-		field.set(instance, value);
-	}
-
-	private static Object getEntityPlayer(Player p) throws Exception {
-		Method getHandle = p.getClass().getMethod("getHandle");
-		return getHandle.invoke(p);
-	}
-
-	private static String getPackageName() {
-		return "net.minecraft.server."
-				+ Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
-	}
-
-	private static Object getPacket63WorldParticles() throws Exception {
-		Class<?> packet = Class.forName(getPackageName() + ".Packet63WorldParticles");
-		return packet.getConstructors()[0].newInstance();
 	}
 
 	private static void sendPacket(Player p, Object packet) throws Exception {
-		Object eplayer = getEntityPlayer(p);
+		Object eplayer = getHandle(p);
 		Field playerConnectionField = eplayer.getClass().getField("playerConnection");
 		Object playerConnection = playerConnectionField.get(eplayer);
 		for (Method m : playerConnection.getClass().getMethods()) {
@@ -203,4 +141,32 @@ public enum ParticleEffects {
 			}
 		}
 	}
+
+	private static Object getHandle(Entity entity) {
+		try {
+			Method entity_getHandle = entity.getClass().getMethod("getHandle");
+			Object nms_entity = entity_getHandle.invoke(entity);
+			return nms_entity;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
+	private static Class<?> getCraftClass(String name) {
+		String version = getVersion() + ".";
+		String className = "net.minecraft.server." + version + name;
+		Class<?> clazz = null;
+		try {
+			clazz = Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return clazz;
+	}
+
+	private static String getVersion() {
+		return Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+	}
+
 }
