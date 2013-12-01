@@ -54,9 +54,9 @@ public class WandListener implements Listener {
 							PlayerPreCastSpellEvent precast = new PlayerPreCastSpellEvent(player, spell, null);
 							Bukkit.getPluginManager().callEvent(precast);
 							if (!precast.isCancelled()) {
-								boolean b = spell.run(player, null, wand.getPower());
+								boolean b = spell.run(player, null, wand.getPower(spell));
 								if (b) {
-									float discount = (spell.getManaCost()/(float)100) * wand.getManaDiscount();
+									float discount = (spell.getManaCost()/(float)100) * wand.getManaDiscount(spell);
 									user.drainMana(spell.getManaCost() - (int)discount);
 									PlayerPostCastSpellEvent postcast = new PlayerPostCastSpellEvent(player, spell);
 									Bukkit.getPluginManager().callEvent(postcast);

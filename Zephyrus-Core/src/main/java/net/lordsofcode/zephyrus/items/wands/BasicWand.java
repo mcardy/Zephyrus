@@ -48,7 +48,7 @@ public class BasicWand extends Wand {
 	}
 
 	@Override
-	public int getManaDiscount() {
+	public int getManaDiscount(ISpell spell) {
 		return 0;
 	}
 
@@ -58,7 +58,7 @@ public class BasicWand extends Wand {
 	}
 
 	@Override
-	public int getPower() {
+	public int getPower(ISpell spell) {
 		return 1;
 	}
 
@@ -89,7 +89,7 @@ public class BasicWand extends Wand {
 	}
 	
 	@Override
-	public boolean getCanBind() {
+	public boolean getCanBind(ISpell spell) {
 		return true;
 	}
 	

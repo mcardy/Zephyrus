@@ -23,7 +23,7 @@ import org.bukkit.inventory.ShapedRecipe;
 public class ObsidianWand extends Wand {
 
 	@Override
-	public int getManaDiscount() {
+	public int getManaDiscount(ISpell spell) {
 		return 5;
 	}
 
@@ -54,7 +54,7 @@ public class ObsidianWand extends Wand {
 	}
 
 	@Override
-	public int getPower() {
+	public int getPower(ISpell spell) {
 		return 2;
 	}
 
@@ -88,7 +88,7 @@ public class ObsidianWand extends Wand {
 	}
 	
 	@Override
-	public boolean getCanBind() {
+	public boolean getCanBind(ISpell spell) {
 		return true;
 	}
 

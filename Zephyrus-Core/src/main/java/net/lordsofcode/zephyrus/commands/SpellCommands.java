@@ -66,7 +66,7 @@ public class SpellCommands {
 			if (user.isLearned(spell) || user.hasPermission(spell)) {
 				if (Zephyrus.getItemManager().isWand(item)) {
 					ICustomItemWand wand = Zephyrus.getItemManager().getWand(item);
-					if (wand.getCanBind()) {
+					if (wand.getCanBind(spell)) {
 						if (spell.canBind()) {
 							ItemMeta m = item.getItemMeta();
 							m.setDisplayName(wand.getBoundName(spell));
@@ -227,15 +227,11 @@ public class SpellCommands {
 		ItemStack item = cmd.getPlayer().getItemInHand();
 		if (Zephyrus.getItemManager().isWand(item)) {
 			ICustomItemWand wand = Zephyrus.getItemManager().getWand(item);
-			if (wand.getCanBind()) {
-				ItemMeta m = item.getItemMeta();
-				m.setDisplayName(wand.getDisplayName());
-				m.setLore(wand.getDefaultLore());
-				item.setItemMeta(m);
-				Lang.msg("unbind.unbound", cmd.getSender());
-			} else {
-				Lang.msg("unbind.nospell", cmd.getSender());
-			}
+			ItemMeta m = item.getItemMeta();
+			m.setDisplayName(wand.getDisplayName());
+			m.setLore(wand.getDefaultLore());
+			item.setItemMeta(m);
+			Lang.msg("unbind.unbound", cmd.getSender());
 		} else {
 			Lang.errMsg("bind.needwand", cmd.getSender());
 		}
