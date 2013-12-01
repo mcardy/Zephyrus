@@ -133,7 +133,7 @@ public class NMSHandler {
 		return "net.lordsofcode.zephyrus.nms." + getVersion();
 	}
 
-	private static String getVersion() {
+	public static String getVersion() {
 		return Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
 	}
 

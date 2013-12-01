@@ -3,9 +3,11 @@ package net.lordsofcode.zephyrus.utils.effects;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import net.lordsofcode.zephyrus.nms.NMSHandler;
+import net.lordsofcode.zephyrus.utils.ReflectionUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 /**
@@ -76,8 +78,8 @@ public enum ParticleEffects {
 	 * @param count
 	 *            The count of effects
 	 */
-	public static void sendToPlayer(ParticleEffects effect, Player player, Location location, float offsetX, float offsetY,
-			float offsetZ, float speed, int count) {
+	public static void sendToPlayer(ParticleEffects effect, Player player, Location location, float offsetX,
+			float offsetY, float offsetZ, float speed, int count) {
 		try {
 			Object packet = createPacket(effect, location, offsetX, offsetY, offsetZ, speed, count);
 			sendPacket(player, packet);
@@ -106,8 +108,8 @@ public enum ParticleEffects {
 	 * @param count
 	 *            The count of effects
 	 */
-	public static void sendToLocation(ParticleEffects effect, Location location, float offsetX, float offsetY, float offsetZ,
-			float speed, int count) {
+	public static void sendToLocation(ParticleEffects effect, Location location, float offsetX, float offsetY,
+			float offsetZ, float speed, int count) {
 		try {
 			Object packet = createPacket(effect, location, offsetX, offsetY, offsetZ, speed, count);
 			for (Player player : Bukkit.getOnlinePlayers()) {
@@ -123,15 +125,29 @@ public enum ParticleEffects {
 		if (count <= 0) {
 			count = 1;
 		}
-		Class<?> packetClass = getCraftClass("PacketPlayOutWorldParticles");
-		Object packet = packetClass.getConstructor(String.class, float.class, float.class, float.class, float.class,
-				float.class, float.class, float.class, int.class).newInstance(effect.name, (float) location.getX(),
-				(float) location.getY(), (float) location.getZ(), offsetX, offsetY, offsetZ, speed, count);
+		Object packet = null;
+		if (Integer.valueOf(NMSHandler.getVersion().split("_")[1]) > 6) {
+			Class<?> packetClass = NMSHandler.getCraftClass("PacketPlayOutWorldParticles");
+			packet = packetClass.getConstructor(String.class, float.class, float.class, float.class, float.class,
+					float.class, float.class, float.class, int.class).newInstance(effect.name, (float) location.getX(),
+					(float) location.getY(), (float) location.getZ(), offsetX, offsetY, offsetZ, speed, count);
+		} else {
+			packet = NMSHandler.getCraftClass("Packet63WorldParticles");
+			ReflectionUtils.setField(packet, effect.name, "a");
+			ReflectionUtils.setField(packet, (float) location.getX(), "b");
+			ReflectionUtils.setField(packet, (float) location.getY(), "c");
+			ReflectionUtils.setField(packet, (float) location.getZ(), "d");
+			ReflectionUtils.setField(packet, offsetX, "e");
+			ReflectionUtils.setField(packet, offsetY, "f");
+			ReflectionUtils.setField(packet, offsetZ, "g");
+			ReflectionUtils.setField(packet, speed, "h");
+			ReflectionUtils.setField(packet, count, "i");
+		}
 		return packet;
 	}
 
 	private static void sendPacket(Player p, Object packet) throws Exception {
-		Object eplayer = getHandle(p);
+		Object eplayer = NMSHandler.getHandle(p);
 		Field playerConnectionField = eplayer.getClass().getField("playerConnection");
 		Object playerConnection = playerConnectionField.get(eplayer);
 		for (Method m : playerConnection.getClass().getMethods()) {
@@ -140,33 +156,6 @@ public enum ParticleEffects {
 				return;
 			}
 		}
-	}
-
-	private static Object getHandle(Entity entity) {
-		try {
-			Method entity_getHandle = entity.getClass().getMethod("getHandle");
-			Object nms_entity = entity_getHandle.invoke(entity);
-			return nms_entity;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		}
-	}
-
-	private static Class<?> getCraftClass(String name) {
-		String version = getVersion() + ".";
-		String className = "net.minecraft.server." + version + name;
-		Class<?> clazz = null;
-		try {
-			clazz = Class.forName(className);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return clazz;
-	}
-
-	private static String getVersion() {
-		return Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
 	}
 
 }
