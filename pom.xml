@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   
   <properties>
-    <zephyrus.version>1.4.1</zephyrus.version>
+    <zephyrus.version>1.4.2-SNAPSHOT</zephyrus.version>
     <bukkit.version>1.7.2-R0.1-SNAPSHOT</bukkit.version>
     <worldguard.version>5.7.3</worldguard.version>
     <vault.version>1.2.27</vault.version>
