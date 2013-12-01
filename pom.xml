@@ -2,14 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   
   <properties>
-    <buildVersion>1.4.1</buildVersion>
-    <bukkitVersion>1.6.4-R2.0</bukkitVersion>
-    <worldguardVersion>5.7.3</worldguardVersion>
-    <vaultVersion>1.2.27</vaultVersion>
+    <zephyrus.version>1.4.1</zephyrus.version>
+    <bukkit.version>1.6.4-R2.0</bukkit.version>
+    <worldguard.version>5.7.3</worldguard.version>
+    <vault.version>1.2.27</vault.version>
   </properties>
-  
+
   <artifactId>Zephyrus</artifactId>
-  <version>${buildVersion}</version>
+  <version>${zephyrus.version}</version>
   <groupId>net.lordsofcode.zephyrus</groupId>
   <packaging>pom</packaging>
   <modules>
@@ -46,13 +46,13 @@
     <dependency>
       <groupId>net.milkbowl.vault</groupId>
       <artifactId>Vault</artifactId>
-      <version>${vaultVersion}</version>
+      <version>${vault.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldguard</artifactId>
-      <version>${worldguardVersion}</version>
+      <version>${worldguard.version}</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -64,7 +64,7 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>${bukkitVersion}</version>
+      <version>${bukkit.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

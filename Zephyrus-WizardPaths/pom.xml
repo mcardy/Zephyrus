@@ -5,13 +5,13 @@
   <parent>
     <groupId>net.lordsofcode.zephyrus</groupId>
     <artifactId>Zephyrus</artifactId>
-    <version>${buildVersion}</version>
+    <version>${zephyrus.version}</version>
   </parent>
   <dependencies>
     <dependency>
       <groupId>net.lordsofcode.zephyrus</groupId>
       <artifactId>Zephyrus-Core</artifactId>
-      <version>${buildVersion}</version>
+      <version>${zephyrus.version}</version>
     </dependency>
   </dependencies>
 </project>

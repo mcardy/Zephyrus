@@ -5,7 +5,7 @@
   <parent>
     <groupId>net.lordsofcode.zephyrus</groupId>
     <artifactId>Zephyrus</artifactId>
-    <version>${buildVersion}</version>
+    <version>${zephyrus.version}</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <repositories>
@@ -19,7 +19,7 @@
     <dependency>
       <groupId>net.lordsofcode.zephyrus</groupId>
       <artifactId>Zephyrus-NMS</artifactId>
-      <version>${buildVersion}</version>
+      <version>${zephyrus.version}</version>
     </dependency>
   </dependencies>
   <build>
