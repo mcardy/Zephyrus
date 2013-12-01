@@ -1,6 +1,6 @@
 name: Zephyrus
 main: net.lordsofcode.zephyrus.ZephyrusPlugin
-version: ${buildVersion}
+version: ${zephyrus.version}
 author: minnymin3
 permissions:
    zephyrus.bind:
