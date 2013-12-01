@@ -81,7 +81,7 @@ public class Home extends Spell {
 	@Override
 	public Set<ItemStack> items() {
 		Set<ItemStack> s = new HashSet<ItemStack>();
-		s.add(new ItemStack(Material.WOODEN_DOOR));
+		s.add(new ItemStack(Material.WOOD_DOOR));
 		s.add(new ItemStack(Material.BED));
 		s.add(new ItemStack(Material.FURNACE));
 		return s;
