@@ -152,19 +152,24 @@ public class SpellCommands {
 							boolean b = spell.run(player, cmd.getArgs(), 1);
 							if (b) {
 								user.drainMana(spell.getManaCost());
+								player.playSound(player.getLocation(), Sound.FIREWORK_LAUNCH, 1f, 1f);
+								player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1f, 1f);
 								PlayerPostCastSpellEvent event2 = new PlayerPostCastSpellEvent(player, spell);
 								Bukkit.getPluginManager().callEvent(event2);
 							}
 						}
 					} else {
 						Lang.errMsg("nomana", cmd.getSender());
+						player.playSound(player.getLocation(), Sound.WITHER_HURT, 1f, 1f);
 					}
 				} else {
 					Lang.errMsg("notlearned", cmd.getSender());
+					player.playSound(player.getLocation(), Sound.WITHER_HURT, 1f, 1f);
 				}
 
 			} else {
 				Lang.errMsg("notlearned", cmd.getSender());
+				player.playSound(player.getLocation(), Sound.WITHER_HURT, 1f, 1f);
 			}
 		}
 	}
