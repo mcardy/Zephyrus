@@ -71,7 +71,7 @@ public class FeatherEffect implements IEffect, Listener {
 	public void onDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {
 			Player player = (Player) e.getEntity();
-			if (Zephyrus.getUser(player).hasEffect(EffectType.FEATHER) && e.getCause() == DamageCause.FALL) {
+			if (EffectHandler.hasEffect(player, EffectType.FEATHER) && e.getCause() == DamageCause.FALL) {
 				e.setCancelled(true);
 			}
 		}

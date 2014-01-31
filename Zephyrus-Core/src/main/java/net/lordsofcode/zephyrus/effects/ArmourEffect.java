@@ -81,9 +81,11 @@ public class ArmourEffect implements IEffect, Listener {
 	}
 
 	private boolean checkArmour(Player player) {
-		for (ItemStack i : player.getInventory().getArmorContents()) {
-			if (!checkStack(i)) {
-				return false;
+		if (player.getInventory().getArmorContents() != null) {
+			for (ItemStack i : player.getInventory().getArmorContents()) {
+				if (!checkStack(i)) {
+					return false;
+				}
 			}
 		}
 		return true;
@@ -116,7 +118,7 @@ public class ArmourEffect implements IEffect, Listener {
 	public void onDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player && e.getCause() != DamageCause.VOID) {
 			Player player = (Player) e.getEntity();
-			if (checkArmour(player)) {
+			if (EffectHandler.hasEffect(player, EffectType.ARMOUR)) {
 				e.setDamage(e.getDamage()/4.0F);
 			}
 		}

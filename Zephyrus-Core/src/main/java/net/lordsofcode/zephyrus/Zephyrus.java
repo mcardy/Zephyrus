@@ -41,11 +41,11 @@ public class Zephyrus {
 	ConfigHandler enchantmentsConfig = new ConfigHandler("enchantments.yml");
 	ConfigHandler langConfig = new ConfigHandler("lang.yml");
 	EffectHandler effectHandler;
-	
+
 	public GlowEffect glow = new GlowEffect(120);
 
 	static int manaRegenTime;
-	
+
 	static Map<String, Map<Integer, Integer>> effectMap;
 	static Map<String, Integer> mana;
 
@@ -53,10 +53,10 @@ public class Zephyrus {
 
 	public Zephyrus() {
 		instance = this;
-		
+
 		spellManager = new SpellManager();
 		itemManager = new ItemManager();
-		
+
 		enchantmentsConfig = new ConfigHandler("enchantments.yml");
 		langConfig = new ConfigHandler("lang.yml");
 		manaRegenTime = Zephyrus.getConfig().getInt("ManaRegen");
@@ -123,7 +123,7 @@ public class Zephyrus {
 	public static Map<Set<ItemStack>, ISpell> getCraftMap() {
 		return spellManager.getCraftMap();
 	}
-	
+
 	/**
 	 * Gets the custom item trading map
 	 * 
@@ -168,7 +168,7 @@ public class Zephyrus {
 	public static int getManaRegenTime() {
 		return manaRegenTime;
 	}
-	
+
 	/**
 	 * Wraps the user from the specified player
 	 * 
@@ -188,7 +188,7 @@ public class Zephyrus {
 	public static void registerItem(ICustomItem i) {
 		itemManager.addItem(i);
 	}
-	
+
 	public static ItemManager getItemManager() {
 		return itemManager;
 	}
@@ -196,27 +196,31 @@ public class Zephyrus {
 	public static Map<String, Map<Integer, Integer>> getEffectMap() {
 		return effectMap;
 	}
-	
+
 	/**
 	 * Registers the specified enchantment
 	 * 
 	 * @param e
 	 */
+	@SuppressWarnings("deprecation")
 	public static void registerEnchantment(CustomEnchantment e) {
 		if (!instance.enchantmentsConfig.getConfig().contains(e.getName())) {
 			instance.enchantmentsConfig.getConfig().set(e.getName(), true);
 			instance.enchantmentsConfig.saveConfig();
 		}
 		if (instance.enchantmentsConfig.getConfig().getBoolean(e.getName())) {
-			try {
-				Field f = Enchantment.class.getDeclaredField("acceptingNew");
-				f.setAccessible(true);
-				f.set(null, true);
-				Enchantment.registerEnchantment(e);
-				Bukkit.getPluginManager().registerEvents(e, getPlugin());
-			} catch (Exception ex) {
+			if (Enchantment.getById(e.getId()) == null) {
+				try {
+					Field f = Enchantment.class.getDeclaredField("acceptingNew");
+					f.setAccessible(true);
+					f.set(null, true);
+					Enchantment.registerEnchantment(e);
+					Bukkit.getPluginManager().registerEvents(e, getPlugin());
+					f.set(null, false);
+				} catch (Exception ex) {
+				}
 			}
+
 		}
 	}
-
 }

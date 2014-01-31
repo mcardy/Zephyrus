@@ -58,6 +58,10 @@ public class SpellCommands {
 			Lang.errMsg("ingameonly", cmd.getSender());
 			return;
 		}
+		if (cmd.getArgs().length == 0) {
+			Lang.errMsg("bind.nospell", cmd.getSender());
+			return;
+		}
 		if (Zephyrus.getSpellMap().containsKey(cmd.getArgs()[0])) {
 			ISpell spell = Zephyrus.getSpellMap().get(cmd.getArgs()[0]);
 			Player player = cmd.getPlayer();
