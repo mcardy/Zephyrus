@@ -25,11 +25,11 @@ import org.bukkit.util.Vector;
 public class FeatherEffect implements IEffect, Listener {
 
 	private int ID;
-	
+
 	public FeatherEffect(int ID) {
 		this.ID = ID;
 	}
-	
+
 	@Override
 	public void onApplied(Player player) {
 	}
@@ -51,7 +51,7 @@ public class FeatherEffect implements IEffect, Listener {
 	public int getTypeID() {
 		return this.ID;
 	}
-	
+
 	@EventHandler
 	public void onMove(PlayerMoveEvent e) {
 		if (Zephyrus.getUser(e.getPlayer()).hasEffect(EffectType.FEATHER) && !e.getPlayer().isFlying()) {
@@ -69,11 +69,14 @@ public class FeatherEffect implements IEffect, Listener {
 
 	@EventHandler
 	public void onDamage(EntityDamageEvent e) {
-		if (e.getEntity() instanceof Player) {
-			Player player = (Player) e.getEntity();
-			if (EffectHandler.hasEffect(player, EffectType.FEATHER) && e.getCause() == DamageCause.FALL) {
-				e.setCancelled(true);
+		try {
+			if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL) {
+				Player player = (Player) e.getEntity();
+				if (EffectHandler.hasEffect(player, EffectType.FEATHER)) {
+					e.setCancelled(true);
+				}
 			}
+		} catch (Exception ex) {
 		}
 	}
 
@@ -86,5 +89,5 @@ public class FeatherEffect implements IEffect, Listener {
 	public int getTickTime() {
 		return 0;
 	}
-	
+
 }

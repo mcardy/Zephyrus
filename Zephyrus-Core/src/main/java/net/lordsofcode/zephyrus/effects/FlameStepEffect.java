@@ -28,12 +28,12 @@ public class FlameStepEffect implements IEffect, Listener {
 
 	private final int ID;
 	private final int RADIUS;
-	
+
 	public FlameStepEffect(int ID) {
 		this.ID = ID;
 		this.RADIUS = new ConfigHandler("spells.yml").getConfig().getInt("flamestep.radius");
 	}
-	
+
 	@Override
 	public void onApplied(Player player) {
 	}
@@ -51,7 +51,7 @@ public class FlameStepEffect implements IEffect, Listener {
 	@Override
 	public void onStartup(Player player) {
 	}
-	
+
 	@Override
 	public void onWarning(Player player) {
 		Lang.msg("spells.feather.warning", player);
@@ -95,20 +95,23 @@ public class FlameStepEffect implements IEffect, Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onDamage(EntityDamageEvent e) {
-		if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FIRE_TICK) {
-			Player player = (Player) e.getEntity();
-			if (EffectHandler.hasEffect(player, EffectType.FLAMESTEP)) {
-				e.setCancelled(true);
+		try {
+			if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FIRE_TICK) {
+				Player player = (Player) e.getEntity();
+				if (EffectHandler.hasEffect(player, EffectType.FLAMESTEP)) {
+					e.setCancelled(true);
+				}
 			}
+		} catch (Exception ex) {
 		}
 	}
-	
+
 	@Override
 	public int getTickTime() {
 		return 20;
 	}
-	
+
 }

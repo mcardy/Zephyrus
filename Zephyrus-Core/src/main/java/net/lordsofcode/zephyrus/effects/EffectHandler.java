@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -45,15 +44,10 @@ public class EffectHandler implements Listener {
 	@EventHandler
 	public void onLogout(PlayerQuitEvent event) {
 		Zephyrus.getEffectMap().remove(event.getPlayer().getName());
-		runnableMap.get(event.getPlayer().getName()).cancel();
-		runnableMap.remove(event.getPlayer().getName());
-	}
-
-	@EventHandler
-	public void onKick(PlayerKickEvent event) {
-		Zephyrus.getEffectMap().remove(event.getPlayer().getName());
-		runnableMap.get(event.getPlayer().getName()).cancel();
-		runnableMap.remove(event.getPlayer().getName());
+		if (runnableMap.containsKey(event.getPlayer().getName()) && runnableMap.get(event.getPlayer().getName()) != null) {
+			runnableMap.get(event.getPlayer().getName()).cancel();
+			runnableMap.remove(event.getPlayer().getName());
+		}
 	}
 	
 	public static boolean hasEffect(Player player, EffectType type) {
@@ -61,7 +55,10 @@ public class EffectHandler implements Listener {
 	}
 	
 	public static boolean hasEffect(String playerName, EffectType type) {
-		return Zephyrus.getEffectMap().get(playerName).containsKey(type.getID());
+		if (Zephyrus.getEffectMap().containsKey(playerName)) {
+			return Zephyrus.getEffectMap().get(playerName).containsKey(type.getID());
+		}
+		return false;
 	}
 	
 	private class EffectTimer extends BukkitRunnable {

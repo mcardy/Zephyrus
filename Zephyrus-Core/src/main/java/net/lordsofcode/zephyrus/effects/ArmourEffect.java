@@ -116,18 +116,21 @@ public class ArmourEffect implements IEffect, Listener {
 
 	@EventHandler
 	public void onDamage(EntityDamageEvent e) {
-		if (e.getEntity() instanceof Player && e.getCause() != DamageCause.VOID) {
-			Player player = (Player) e.getEntity();
-			if (EffectHandler.hasEffect(player, EffectType.ARMOUR)) {
-				e.setDamage(e.getDamage()/4.0F);
+		try {
+			if (e.getEntity() instanceof Player && e.getCause() != DamageCause.VOID) {
+				Player player = (Player) e.getEntity();
+				if (EffectHandler.hasEffect(player, EffectType.ARMOUR)) {
+					e.setDamage(e.getDamage() / 4.0F);
+				}
 			}
+		} catch (Exception ex) {
 		}
 	}
 
 	@Override
 	public void onWarning(Player player) {
 	}
-	
+
 	@Override
 	public int getTickTime() {
 		return 0;
