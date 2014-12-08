@@ -40,7 +40,7 @@ public class SpellCommands {
 		Lang.add("bind.needwand", "You need to be holding a wand!");
 		Lang.add("bind.cantbind", "$6[SPELL] cannot be bound!");
 		Lang.add("bind.finish", "Bound [SPELL] to your wand");
-		Lang.add("bind.cantbindwand", "That wand can't have spells bound to it!");
+		Lang.add("bind.cantbindwand", "This wand cannot hold that spell!");
 		Lang.add("cast.nospell", "Specify a spell to cast!");
 		Lang.add("unbind.unbound", "Spell unbound from your wand!");
 		Lang.add("unbind.nospell", "There is no spell bound to that wand!");
